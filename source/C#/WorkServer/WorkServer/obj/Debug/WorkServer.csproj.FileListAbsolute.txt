@@ -1,0 +1,8 @@
+f:\document\visual studio 2013\Projects\WorkServer\WorkServer\bin\Debug\WorkServer.exe.config
+f:\document\visual studio 2013\Projects\WorkServer\WorkServer\obj\Debug\WorkServer.csprojResolveAssemblyReference.cache
+f:\document\visual studio 2013\Projects\WorkServer\WorkServer\obj\Debug\WorkServer.Properties.Resources.resources
+f:\document\visual studio 2013\Projects\WorkServer\WorkServer\obj\Debug\WorkServer.csproj.GenerateResource.Cache
+f:\document\visual studio 2013\Projects\WorkServer\WorkServer\bin\Debug\WorkServer.exe
+f:\document\visual studio 2013\Projects\WorkServer\WorkServer\bin\Debug\WorkServer.pdb
+f:\document\visual studio 2013\Projects\WorkServer\WorkServer\obj\Debug\WorkServer.exe
+f:\document\visual studio 2013\Projects\WorkServer\WorkServer\obj\Debug\WorkServer.pdb
