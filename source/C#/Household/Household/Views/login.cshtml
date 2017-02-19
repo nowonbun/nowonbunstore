@@ -1,0 +1,29 @@
+﻿@using Household.Models.Bean;
+@{
+    Layout = "~/Views/master.cshtml";
+    LoginBean bean = ViewBag.ModelView;
+}
+<link rel="stylesheet" href="@Url.Content("~/css/login.css")">
+<style>
+    h3.title {
+        font-size: 22px !important;
+    }
+</style>
+<div class="container">
+    <form class="form-signin" method="post">
+        <div class="login-box">
+            <h3 class="form-signin-heading title">HOUSEHOLD LEDGER</h3>
+            <input type="text" id="inputGroup" name="inputGroup" class="form-control" placeholder="Group ID" required autofocus autocomplete="off" value="@bean.InputGroup">
+            <input type="text" id="inuptId" name="inuptId" class="form-control" placeholder="ID" required autofocus autocomplete="off" value="@bean.InuptId">
+            <input type="password" id="inputPassword" name="inputPassword" class="form-control" placeholder="Password" required>
+            <label class="error">@bean.ErrorMessage</label>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="remember" id="remember" value="1"> Remember me(During remain 7 days.)
+                </label>
+            </div>
+        </div>
+        <input type="hidden" name="post" value="1" />
+    </form>
+</div>

@@ -1,0 +1,354 @@
+﻿@using Household.Common;
+@{
+    Layout = "~/Views/master.cshtml";
+}
+<link rel="stylesheet" href="@Url.Content("~/css/main.css")">
+<link rel="stylesheet" media="screen and (max-width:768px)" href="@Url.Content("~/css/main_mobile.css")">
+<link rel="stylesheet" media="screen and (min-width:769px)" href="@Url.Content("~/css/main_pc.css")">
+<link rel="stylesheet" type="text/css" href="@Url.Content("~/css/loading.css")">
+<script language="javascript" src="@Url.Content("~/js/message.js")"></script>
+<script language="javascript" src="@Url.Content("~/js/main.js")"></script>
+<script language="javascript" src="@Url.Content("~/js/main_pc.js")"></script>
+<script language="javascript" src="@Url.Content("~/js/main_mobile.js")"></script>
+
+<header>HOUSEHOLD LEDGER</header>
+<div class="main">
+    <div class="container">
+        <input type="button" class="signout" value="SIGN OUT" />
+        <label class="error" id="error"></label>
+        <div class="space"></div>
+        <form id="applyPc">
+            <div class="main-date">
+                <span class="glyphicon glyphicon-arrow-left main-date-arrow" aria-hidden="true"></span>
+                <select class="household-date year" id="householdYear" name="householdYear">
+                    @Html.Raw(HtmlUtil.GetSelectYearOption())
+                </select>
+                <label class="household-date">年</label>
+                <select class="household-date month" id="householdMonth" name="householdMonth">
+                    @Html.Raw(HtmlUtil.GetSelectMonthOption())
+                </select>
+                <label class="household-date">月</label>
+                <span class="glyphicon glyphicon-arrow-right main-date-arrow" aria-hidden="true"></span>
+            </div>
+            <div class="space"></div>
+            <div class="main-input">
+                <table class="table-input pc-private">
+                    <thead>
+                        <tr>
+                            <th>日</th>
+                            <th>カテゴリ</th>
+                            <th>区分</th>
+                            <th>内容</th>
+                            <th>金額</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input type="hidden" id="householdIdx_pc" name="householdIdx" />
+                                <input type="hidden" id="householdPdt_pc" name="householdPdt" />
+                                <select class="household-date day" id="householdDay_pc" name="householdDay">
+                                    @Html.Raw(HtmlUtil.GetSelectDay31Option())
+                                </select>
+                            </td>
+                            <td>
+                                <select class="household-category" id="householdCategory_pc" name="householdCategory">
+                                    @Html.Raw(HtmlUtil.GetCategoryOption())
+                                </select>
+                            </td>
+                            <td>
+                                <select class="household-type" id="householdType_pc" name="householdType"></select>
+                            </td>
+                            <td>
+                                <input name="householdContent" id="householdContent_pc" autocomplete="off" maxlength="40" />
+                            </td>
+                            <td>
+                                <input type="tel" pattern="[0-9]*" name="householdPrice" id="householdPrice_pc" autocomplete="off" maxlength="8" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="5">
+                                <div class="apply-area">
+                                    <input type="button" value="登録" id="applySubmit_pc" />
+                                </div>
+                                <div class="modify-area off">
+                                    <input type="button" value="取消" id="cancelSubmit_pc" />
+                                    <input type="button" value="修正" id="modifySubmit_pc" />
+                                    <input type="button" value="削除" id="deleteSubmit_pc" />
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="table-input mobile-private">
+                    <input type="button" value="登録" id="apply_mobile"/>
+                </div>
+            </div>
+        </form>
+        <div class="space"></div>
+        <div class="main-data">
+            <div class="total-data data-income">
+                <label>収入</label>
+                <span id="Income" class="money-plus"></span>
+            </div>
+            <div class="total-data data-expend">
+                <label>支出</label>
+                <span id="expend" class="money-minus"></span>
+            </div>
+            <div class="search-data">
+                <input type="button" id="searchInit" value="検索初期"/>
+                <label>日 : </label>
+                <select id="searchDaySelect">
+                    <option value="">全体</option>
+                    @Html.Raw(HtmlUtil.GetSelectDay31Option())
+                </select>
+                <label>区分 : </label>
+                <select id="searchTypeSelect">
+                    <option value="">=全体=</option>
+                    @Html.Raw(HtmlUtil.GetSearchOption())
+                </select>
+            </div>
+            <div class="normal-data title-data">
+                <label class="mobile-private">
+                    <span class=" glyphicon glyphicon-plus data-arrow" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-minus data-arrow off" aria-hidden="true"></span>
+                </label>
+                <label>一般</label>
+                <label>TOTAL : <span id="totalMoney1"></span></label>
+            </div>
+            <table class="table-data table-data1 mobile-off">
+                <thead>
+                    <tr>
+                        <th>日</th>
+                        <th>カテゴリ</th>
+                        <th>区分</th>
+                        <th>内容</th>
+                        <th>金額</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="account-data title-data">
+                <label class="mobile-private">
+                    <span class=" glyphicon glyphicon-plus data-arrow" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-minus data-arrow off" aria-hidden="true"></span>
+                </label>
+                <label>貯蓄</label>
+                <label>TOTAL : <span id="totalMoney2"></span></label>
+            </div>
+            <table class="table-data table-data2 mobile-off">
+                <thead>
+                    <tr>
+                        <th>日</th>
+                        <th>区分</th>
+                        <th>内容</th>
+                        <th>金額</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="caption"><sup>「貯蓄のTotal」は現在まで金額の合算である。</sup></div>
+            <div class="credits-data title-data">
+                <label class="mobile-private">
+                    <span class=" glyphicon glyphicon-plus data-arrow" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-minus data-arrow off" aria-hidden="true"></span>
+                </label>
+                <label>クレジット</label>
+                <label>TOTAL : <span id="totalMoney3"></span></label>
+            </div>
+            <table class="table-data table-data3  mobile-off">
+                <thead>
+                    <tr>
+                        <th>日</th>
+                        <th>内容</th>
+                        <th>金額</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <div class="caption"><sup>「クレジット」は先月の金額である。</sup></div>
+        </div>
+    </div>
+    <div class="template">
+        <table class="template-data1">
+            <tbody>
+                <tr ##HOVER##>
+                    <td>##DATE##日<input type="hidden" value="##DATA##" /></td>
+                    <td>##CATEGORY##</td>
+                    <td>##TYPE##</td>
+                    <td>##CONTENTS##</td>
+                    <td><span class="##CLASS##">##PRICE##</span></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="template-data1-nothing">
+            <tbody>
+                <tr class="nothing result-data1">
+                    <td colspan="5">データがありません。</td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="template-data2">
+            <tbody>
+                <tr>
+                    <td>##DATE##日</td>
+                    <td>##TYPE##</td>
+                    <td>##CONTENTS##</td>
+                    <td><span class="##CLASS##">##PRICE##</span></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="template-data2-nothing">
+            <tbody>
+                <tr class="nothing result-data2">
+                    <td colspan="4">データがありません。</td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="template-data3">
+            <tbody>
+                <tr>
+                    <td>##DATE##日</td>
+                    <td>##CONTENTS##</td>
+                    <td><span class="##CLASS##">##PRICE##</span></td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="template-data3-nothing">
+            <tbody>
+                <tr class="nothing result-data3">
+                    <td colspan="3">データがありません。</td>
+                </tr>
+            </tbody>
+        </table>
+        @Html.Raw(HtmlUtil.GetTypeTemplateOption())
+    </div>
+    <div class="layout off">
+        <div class="apply off">
+            <div class="title">
+                <label>登録</label>
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+            </div>
+            <div class="layout-main">
+                <form id="apply_form_mobile">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th>日</th>
+                                <td>
+                                    <input type="hidden" id="householdYear_mobile" name="householdYear">
+                                    <input type="hidden" id="householdMonth_mobile" name="householdMonth">
+                                    <input type="hidden" id="householdIdx_mobile" name="householdIdx" />
+                                    <input type="hidden" id="householdPdt_mobile" name="householdPdt" />
+                                    <select class="household-date day" id="householdDay_mobile" name="householdDay">
+                                        @Html.Raw(HtmlUtil.GetSelectDay31Option())
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>カテゴリ</th>
+                                <td>
+                                    <select class="household-category" id="householdCategory_mobile" name="householdCategory">
+                                        @Html.Raw(HtmlUtil.GetCategoryOption())
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>区分</th>
+                                <td>
+                                    <select class="household-type" id="householdType_mobile" name="householdType"></select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>内容</th>
+                                <td>
+                                    <input type="text" name="householdContent" id="householdContent_mobile" autocomplete="off" maxlength="40"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>金額</th>
+                                <td>
+                                    <input type="tel" pattern="[0-9]*" name="householdPrice" id="householdPrice_mobile" autocomplete="off" maxlength="9" />
+                                    <input type="button" value="計算機" id="calc_mobile"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <label class="error_mobile"></label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div class="apply-area mobile-private">
+                                        <input type="button" value="登録" id="applySubmit_mobile"/>
+                                    </div>
+                                    <div class="modify-area mobile-private">
+                                        <input type="button" value="修正" id="modifySubmit_mobile" />
+                                        <input type="button" value="削除" id="deleteSubmit_mobile" />
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div class="calc off">
+            <div class="calcmain">
+                <div class="title">
+                    <label>計算機</label>
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                </div>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td colspan="2" class="calc-txt">
+                                <input type="tel" pattern="[0-9]*" id="calc" autocomplete="off"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" class="calc-sum">
+                                S : <input type="tel" pattern="[0-9]*" id="calc_sum" autocomplete="off" readonly disabled="disabled" maxlength="8"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="button" id="calc_add" value="+" />
+                            </td>
+                            <td>
+                                <input type="button" id="calc_subtract" value="-" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="button" id="calc_multiply" value="*" />
+                            </td>
+                            <td>
+                                <input type="button" id="calc_division" value="/" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="button" id="calc_clear" value="C" />
+                            </td>
+                            <td>
+                                <input type="button" id="calc_result" value="=" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="lodding lodding-off">
+        <div class="lodding-background"></div>
+        <div class='uil-battery-demo-css' style='-webkit-transform:scale(0.6)'>
+            <div class="outer"></div>
+            <div class="inner"></div>
+            <div class="inner"></div>
+            <div class="inner"></div>
+            <div class="inner"></div>
+        </div>
+    </div>
+</div>
+<footer>Copyright © 2016 Hwang</footer>
