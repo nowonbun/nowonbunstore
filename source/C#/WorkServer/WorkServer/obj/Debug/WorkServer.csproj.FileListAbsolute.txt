@@ -6,3 +6,11 @@ f:\document\visual studio 2013\Projects\WorkServer\WorkServer\bin\Debug\WorkServ
 f:\document\visual studio 2013\Projects\WorkServer\WorkServer\bin\Debug\WorkServer.pdb
 f:\document\visual studio 2013\Projects\WorkServer\WorkServer\obj\Debug\WorkServer.exe
 f:\document\visual studio 2013\Projects\WorkServer\WorkServer\obj\Debug\WorkServer.pdb
+F:\GitHub\nowonbunstore\source\C#\WorkServer\WorkServer\bin\Debug\WorkServer.exe.config
+F:\GitHub\nowonbunstore\source\C#\WorkServer\WorkServer\obj\Debug\WorkServer.exe
+F:\GitHub\nowonbunstore\source\C#\WorkServer\WorkServer\obj\Debug\WorkServer.pdb
+F:\GitHub\nowonbunstore\source\C#\WorkServer\WorkServer\obj\Debug\WorkServer.csprojResolveAssemblyReference.cache
+F:\GitHub\nowonbunstore\source\C#\WorkServer\WorkServer\obj\Debug\WorkServer.Properties.Resources.resources
+F:\GitHub\nowonbunstore\source\C#\WorkServer\WorkServer\obj\Debug\WorkServer.csproj.GenerateResource.Cache
+F:\GitHub\nowonbunstore\source\C#\WorkServer\WorkServer\bin\Debug\WorkServer.exe
+F:\GitHub\nowonbunstore\source\C#\WorkServer\WorkServer\bin\Debug\WorkServer.pdb

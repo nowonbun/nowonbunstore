@@ -52,5 +52,10 @@ namespace WorkServer
             }
             return null;
         }
+
+        public WorkServer GetServer()
+        {
+            return null;
+        }
     }
 }
