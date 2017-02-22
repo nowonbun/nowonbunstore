@@ -137,7 +137,7 @@ namespace WorkServer
                                 if (file.Peek >= file.Length)
                                 {
                                     file.Complete();
-                                    Send(2,new String2("File upload Success!!",Encoding.UTF8));
+                                    Send(2, new String2("File upload Success!!", Encoding.UTF8));
                                 }
                                 continue;
                             }
@@ -176,27 +176,44 @@ namespace WorkServer
         }
         public void Send(int opcode)
         {
-            Send(opcode,null);
+            Send(opcode, null);
         }
         public void Send(int opcode, String2 data)
         {
-            Send(client,opcode, null);
+            Send(client, opcode, null);
         }
         public void Send(Client sock, int opcode, String2 data)
         {
             if ((opcode == 1 || opcode == 2) && data != null)
             {
-
+                if (data.Length <= 128)
+                {
+                    sock.Send(new byte[] { (byte)(0x80 | 1), (byte)data.Length });
+                }
+                else if (data.Length <= 65535)
+                {
+                    sock.Send(new byte[] { (byte)(0x80 | 1), (byte)0x7E });
+                    sock.Send(new String2(BitConverter.GetBytes((short)data.Length)).Reverse());
+                }
+                else
+                {
+                    sock.Send(new byte[] { (byte)(0x80 | 1), (byte)0x7F });
+                    sock.Send(new String2(BitConverter.GetBytes((long)data.Length)).Reverse());
+                }
+                sock.Send(data);
+                return;
             }
             else if (opcode == 9)
             {
-
+                sock.Send(new byte[] { (byte)(0x80 | 9), (byte)0x00 });
+                return;
             }
             else if (opcode == 10)
             {
-
+                sock.Send(new byte[] { (byte)(0x80 | 10), (byte)0x00 });
+                return;
             }
-            Console.WriteLine("send OPCDE = "+opcode);
+            Console.WriteLine("send OPCDE = " + opcode);
         }
         public bool Receive(out byte opcode, out String2 data)
         {
@@ -204,8 +221,72 @@ namespace WorkServer
             {
                 data = null;
                 opcode = (byte)0;
-                return true;
+                String2 head = Receive(2);
+                bool fin = (head[0] & 0x80) == 0x80;
+                if (!fin)
+                {
+                    Console.WriteLine("Fin error");
+                    return false;
+                }
+                opcode = (byte)(head[0] & 0x0f);
+                bool mask = (head[1] & 0x80) == 0x80;
+                int length = head[1] & 0x7E;
+                if (length == 0x7E)
+                {
+                    length = BitConverter.ToInt16(Receive(2).Reverse().ToBytes(), 0);
+                }
+                if (length == 0x7F)
+                {
+                    length = (int)BitConverter.ToInt64(Receive(8).Reverse().ToBytes(), 0);
+                }
+                String2 key = mask ? Receive(4) : null;
+                if (opcode == 1)
+                {
+                    byte[] buffer = Receive(length).ToBytes();
+                    if (key != null)
+                    {
+                        for (int i = 0; i < buffer.Length; i++)
+                        {
+                            buffer[i] = (byte)(buffer[i] ^ key[i % 4]);
+                        }
+                    }
+                    data = new String2(buffer, Encoding.UTF8);
+                    return true;
+                }
+                if (opcode == 2)
+                {
+                    byte[] buffer = Receive(length).ToBytes();
+                    if (key != null)
+                    {
+                        for (int i = 0; i < buffer.Length; i++)
+                        {
+                            buffer[i] = (byte)(buffer[i] ^ key[i % 4]);
+                        }
+                    }
+                    data = buffer;
+                    return true;
+                }
+                if (opcode == 9)
+                {
+                    Send(9);
+                    continue;
+                }
+                if (opcode == 10)
+                {
+                    Send(10);
+                    continue;
+                }
+                Console.WriteLine("Receive OPCODE - " + opcode);
+                return false;
             }
+        }
+        private String2 Receive(int length)
+        {
+            if (!client.Connected)
+            {
+                throw new Exception("Disconnection");
+            }
+            return client.Receive(length);
         }
         private String2 GetKey(String2 key)
         {

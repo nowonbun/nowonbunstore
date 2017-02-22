@@ -29,16 +29,29 @@ namespace WorkServer
             {
                 while (true)
                 {
-                    Client client = Accept();
-                    Add(client.SetServer(this));
-                    Acception(client);
+                    Client client =null;
+                    try
+                    {
+                        client = Accept();
+                        Add(client.SetServer(this));
+                        Acception(client);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                        if (client != null)
+                        {
+                            client.Dispose();
+                        }
+                        Remove(client);
+                    }
                 }
             });
         }
         public void Add(Client client)
         {
             list.Add(client);
-            Console.WriteLine("Connection count - "+list.Count);
+            Console.WriteLine("Connection count - " + list.Count);
         }
         public void Remove(Client client)
         {
