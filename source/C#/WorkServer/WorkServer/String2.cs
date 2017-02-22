@@ -105,10 +105,6 @@ namespace WorkServer
         }
         public static String2 operator +(String2 val1, String2 val2)
         {
-            if (!object.Equals(val1.Encode, val2.Encode))
-            {
-                throw new FormatException("Two data is not accordance.");
-            }
             byte[] buffer = new byte[val1.Length + val2.Length];
             Array.Copy(val1.ToBytes(), buffer, val1.Length);
             Array.Copy(val2.ToBytes(), 0, buffer, val1.Length, val2.Length);
@@ -147,22 +143,17 @@ namespace WorkServer
                 return false;
             }
             String2 temp = obj as String2;
-            if (!object.Equals(Encode, temp.Encode))
+            /*if (!object.Equals(Encode, temp.Encode))
             {
                 return false;
-            }
+            }*/
             if (Length != temp.Length)
             {
                 return false;
             }
-            int count = (Length / 2) + (Length % 2);
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < Length; i++)
             {
                 if (this[i] != temp[i])
-                {
-                    return false;
-                }
-                if (this[Length - 1 - i] != temp[Length - 1 - i])
                 {
                     return false;
                 }
@@ -171,14 +162,9 @@ namespace WorkServer
         }
         private static bool CheckByte(byte[] v1, int i1, byte[] v2, int i2, int len)
         {
-            int count = (len / 2) + (len % 2);
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < len; i++)
             {
                 if (v1[i1 + i] != v2[i2 + i])
-                {
-                    return false;
-                }
-                if (v1[len - 1 - i] != v2[len - 1 - i])
                 {
                     return false;
                 }
@@ -193,19 +179,27 @@ namespace WorkServer
         }
         public String2 Trim()
         {
-            int spos = 0;
-            int epos = 0;
+            int spos = -1;
+            int epos = -1;
             int count = (Length / 2) + (Length % 2);
             for (int i = 0; i < count; i++)
             {
-                if (this[i] != 0x00 && this[i] != 0x20)
+                if (this[i] != 0x00 && this[i] != 0x20 && spos == -1)
                 {
                     spos = i;
                 }
-                if (this[Length - 1 - i] != 0x20 && this[Length - 1 - i] != 0x00)
+                if (this[(Length - 1) - i] != 0x20 && this[(Length - 1) - i] != 0x00 && epos == -1)
                 {
-                    epos = Length - 1 - i;
+                    epos = Length - i;
                 }
+            }
+            if (spos == -1)
+            {
+                spos = 0;
+            }
+            if (epos == -1)
+            {
+                epos = Length - 1;
             }
             return SubString(spos, epos - spos);
         }
@@ -223,10 +217,10 @@ namespace WorkServer
         }
         public int IndexOf(String2 source, int index)
         {
-            if (!object.Equals(Encode, source.Encode))
+            /*if (!object.Equals(Encode, source.Encode))
             {
                 throw new FormatException("Two data is not accordance.");
-            }
+            }*/
             if (source.Length < 1)
             {
                 return -1;
@@ -235,7 +229,7 @@ namespace WorkServer
             {
                 return -1;
             }
-            for (int i = index; i < Length - source.Length; i++)
+            for (int i = index; i <= Length - source.Length; i++)
             {
                 if (String2.CheckByte(data, i, source.ToBytes(), 0, source.Length))
                 {
@@ -246,10 +240,10 @@ namespace WorkServer
         }
         public int IndexLastOf(String2 source)
         {
-            if (!object.Equals(Encode, source.Encode))
+            /*if (!object.Equals(Encode, source.Encode))
             {
                 throw new FormatException("Two data is not accordance.");
-            }
+            }*/
             if (source.Length < 1)
             {
                 return -1;
@@ -277,10 +271,10 @@ namespace WorkServer
         }
         public String2 Replace(String2 oldVal, String2 newVal)
         {
-            if (!object.Equals(Encode, oldVal.Encode) || !object.Equals(Encode, newVal.Encode))
+            /*if (!object.Equals(Encode, oldVal.Encode) || !object.Equals(Encode, newVal.Encode))
             {
                 throw new FormatException("Two data is not accordance.");
-            }
+            }*/
             if (oldVal.Length < 1)
             {
                 throw new ArgumentNullException("Replace");
@@ -297,9 +291,9 @@ namespace WorkServer
             {
                 node = node.Add(SubString(pre, peek - pre));
                 node = node.Add(newVal);
-                pre = peek;
+                pre = peek + oldVal.Length;
             }
-            node = node.Add(SubString(pre, peek - pre));
+            node = node.Add(SubString(pre, Length - pre));
             String2 ret = fin.Data;
             while (fin.Next != null)
             {
@@ -319,10 +313,10 @@ namespace WorkServer
         }
         public String2[] Split(String2 source)
         {
-            if (!object.Equals(Encode, source.Encode))
+            /*if (!object.Equals(Encode, source.Encode))
             {
                 throw new FormatException("Two data is not accordance.");
-            }
+            }*/
             if (source.Length < 1)
             {
                 throw new ArgumentNullException("Split");
@@ -383,6 +377,32 @@ namespace WorkServer
         public override int GetHashCode()
         {
             return ToString().GetHashCode();
+        }
+        public String2 ToUpper()
+        {
+            byte[] ret = new byte[Length];
+            Array.Copy(data, ret, Length);
+            for (int i = 0; i < ret.Length; i++)
+            {
+                if (ret[i] >= 0x61 && ret[i] <= 0x7A)
+                {
+                    ret[i] = (byte)(ret[i] - 0x20);
+                }
+            }
+            return ret;
+        }
+        public String2 ToLower()
+        {
+            byte[] ret = new byte[Length];
+            Array.Copy(data, ret, Length);
+            for (int i = 0; i < ret.Length; i++)
+            {
+                if (ret[i] >= 0x41 && ret[i] <= 0x5A)
+                {
+                    ret[i] = (byte)(ret[i] + 0x20);
+                }
+            }
+            return ret;
         }
 
         public String2 ToBinary()

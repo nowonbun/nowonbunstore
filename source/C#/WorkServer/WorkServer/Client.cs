@@ -8,7 +8,7 @@ using System.Net.Sockets;
 
 namespace WorkServer
 {
-    class Client : TcpClient, IDisposable
+    class Client : TcpClient
     {
         private Server server = null;
         public Client(Socket sock)

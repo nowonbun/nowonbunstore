@@ -9,9 +9,11 @@ namespace WorkServer
     class HandShake
     {
         private String2 header;
+        private String2 data;
         private IDictionary<String2, String2> map = new Dictionary<String2, String2>();
         public HandShake(String2 data)
         {
+            this.data = data;
             String2[] temp = data.Split(String2.CRLF + String2.CRLF)[0].Split(String2.CRLF);
             if (temp.Length < 1)
             {
@@ -56,6 +58,11 @@ namespace WorkServer
         public WorkServer GetServer()
         {
             return null;
+        }
+
+        public override String ToString()
+        {
+            return data.ToString();
         }
     }
 }
