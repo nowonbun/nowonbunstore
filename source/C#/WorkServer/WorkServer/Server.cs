@@ -5,11 +5,13 @@ using System.Text;
 using System.Threading;
 using System.Net;
 using System.Net.Sockets;
+using log4net;
 
 namespace WorkServer
 {
     class Server : Socket
     {
+        private static ILog logger = LogManager.GetLogger(typeof(Server));
         private static IList<Client> list = new List<Client>();
         public event Action<Client> Acception;
 
@@ -51,12 +53,12 @@ namespace WorkServer
         public void Add(Client client)
         {
             list.Add(client);
-            Console.WriteLine("Connection count - " + list.Count);
+            logger.Info("Connection count - " + list.Count);
         }
         public void Remove(Client client)
         {
             list.Remove(client);
-            Console.WriteLine("Connection count - " + list.Count);
+            logger.Info("Connection count - " + list.Count);
         }
         public IList<Client> ClientList
         {

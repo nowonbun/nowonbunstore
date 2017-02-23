@@ -5,11 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
+using log4net;
 
 namespace WorkServer
 {
     class Client : TcpClient
     {
+        private static ILog logger = log4net.LogManager.GetLogger(typeof(Client));
         private Server server = null;
         public Client(Socket sock)
         {

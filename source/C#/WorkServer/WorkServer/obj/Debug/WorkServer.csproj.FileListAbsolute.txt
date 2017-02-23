@@ -14,3 +14,13 @@ F:\GitHub\nowonbunstore\source\C#\WorkServer\WorkServer\obj\Debug\WorkServer.Pro
 F:\GitHub\nowonbunstore\source\C#\WorkServer\WorkServer\obj\Debug\WorkServer.csproj.GenerateResource.Cache
 F:\GitHub\nowonbunstore\source\C#\WorkServer\WorkServer\bin\Debug\WorkServer.exe
 F:\GitHub\nowonbunstore\source\C#\WorkServer\WorkServer\bin\Debug\WorkServer.pdb
+E:\Documents\nowonbunstore\source\C#\WorkServer\WorkServer\bin\Debug\WorkServer.exe.config
+E:\Documents\nowonbunstore\source\C#\WorkServer\WorkServer\obj\Debug\WorkServer.exe
+E:\Documents\nowonbunstore\source\C#\WorkServer\WorkServer\obj\Debug\WorkServer.pdb
+E:\Documents\nowonbunstore\source\C#\WorkServer\WorkServer\obj\Debug\WorkServer.csprojResolveAssemblyReference.cache
+E:\Documents\nowonbunstore\source\C#\WorkServer\WorkServer\obj\Debug\WorkServer.Properties.Resources.resources
+E:\Documents\nowonbunstore\source\C#\WorkServer\WorkServer\obj\Debug\WorkServer.csproj.GenerateResource.Cache
+E:\Documents\nowonbunstore\source\C#\WorkServer\WorkServer\bin\Debug\WorkServer.exe
+E:\Documents\nowonbunstore\source\C#\WorkServer\WorkServer\bin\Debug\WorkServer.pdb
+E:\Documents\nowonbunstore\source\C#\WorkServer\WorkServer\bin\Debug\log4net.dll
+E:\Documents\nowonbunstore\source\C#\WorkServer\WorkServer\bin\Debug\log4net.xml

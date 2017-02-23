@@ -112,8 +112,17 @@ namespace WorkServer
         }
         public static bool operator ==(String2 val1, String2 val2)
         {
-            object buffer = (object)val1;
-            if (buffer == null)
+            object temp1 = (object)val1;
+            object temp2 = (object)val2;
+            if (temp1 == null && temp2 == null)
+            {
+                return true;
+            }
+            if (temp1 == null)
+            {
+                return false;
+            }
+            if (val2 == null)
             {
                 return false;
             }
@@ -121,12 +130,7 @@ namespace WorkServer
         }
         public static bool operator !=(String2 val1, String2 val2)
         {
-            object buffer = (object)val1;
-            if (buffer == null)
-            {
-                return false;
-            }
-            return !val1.Equals(val2);
+            return !(val1 == val2);
         }
         public bool Equals(string obj)
         {
@@ -143,10 +147,6 @@ namespace WorkServer
                 return false;
             }
             String2 temp = obj as String2;
-            /*if (!object.Equals(Encode, temp.Encode))
-            {
-                return false;
-            }*/
             if (Length != temp.Length)
             {
                 return false;
@@ -217,10 +217,6 @@ namespace WorkServer
         }
         public int IndexOf(String2 source, int index)
         {
-            /*if (!object.Equals(Encode, source.Encode))
-            {
-                throw new FormatException("Two data is not accordance.");
-            }*/
             if (source.Length < 1)
             {
                 return -1;
@@ -240,10 +236,6 @@ namespace WorkServer
         }
         public int IndexLastOf(String2 source)
         {
-            /*if (!object.Equals(Encode, source.Encode))
-            {
-                throw new FormatException("Two data is not accordance.");
-            }*/
             if (source.Length < 1)
             {
                 return -1;
@@ -271,10 +263,6 @@ namespace WorkServer
         }
         public String2 Replace(String2 oldVal, String2 newVal)
         {
-            /*if (!object.Equals(Encode, oldVal.Encode) || !object.Equals(Encode, newVal.Encode))
-            {
-                throw new FormatException("Two data is not accordance.");
-            }*/
             if (oldVal.Length < 1)
             {
                 throw new ArgumentNullException("Replace");
@@ -313,13 +301,9 @@ namespace WorkServer
         }
         public String2[] Split(String2 source)
         {
-            /*if (!object.Equals(Encode, source.Encode))
-            {
-                throw new FormatException("Two data is not accordance.");
-            }*/
             if (source.Length < 1)
             {
-                throw new ArgumentNullException("Split");
+                throw new ArgumentNullException("The length of split for source is short.");
             }
             if (Length < source.Length)
             {
