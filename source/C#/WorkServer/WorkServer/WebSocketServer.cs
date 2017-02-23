@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Security.Cryptography;
 using System.IO;
+using log4net;
 
 namespace WorkServer
 {
     class WebSocketServer : WorkServer
     {
+        private static ILog logger = LogManager.GetLogger(typeof(WebSocketServer));
         private List<Client> clientlist = new List<Client>();
         private static String2 GUID = new String2("258EAFA5-E914-47DA-95CA-C5AB0DC85B11", Encoding.UTF8);
         private Client client;
@@ -86,12 +88,12 @@ namespace WorkServer
                     {
                         if (data == null)
                         {
-                            Console.WriteLine("data null");
+                            logger.Error("data null");
                             continue;
                         }
                         if (file.Open && opcode != 2)
                         {
-                            Console.WriteLine("it's error what transfer the file");
+                            logger.Error("it's error what transfer the file");
                             file.Init();
                         }
                         if (opcode == 1)
@@ -113,7 +115,7 @@ namespace WorkServer
                         {
                             if (data.Length < 1)
                             {
-                                Console.WriteLine("transfer typecode?");
+                                logger.Error("transfer typecode?");
                                 continue;
                             }
                             if (data[0] == 1)
@@ -127,7 +129,7 @@ namespace WorkServer
                             {
                                 if (!file.Open)
                                 {
-                                    Console.WriteLine("transfer error");
+                                    logger.Error("transfer error");
                                     file.Init();
                                     continue;
                                 }
@@ -158,7 +160,7 @@ namespace WorkServer
                                 Send(2, new String2(sb.ToString(), Encoding.UTF8));
                                 continue;
                             }
-                            Console.WriteLine("error");
+                            logger.Error("error");
                             file.Init();
                         }
                     }
@@ -213,7 +215,7 @@ namespace WorkServer
                 sock.Send(new byte[] { (byte)(0x80 | 10), (byte)0x00 });
                 return;
             }
-            Console.WriteLine("send OPCDE = " + opcode);
+            logger.Error("send OPCDE = " + opcode);
         }
         public bool Receive(out byte opcode, out String2 data)
         {
@@ -225,7 +227,7 @@ namespace WorkServer
                 bool fin = (head[0] & 0x80) == 0x80;
                 if (!fin)
                 {
-                    Console.WriteLine("Fin error");
+                    logger.Error("Fin error");
                     return false;
                 }
                 opcode = (byte)(head[0] & 0x0f);
@@ -276,7 +278,7 @@ namespace WorkServer
                     Send(10);
                     continue;
                 }
-                Console.WriteLine("Receive OPCODE - " + opcode);
+                logger.Error("Receive OPCODE - " + opcode);
                 return false;
             }
         }

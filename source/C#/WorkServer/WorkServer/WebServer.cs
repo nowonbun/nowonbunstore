@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using log4net;
 
 namespace WorkServer
 {
     class WebServer : WorkServer
     {
+        private static ILog logger = LogManager.GetLogger(typeof(WebServer));
         private String path = "";
         public WebServer(Client client) : base(client) { }
 
@@ -32,18 +34,19 @@ namespace WorkServer
         }
         public override void Run()
         {
-            if (!String.IsNullOrEmpty(path) && path.IndexOf("/download") != -1)
+            if (!String.IsNullOrEmpty(path))
             {
-                if (!FileUpload())
+                if (path.IndexOf("/download") != -1)
+                {
+                    if (!FileUpload())
+                    {
+                        WebError();
+                    }
+                }
+                else if (!WebUpload())
                 {
                     WebError();
                 }
-                ClientSocket.Dispose();
-                return;
-            }
-            if (!WebUpload())
-            {
-                WebError();
             }
             ClientSocket.Dispose();
         }
@@ -56,6 +59,7 @@ namespace WorkServer
                 temp += "Content-Type: text/html" + String2.CRLF;
                 temp += "Keep-Alive: timeout=15, max=93" + String2.CRLF;
                 temp += "Connection: Keep-Alive" + String2.CRLF + String2.CRLF;
+                logger.Debug(temp);
                 ClientSocket.Send(temp);
             }
             catch (Exception e)
@@ -68,15 +72,15 @@ namespace WorkServer
         {
             try
             {
-                if (string.Equals("/", path))
+                if (string.Equals(Define.WEB_SEPARATOR, path))
                 {
-                    path = "/index.html";
+                    path = Path.DirectorySeparatorChar + ConfigReader.GetIni(Define.WEB_SESSION, Define.WEB_INDEX_SESSION);
                 }
                 path = Program.WEB_STORE_PATH + path;
                 FileInfo fileinfo = new FileInfo(path);
                 if (!fileinfo.Exists)
                 {
-                    fileinfo = new FileInfo(Program.WEB_STORE_PATH + "\\index.html");
+                    return false;
                 }
                 using (FileStream stream = new FileStream(fileinfo.FullName, FileMode.Open, FileAccess.Read))
                 {
@@ -85,8 +89,10 @@ namespace WorkServer
                     temp += "Content-Type: text/html" + String2.CRLF;
                     temp += "Keep-Alive: timeout=15, max=93" + String2.CRLF;
                     temp += "Connection: Keep-Alive" + String2.CRLF + String2.CRLF;
+                    logger.Debug(temp);
                     ClientSocket.Send(temp);
                     String2 body = String2.ReadStream(stream, Encoding.Default, (int)fileinfo.Length);
+                    logger.Debug(body);
                     ClientSocket.Send(body);
                 }
                 return true;
@@ -119,15 +125,17 @@ namespace WorkServer
                     temp += "Length: " + fileinfo.Length + String2.CRLF;
                     temp += "Keep-Alive: timeout=15, max=93" + String2.CRLF;
                     temp += "Connection: Keep-Alive" + String2.CRLF + String2.CRLF;
+                    logger.Debug(temp);
                     ClientSocket.Send(temp);
                     String2 body = String2.ReadStream(stream, Encoding.Default, (int)fileinfo.Length);
+                    logger.Debug(body);
                     ClientSocket.Send(body);
                 }
                 return true;
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                logger.Error(e);
                 return false;
             }
         }
