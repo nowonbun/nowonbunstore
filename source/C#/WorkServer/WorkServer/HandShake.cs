@@ -62,9 +62,23 @@ namespace WorkServer
             return null;
         }
 
-        public WorkServer GetServer()
+        public WorkServer ServerBuilder(Client client)
         {
-            return null;
+            String2 type = Get(Define.PROTOCOL_CONNECTION);
+            if (type == null)
+            {
+                throw new Exception("header errer");
+            }
+            if (type.Equals(Define.KEEP_ALIVE))
+            {
+                return new WebServer(client);
+            }
+            else if (type.Equals(Define.UPGRADE))
+            {
+                
+                return new WebSocketServer(client);
+            }
+            throw new Exception("header errer");
         }
 
         public override String ToString()
