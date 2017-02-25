@@ -12,7 +12,7 @@ namespace WorkServer
     class Server : Socket
     {
         private static ILog logger = LogManager.GetLogger(typeof(Server));
-        private static IList<Client> list = new List<Client>();
+        //private static IList<Client> list = new List<Client>();
         public event Action<Client> Acception;
 
         public Server(int port)
@@ -34,23 +34,20 @@ namespace WorkServer
                     Client client =null;
                     try
                     {
-                        client = Accept();
-                        Add(client.SetServer(this));
-                        Acception(client);
+                        Acception(client = Accept());
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine(e);
+                        logger.Error(e);
                         if (client != null)
                         {
                             client.Dispose();
                         }
-                        Remove(client);
                     }
                 }
             });
         }
-        public void Add(Client client)
+        /*public void Add(Client client)
         {
             list.Add(client);
             logger.Info("Connection count - " + list.Count);
@@ -63,6 +60,6 @@ namespace WorkServer
         public IList<Client> ClientList
         {
             get { return list; }
-        }
+        }*/
     }
 }

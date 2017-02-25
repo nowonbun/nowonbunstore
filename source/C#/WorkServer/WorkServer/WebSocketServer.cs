@@ -54,7 +54,10 @@ namespace WorkServer
                 this.Open = true;
             }
         }
-        public WebSocketServer(Client client) : base(client) { }
+        public WebSocketServer(Client client) : base(client) 
+        {
+            client.GetStream().ReadTimeout = 86400000;
+        }
 
         public override bool Initialize(HandShake header)
         {
@@ -71,7 +74,7 @@ namespace WorkServer
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                logger.Error(e);
                 return false;
             }
         }
@@ -167,7 +170,7 @@ namespace WorkServer
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e);
+                    logger.Error(e);
                 }
                 finally
                 {

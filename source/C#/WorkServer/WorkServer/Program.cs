@@ -40,48 +40,24 @@ namespace WorkServer
             Server server = new Server(80);
             server.Acception += (client) =>
             {
-                if (!Swiching(client))
+                try
                 {
-                    client.Dispose();
+                    HandShake header = client.Receive();
+                    logger.Debug(header);
+                    WorkServer sock = header.ServerBuilder(client);
+                    if (sock != null && sock.Initialize(header))
+                    {
+                        sock.Run();
+                    }
+                }
+                catch (Exception e)
+                {
+                    logger.Error(e);
                 }
             };
             server.ServerStart();
         }
-        private bool Swiching(Client client)
-        {
-            try
-            {
-                client.GetStream().ReadTimeout = 500;
-                HandShake header = client.Receive();
-                logger.Debug(header);
-                String2 type = header.Get(Define.PROTOCOL_CONNECTION);
-                if (type == null)
-                {
-                    return false;
-                }
-                WorkServer sock = null;
-                if (type.Equals(Define.KEEP_ALIVE))
-                {
-                    sock = new WebServer(client);
-                }
-                else if (type.Equals(Define.UPGRADE))
-                {
-                    client.GetStream().ReadTimeout = 86400000;
-                    sock = new WebSocketServer(client);
-                }
-                if (sock != null && sock.Initialize(header))
-                {
-                    sock.Run();
-                    return true;
-                }
-                return false;
-            }
-            catch (Exception e)
-            {
-                logger.Error(e);
-                return false;
-            }
-        }
+
         public static void Main(String[] args)
         {
             new Program();

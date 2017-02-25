@@ -6,21 +6,19 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
 using log4net;
+using System.IO;
 
 namespace WorkServer
 {
     class Client : TcpClient
     {
         private static ILog logger = log4net.LogManager.GetLogger(typeof(Client));
-        private Server server = null;
+        private Stream stream;
         public Client(Socket sock)
         {
             this.Client = sock;
-        }
-        public Client SetServer(Server server)
-        {
-            this.server = server;
-            return this;
+            stream = GetStream();
+            stream.ReadTimeout = 500;
         }
         public static implicit operator Client(Socket sock)
         {
@@ -32,19 +30,15 @@ namespace WorkServer
         }
         public String2 Receive()
         {
-            return String2.ReadStream(GetStream(), Encoding.UTF8, String2.CRLF + String2.CRLF);
+            return String2.ReadStream(stream, Encoding.UTF8, String2.CRLF + String2.CRLF);
         }
         public String2 Receive(int length)
         {
-            return String2.ReadStream(GetStream(), Encoding.UTF8, length);
+            return String2.ReadStream(stream, Encoding.UTF8, length);
         }
         public void Dispose()
         {
             Close();
-            if (server != null)
-            {
-                server.Remove(this);
-            }
         }
     }
 }

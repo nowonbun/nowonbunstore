@@ -28,7 +28,7 @@ namespace WorkServer
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                logger.Error(e);
                 return false;
             }
         }
@@ -64,7 +64,7 @@ namespace WorkServer
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                logger.Error(e);
                 return;
             }
         }
@@ -99,7 +99,7 @@ namespace WorkServer
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                logger.Error(e);
                 return false;
             }
         }
