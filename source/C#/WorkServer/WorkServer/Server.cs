@@ -12,7 +12,6 @@ namespace WorkServer
     class Server : Socket
     {
         private static ILog logger = LogManager.GetLogger(typeof(Server));
-        //private static IList<Client> list = new List<Client>();
         public event Action<Client> Acception;
 
         public Server(int port)
@@ -47,19 +46,5 @@ namespace WorkServer
                 }
             });
         }
-        /*public void Add(Client client)
-        {
-            list.Add(client);
-            logger.Info("Connection count - " + list.Count);
-        }
-        public void Remove(Client client)
-        {
-            list.Remove(client);
-            logger.Info("Connection count - " + list.Count);
-        }
-        public IList<Client> ClientList
-        {
-            get { return list; }
-        }*/
     }
 }
