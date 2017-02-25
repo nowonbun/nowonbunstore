@@ -14,8 +14,7 @@ namespace WorkServer
     {
         private static ILog logger = LogManager.GetLogger(typeof(WebSocketServer));
         private List<Client> clientlist = new List<Client>();
-        private static String2 GUID = new String2("258EAFA5-E914-47DA-95CA-C5AB0DC85B11", Encoding.UTF8);
-        private Client client;
+        private static String GUID = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
         private static SHA1 SHA = null;
         public class FileNode
         {
@@ -54,9 +53,10 @@ namespace WorkServer
                 this.Open = true;
             }
         }
-        public WebSocketServer(Client client) : base(client) 
+        public WebSocketServer(Client client)
+            : base(client)
         {
-            client.GetStream().ReadTimeout = 86400000;
+            client.SetTimeout(86400000);
         }
 
         public override bool Initialize(HandShake header)
@@ -157,6 +157,7 @@ namespace WorkServer
                                     sb.Append("\"");
                                     sb.Append(f.Name);
                                     sb.Append("\"");
+                                    sb.Append(",");
                                 }
                                 sb.Length = sb.Length - 1;
                                 sb.Append("]}");
@@ -174,8 +175,8 @@ namespace WorkServer
                 }
                 finally
                 {
-                    client.Dispose();
-                    clientlist.Remove(client);
+                    ClientSocket.Dispose();
+                    clientlist.Remove(ClientSocket);
                 }
             });
         }
@@ -185,7 +186,7 @@ namespace WorkServer
         }
         public void Send(int opcode, String2 data)
         {
-            Send(client, opcode, null);
+            Send(ClientSocket, opcode, data);
         }
         public void Send(Client sock, int opcode, String2 data)
         {
@@ -227,6 +228,10 @@ namespace WorkServer
                 data = null;
                 opcode = (byte)0;
                 String2 head = Receive(2);
+                if (head.Length < 2)
+                {
+                    return false;
+                }
                 bool fin = (head[0] & 0x80) == 0x80;
                 if (!fin)
                 {
@@ -235,7 +240,7 @@ namespace WorkServer
                 }
                 opcode = (byte)(head[0] & 0x0f);
                 bool mask = (head[1] & 0x80) == 0x80;
-                int length = head[1] & 0x7E;
+                int length = head[1] & 0x7F;
                 if (length == 0x7E)
                 {
                     length = BitConverter.ToInt16(Receive(2).Reverse().ToBytes(), 0);
@@ -287,15 +292,15 @@ namespace WorkServer
         }
         private String2 Receive(int length)
         {
-            if (!client.Connected)
+            if (!ClientSocket.Connected)
             {
                 throw new Exception("Disconnection");
             }
-            return client.Receive(length);
+            return ClientSocket.Receive(length);
         }
-        private String2 GetKey(String2 key)
+        private String GetKey(String2 key)
         {
-            byte[] hash = ComputeHash((String)(key + GUID));
+            byte[] hash = ComputeHash(key.Trim().ToString() + GUID);
             return Convert.ToBase64String(hash);
         }
         private static byte[] ComputeHash(String str)

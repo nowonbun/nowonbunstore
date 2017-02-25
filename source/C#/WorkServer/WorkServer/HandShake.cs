@@ -28,7 +28,7 @@ namespace WorkServer
                 if (buffer.Length == 2)
                 {
                     String2 key = buffer[0].Replace(":", "").Trim().ToUpper();
-                    String2 val = buffer[1].Replace(String2.CRLF, "").Trim().ToUpper();
+                    String2 val = buffer[1].Replace(String2.CRLF, "").Trim();
                     map.Add(key, val);
                 }
                 else if (buffer.Length > 2)
@@ -39,7 +39,7 @@ namespace WorkServer
                         val += buffer[j];
                     }
                     String2 key = buffer[0].Replace(":", "").Trim().ToUpper();
-                    val = val.Replace(String2.CRLF, "").Trim().ToUpper();
+                    val = val.Replace(String2.CRLF, "").Trim();
                     map.Add(key, val);
                 }
             }
@@ -69,13 +69,13 @@ namespace WorkServer
             {
                 throw new Exception("header errer");
             }
+            type = type.ToUpper();
             if (type.Equals(Define.KEEP_ALIVE))
             {
                 return new WebServer(client);
             }
             else if (type.Equals(Define.UPGRADE))
             {
-                
                 return new WebSocketServer(client);
             }
             throw new Exception("header errer");

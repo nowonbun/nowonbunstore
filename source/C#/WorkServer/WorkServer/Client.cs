@@ -18,7 +18,6 @@ namespace WorkServer
         {
             this.Client = sock;
             stream = GetStream();
-            stream.ReadTimeout = 500;
         }
         public static implicit operator Client(Socket sock)
         {
@@ -35,6 +34,10 @@ namespace WorkServer
         public String2 Receive(int length)
         {
             return String2.ReadStream(stream, Encoding.UTF8, length);
+        }
+        public void SetTimeout(int time)
+        {
+            stream.ReadTimeout = time;
         }
         public void Dispose()
         {

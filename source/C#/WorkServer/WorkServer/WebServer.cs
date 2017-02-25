@@ -12,7 +12,10 @@ namespace WorkServer
     {
         private static ILog logger = LogManager.GetLogger(typeof(WebServer));
         private String path = "";
-        public WebServer(Client client) : base(client) { }
+        public WebServer(Client client) : base(client) 
+        {
+            client.SetTimeout(1000);
+        }
 
         public override bool Initialize(HandShake header)
         {
@@ -59,7 +62,7 @@ namespace WorkServer
                 temp += "Content-Type: text/html" + String2.CRLF;
                 temp += "Keep-Alive: timeout=15, max=93" + String2.CRLF;
                 temp += "Connection: Keep-Alive" + String2.CRLF + String2.CRLF;
-                logger.Debug(temp);
+                //logger.Debug(temp);
                 ClientSocket.Send(temp);
             }
             catch (Exception e)
@@ -89,10 +92,10 @@ namespace WorkServer
                     temp += "Content-Type: text/html" + String2.CRLF;
                     temp += "Keep-Alive: timeout=15, max=93" + String2.CRLF;
                     temp += "Connection: Keep-Alive" + String2.CRLF + String2.CRLF;
-                    logger.Debug(temp);
+                    //logger.Debug(temp);
                     ClientSocket.Send(temp);
                     String2 body = String2.ReadStream(stream, Encoding.Default, (int)fileinfo.Length);
-                    logger.Debug(body);
+                    //logger.Debug(body);
                     ClientSocket.Send(body);
                 }
                 return true;
@@ -110,8 +113,8 @@ namespace WorkServer
                 String filename = path.Substring(path.IndexOf("?") + 1);
                 filename = filename.Trim();
                 filename = filename.Replace("%20", " ");
-                String file = Program.FILE_STORE_PATH + path;
-                FileInfo fileinfo = new FileInfo(filename);
+                String file = Program.FILE_STORE_PATH + filename;
+                FileInfo fileinfo = new FileInfo(file);
                 if (!fileinfo.Exists)
                 {
                     return false;
@@ -125,10 +128,10 @@ namespace WorkServer
                     temp += "Length: " + fileinfo.Length + String2.CRLF;
                     temp += "Keep-Alive: timeout=15, max=93" + String2.CRLF;
                     temp += "Connection: Keep-Alive" + String2.CRLF + String2.CRLF;
-                    logger.Debug(temp);
+                    //logger.Debug(temp);
                     ClientSocket.Send(temp);
                     String2 body = String2.ReadStream(stream, Encoding.Default, (int)fileinfo.Length);
-                    logger.Debug(body);
+                    //logger.Debug(body);
                     ClientSocket.Send(body);
                 }
                 return true;
