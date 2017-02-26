@@ -43,7 +43,7 @@ namespace WorkServer
                 try
                 {
                     HandShake header = client.Receive();
-                    //logger.Debug(header);
+                    logger.Debug(header);
                     WorkServer sock = header.ServerBuilder(client);
                     if (sock != null && sock.Initialize(header))
                     {
