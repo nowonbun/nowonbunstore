@@ -80,6 +80,8 @@ namespace WorkServer
         }
         public override void Run()
         {
+            logger.Debug(ClientSocket.Client.LocalEndPoint);
+            logger.Debug(ClientSocket.Client.RemoteEndPoint);
             ThreadPool.QueueUserWorkItem((c) =>
             {
                 try

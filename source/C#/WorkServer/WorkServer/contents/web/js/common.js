@@ -1,12 +1,18 @@
 var Buffer;
+var FileLimitLenth = 4095;
 $(function () {
 
     var webSocket = new WebSocket("ws://127.0.0.1:80");
+    var reader = new FileReader();
+
     var chatMessage = $("#chatMessage");
     var chat = $("#chat");
     var chatId = $("#chatid");
     var chatBtn = $("#chatBtn");
+    var storeBtn = $("#storeBtn");
     var storeFile = $("#storefile");
+    var fileobj = $("#fileobj");
+
     var selectAll = $("select");
     var textAreaAll = $("textarea");
     var inputAll = $("input");
@@ -40,7 +46,6 @@ $(function () {
     }
 
     var SetMessage = function (data) {
-
         var val = chatMessage.val();
         chatMessage.focus();
         chatMessage.val(val + data + "\n");
@@ -66,7 +71,6 @@ $(function () {
     chatBtn.on("click", function (event) {
         SendMessage();
     });
-
     storeFile.on("dbclick", function (event) {
         var index = storeFile.prop("selectedIndex");
         location.href = "/download?" + $("#storefile>option:nth-child(" + (index + 1) + ")").val();
@@ -76,9 +80,56 @@ $(function () {
             SendMessage();
         }
     });
+    storeBtn.on("click", function () {
+        var file = fileobj[0].files[0];
+        reader.readAsArrayBuffer(file);
+    });
+
+    reader.onload = function (e) {
+        var file = fileobj[0].files[0];
+        setTimeout(SendFileHeader, 10, webSocket, file, new Uint8Array(e.currentTarget.result));
+    }
+
 
     SetDisabled();
 });
+function SendFileHeader(webSocket, file, filedata) {
+    var header = new Uint8Array(260);
+    var count = Math.floor(file.size / FileLimitLenth);
+    for (var i = 0; i < 260; i++) {
+        header[i] = 0x20;
+    }
+    header[0] = 1;
+    header = BitConverter(header, 1, file.size);
+    header = GetFileName(header, 5, file.name);
+    webSocket.send(header);
+
+    setTimeout(SendFileBody, 10, file, filedata, 0, count);
+}
+function SendFileBody(webSocket, file, filedata, peek, count) {
+    var index = Math.floor(peek / FileLimitLenth);
+    if (index < count) {
+        var data = new Uint8Array(FileLimitLenth + 1);
+        data[0] = 2;
+        data = ArrayCopy(filedata, peek, data, 1, length);
+
+    } else {
+
+    }
+}
+function ArrayCopy(source, sourceIdx, destination, destinationIdx, length) {
+    for (var i = sourceIdx, j = destinationIdx; i < sourceIdx + length; i++, j++) {
+        destination[i] = source[i];
+    }
+    return destination;
+}
+function GetFileName(bin, index, val) {
+    var charList = toUTF8Array(val);
+    for (var i = 0; i < charList.length; i++) {
+        bin[i + index] = charList[i];
+    }
+    return bin;
+}
 function toUTF8Array(str) {
     var utf8 = [];
     for (var i = 0; i < str.length; i++) {
