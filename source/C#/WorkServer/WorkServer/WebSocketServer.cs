@@ -13,7 +13,7 @@ namespace WorkServer
     class WebSocketServer : WorkServer
     {
         private static ILog logger = LogManager.GetLogger(typeof(WebSocketServer));
-        private List<Client> clientlist = new List<Client>();
+        private static IList<WebSocketServer> clientlist = new List<WebSocketServer>();
         private static String GUID = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
         private static SHA1 SHA = null;
         public class FileNode
@@ -69,7 +69,6 @@ namespace WorkServer
                 temp += "Connection: Upgrade" + String2.CRLF;
                 temp += "Sec-WebSocket-Accept:" + GetKey(header.Get("Sec-WebSocket-Key")) + String2.CRLF + String2.CRLF;
                 ClientSocket.Send(temp);
-                clientlist.Add(ClientSocket);
                 return true;
             }
             catch (Exception e)
@@ -80,13 +79,11 @@ namespace WorkServer
         }
         public override void Run()
         {
-            logger.Debug(ClientSocket.Client.LocalEndPoint);
-            logger.Debug(ClientSocket.Client.RemoteEndPoint);
             ThreadPool.QueueUserWorkItem((c) =>
             {
+                FileNode file = new FileNode();
                 try
                 {
-                    FileNode file = new FileNode(); ;
                     String2 data;
                     byte opcode;
                     while (Receive(out opcode, out data))
@@ -109,11 +106,12 @@ namespace WorkServer
                             sb.Append(data);
                             sb.Append("\"");
                             sb.Append("}");
-                            foreach (Client sock in clientlist)
+                            String2 message = new String2(sb.ToString(),Encoding.UTF8);
+                            foreach (WebSocketServer client in clientlist)
                             {
-
+                                client.Send(1, message);
                             }
-                            Console.WriteLine(data);
+                            logger.Info(message);
                             continue;
                         }
                         if (opcode == 2)
@@ -123,14 +121,16 @@ namespace WorkServer
                                 logger.Error("transfer typecode?");
                                 continue;
                             }
-                            if (data[0] == 1)
+                            if (data[0] == 0x0A)
                             {
                                 file.Length = BitConverter.ToInt32(data.ToBytes(), 1);
                                 String2 filename = data.SubString(5, data.Length - 5);
+                                filename.Encode = Encoding.UTF8;
+                                logger.Info("filename - "+filename);
                                 file.SetStream(new FileStream(Program.FILE_STORE_PATH + filename.Trim().ToString(), FileMode.Create, FileAccess.Write), file.Length);
                                 continue;
                             }
-                            if (data[0] == 2)
+                            if (data[0] == 0x0B)
                             {
                                 if (!file.Open)
                                 {
@@ -141,6 +141,7 @@ namespace WorkServer
                                 String2 binary = data.SubString(1, data.Length - 1);
                                 binary.WriteStream(file.Stream);
                                 file.Peek += binary.Length;
+                                logger.Info(file.Peek);
                                 if (file.Peek >= file.Length)
                                 {
                                     file.Complete();
@@ -148,7 +149,7 @@ namespace WorkServer
                                 }
                                 continue;
                             }
-                            if (data[0] == 7)
+                            if (data[0] == 0x0C || data[0] == 0x0D)
                             {
                                 DirectoryInfo info = new DirectoryInfo(Program.FILE_STORE_PATH);
                                 FileInfo[] files = info.GetFiles();
@@ -163,7 +164,22 @@ namespace WorkServer
                                 }
                                 sb.Length = sb.Length - 1;
                                 sb.Append("]}");
-                                Send(2, new String2(sb.ToString(), Encoding.UTF8));
+                                String2 message = new String2(sb.ToString(), Encoding.UTF8);
+                                if (data[0] == 0x0C)
+                                {
+                                    Send(2, message);
+                                    if (!clientlist.Contains(this))
+                                    {
+                                        clientlist.Add(this);
+                                    }
+                                }
+                                else if (data[0] == 0x0D)
+                                {
+                                    foreach (WebSocketServer client in clientlist)
+                                    {
+                                        client.Send(2, message);
+                                    }
+                                }
                                 continue;
                             }
                             logger.Error("error");
@@ -177,8 +193,9 @@ namespace WorkServer
                 }
                 finally
                 {
+                    file.Init();
                     ClientSocket.Dispose();
-                    clientlist.Remove(ClientSocket);
+                    clientlist.Remove(this);
                 }
             });
         }

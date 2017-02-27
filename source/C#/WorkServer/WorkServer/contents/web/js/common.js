@@ -1,7 +1,6 @@
 var Buffer;
 var FileLimitLenth = 4095;
 $(function () {
-
     var webSocket = new WebSocket("ws://127.0.0.1:80");
     var reader = new FileReader();
 
@@ -20,7 +19,7 @@ $(function () {
     webSocket.onopen = function (message) {
         SetMessage("Server Connect...");
         var data = new Uint8Array(1);
-        data[0] = 7;
+        data[0] = 0x0C;
         webSocket.send(data);
         UnsetDisabled();
     }
@@ -30,6 +29,7 @@ $(function () {
     }
     webSocket.onerror = function (message) {
         SetMessage("Server Error...");
+		EndProgress();
         SetDisabled();
     }
     webSocket.onmessage = function (message) {
@@ -44,7 +44,6 @@ $(function () {
             storeFile.html(temp);
         }
     }
-
     var SetMessage = function (data) {
         var val = chatMessage.val();
         chatMessage.focus();
@@ -87,39 +86,71 @@ $(function () {
 
     reader.onload = function (e) {
         var file = fileobj[0].files[0];
-        setTimeout(SendFileHeader, 10, webSocket, file, new Uint8Array(e.currentTarget.result));
+		var	fileSocket = new WebSocket("ws://127.0.0.1:80");
+		fileSocket.onopen = function (message) {
+			setTimeout(SendFileHeader, 10, fileSocket, file, new Uint8Array(e.currentTarget.result));
+		}
+		fileSocket.onclose = function (message) {
+			var data = new Uint8Array(1);
+		    data[0] = 0x0D;
+	        webSocket.send(data);
+		}
+		fileSocket.onmessage = function (message) {}
+		fileSocket.onerror = function (message) {}
     }
-
-
     SetDisabled();
 });
-function SendFileHeader(webSocket, file, filedata) {
+function SetProgress(index,length)
+{
+	location.href="#top";
+	if(!$("body").hasClass("progress")){
+		$("body").addClass("progress");
+		$("div.progressBarlayout").addClass("on");
+	}
+	$("#progressBar > span").html(index + " / "+length);
+	var rate = (index/length) *100;
+	$("div.progressBarlayout > div.progress > div").css("width",rate+"%");
+}
+function EndProgress(){
+	$("body").removeClass("progress");
+	$("div.progressBarlayout").removeClass("on");
+}
+function SendFileHeader(fileSocket, file, filedata) {
     var header = new Uint8Array(260);
     var count = Math.floor(file.size / FileLimitLenth);
     for (var i = 0; i < 260; i++) {
         header[i] = 0x20;
     }
-    header[0] = 1;
+    header[0] = 0x0A;
     header = BitConverter(header, 1, file.size);
     header = GetFileName(header, 5, file.name);
-    webSocket.send(header);
-
-    setTimeout(SendFileBody, 10, file, filedata, 0, count);
+    fileSocket.send(header);
+	SetProgress(0,count);
+    setTimeout(SendFileBody, 10, fileSocket, file, filedata, 0, count);
 }
-function SendFileBody(webSocket, file, filedata, peek, count) {
+function SendFileBody(fileSocket, file, filedata, peek, count) {
     var index = Math.floor(peek / FileLimitLenth);
     if (index < count) {
         var data = new Uint8Array(FileLimitLenth + 1);
-        data[0] = 2;
-        data = ArrayCopy(filedata, peek, data, 1, length);
-
+        data[0] = 0x0B;
+        data = ArrayCopy(filedata, peek, data, 1, FileLimitLenth);
+		fileSocket.send(data);
+		peek += FileLimitLenth;
+		SetProgress(index,count);
+		setTimeout(SendFileBody, 10, fileSocket, file, filedata, peek, count);
     } else {
-
+		remain = file.size%FileLimitLenth;
+		var data = new Uint8Array(remain +1);
+		data[0] = 0x0B;
+		data = ArrayCopy(filedata,peek,data,1,remain);
+		fileSocket.send(data);
+		EndProgress();
+		fileSocket.close();
     }
 }
 function ArrayCopy(source, sourceIdx, destination, destinationIdx, length) {
     for (var i = sourceIdx, j = destinationIdx; i < sourceIdx + length; i++, j++) {
-        destination[i] = source[i];
+        destination[j] = source[i];
     }
     return destination;
 }

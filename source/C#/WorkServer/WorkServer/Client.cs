@@ -41,7 +41,7 @@ namespace WorkServer
         }
         public void Dispose()
         {
-            Close();
+            base.Close();
         }
     }
 }

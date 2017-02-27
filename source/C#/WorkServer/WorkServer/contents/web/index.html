@@ -11,6 +11,12 @@
 	<body>
 		<header>Work Note</header>
         <div class="main">
+			<div class="progressBarlayout">
+				<div class="progress" id="progressBar">
+					<span></span>
+					<div></div>
+				</div>
+			</div>
             <div class="container">
                 <div class="session">
                     <div class="header">Work Report</div>
@@ -49,9 +55,8 @@
                     <div class="header">Store</div>
                     <div class="body">
                         <select class="storeSelect" id="storefile" multiple></select>
-                        <input type="file" id="fileobj" />
+                        <input type="file" id="fileobj"/>
                         <input type="button" class="storeBtn" id="storeBtn" value="SEND" />
-                        <span class="messageSpan" id="sendmessage"></span>
                     </div>
                 </div>
             </div>

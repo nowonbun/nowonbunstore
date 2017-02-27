@@ -14,6 +14,7 @@ header, footer {
     background: rgba(216,248,228,1);
     width: 100%;
     position: fixed;
+	z-index:10;
 }
 
 header {
@@ -46,7 +47,7 @@ div.container {
 
 
 div.session {
-    width: 400px;
+    width: 500px;
     height: 600px;
     border: 1px solid;
     display: inline-block;
@@ -138,3 +139,38 @@ div.session {
     div.session > div.body > select.storeSelect {
         height: 480px;
     }
+div.progressBarlayout{
+	display:none;
+}
+div.progressBarlayout.on{
+	position:absolute;
+	top:0px;
+	left:0px;
+	width:100%;
+	height:100%;
+	background-color:rgba(255,255,255,0.6);
+	display:block;
+}
+div.progressBarlayout.on > div.progress{
+    border: 10px solid;
+    position: absolute;
+    top: 40%;
+    left: 25%;
+	padding-top: 2%;
+    padding-bottom: 2%;
+    width: 50%;
+	border-radius: 20px;
+}
+div.progressBarlayout.on > div.progress > div
+{
+	display: inline;
+    background: rgba(12, 59, 167, 0.5);
+    width: 0%;
+    height: 100%;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+body.progress{
+	overflow:hidden;
+}
