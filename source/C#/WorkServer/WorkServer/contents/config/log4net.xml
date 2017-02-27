@@ -6,7 +6,7 @@
     </layout>
   </appender>
   <appender name="RollingFile" type="log4net.Appender.RollingFileAppender">
-    <file value="E:\Documents\nowonbunstore\source\C#\WorkServer\WorkServer\bin\Debug\log\websocket.log" />
+    <file value="F:\GitHub\nowonbunstore\source\C#\WorkServer\WorkServer\bin\Debug\log\websocket.log" />
     <appendToFile value="true" />
     <datePattern value="-yyyy-MM-dd" />
     <rollingStyle value="Date" />

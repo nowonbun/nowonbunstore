@@ -181,8 +181,7 @@ namespace WorkServer
         {
             int spos = -1;
             int epos = -1;
-            int count = (Length / 2) + (Length % 2);
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < Length; i++)
             {
                 if (this[i] != 0x00 && this[i] != 0x20 && spos == -1)
                 {
@@ -191,6 +190,10 @@ namespace WorkServer
                 if (this[(Length - 1) - i] != 0x20 && this[(Length - 1) - i] != 0x00 && epos == -1)
                 {
                     epos = Length - i;
+                }
+                if (spos != -1 && epos != -1)
+                {
+                    break;
                 }
             }
             if (spos == -1)
@@ -482,6 +485,7 @@ namespace WorkServer
             while ((revlength = stream.Read((byte[])buffer, 0, buffersize)) > 0)
             {
                 data += buffer.SubString(0, revlength);
+                Console.WriteLine(data);
                 if (data.Length >= endFlag.Length && String2.CheckByte((byte[])data, data.Length - endFlag.Length, (byte[])endFlag, 0, endFlag.Length))
                 {
                     break;

@@ -33,7 +33,11 @@ namespace WorkServer
                     Client client =null;
                     try
                     {
-                        Acception(client = Accept());
+                        client = Accept();
+                        client.GetStream().ReadTimeout = 500;
+                        logger.Debug("Local - " + client.Client.LocalEndPoint);
+                        logger.Debug("Remote - " + client.Client.RemoteEndPoint);
+                        Acception(client);
                     }
                     catch (Exception e)
                     {
