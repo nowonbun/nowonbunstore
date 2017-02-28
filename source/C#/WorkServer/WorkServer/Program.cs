@@ -13,6 +13,7 @@ namespace WorkServer
         public static String FILE_STORE_PATH;
         public static String WEB_STORE_PATH;
         public static String CONFIG_PATH;
+        public static String WORK_PATH;
 
         public Program()
         {
@@ -26,6 +27,7 @@ namespace WorkServer
             FILE_STORE_PATH = GetExecutablePath() + Path.DirectorySeparatorChar + Define.FILE_STORE_PATH + Path.DirectorySeparatorChar;
             WEB_STORE_PATH = GetExecutablePath() + Path.DirectorySeparatorChar + Define.WEB_STORE_PATH;
             CONFIG_PATH = GetExecutablePath() + Path.DirectorySeparatorChar + Define.CONFIG_PATH;
+            WORK_PATH = GetExecutablePath() + Path.DirectorySeparatorChar + Define.WORK_PATH;
         }
         public static String GetExecutablePath()
         {

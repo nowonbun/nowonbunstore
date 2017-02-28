@@ -21,26 +21,12 @@
             <div class="session">
                 <div class="header">Work Report</div>
                 <div class="body">
-                    <select multiple>
-                        <option>2017_02_20_業務報告</option>
-                    </select>
+                    <select id="worklist" multiple></select>
                     <span class="titleSpan">Date Report</span>
-                    <input type="text" class="title" value="2017_02_21_業務報告">
-                    <textarea class="report">
-                        業務報告(2/20)
-                        お疲れ様です。
-
-                        昨日の作業報告(02/19)
-                        1. Nothing
-
-                        本日の作業報告(02/20)
-                        1. Nothing
-
-                        その他の連絡事項
-
-                        以上、よろしくお願いします。
+                    <input type="text" class="title" id="reportTitle">
+                    <textarea class="report" id="report">
                     </textarea>
-                    <input type="button" class="reportBtn" value="SEND" />
+                    <input type="button" class="reportBtn" id="reportBtn" value="SEND" />
                 </div>
             </div>
             <div class="session">

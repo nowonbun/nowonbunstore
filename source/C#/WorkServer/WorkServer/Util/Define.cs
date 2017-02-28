@@ -11,6 +11,7 @@ namespace WorkServer
         public static String FILE_STORE_PATH = "file";
         public static String WEB_STORE_PATH = "web";
         public static String CONFIG_PATH = "config";
+        public static String WORK_PATH = "work";
 
         public static String CONFIG = "config.ini";
         public static String LOG4NET = "log4net.xml";

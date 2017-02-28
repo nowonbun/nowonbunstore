@@ -16,11 +16,15 @@ namespace WorkServer
         }
         public WebSocketMessageBuilder(int messageType)
         {
-            Column.Add("TYPE",messageType.ToString());
+            Column.Add("TYPE", messageType.ToString());
+        }
+        public void SetWorkTitle(String title)
+        {
+            Column.Add("WORKTITLE", title);
         }
         public void SetMessage(String message)
         {
-            Column.Add("MESSAGE",message);
+            Column.Add("MESSAGE", message);
         }
         public void SetFileList(IEnumerable<String> files)
         {
@@ -28,7 +32,7 @@ namespace WorkServer
         }
         public String2 Build()
         {
-            return new String2(JsonConvert.SerializeObject(Column),Encoding.UTF8);
+            return new String2(JsonConvert.SerializeObject(Column), Encoding.UTF8);
         }
     }
 }
