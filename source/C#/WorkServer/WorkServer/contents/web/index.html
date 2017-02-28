@@ -1,68 +1,69 @@
 ﻿<!DOCTYPE>
 <html>
-	<head>
-        <meta name="viewport" content="width=device-width,initial-scale=1,maximum=1,user-scalable=no" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-        <script language="javascript" src="js/jquery-3.1.1.min.js"></script>
-        <script language="javascript" src="js/common.js"></script>
-        <link rel="stylesheet" href="css/common.css" />
-        <title>Work Board</title>
-    </head>
-	<body>
-		<header>Work Note</header>
-        <div class="main">
-			<div class="progressBarlayout">
-				<div class="progress" id="progressBar">
-					<span></span>
-					<div></div>
-				</div>
-			</div>
-            <div class="container">
-                <div class="session">
-                    <div class="header">Work Report</div>
-                    <div class="body">
-                        <select multiple>
-                            <option>2017_02_20_業務報告</option>
-                        </select>
-                        <span class="titleSpan">Date Report</span>
-                        <input type="text" class="title" value="2017_02_21_業務報告">
-                        <textarea class="report">業務報告(2/20)
-お疲れ様です。
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum=1,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <script language="javascript" src="js/jquery-3.1.1.min.js"></script>
+    <script language="javascript" src="js/common.js"></script>
+    <link rel="stylesheet" href="css/common.css" />
+    <title>Work Board</title>
+</head>
+<body>
+    <header>Work Note</header>
+    <div class="main">
+        <div class="progressBarlayout">
+            <div class="progress" id="progressBar">
+                <span></span>
+                <div></div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="session">
+                <div class="header">Work Report</div>
+                <div class="body">
+                    <select multiple>
+                        <option>2017_02_20_業務報告</option>
+                    </select>
+                    <span class="titleSpan">Date Report</span>
+                    <input type="text" class="title" value="2017_02_21_業務報告">
+                    <textarea class="report">
+                        業務報告(2/20)
+                        お疲れ様です。
 
-昨日の作業報告(02/19)
-1. Nothing
+                        昨日の作業報告(02/19)
+                        1. Nothing
 
-本日の作業報告(02/20)
-1. Nothing
+                        本日の作業報告(02/20)
+                        1. Nothing
 
-その他の連絡事項
+                        その他の連絡事項
 
-以上、よろしくお願いします。
-</textarea>
-                        <input type="button" class="reportBtn" value="SEND" />
-                    </div>
+                        以上、よろしくお願いします。
+                    </textarea>
+                    <input type="button" class="reportBtn" value="SEND" />
                 </div>
-                <div class="session">
-                    <div class="header">Chat</div>
-                    <div class="body">
-                        <textarea class="chat" id="chatMessage" readonly></textarea>
-                        <input type="text" class="chatid" id="chatid" value="太郎" />
-                        <input type="text" class="chat" id="chat" value="" />
-                        <input type="button" class="chatBtn" id="chatBtn" value="SEND" />
-                    </div>
+            </div>
+            <div class="session">
+                <div class="header">Chat</div>
+                <div class="body">
+                    <textarea class="chat" id="chatMessage" readonly></textarea>
+                    <input type="text" class="chatid" id="chatid" value="太郎" />
+                    <input type="text" class="chat" id="chat" value="" />
+                    <input type="button" class="chatBtn" id="chatBtn" value="SEND" />
                 </div>
-                <div class="session">
-                    <div class="header">Store</div>
-                    <div class="body">
-                        <select class="storeSelect" id="storefile" multiple></select>
-                        <input type="file" id="fileobj"/>
-                        <input type="button" class="storeBtn" id="storeBtn" value="SEND" />
-                    </div>
+            </div>
+            <div class="session">
+                <div class="header">Store</div>
+                <div class="body">
+                    <select class="storeSelect" id="storefile" multiple></select>
+                    <input type="file" id="fileobj" />
+                    <input type="button" class="storeBtn" id="storeBtn" value="SEND" />
                 </div>
             </div>
         </div>
-        <footer>
-            <span>Creative - Hwang</span>
-        </footer>
-	</body>
+    </div>
+    <footer>
+        <span>Creative - Hwang</span>
+    </footer>
+</body>
 </html>

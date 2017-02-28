@@ -39,7 +39,7 @@ namespace WorkServer
         {
             if (!String.IsNullOrEmpty(path))
             {
-                if (path.IndexOf("/download") != -1)
+                if (path.IndexOf(Define.DOWNROAD_PATH) != -1)
                 {
                     if (!FileUpload())
                     {
@@ -57,13 +57,9 @@ namespace WorkServer
         {
             try
             {
-                String2 temp = new String2(Encoding.UTF8);
-                temp += "HTTP/1.1 404 NG" + String2.CRLF;
-                temp += "Content-Type: text/html" + String2.CRLF;
-                temp += "Keep-Alive: timeout=15, max=93" + String2.CRLF;
-                temp += "Connection: Keep-Alive" + String2.CRLF + String2.CRLF;
-                //logger.Debug(temp);
-                ClientSocket.Send(temp);
+                WebHeaderBuilder builder = WebHeaderBuilder.GetHeader(404);
+                builder.AddOption("Content-Type", "text/html");
+                ClientSocket.Send(builder.Build());
             }
             catch (Exception e)
             {
@@ -87,15 +83,10 @@ namespace WorkServer
                 }
                 using (FileStream stream = new FileStream(fileinfo.FullName, FileMode.Open, FileAccess.Read))
                 {
-                    String2 temp = new String2(Encoding.UTF8);
-                    temp += "HTTP/1.1 200 OK" + String2.CRLF;
-                    temp += "Content-Type: text/html" + String2.CRLF;
-                    temp += "Keep-Alive: timeout=15, max=93" + String2.CRLF;
-                    temp += "Connection: Keep-Alive" + String2.CRLF + String2.CRLF;
-                    //logger.Debug(temp);
-                    ClientSocket.Send(temp);
+                    WebHeaderBuilder builder = WebHeaderBuilder.GetHeader(200);
+                    builder.AddOption("Content-Type", "text/html");
+                    ClientSocket.Send(builder.Build());
                     String2 body = String2.ReadStream(stream, Encoding.Default, (int)fileinfo.Length);
-                    //logger.Debug(body);
                     ClientSocket.Send(body);
                 }
                 return true;
@@ -119,19 +110,15 @@ namespace WorkServer
                 {
                     return false;
                 }
+                WebHeaderBuilder builder = WebHeaderBuilder.GetHeader(200);
+                builder.AddOption("Content-Type", "multipart/formed-data");
+                builder.AddOption("Content-Disposition", "attachment; filename=" + fileinfo.Name);
+                builder.AddOption("Length", fileinfo.Length.ToString());
+                ClientSocket.Send(builder.Build());
                 using (FileStream stream = new FileStream(fileinfo.FullName, FileMode.Open, FileAccess.Read))
                 {
-                    String2 temp = new String2(Encoding.UTF8);
-                    temp += "HTTP/1.1 200 OK" + String2.CRLF;
-                    temp += "Content-Type: multipart/formed-data" + String2.CRLF;
-                    temp += "Content-Disposition: attachment; filename=" + fileinfo.Name + String2.CRLF;
-                    temp += "Length: " + fileinfo.Length + String2.CRLF;
-                    temp += "Keep-Alive: timeout=15, max=93" + String2.CRLF;
-                    temp += "Connection: Keep-Alive" + String2.CRLF + String2.CRLF;
-                    //logger.Debug(temp);
-                    ClientSocket.Send(temp);
+                    
                     String2 body = String2.ReadStream(stream, Encoding.Default, (int)fileinfo.Length);
-                    //logger.Debug(body);
                     ClientSocket.Send(body);
                 }
                 return true;

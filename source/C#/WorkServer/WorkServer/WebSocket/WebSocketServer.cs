@@ -8,57 +8,22 @@ using System.Security.Cryptography;
 using System.IO;
 using log4net;
 
+
 namespace WorkServer
 {
     class WebSocketServer : WorkServer
     {
         private static ILog logger = LogManager.GetLogger(typeof(WebSocketServer));
         private static IList<WebSocketServer> clientlist = new List<WebSocketServer>();
-        private static String GUID = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
-        private static SHA1 SHA = null;
-        public class FileNode
+        public static IList<WebSocketServer> ClientList
         {
-            public FileStream Stream { get; private set; }
-            public int Peek { get; set; }
-            public int Length { get; set; }
-            public bool Open { get; set; }
-            public FileNode()
-            {
-                Init();
-            }
-            public void Init()
-            {
-                if (Stream != null)
-                {
-                    Stream.Close();
-                }
-                Stream = null;
-                Peek = 0;
-                Length = 0;
-                Open = false;
-            }
-            public void Complete()
-            {
-                if (Stream != null)
-                {
-                    Stream.Flush();
-                }
-                Init();
-            }
-            public void SetStream(FileStream stream, int length)
-            {
-                this.Stream = stream;
-                this.Peek = 0;
-                this.Length = length;
-                this.Open = true;
-            }
+            get { return clientlist; }
         }
         public WebSocketServer(Client client)
             : base(client)
         {
             client.SetTimeout(86400000);
         }
-
         public override bool Initialize(HandShake header)
         {
             try
@@ -67,7 +32,7 @@ namespace WorkServer
                 temp += "HTTP/1.1 101 Switching Protocols" + String2.CRLF;
                 temp += "Upgrade: websocket" + String2.CRLF;
                 temp += "Connection: Upgrade" + String2.CRLF;
-                temp += "Sec-WebSocket-Accept:" + GetKey(header.Get("Sec-WebSocket-Key")) + String2.CRLF + String2.CRLF;
+                temp += "Sec-WebSocket-Accept:" + StaticFunction.ComputeHash(header.Get("Sec-WebSocket-Key")) + String2.CRLF + String2.CRLF;
                 ClientSocket.Send(temp);
                 return true;
             }
@@ -79,110 +44,94 @@ namespace WorkServer
         }
         public override void Run()
         {
-            ThreadPool.QueueUserWorkItem((c) =>
+            ThreadPool.QueueUserWorkItem(_ =>
             {
-                FileNode file = new FileNode();
+                FileNode file = FileNode.GetFileNode();
                 try
                 {
                     String2 data;
                     byte opcode;
                     while (Receive(out opcode, out data))
                     {
-                        if (data == null)
+                        if (file.Open && opcode != (int)OPCODE.BINARY)
                         {
-                            logger.Error("data null");
-                            continue;
-                        }
-                        if (file.Open && opcode != 2)
-                        {
-                            logger.Error("it's error what transfer the file");
+                            logger.Error("It's error what transfer the file.");
                             file.Init();
                         }
-                        if (opcode == 1)
+                        if (opcode == (int)OPCODE.MESSAGE)
                         {
-                            StringBuilder sb = new StringBuilder();
-                            sb.Append("{\"type\":\"0\",\"message\":");
-                            sb.Append("\"");
-                            sb.Append(data);
-                            sb.Append("\"");
-                            sb.Append("}");
-                            String2 message = new String2(sb.ToString(),Encoding.UTF8);
+                            WebSocketMessageBuilder builder = WebSocketMessageBuilder.GetMessage(MessageType.MESSAGE);
+                            String chatMessage = ClientSocket.Client.RemoteEndPoint +"-"+data.ToString();
+                            builder.SetMessage(chatMessage);
+                            String2 message = builder.Build();
                             foreach (WebSocketServer client in clientlist)
                             {
-                                client.Send(1, message);
+                                client.Send((int)OPCODE.MESSAGE, message);
                             }
                             logger.Info(message);
                             continue;
                         }
-                        if (opcode == 2)
+                        if (opcode == (int)OPCODE.BINARY)
                         {
                             if (data.Length < 1)
                             {
-                                logger.Error("transfer typecode?");
+                                logger.Error("It is being have downloading.but because what the data is nothing is stopped.");
                                 continue;
                             }
-                            if (data[0] == 0x0A)
+                            byte type = data[0];
+                            if (type == (byte)FileMessageType.FileOpen)
                             {
                                 file.Length = BitConverter.ToInt32(data.ToBytes(), 1);
                                 String2 filename = data.SubString(5, data.Length - 5);
                                 filename.Encode = Encoding.UTF8;
-                                logger.Info("filename - "+filename);
+                                logger.Info("filename - " + filename);
                                 file.SetStream(new FileStream(Program.FILE_STORE_PATH + filename.Trim().ToString(), FileMode.Create, FileAccess.Write), file.Length);
                                 continue;
                             }
-                            if (data[0] == 0x0B)
+                            if (type == (byte)FileMessageType.FileWrite)
                             {
                                 if (!file.Open)
                                 {
-                                    logger.Error("transfer error");
+                                    logger.Error("It is being have downloading.but because what file's connection is closed.");
                                     file.Init();
                                     continue;
                                 }
                                 String2 binary = data.SubString(1, data.Length - 1);
-                                binary.WriteStream(file.Stream);
+                                binary.WriteStream(file.StreamBuffer);
                                 file.Peek += binary.Length;
                                 logger.Info(file.Peek);
                                 if (file.Peek >= file.Length)
                                 {
                                     file.Complete();
-                                    Send(2, new String2("File upload Success!!", Encoding.UTF8));
+                                    Send((int)OPCODE.BINARY, new String2("File upload Success!!", Encoding.UTF8));
                                 }
                                 continue;
                             }
-                            if (data[0] == 0x0C || data[0] == 0x0D)
+                            if (type == (byte)FileMessageType.FileSearch || type == (byte)FileMessageType.FileListNotice)
                             {
+                                WebSocketMessageBuilder builder = WebSocketMessageBuilder.GetMessage(MessageType.FILELIST);
                                 DirectoryInfo info = new DirectoryInfo(Program.FILE_STORE_PATH);
                                 FileInfo[] files = info.GetFiles();
-                                StringBuilder sb = new StringBuilder();
-                                sb.Append("{\"type\":\"1\",\"list\":[");
-                                foreach (FileInfo f in files)
+                                builder.SetFileList(from f in info.GetFiles() select f.Name);
+                                String2 message = builder.Build();
+                                if (type == (byte)FileMessageType.FileSearch)
                                 {
-                                    sb.Append("\"");
-                                    sb.Append(f.Name);
-                                    sb.Append("\"");
-                                    sb.Append(",");
-                                }
-                                sb.Length = sb.Length - 1;
-                                sb.Append("]}");
-                                String2 message = new String2(sb.ToString(), Encoding.UTF8);
-                                if (data[0] == 0x0C)
-                                {
-                                    Send(2, message);
+                                    Send((int)OPCODE.BINARY, message);
                                     if (!clientlist.Contains(this))
                                     {
                                         clientlist.Add(this);
                                     }
                                 }
-                                else if (data[0] == 0x0D)
+                                else if (type == (byte)FileMessageType.FileListNotice)
                                 {
                                     foreach (WebSocketServer client in clientlist)
                                     {
-                                        client.Send(2, message);
+                                        client.Send((int)OPCODE.BINARY, message);
                                     }
                                 }
                                 continue;
                             }
-                            logger.Error("error");
+                            logger.Error("FileMessage type is wrong.");
                             file.Init();
                         }
                     }
@@ -209,9 +158,9 @@ namespace WorkServer
         }
         public void Send(Client sock, int opcode, String2 data)
         {
-            if ((opcode == 1 || opcode == 2) && data != null)
+            if ((opcode == (int)OPCODE.MESSAGE) || (opcode == (int)OPCODE.BINARY) && data != null)
             {
-                if (data.Length <= 128)
+                if (data.Length <= 0x80)
                 {
                     sock.Send(new byte[] { (byte)(0x80 | 1), (byte)data.Length });
                 }
@@ -228,17 +177,12 @@ namespace WorkServer
                 sock.Send(data);
                 return;
             }
-            else if (opcode == 9)
+            else if ((opcode == (int)OPCODE.PING) || (opcode == (int)OPCODE.PONG))
             {
-                sock.Send(new byte[] { (byte)(0x80 | 9), (byte)0x00 });
+                sock.Send(new byte[] { (byte)(0x80 | opcode), (byte)0x00 });
                 return;
             }
-            else if (opcode == 10)
-            {
-                sock.Send(new byte[] { (byte)(0x80 | 10), (byte)0x00 });
-                return;
-            }
-            logger.Error("send OPCDE = " + opcode);
+            logger.Error("This setting is wrong OPCODE = " + opcode);
         }
         public bool Receive(out byte opcode, out String2 data)
         {
@@ -269,7 +213,7 @@ namespace WorkServer
                     length = (int)BitConverter.ToInt64(Receive(8).Reverse().ToBytes(), 0);
                 }
                 String2 key = mask ? Receive(4) : null;
-                if (opcode == 1)
+                if (opcode == (int)OPCODE.MESSAGE)
                 {
                     byte[] buffer = Receive(length).ToBytes();
                     if (key != null)
@@ -282,7 +226,7 @@ namespace WorkServer
                     data = new String2(buffer, Encoding.UTF8);
                     return true;
                 }
-                if (opcode == 2)
+                if (opcode == (int)OPCODE.BINARY)
                 {
                     byte[] buffer = Receive(length).ToBytes();
                     if (key != null)
@@ -295,17 +239,16 @@ namespace WorkServer
                     data = buffer;
                     return true;
                 }
-                if (opcode == 9)
+                if (opcode == (int)OPCODE.EXIT)
                 {
-                    Send(9);
+                    return false;
+                }
+                if ((opcode == (int)OPCODE.PING) || (opcode == (int)OPCODE.PONG))
+                {
+                    Send(opcode);
                     continue;
                 }
-                if (opcode == 10)
-                {
-                    Send(10);
-                    continue;
-                }
-                logger.Error("Receive OPCODE - " + opcode);
+                logger.Error("This opcode is wrong. Receive OPCODE - " + opcode);
                 return false;
             }
         }
@@ -316,19 +259,6 @@ namespace WorkServer
                 throw new Exception("Disconnection");
             }
             return ClientSocket.Receive(length);
-        }
-        private String GetKey(String2 key)
-        {
-            byte[] hash = ComputeHash(key.Trim().ToString() + GUID);
-            return Convert.ToBase64String(hash);
-        }
-        private static byte[] ComputeHash(String str)
-        {
-            if (SHA == null)
-            {
-                SHA = SHA1CryptoServiceProvider.Create();
-            }
-            return SHA.ComputeHash(Encoding.ASCII.GetBytes(str));
         }
     }
 }
