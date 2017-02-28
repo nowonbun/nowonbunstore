@@ -8,15 +8,23 @@ namespace WorkServer
 {
     public enum MessageType : int
     {
-        MESSAGE =1,
-        FILELIST = 2
+        MESSAGE = 1,
+        FILELIST = 2,
+        WORKLIST = 3,
+        WORKTEMP = 4,
     }
     public enum FileMessageType : byte
     {
         FileOpen = 0x0A,
         FileWrite = 0x0B,
         FileSearch = 0x0C,
-        FileListNotice = 0X0D
+        FileListNotice = 0x0D,
+    }
+    public enum WorkType : byte
+    {
+        WorkListNotice = 0x09,
+        WorkSearch = 0x08,
+        WorkTemp = 0x07
     }
     public enum OPCODE : int
     {

@@ -16,14 +16,11 @@ namespace WorkServer
         public HandShake(String2 data)
         {
             this.data = data;
-            logger.Debug(data);
             String2[] temp = data.Split(String2.CRLF + String2.CRLF)[0].Split(String2.CRLF);
-            logger.Debug(temp.Length);
             if (temp.Length < 1)
             {
                 throw new FormatException("Socket format is wrong.");
             }
-            logger.Debug("DEBUG!!");
             header = temp[0];
             for (int i = 1; i < temp.Length; i++)
             {

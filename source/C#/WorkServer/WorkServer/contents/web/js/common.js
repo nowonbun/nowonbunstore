@@ -18,9 +18,6 @@ $(function () {
 
     webSocket.onopen = function (message) {
         SetMessage("Server Connect...");
-        var data = new Uint8Array(1);
-        data[0] = 0x0C;
-        webSocket.send(data);
         UnsetDisabled();
     }
     webSocket.onclose = function (message) {
@@ -42,6 +39,15 @@ $(function () {
                 temp += "<option value='" + data.LIST[i] + "'>" + data.LIST[i] + "</option>";
             }
             storeFile.html(temp);
+        } else if (data.TYPE == 3) {
+            var temp = "";
+            for (var i = 0; i < data.LIST.length; i++) {
+                temp += "<option value='" + data.LIST[i] + "'>" + data.LIST[i] + "</option>";
+            }
+            $("#worklist").html(temp);
+        } else if (data.TYPE == 4) {
+            $("#reportTitle").val(data.WORKTITLE);
+            $("#report").html(data.MESSAGE);
         }
     }
     var SetMessage = function (data) {
@@ -52,9 +58,13 @@ $(function () {
         chat.focus();
     }
     var SendMessage = function () {
-        var message = "(" + chatId.val() + ")" + chat.val();
+        var data = "(" + chatId.val() + ")" + chat.val();
         chat.val("");
-        webSocket.send(message);
+        var message = {
+            TYPE: 0x01,
+            MESSAGE: data
+        }
+        webSocket.send(JSON.stringify(message));
     }
     var SetDisabled = function () {
         selectAll.prop("disabled", "disabled");
@@ -70,9 +80,17 @@ $(function () {
     chatBtn.on("click", function (event) {
         SendMessage();
     });
-    storeFile.on("dbclick", function (event) {
+    storeFile.on("dblclick", function (event) {
         var index = storeFile.prop("selectedIndex");
         location.href = "/download?" + $("#storefile>option:nth-child(" + (index + 1) + ")").val();
+    });
+    $("#worklist").on("dblclick", function (event) {
+        var index = $("#worklist").prop("selectedIndex");
+        var message = {
+            TYPE: 0x05,
+            MESSAGE: $("#worklist>option:nth-child(" + (index + 1) + ")").val()
+        }
+        webSocket.send(JSON.stringify(message));
     });
     chat.on("keydown", function (event) {
         if (event.keyCode == 13) {
@@ -82,6 +100,14 @@ $(function () {
     storeBtn.on("click", function () {
         var file = fileobj[0].files[0];
         reader.readAsArrayBuffer(file);
+    });
+    $("#reportBtn").on("click", function () {
+        var message = {
+            TYPE: 0x04,
+            WORKTITLE: $("#reportTitle").val(),
+            MESSAGE: $("#report").val()
+        }
+        webSocket.send(JSON.stringify(message));
     });
 
     reader.onload = function (e) {
