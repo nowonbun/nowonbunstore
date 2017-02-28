@@ -23,5 +23,8 @@ namespace WorkServer
         public static String UPGRADE = "UPGRADE";
 
         public static String WEB_SEPARATOR = "/";
+        public static String DOWNROAD_PATH = "/download";
+
+        public static String GUID = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
     }
 }
