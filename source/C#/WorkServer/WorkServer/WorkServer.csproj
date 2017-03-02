@@ -65,6 +65,7 @@
     <Compile Include="Util\String2Stream.cs" />
     <Compile Include="WebSocket\FileNode.cs" />
     <Compile Include="WebSocket\MessageType.cs" />
+    <Compile Include="WebSocket\WebSocketController.cs" />
     <Compile Include="WebSocket\WebSocketMessageBuilder.cs" />
     <Compile Include="Web\WebHeaderBuilder.cs" />
     <Compile Include="Web\WebServer.cs" />

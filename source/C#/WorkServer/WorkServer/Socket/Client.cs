@@ -18,6 +18,7 @@ namespace WorkServer
         {
             this.Client = sock;
             stream = GetStream();
+            stream.ReadTimeout = 1000;
         }
         public static implicit operator Client(Socket sock)
         {
