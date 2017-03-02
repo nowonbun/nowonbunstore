@@ -61,7 +61,6 @@ namespace WorkServer
             }
             return null;
         }
-
         public WorkServer ServerBuilder(Client client)
         {
             String2 type = Get(Define.PROTOCOL_CONNECTION);
@@ -80,7 +79,6 @@ namespace WorkServer
             }
             throw new Exception("header errer");
         }
-
         public override String ToString()
         {
             return data.ToString();
