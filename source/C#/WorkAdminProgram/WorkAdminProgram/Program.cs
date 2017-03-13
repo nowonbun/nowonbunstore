@@ -1,9 +1,11 @@
 ﻿using System;
-using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using log4net;
-using log4net.Appender;
+using System.Threading;
+using WorkWebServer;
+using WorkSocketServer;
+using System.Text;
 
 namespace WorkServer
 {
@@ -17,6 +19,7 @@ namespace WorkServer
 
         public Program()
         {
+            String2.DefaultEncoding = Encoding.UTF8;
             InitPath();
             InitLog();
             logger.Info("The server make to start it.");
@@ -39,32 +42,70 @@ namespace WorkServer
         }
         public void SocketServer()
         {
-            Server server = new Server(80);
+            Server server = ServerFactory.CreateServer(80, 500);
+            WorkWebFactory.CreateWorkWebServer(WEB_STORE_PATH, FILE_STORE_PATH);
+            WorkSocketFactory.CreateWorkSocketServer();
             server.Acception += (client) =>
             {
                 try
                 {
                     HandShake header = client.Receive();
                     logger.Debug(header);
-                    WorkServer sock = header.ServerBuilder(client);
-                    if (sock != null && sock.Initialize(header))
+                    String2 type = header.Get(Define.PROTOCOL_CONNECTION);
+                    if (type == null)
                     {
-                        sock.Run();
+                        throw new Exception("header errer");
+                    }
+                    type = type.ToUpper();
+                    if (type.Equals(Define.KEEP_ALIVE))
+                    {
+                        WorkWebFactory.GetWorkWebServer().RunWebServer(client, header.Header);
+                    }
+                    else if (type.Equals(Define.UPGRADE))
+                    {
+                        FileNode file = FileNode.GetFileNode();
+                        WorkSocketFactory.GetWorkSocketServer().CreateSocketServer(
+                            client,
+                            header.Get("Sec-WebSocket-Key"),
+                            (socket, opcode, data) =>
+                            {
+                                WebSocketServer.Run(socket, opcode, data);
+                            });
+                    }
+                    else
+                    {
+                        logger.Error(type);
+                        throw new Exception("header errer");
                     }
                 }
                 catch (Exception e)
                 {
                     logger.Error(e);
-                    client.Dispose();
+                    client.Close();
                 }
             };
             server.ServerStart();
         }
 
+
+
+
+
+
         public static void Main(String[] args)
         {
-            new Program();
-            Console.ReadLine();
+            new Thread(_ =>
+            {
+                new Program();
+                while (true)
+                {
+                    String command = Console.ReadLine();
+                    if (String.Equals("EXIT", command.ToUpper()))
+                    {
+                        return;
+                    }
+                }
+            }).Start();
         }
     }
 }
