@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Security.Cryptography;
 
-namespace WorkServer
+namespace WorkSocketServer
 {
-    class StaticFunction
+    static class Define
     {
-        
-
-        
+        public static String GUID = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
     }
 }

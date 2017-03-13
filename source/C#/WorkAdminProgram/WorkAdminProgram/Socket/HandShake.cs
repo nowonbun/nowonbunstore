@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using log4net;
+using WorkWebServer;
 
 namespace WorkServer
 {
@@ -28,7 +27,7 @@ namespace WorkServer
                 if (buffer.Length == 2)
                 {
                     String2 key = buffer[0].Replace(":", "").Trim().ToUpper();
-                    String2 val = buffer[1].Replace(String2.CRLF, "").Trim();
+                    String2 val = buffer[1].Replace(String2.CRLF, (String2)"").Trim();
                     map.Add(key, val);
                 }
                 else if (buffer.Length > 2)
@@ -39,7 +38,7 @@ namespace WorkServer
                         val += buffer[j];
                     }
                     String2 key = buffer[0].Replace(":", "").Trim().ToUpper();
-                    val = val.Replace(String2.CRLF, "").Trim();
+                    val = val.Replace(String2.CRLF, (String2)"").Trim();
                     map.Add(key, val);
                 }
             }
@@ -60,24 +59,6 @@ namespace WorkServer
                 return map[key];
             }
             return null;
-        }
-        public WorkServer ServerBuilder(Client client)
-        {
-            String2 type = Get(Define.PROTOCOL_CONNECTION);
-            if (type == null)
-            {
-                throw new Exception("header errer");
-            }
-            type = type.ToUpper();
-            if (type.Equals(Define.KEEP_ALIVE))
-            {
-                return new WebServer(client);
-            }
-            else if (type.Equals(Define.UPGRADE))
-            {
-                return new WebSocketServer(client);
-            }
-            throw new Exception("header errer");
         }
         public override String ToString()
         {
