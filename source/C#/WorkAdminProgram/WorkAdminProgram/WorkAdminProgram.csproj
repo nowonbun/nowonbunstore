@@ -7,8 +7,8 @@
     <ProjectGuid>{1C125A39-63B2-454B-8CFD-BA646DFFCB16}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WorkServer</RootNamespace>
-    <AssemblyName>WorkServer</AssemblyName>
+    <RootNamespace>WorkAdminProgram</RootNamespace>
+    <AssemblyName>WorkAdminProgram</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -78,6 +78,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Contents\config\config.ini" />
     <None Include="packages.config" />
