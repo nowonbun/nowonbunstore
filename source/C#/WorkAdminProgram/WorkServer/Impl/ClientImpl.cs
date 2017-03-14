@@ -5,7 +5,7 @@ using System.IO;
 
 namespace WorkServer
 {
-    class ClientImpl : TcpClient, IDisposable, Client
+    class ClientImpl : TcpClient, IDisposable, IClient
     {
 
         private Stream stream;

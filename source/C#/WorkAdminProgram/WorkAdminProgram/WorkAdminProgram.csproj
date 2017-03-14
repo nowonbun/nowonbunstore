@@ -22,6 +22,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -53,16 +55,21 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\Define.cs" />
+    <Compile Include="Common\Util.cs" />
+    <Compile Include="Enum\FileMessageType.cs" />
+    <Compile Include="Enum\MessageType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Socket\HandShake.cs" />
-    <Compile Include="Util\ConfigReader.cs" />
-    <Compile Include="Util\Define.cs" />
-    <Compile Include="Util\StaticFunction.cs" />
-    <Compile Include="WebSocket\FileNode.cs" />
-    <Compile Include="WebSocket\MessageType.cs" />
+    <Compile Include="HandShake.cs" />
+    <Compile Include="Socket\FileNode.cs" />
+    <Compile Include="Socket\MessageNode.cs" />
+    <Compile Include="Socket\MessageDirector.cs" />
+    <Compile Include="Socket\SocketController.cs" />
     <Compile Include="WebSocket\WebSocketController.cs" />
     <Compile Include="WebSocket\WebSocketMessageBuilder.cs" />
+    <Compile Include="Web\WebController.cs" />
+    <Compile Include="Enum\WorkType.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -90,21 +97,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\WorkCommon\WorkCommon.csproj">
-      <Project>{5604367a-6652-4332-806a-a2c3e041bd44}</Project>
-      <Name>WorkCommon</Name>
-    </ProjectReference>
     <ProjectReference Include="..\WorkServer\WorkServer.csproj">
       <Project>{8bd09198-567c-49a2-8430-51d818669fed}</Project>
       <Name>WorkServer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WorkSocketServer\WorkSocketServer.csproj">
-      <Project>{d5fd5c16-f31e-49a6-ab83-b48a7977c4c7}</Project>
-      <Name>WorkSocketServer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WorkWebServer\WorkWebServer.csproj">
-      <Project>{69a25265-f6e7-4cc8-9de5-5426b8e51819}</Project>
-      <Name>WorkWebServer</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

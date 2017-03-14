@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WorkServer
+namespace WorkAdminProgram
 {
-    public static class Define
+    class Define
     {
         public static String FILE_STORE_PATH = "file";
         public static String WEB_STORE_PATH = "web";

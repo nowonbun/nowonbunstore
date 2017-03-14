@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WorkWebServer
+namespace WorkAdminProgram
 {
-    public interface WorkWeb
+    class MessageController : ISocketWorkController
     {
-        void Initialize(String2 header);
+        public void Run()
+        {
 
-        void Run();
+        }
     }
 }
