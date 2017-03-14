@@ -3,11 +3,10 @@ using System.Windows.Forms;
 using System.IO;
 using log4net;
 using System.Threading;
-using WorkWebServer;
-using WorkSocketServer;
+using WorkServer;
 using System.Text;
 
-namespace WorkServer
+namespace WorkAdminProgram
 {
     class Program
     {
@@ -25,6 +24,7 @@ namespace WorkServer
             logger.Info("The server make to start it.");
             SocketServer();
         }
+
         public void InitPath()
         {
             FILE_STORE_PATH = GetExecutablePath() + Path.DirectorySeparatorChar + Define.FILE_STORE_PATH + Path.DirectorySeparatorChar;
@@ -32,19 +32,20 @@ namespace WorkServer
             CONFIG_PATH = GetExecutablePath() + Path.DirectorySeparatorChar + Define.CONFIG_PATH;
             WORK_PATH = GetExecutablePath() + Path.DirectorySeparatorChar + Define.WORK_PATH;
         }
+
         public static String GetExecutablePath()
         {
             return Application.StartupPath;
         }
+
         public void InitLog()
         {
             log4net.Config.XmlConfigurator.Configure(new FileInfo(CONFIG_PATH + Path.DirectorySeparatorChar + Define.LOG4NET));
         }
+
         public void SocketServer()
         {
-            Server server = ServerFactory.CreateServer(80, 500);
-            WorkWebFactory.CreateWorkWebServer(WEB_STORE_PATH, FILE_STORE_PATH);
-            WorkSocketFactory.CreateWorkSocketServer();
+            IServer server = ServerFactory.CreateServer(80, 500);
             server.Acception += (client) =>
             {
                 try
@@ -59,18 +60,17 @@ namespace WorkServer
                     type = type.ToUpper();
                     if (type.Equals(Define.KEEP_ALIVE))
                     {
-                        WorkWebFactory.GetWorkWebServer().RunWebServer(client, header.Header);
+                        //This source is necessary that is modified.
+                        IWorkWebClient webclient = WorkWebFactory.GetWorkWebServer().CreateWebClient(client);
+                        webclient.Initialize(header.Header);
+                        WebController.NewInstance(webclient);
                     }
                     else if (type.Equals(Define.UPGRADE))
                     {
-                        FileNode file = FileNode.GetFileNode();
-                        WorkSocketFactory.GetWorkSocketServer().CreateSocketServer(
-                            client,
-                            header.Get("Sec-WebSocket-Key"),
-                            (socket, opcode, data) =>
-                            {
-                                WebSocketServer.Run(socket, opcode, data);
-                            });
+                        IWorkSocketClient socketclient = WorkSocketFactory.GetWorkSocketServer().CreateSocketClient(client);
+                        socketclient.Initialize(header.Get("Sec-WebSocket-Key"));
+                        SocketController control = SocketController.NewInstance(socketclient);
+                        socketclient.SetReceiveEvent(control.SetReceive());
                     }
                     else
                     {
@@ -86,11 +86,6 @@ namespace WorkServer
             };
             server.ServerStart();
         }
-
-
-
-
-
 
         public static void Main(String[] args)
         {

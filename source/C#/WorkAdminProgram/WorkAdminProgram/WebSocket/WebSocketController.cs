@@ -2,32 +2,28 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
-using System.Security.Cryptography;
 using System.IO;
-using log4net;
-using WorkSocketServer;
+using WorkServer;
 using Newtonsoft.Json;
 
-namespace WorkServer
+namespace WorkAdminProgram
 {
     class WebSocketServer
     {
         //TODO:This is possible what the problem is occured by with multi thread.
         static FileNode file = FileNode.GetFileNode();
-        public static void Run(WorkSocket client, byte opcode, String2 data)
+        public static void Run(IWorkSocketClient client, byte opcode, String2 data)
         {
             SendWorkTemp(client, "default", DateTime.Now.ToString("yyyy_MM_dd") + "_業務報告");
             SendFileList(client, FileMessageType.FileSearch);
             SendWorkList(client, WorkType.WorkSearch);
 
-            if (file.Open && opcode != (int)OPCODE.BINARY)
+            if (file.Open && opcode != (int)Opcode.BINARY)
             {
                 //logger.Error("It's error what transfer the file.");
                 file.Init();
             }
-            if (opcode == (int)OPCODE.MESSAGE)
+            if (opcode == (int)Opcode.MESSAGE)
             {
                 IDictionary<String, String> messageBuffer = JsonConvert.DeserializeObject<Dictionary<String, String>>(data.ToString());
                 if (String.Equals(messageBuffer["TYPE"], "1"))
@@ -60,7 +56,7 @@ namespace WorkServer
                     SendWorkTemp(client, data1.Trim(), data1.Trim());
                 }
             }
-            if (opcode == (int)OPCODE.BINARY)
+            if (opcode == (int)Opcode.BINARY)
             {
                 if (data.Length < 1)
                 {
@@ -92,7 +88,7 @@ namespace WorkServer
                     if (file.Peek >= file.Length)
                     {
                         file.Complete();
-                        client.Send((int)OPCODE.BINARY, new String2("File upload Success!!", Encoding.UTF8));
+                        client.Send((int)Opcode.BINARY, new String2("File upload Success!!", Encoding.UTF8));
                     }
                     //continue;
                 }
@@ -109,7 +105,7 @@ namespace WorkServer
                 file.Init();
             }
         }
-        private static void SendWorkTemp(WorkSocket client, String file, String title)
+        private static void SendWorkTemp(IWorkSocketClient client, String file, String title)
         {
             WebSocketMessageBuilder builder = WebSocketMessageBuilder.GetMessage(MessageType.WORKTEMP);
             FileInfo info = new FileInfo(Program.WORK_PATH + Path.DirectorySeparatorChar + file);
@@ -122,9 +118,9 @@ namespace WorkServer
             builder.SetWorkTitle(title);
             builder.SetMessage(data.ToString());
             String2 message = builder.Build();
-            client.Send((int)OPCODE.BINARY, message);
+            client.Send((int)Opcode.BINARY, message);
         }
-        private static void SendWorkList(WorkSocket client, WorkType type)
+        private static void SendWorkList(IWorkSocketClient client, WorkType type)
         {
             WebSocketMessageBuilder builder = WebSocketMessageBuilder.GetMessage(MessageType.WORKLIST);
             DirectoryInfo info = new DirectoryInfo(Program.WORK_PATH);
@@ -140,10 +136,10 @@ namespace WorkServer
             }
             else if (type == WorkType.WorkSearch)
             {
-                client.Send((int)OPCODE.BINARY, message);
+                client.Send((int)Opcode.BINARY, message);
             }
         }
-        private static void SendFileList(WorkSocket client, FileMessageType type)
+        private static void SendFileList(IWorkSocketClient client, FileMessageType type)
         {
             WebSocketMessageBuilder builder = WebSocketMessageBuilder.GetMessage(MessageType.FILELIST);
             DirectoryInfo info = new DirectoryInfo(Program.FILE_STORE_PATH);
@@ -152,7 +148,7 @@ namespace WorkServer
             String2 message = builder.Build();
             if (type == FileMessageType.FileSearch)
             {
-                client.Send((int)OPCODE.BINARY, message);
+                client.Send((int)Opcode.BINARY, message);
                 /*if (!clientlist.Contains(this))
                 {
                     clientlist.Add(this);

@@ -5,9 +5,9 @@ using System.Net.Sockets;
 
 namespace WorkServer
 {
-    class ServerImpl : Socket, IDisposable, Server
+    class ServerImpl : Socket, IDisposable, IServer
     {
-        public event Action<Client> Acception;
+        public event Action<IClient> Acception;
 
         public int Port { get; set; }
         public int Timeout { get; set; }
@@ -27,7 +27,7 @@ namespace WorkServer
             {
                 while (true)
                 {
-                    Client client = null;
+                    IClient client = null;
                     try
                     {
                         client = Accept();
@@ -45,7 +45,7 @@ namespace WorkServer
             });
         }
 
-        private new Client Accept()
+        private new IClient Accept()
         {
             ClientImpl client = base.Accept();
             client.GetStream().ReadTimeout = this.Timeout;
