@@ -52,7 +52,7 @@ namespace WorkAdminProgram
                 {
                     HandShake header = client.Receive();
                     logger.Debug(header);
-                    String2 type = header.Get(Define.PROTOCOL_CONNECTION);
+                    String2 type = header[Define.PROTOCOL_CONNECTION];
                     if (type == null)
                     {
                         throw new Exception("header errer");
@@ -62,13 +62,13 @@ namespace WorkAdminProgram
                     {
                         //This source is necessary that is modified.
                         IWorkWebClient webclient = WorkWebFactory.GetWorkWebServer().CreateWebClient(client);
-                        webclient.Initialize(header.Header);
+                        webclient.Initialize(header);
                         WebController.NewInstance(webclient);
                     }
                     else if (type.Equals(Define.UPGRADE))
                     {
                         IWorkSocketClient socketclient = WorkSocketFactory.GetWorkSocketServer().CreateSocketClient(client);
-                        socketclient.Initialize(header.Get("Sec-WebSocket-Key"));
+                        socketclient.Initialize(header["Sec-WebSocket-Key"]);
                         SocketController control = SocketController.NewInstance(socketclient);
                         socketclient.SetReceiveEvent(control.SetReceive());
                     }
