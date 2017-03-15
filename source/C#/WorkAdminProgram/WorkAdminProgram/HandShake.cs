@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using log4net;
 using WorkServer;
+using System.Linq;
 
 namespace WorkAdminProgram
 {
@@ -10,59 +11,50 @@ namespace WorkAdminProgram
     {
         private static ILog logger = log4net.LogManager.GetLogger(typeof(HandShake));
         private String2 header;
-        private String2 data;
-        private IDictionary<String2, String2> map = new Dictionary<String2, String2>();
+        private IDictionary<String2, String2> option;
         public HandShake(String2 data)
         {
-            this.data = data;
-            String2[] temp = data.Split(String2.CRLF + String2.CRLF)[0].Split(String2.CRLF);
-            if (temp.Length < 1)
+            String2[] buffer = data.Split(String2.CRLF + String2.CRLF)[0].Split(String2.CRLF);
+            if (buffer.Length < 1)
             {
-                throw new FormatException("Socket format is wrong.");
+                throw new FormatException();
             }
-            header = temp[0];
-            for (int i = 1; i < temp.Length; i++)
-            {
-                String2[] buffer = temp[i].Split(":");
-                if (buffer.Length == 2)
-                {
-                    String2 key = buffer[0].Replace(":", "").Trim().ToUpper();
-                    String2 val = buffer[1].Replace(String2.CRLF, (String2)"").Trim();
-                    map.Add(key, val);
-                }
-                else if (buffer.Length > 2)
-                {
-                    String2 val = "";
-                    for (int j = 1; j < buffer.Length; j++)
-                    {
-                        val += buffer[j];
-                    }
-                    String2 key = buffer[0].Replace(":", "").Trim().ToUpper();
-                    val = val.Replace(String2.CRLF, (String2)"").Trim();
-                    map.Add(key, val);
-                }
-            }
+            header = buffer[0];
+            option = (from step1 in buffer
+                     where !header.Equals(step1)
+                     let step2 = step1.Split(":")
+                     where step2.Length >= 2
+                     let key = step2[0].Trim().ToUpper()
+                     let value = step1.Replace(step2[0], "").Replace(":","").Trim()
+                     select new { k = key, v = value })
+                    .ToDictionary(i => i.k, i => i.v);
         }
+
         public static implicit operator HandShake(String2 data)
         {
             return new HandShake(data);
         }
-        public String2 Header
-        {
-            get { return this.header; }
-        }
-        public String2 Get(String2 key)
-        {
-            key = key.ToUpper();
-            if (map.ContainsKey(key))
-            {
-                return map[key];
-            }
-            return null;
-        }
-        public override String ToString()
+
+        public static implicit operator String2(HandShake data)
         {
             return data.ToString();
+        }
+
+        public override String ToString()
+        {
+            return header.ToString();
+        }
+
+        public String2 this[String2 key]{
+            get
+            {
+                key = key.ToUpper();
+                if (option.ContainsKey(key))
+                {
+                    return option[key];
+                }
+                return null;
+            }
         }
     }
 }
