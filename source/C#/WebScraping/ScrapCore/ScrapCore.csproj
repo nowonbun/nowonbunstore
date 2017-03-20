@@ -41,6 +41,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractScrappingProcess.cs" />
+    <Compile Include="Impl\ScrapBrowser.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Impl\ScrapNode.cs" />
+    <Compile Include="Impl\ScrapState2.cs" />
     <Compile Include="IScrapping.cs" />
     <Compile Include="IScrappingProcess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -53,6 +58,7 @@
     <Compile Include="ScrappingList.cs" />
     <Compile Include="ScrappingNode.cs" />
     <Compile Include="ScrappingUtils.cs" />
+    <Compile Include="Util\StaticUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="MSHTML">
