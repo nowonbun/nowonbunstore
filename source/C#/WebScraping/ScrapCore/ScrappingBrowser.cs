@@ -41,8 +41,6 @@ namespace ScrapCore
             this.navigateChecker.Tick += navigateChecker_Tick;
         }
 
-        
-
         void ScrappingBrowser_NewWindow(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
