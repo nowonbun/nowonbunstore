@@ -5,17 +5,19 @@ using System.Web;
 using System.Web.Mvc;
 using Household.Common;
 using Household.Models.Bean;
-using Household.Dao;
 using Household.Models.Master;
-using Household.Models.Entity;
 using System.Web.Security;
 using Household.Filters;
+using HouseholdORM;
 using log4net;
 
 namespace Household.Controllers
 {
     public partial class AjaxController : AbstractController
     {
+        [ResourceDao]
+        protected IHshldDao hshldDao1;
+
         [HttpPost]
         public ActionResult Apply(ApplyBean model)
         {
@@ -35,7 +37,7 @@ namespace Household.Controllers
                 }
 
                 String date = String.Format("{0}-{1}-{2}", bean.HouseholdYear, bean.HouseholdMonth, bean.HouseholdDay);
-                FactoryDao.Instance().GetHshldDao().InsertToInfo(UserSession.Grpd,
+                hshldDao1.InsertToInfo(UserSession.Grpd,
                                                                     UserSession.Usrd,
                                                                     bean.HouseholdCategory,
                                                                     bean.HouseholdType,

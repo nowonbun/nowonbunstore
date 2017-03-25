@@ -5,17 +5,19 @@ using System.Web;
 using System.Web.Mvc;
 using Household.Common;
 using Household.Models.Bean;
-using Household.Dao;
 using Household.Models.Master;
-using Household.Models.Entity;
 using System.Web.Security;
 using Household.Filters;
+using HouseholdORM;
 using log4net;
 
 namespace Household.Controllers
 {
     public partial class AjaxController : AbstractController
     {
+        [ResourceDao]
+        protected IHshldDao hshldDao4;
+
         [HttpPost]
         public ActionResult Search(SearchBean model)
         {
@@ -35,8 +37,8 @@ namespace Household.Controllers
                     return ret;
                 }
                 DateTime dt = new DateTime(Convert.ToInt32(bean.Year), Convert.ToInt32(bean.Month), 1);
-                IList<Hshld> hshldList = FactoryDao.Instance().GetHshldDao().SelectToInfoByDate(UserSession.Grpd, dt);
-                IList<Hshld> hshldCreditList = FactoryDao.Instance().GetHshldDao().SelectToCreditByDate(UserSession.Grpd, dt.AddMonths(-1));
+                IList<Hshld> hshldList = hshldDao4.SelectToInfoByDate(UserSession.Grpd, dt);
+                IList<Hshld> hshldCreditList = hshldDao4.SelectToCreditByDate(UserSession.Grpd, dt.AddMonths(-1));
                 SearchResultBean dataList = new SearchResultBean();
 
                 //nomalList create
@@ -72,7 +74,7 @@ namespace Household.Controllers
 
                 //AccountList create
                 dataList.AccountList = dataList.AccountList.OrderBy((node) => { return node.Date; }).ToList();
-                dataList.AccountAmountNum = FactoryDao.Instance().GetHshldDao().SelectSumAccountTotal(UserSession.Grpd, dt.AddMonths(1));
+                dataList.AccountAmountNum = hshldDao4.SelectSumAccountTotal(UserSession.Grpd, dt.AddMonths(1));
 
 
                 dataList.IncomeAmountNum = IncomeTotal(dataList.TotalList);

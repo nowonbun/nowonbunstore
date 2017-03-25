@@ -5,9 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using Household.Common;
 using Household.Models.Bean;
-using Household.Dao;
 using Household.Models.Master;
-using Household.Models.Entity;
+using HouseholdORM;
 using System.Web.Security;
 using Household.Filters;
 using log4net;
@@ -16,6 +15,12 @@ namespace Household.Controllers
 {
     public partial class AjaxController : AbstractController
     {
+        [ResourceDao]
+        protected IHshldDao hshldDao2;
+
+        [ResourceDao]
+        private IHshldLogDao hshldLogDao1;
+
         [HttpPost]
         public ActionResult Delete(ApplyBean model)
         {
@@ -33,7 +38,7 @@ namespace Household.Controllers
                     ret.Error = Message.DATA_EROR;
                     return ret;
                 }
-                Hshld hshld = FactoryDao.Instance().GetHshldDao().SelectByIdx(UserSession.Grpd, bean.HouseholdIdx);
+                Hshld hshld = hshldDao2.SelectByIdx(UserSession.Grpd, bean.HouseholdIdx);
                 if (hshld == null || !String.Equals(hshld.Pdt.ToString(Define.PDT_FORMAT), bean.HouseholdPdt))
                 {
                     ret.Result = Define.RESULT_NG;
@@ -47,8 +52,8 @@ namespace Household.Controllers
                     return ret;
                 }
 
-                FactoryDao.Instance().GetHshldLogDao().InsertToLog(hshld);
-                FactoryDao.Instance().GetHshldDao().DeleteToInfo(hshld.Ndx.ToString());
+                hshldLogDao1.InsertToLog(hshld);
+                hshldDao2.DeleteToInfo(hshld.Ndx.ToString());
                 ret.Result = Define.RESULT_OK;
                 return ret;
             });

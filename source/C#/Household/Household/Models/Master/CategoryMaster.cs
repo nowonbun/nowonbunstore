@@ -2,21 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Household.Dao;
-using Household.Models.Entity;
+using HouseholdORM;
 using log4net;
 
 namespace Household.Models.Master
 {
-    public class CategoryMaster 
+    public class CategoryMaster : ResourceAllocationEntity
     {
+        [ResourceDao]
+        protected ICtgryDao ctgryDao;
+
         private ILog logger = LogManager.GetLogger(typeof(CategoryMaster));
         private Ctgry[] list = null;
 
         public CategoryMaster()
         {
-            CtgryDao dao = FactoryDao.Instance().GetCtgryDao();
-            list = dao.SelectAll().ToArray();
+            list = ctgryDao.SelectAll().ToArray();
         }
 
         public IList<Ctgry> GetAll()

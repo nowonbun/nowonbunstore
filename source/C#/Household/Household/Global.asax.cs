@@ -6,7 +6,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using Household.Dao;
+using HouseholdORM;
 using Household.Models.Master;
 using log4net;
 using log4net.Config;
@@ -31,7 +31,7 @@ namespace Household
             XmlConfigurator.Configure();
             ILog logger = LogManager.GetLogger("ApplicationStart");
             logger.Info("Started up this program.");
-            FactoryDao.Instance();
+            FactoryDao.CreateInstance(System.Configuration.ConfigurationManager.ConnectionStrings["householdConn"].ConnectionString);
             FactoryMaster.Instance();
         }
     }

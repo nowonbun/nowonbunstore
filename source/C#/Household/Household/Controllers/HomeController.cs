@@ -5,8 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Household.Common;
 using Household.Models.Bean;
-using Household.Dao;
-using Household.Models.Entity;
+using HouseholdORM;
 using System.Web.Security;
 using Household.Filters;
 using log4net;
@@ -16,6 +15,9 @@ namespace Household.Controllers
     [Household.Filters.ActionFilter]
     public partial class HomeController : AbstractController
     {
+        [ResourceDao]
+        private IUsrNfDao usrNfDao;
+
         private bool GetInfoByCookie(ref LoginBean bean, out DateTime connectDate)
         {
             bean.InputGroup = GetCookie("inputgroupid");
@@ -39,8 +41,7 @@ namespace Household.Controllers
         }
         private void Login(LoginBean bean, bool md5Crypt)
         {
-            UsrNfDao dao = FactoryDao.Instance().GetUsrNfDao();
-            UsrNf user = dao.SelectForSign(bean.InputGroup, bean.InuptId, md5Crypt ? Util.MD5HashCrypt(bean.InputPassword) : bean.InputPassword);
+            UsrNf user = usrNfDao.SelectForSign(bean.InputGroup, bean.InuptId, md5Crypt ? Util.MD5HashCrypt(bean.InputPassword) : bean.InputPassword);
             if (user == null)
             {
                 bean.ErrorMessage = Message.LOGIN_ERROR;

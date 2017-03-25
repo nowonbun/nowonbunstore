@@ -5,17 +5,22 @@ using System.Web;
 using System.Web.Mvc;
 using Household.Common;
 using Household.Models.Bean;
-using Household.Dao;
 using Household.Models.Master;
-using Household.Models.Entity;
 using System.Web.Security;
 using Household.Filters;
+using HouseholdORM;
 using log4net;
 
 namespace Household.Controllers
 {
     public partial class AjaxController : AbstractController
     {
+        [ResourceDao]
+        protected IHshldDao hshldDao3;
+
+        [ResourceDao]
+        private IHshldLogDao hshldLogDao2;
+
         [HttpPost]
         public ActionResult Modify(ApplyBean model)
         {
@@ -33,7 +38,7 @@ namespace Household.Controllers
                     ret.Error = Message.DATA_EROR;
                     return ret;
                 }
-                Hshld hshld = FactoryDao.Instance().GetHshldDao().SelectByIdx(UserSession.Grpd, bean.HouseholdIdx);
+                Hshld hshld = hshldDao3.SelectByIdx(UserSession.Grpd, bean.HouseholdIdx);
                 if (hshld == null || !String.Equals(hshld.Pdt.ToString(Define.PDT_FORMAT), bean.HouseholdPdt))
                 {
                     ret.Result = Define.RESULT_NG;
@@ -47,14 +52,14 @@ namespace Household.Controllers
                     return ret;
                 }
 
-                FactoryDao.Instance().GetHshldLogDao().InsertToLog(hshld);
+                hshldLogDao2.InsertToLog(hshld);
                 String date = String.Format("{0}-{1}-{2}", bean.HouseholdYear, bean.HouseholdMonth, bean.HouseholdDay);
-                FactoryDao.Instance().GetHshldDao().UpdateToInfo(   hshld.Ndx.ToString(), 
-                                                                    bean.HouseholdCategory, 
-                                                                    bean.HouseholdType, 
-                                                                    date, 
-                                                                    bean.HouseholdContent,
-                                                                    bean.Householdprice);
+                hshldDao3.UpdateToInfo(hshld.Ndx.ToString(), 
+                                        bean.HouseholdCategory, 
+                                        bean.HouseholdType, 
+                                        date, 
+                                        bean.HouseholdContent,
+                                        bean.Householdprice);
                 ret.Result = Define.RESULT_OK;
                 return ret;
             });

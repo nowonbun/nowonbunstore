@@ -40,6 +40,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,13 +48,42 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Column.cs" />
-    <Compile Include="Dao.cs" />
-    <Compile Include="Entity.cs" />
-    <Compile Include="HouseholdORMException.cs" />
-    <Compile Include="IDao.cs" />
+    <Compile Include="Attribute\Column.cs" />
+    <Compile Include="Attribute\ImplementDao.cs" />
+    <Compile Include="Attribute\ResourceDao.cs" />
+    <Compile Include="Common\Dao.cs" />
+    <Compile Include="Common\Entity.cs" />
+    <Compile Include="Common\Impl\HouseholdORMException.cs" />
+    <Compile Include="Common\ResourceAllocationController.cs" />
+    <Compile Include="Dao\ICtgryDao.cs" />
+    <Compile Include="Dao\IGrpNfDao.cs" />
+    <Compile Include="Dao\IHshldDao.cs" />
+    <Compile Include="Dao\IHshldLogDao.cs" />
+    <Compile Include="Dao\ICnctLgDao.cs" />
+    <Compile Include="Dao\Impl\CnctLgDao.cs" />
+    <Compile Include="Dao\Impl\CtgryDao.cs" />
+    <Compile Include="Dao\Impl\GrpNfDao.cs" />
+    <Compile Include="Dao\Impl\HshldDao.cs" />
+    <Compile Include="Dao\Impl\HshldLogDao.cs" />
+    <Compile Include="Dao\Impl\SysDtDao.cs" />
+    <Compile Include="Dao\Impl\TpDao.cs" />
+    <Compile Include="Dao\Impl\UsrNfDao.cs" />
+    <Compile Include="Dao\ISysDtDao.cs" />
+    <Compile Include="Dao\ITpDao.cs" />
+    <Compile Include="Dao\IUsrNfDao.cs" />
+    <Compile Include="Entity\CnctLg.cs" />
+    <Compile Include="Entity\Ctgry.cs" />
+    <Compile Include="Entity\GrpNf.cs" />
+    <Compile Include="Entity\Hshld.cs" />
+    <Compile Include="Entity\HshldLog.cs" />
+    <Compile Include="Entity\SysDt.cs" />
+    <Compile Include="Entity\Tp.cs" />
+    <Compile Include="Entity\UsrNf.cs" />
+    <Compile Include="Factory\FactoryDao.cs" />
+    <Compile Include="Common\ResourceAllocationEntity.cs" />
+    <Compile Include="Interface\IDao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Table.cs" />
+    <Compile Include="Attribute\Table.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
