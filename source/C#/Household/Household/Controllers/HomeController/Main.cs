@@ -5,8 +5,6 @@ using System.Web;
 using System.Web.Mvc;
 using Household.Common;
 using Household.Models.Bean;
-using Household.Dao;
-using Household.Models.Entity;
 using System.Web.Security;
 using Household.Filters;
 using log4net;

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Text;
 using Household.Models.Master;
-using Household.Models.Entity;
+using HouseholdORM;
 
 namespace Household.Common
 {

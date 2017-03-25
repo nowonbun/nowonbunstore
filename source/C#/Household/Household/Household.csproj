@@ -207,34 +207,16 @@
     <Compile Include="Controllers\HomeController\Index.cs" />
     <Compile Include="Controllers\HomeController\Main.cs" />
     <Compile Include="Controllers\HomeController\Signout.cs" />
-    <Compile Include="Dao\AbstractDao.cs" />
-    <Compile Include="Dao\FactoryDao.cs" />
     <Compile Include="Filters\ActionFilter.cs" />
     <Compile Include="Filters\AuthorizeFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Dao\TpDao.cs" />
-    <Compile Include="Dao\UsrNfDao.cs" />
-    <Compile Include="Dao\SysDtDao.cs" />
-    <Compile Include="Dao\HshldLogDao.cs" />
-    <Compile Include="Dao\HshldDao.cs" />
-    <Compile Include="Dao\GrpNfDao.cs" />
-    <Compile Include="Dao\CtgryDao.cs" />
-    <Compile Include="Dao\CnctLgDao.cs" />
     <Compile Include="Models\Bean\AjaxResultBean.cs" />
     <Compile Include="Models\Bean\SearchBean.cs" />
     <Compile Include="Models\Bean\ApplyBean.cs" />
     <Compile Include="Models\Bean\LoginBean.cs" />
     <Compile Include="Models\Bean\SearchResultBean.cs" />
-    <Compile Include="Models\Entity\CnctLg.cs" />
-    <Compile Include="Models\Entity\Ctgry.cs" />
-    <Compile Include="Models\Entity\GrpNf.cs" />
-    <Compile Include="Models\Entity\Hshld.cs" />
-    <Compile Include="Models\Entity\HshldLog.cs" />
-    <Compile Include="Models\Entity\SysDt.cs" />
-    <Compile Include="Models\Entity\Tp.cs" />
-    <Compile Include="Models\Entity\UsrNf.cs" />
     <Compile Include="Models\Master\CategoryMaster.cs" />
     <Compile Include="Models\Master\FactoryMaster.cs" />
     <Compile Include="Models\Master\SystemCodeMaster.cs" />

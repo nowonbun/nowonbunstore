@@ -5,8 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Household.Common;
 using Household.Models.Bean;
-using Household.Dao;
-using Household.Models.Entity;
+using HouseholdORM;
 using System.Web.Security;
 using Household.Filters;
 using log4net;
@@ -15,6 +14,9 @@ namespace Household.Controllers
 {
     public partial class HomeController : AbstractController
     {
+        [ResourceDao]
+        protected ICnctLgDao cnctLgDao;
+
         public ActionResult Index(LoginBean bean)
         {
             if (String.Equals(bean.Post, Define.POST_PAGE))
@@ -50,7 +52,7 @@ namespace Household.Controllers
             }
             if (UserSession != null)
             {
-                FactoryDao.Instance().GetCnctLgDao().InsertToSignin(UserSession.Grpd, UserSession.Usrd);
+                cnctLgDao.InsertToSignin(UserSession.Grpd, UserSession.Usrd);
                 return Redirect("/Home/Main");
             }
             ViewBag.ModelView = bean;

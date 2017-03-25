@@ -2,20 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Household.Dao;
-using Household.Models.Entity;
+using HouseholdORM;
 using log4net;
 
 namespace Household.Models.Master
 {
-    public class TypeMaster
+    public class TypeMaster : ResourceAllocationEntity
     {
+        [ResourceDao]
+        protected ITpDao tpDao;
+
         private ILog logger = LogManager.GetLogger(typeof(TypeMaster));
         private Tp[] list = null;
         public TypeMaster()
         {
-            TpDao dao = FactoryDao.Instance().GetTpDao();
-            list = dao.SelectAll().ToArray();
+            list = tpDao.SelectAll().ToArray();
         }
 
         public IList<Tp> GetAll()

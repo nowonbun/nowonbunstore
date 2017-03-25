@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Household.Models.Entity;
 using Household.Common;
 using Household.Models.Bean;
+using HouseholdORM;
 
 namespace Household.Common
 {
-    public class AbstractController : Controller
+    public class AbstractController : ResourceAllocationController
     {
         public UsrNf UserSession
         {
