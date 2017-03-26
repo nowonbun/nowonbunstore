@@ -14,121 +14,23 @@ using log4net;
 namespace Household.Controllers
 {
     [Household.Filters.ActionFilter]
-    public partial class AjaxController : AbstractController
+    public partial class AjaxController : Controller
     {
-        private SearchResultBean.Node CreateNode(Hshld entity)
+        public ActionResult Apply(ApplyBean bean)
         {
-            SearchResultBean.Node node = new SearchResultBean.Node();
-            node.Idx = entity.Ndx;
-            node.Tp = entity.Tp;
-            node.Cd = entity.Cd;
-            node.Date = entity.Dt;
-            node.Day = entity.Dt.Day.ToString();
-            node.Type = FactoryMaster.Instance().GetTypeMaster().GetTypeNameByCode(entity.Tp);
-            node.Category = FactoryMaster.Instance().GetCategoryMaster().GetCategoryNameByCode(entity.Cd);
-            node.Content = entity.Cntxt;
-            node.PriceNum = Util.GetPlusMinus(entity.Tp) ? entity.Prc : entity.Prc * -1;
-            node.Pdt = entity.Pdt.ToString(Define.PDT_FORMAT);
-            return node;
+            return new ApplyFlow(Request, Response, HttpContext, bean).Execute();
         }
-        private SearchResultBean.Node CreateSumCreditNode(Decimal price)
+        public ActionResult Modify(ApplyBean bean)
         {
-            SearchResultBean.Node node = new SearchResultBean.Node();
-            node.Day = "--";
-            node.Type = FactoryMaster.Instance().GetTypeMaster().GetTypeNameByCode("002");
-            node.Category = FactoryMaster.Instance().GetCategoryMaster().GetCategoryNameByCode("020");
-            node.Content = FactoryMaster.Instance().GetCategoryMaster().GetCategoryNameByCode("020");
-            node.PriceNum = price;
-            return node;
+            return new ModifyFlow(Request, Response, HttpContext, bean).Execute();
         }
-        private Decimal SumCreditTotal(IList<SearchResultBean.Node> list)
+        public ActionResult Delete(ApplyBean bean)
         {
-            if (list.Count < 1)
-            {
-                return Decimal.Zero;
-            }
-            return list.Sum((node) =>
-            {
-                return node.PriceNum;
-            });
+            return new DeleteFlow(Request, Response, HttpContext, bean).Execute();
         }
-
-        private Decimal IncomeTotal(IList<SearchResultBean.Node> list)
+        public ActionResult Search(SearchBean bean)
         {
-            if (list.Count < 1)
-            {
-                return Decimal.Zero;
-            }
-            return list.Where(node => String.Equals(node.Cd, "000") && String.Equals(node.Tp, "001")).Sum((node) =>
-            {
-                return node.PriceNum;
-            });
-        }
-
-        private Decimal ExpendTotal(IList<SearchResultBean.Node> list)
-        {
-            if (list.Count < 1)
-            {
-                return Decimal.Zero;
-            }
-            return list.Where(node => String.Equals(node.Cd, "000") && !String.Equals(node.Tp, "001")).Sum((node) =>
-            {
-                return node.PriceNum;
-            });
-        }
-
-        private Decimal SumTotal(IList<SearchResultBean.Node> list)
-        {
-            if (list.Count < 1)
-            {
-                return Decimal.Zero;
-            }
-            return list.Where((node) =>
-            {
-                return !String.Equals(node.Cd, "020");
-            }).Sum((node) =>
-            {
-                return node.PriceNum;
-            });
-        }
-        private bool Validate(ApplyBean bean, bool insert = false)
-        {
-            if (!insert)
-            {
-                if (String.IsNullOrEmpty(bean.HouseholdIdx))
-                {
-                    return false;
-                }
-            }
-            if (String.IsNullOrEmpty(bean.HouseholdYear))
-            {
-                return false;
-            }
-            if (String.IsNullOrEmpty(bean.HouseholdMonth))
-            {
-                return false;
-            }
-            if (String.IsNullOrEmpty(bean.HouseholdDay))
-            {
-                return false;
-            }
-            if (String.IsNullOrEmpty(bean.HouseholdCategory))
-            {
-                return false;
-            }
-            if (String.IsNullOrEmpty(bean.HouseholdType))
-            {
-                return false;
-            }
-            if (String.IsNullOrEmpty(bean.HouseholdContent))
-            {
-                return false;
-            }
-            if (String.IsNullOrEmpty(bean.Householdprice))
-            {
-                return false;
-            }
-            return true;
+            return new SearchFlow(Request, Response, HttpContext, bean).Execute(); 
         }
     }
 }
