@@ -20,6 +20,14 @@ public class Pop extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		logger.info(request.getRemoteHost());
+		logger.error("response error code : 406" );
+		response.sendError(406);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		logger.info(request.getRemoteHost());
 		try {
 			response.setHeader("Content-Type", "text/html;charset=UTF-8");
 			String code = request.getParameter("CODE");
@@ -32,10 +40,5 @@ public class Pop extends HttpServlet {
 			logger.error(e);
 			throw e;
 		}
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		doGet(request, response);
 	}
 }
