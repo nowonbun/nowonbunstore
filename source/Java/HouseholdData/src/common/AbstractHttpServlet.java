@@ -3,6 +3,8 @@ package common;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
@@ -13,14 +15,37 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
+import dao.FactoryDao;
+
 public abstract class AbstractHttpServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private HttpServletRequest request;
 	private HttpServletResponse response;
 	private Properties properties = null;
+	protected Logger logger = LoggerManager.getLogger(this.getClass());
 
 	public AbstractHttpServlet() {
 		super();
+		logger.info(this.getClass());
+		logger.info("request web page");
+		Class<?> clazz = this.getClass();
+		Field[] fields = clazz.getDeclaredFields();
+		for (Field field : fields) {
+			ResourceDao resource = field.getAnnotation(ResourceDao.class);
+			if (resource == null) {
+				continue;
+			}
+			field.setAccessible(true);
+			Type type = field.getType();
+			try {
+				Class<?> daoclz = Class.forName(type.getTypeName());
+				field.set(this, FactoryDao.getDao(daoclz));
+			} catch (Throwable e) {
+				logger.error(e);
+			}
+		}
 	}
 
 	protected HttpServletRequest getRequest() {
@@ -33,6 +58,15 @@ public abstract class AbstractHttpServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+//		logger.info(request.getRemoteHost());
+//		logger.error("response error code : 406" );
+//		response.sendError(406);
+		doPost(request, response);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		logger.info(request.getRemoteHost());
 		response.setHeader("Content-Type", "text/html;charset=UTF-8");
 		this.request = request;
 		this.response = response;
@@ -46,11 +80,6 @@ public abstract class AbstractHttpServlet extends HttpServlet {
 		}
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		doGet(request, response);
-	}
-
 	private String sendData(String json) {
 		String serveruri = getProperty("DataServer");
 		try {
@@ -59,17 +88,17 @@ public abstract class AbstractHttpServlet extends HttpServlet {
 			conn.setRequestMethod("POST");
 			conn.setDoInput(true);
 			conn.setDoOutput(true);
-			try(OutputStream out = conn.getOutputStream()){
+			try (OutputStream out = conn.getOutputStream()) {
 				out.write("DATA=".getBytes("UTF-8"));
 				out.write(json.getBytes("UTF-8"));
 				out.flush();
 			}
 			int length = conn.getContentLength();
 			byte[] recv = new byte[length];
-			try(InputStream in = conn.getInputStream()){
-				in.read(recv,0,recv.length);
+			try (InputStream in = conn.getInputStream()) {
+				in.read(recv, 0, recv.length);
 			}
-			return new String(recv,"UTF-8");
+			return new String(recv, "UTF-8");
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
 		}
@@ -79,8 +108,9 @@ public abstract class AbstractHttpServlet extends HttpServlet {
 		try {
 			if (properties == null) {
 				properties = new Properties();
-				properties
-						.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("project.properties"));
+				InputStream stream = Thread.currentThread().getContextClassLoader()
+						.getResourceAsStream("project.properties");
+				properties.load(stream);
 			}
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
@@ -88,5 +118,5 @@ public abstract class AbstractHttpServlet extends HttpServlet {
 		return properties.getProperty(key);
 	}
 
-	protected abstract Object execute(Map<String,String[]> parameter);
+	protected abstract Object execute(Map<String, String[]> parameter);
 }

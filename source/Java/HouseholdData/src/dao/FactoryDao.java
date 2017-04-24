@@ -7,17 +7,17 @@ import java.util.Map;
 public class FactoryDao {
 	private static FactoryDao instance = null;
 	
-	public static Dao getDao(Class<? extends Dao> clz) {
+	public static Dao getDao(Class<?> clz) {
 		if (instance == null) {
 			instance = new FactoryDao();
 		}
 		return instance.get(clz);
 	}
 
-	private Map<Class<? extends Dao>,Dao> flyweight = new HashMap<>();
+	private Map<Class<?>,Dao> flyweight = new HashMap<>();
 	private FactoryDao() { }
 
-	private Dao get(Class<? extends Dao> clz) {
+	private Dao get(Class<?> clz) {
 		if(!flyweight.containsKey(clz)){
 			try{
 				flyweight.put(clz, (Dao)clz.newInstance());

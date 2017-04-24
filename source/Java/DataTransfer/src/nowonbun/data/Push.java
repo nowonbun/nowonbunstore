@@ -24,14 +24,15 @@ public class Push extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		logger.error(request.getRemoteHost());
-		logger.error("response error code" + 406);
+		logger.info(request.getRemoteHost());
+		logger.error("response error code : 406" );
 		response.sendError(406);
 		//doPost(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		logger.info(request.getRemoteHost());
 		try {
 			response.setHeader("Content-Type", "text/html;charset=UTF-8");
 			String code = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(Calendar.getInstance().getTime())
