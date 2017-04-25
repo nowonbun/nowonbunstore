@@ -1,7 +1,6 @@
 package service;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.annotation.WebServlet;
@@ -10,33 +9,30 @@ import common.ResourceDao;
 import dao.CtgryDao;
 import dao.SysDtDao;
 import dao.TpDao;
-import model.Ctgry;
 
-@WebServlet("/Master")
-public class Master extends AbstractHttpServlet {
+@WebServlet("/GetMaster")
+public class GetMaster extends AbstractHttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@ResourceDao
 	private SysDtDao sysDtDao;
-	
+
 	@ResourceDao
 	private CtgryDao ctgryDao;
-	
+
 	@ResourceDao
 	private TpDao tpDao;
 
-	public Object execute(Map<String,String[]> parameter){
-		Map<String,Object> map = new HashMap<>();
-		System.out.println("DEBUG");
-		ctgryDao.Transaction(()->{
-			List<Ctgry> a = ctgryDao.findAll();
+	public Object execute(Map<String, String[]> parameter) {
+		final Map<String, Object> map = new HashMap<>();
+		ctgryDao.transaction(() -> {
 			map.put("CATEGORY", ctgryDao.findAll());
 		});
-		tpDao.Transaction(()->{
+		tpDao.transaction(() -> {
 			map.put("TP", tpDao.findAll());
 		});
-		sysDtDao.Transaction(()->{
+		sysDtDao.transaction(() -> {
 			map.put("SYSTEMDATA", sysDtDao.findAll());
 		});
 		return map;
