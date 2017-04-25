@@ -1,6 +1,7 @@
 package dao;
 
 import java.io.Serializable;
+import java.util.concurrent.Callable;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -39,37 +40,51 @@ public abstract class Dao<T extends Serializable> {
 	public T update(T entity) {
 		return entityManager.merge(entity);
 	}
-	
-	public void delete(T entity){
+
+	public void delete(T entity) {
 		entityManager.remove(entity);
 	}
-	
-	protected EntityManager getEntityManager(){
+
+	protected EntityManager getEntityManager() {
 		return this.entityManager;
 	}
-	
-	public void Transaction(Runnable runnable){
+
+	public <V> V transaction(Callable<V> callable) {
+		return transaction(callable, false);
+	}
+
+	public <V> V transaction(Callable<V> callable, boolean readonly) {
 		EntityTransaction transaction = this.entityManager.getTransaction();
 		transaction.begin();
-		try{
-			runnable.run();
-			transaction.commit();
-		}catch(Throwable e){
+		try {
+			V ret = callable.call();
+			if (readonly) {
+				transaction.rollback();
+			} else {
+				transaction.commit();
+			}
+			return ret;
+		} catch (Throwable e) {
 			transaction.rollback();
 			throw new RuntimeException(e);
 		}
 	}
-	public void Transaction(Runnable runnable,boolean readonly){
+
+	public void transaction(Runnable runnable) {
+		transaction(runnable, false);
+	}
+
+	public void transaction(Runnable runnable, boolean readonly) {
 		EntityTransaction transaction = this.entityManager.getTransaction();
 		transaction.begin();
-		try{
+		try {
 			runnable.run();
-			if(readonly){
+			if (readonly) {
 				transaction.rollback();
-			}else{
-				transaction.commit();	
+			} else {
+				transaction.commit();
 			}
-		}catch(Throwable e){
+		} catch (Throwable e) {
 			transaction.rollback();
 			throw new RuntimeException(e);
 		}

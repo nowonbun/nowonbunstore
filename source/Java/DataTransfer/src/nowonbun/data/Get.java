@@ -29,6 +29,7 @@ public class Get extends HttpServlet {
 			throws ServletException, IOException {
 		logger.info(request.getRemoteHost());
 		try {
+			request.setCharacterEncoding("UTF-8");
 			response.setHeader("Content-Type", "text/html;charset=UTF-8");
 			String code = request.getParameter("CODE");
 			String data = FileCenter.getInstance().readFile(code);

@@ -1,13 +1,11 @@
 package service;
 
-
 import java.util.Map;
-
 import javax.servlet.annotation.WebServlet;
 import common.AbstractHttpServlet;
 
-@WebServlet("/ApplyHousehold")
-public class ApplyHousehold extends AbstractHttpServlet {
+@WebServlet("/SumHousehold")
+public class SumHousehold extends AbstractHttpServlet {
 
 	private static final long serialVersionUID = 1L;
 

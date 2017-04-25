@@ -27,19 +27,19 @@ public class Push extends HttpServlet {
 		logger.info(request.getRemoteHost());
 		logger.error("response error code : 406" );
 		response.sendError(406);
-		//doPost(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		logger.info(request.getRemoteHost());
 		try {
+			request.setCharacterEncoding("UTF-8");
 			response.setHeader("Content-Type", "text/html;charset=UTF-8");
 			String code = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(Calendar.getInstance().getTime())
 					+ UUID.randomUUID().toString();
 			String data = request.getParameter("DATA");
 			FileCenter.getInstance().crateFile(code, data);
-			response.getWriter().println(code);
+			response.getWriter().print(code);
 		} catch (Throwable e) {
 			logger.error(request.getRemoteHost());
 			logger.error("error");
