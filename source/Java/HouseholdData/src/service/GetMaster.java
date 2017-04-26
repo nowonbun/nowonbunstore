@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import common.AbstractHttpServlet;
 import common.ResourceDao;
 import dao.CtgryDao;
+import dao.ManagerDao;
 import dao.SysDtDao;
 import dao.TpDao;
 
@@ -26,13 +27,13 @@ public class GetMaster extends AbstractHttpServlet {
 
 	public Object execute(Map<String, String[]> parameter) {
 		final Map<String, Object> map = new HashMap<>();
-		ctgryDao.transaction(() -> {
+		ManagerDao.transaction(() -> {
 			map.put("CATEGORY", ctgryDao.findAll());
 		});
-		tpDao.transaction(() -> {
+		ManagerDao.transaction(() -> {
 			map.put("TP", tpDao.findAll());
 		});
-		sysDtDao.transaction(() -> {
+		ManagerDao.transaction(() -> {
 			map.put("SYSTEMDATA", sysDtDao.findAll());
 		});
 		return map;

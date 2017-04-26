@@ -40,12 +40,17 @@ public class JsonConverter {
 
 	private String createJson(Object obj) {
 		try {
-			if (obj == null) {
+			TYPE type = check(obj);
+			if (type == TYPE.NULL) {
 				return null;
-			} else if (check(obj) == TYPE.LIST) {
+			} else if (type == TYPE.LIST) {
 				return ((JsonArrayBuilder) trigger(obj)).build().toString();
-			} else {
+			} else if (type == TYPE.OBJECT) {
 				return ((JsonObjectBuilder) trigger(obj)).build().toString();
+			} else if (type == TYPE.MAP) {
+				return ((JsonObjectBuilder) trigger(obj)).build().toString();
+			} else {
+				return obj.toString();
 			}
 		} catch (Throwable e) {
 			throw new RuntimeException(e);
@@ -70,12 +75,12 @@ public class JsonConverter {
 		} else if (obj instanceof String) {
 			return TYPE.STATIC;
 		} else if (obj instanceof Map) {
-			if(obj instanceof IndirectMap){
+			if (obj instanceof IndirectMap) {
 				return TYPE.NULL;
 			}
 			return TYPE.MAP;
 		} else if (obj instanceof List) {
-			if(obj instanceof IndirectList){
+			if (obj instanceof IndirectList) {
 				return TYPE.NULL;
 			}
 			return TYPE.LIST;
