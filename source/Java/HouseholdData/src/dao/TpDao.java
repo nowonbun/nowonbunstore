@@ -10,6 +10,6 @@ public class TpDao extends Dao<Tp>{
 	}
 	@SuppressWarnings("unchecked")
 	public List<Tp> findAll(){
-		return super.getEntityManager().createNamedQuery("Tp.findAll").getResultList();
+		return ManagerDao.get().createNamedQuery("Tp.findAll").getResultList();
 	}
 }

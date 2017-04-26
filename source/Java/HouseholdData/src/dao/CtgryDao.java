@@ -10,6 +10,6 @@ public class CtgryDao extends Dao<Ctgry>{
 	}
 	@SuppressWarnings("unchecked")
 	public List<Ctgry> findAll(){
-		return super.getEntityManager().createNamedQuery("Ctgry.findAll").getResultList();
+		return ManagerDao.get().createNamedQuery("Ctgry.findAll").getResultList();
 	}
 }

@@ -10,6 +10,6 @@ public class SysDtDao extends Dao<SysDt>{
 	}
 	@SuppressWarnings("unchecked")
 	public List<SysDt> findAll(){
-		return super.getEntityManager().createNamedQuery("SysDt.findAll").getResultList();
+		return ManagerDao.get().createNamedQuery("SysDt.findAll").getResultList();
 	}
 }
