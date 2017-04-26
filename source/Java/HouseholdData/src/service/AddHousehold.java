@@ -1,7 +1,6 @@
 package service;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.Map;
 import javax.servlet.annotation.WebServlet;
 import common.AbstractHttpServlet;
@@ -13,7 +12,6 @@ import dao.HshldDao;
 import dao.ManagerDao;
 import dao.TpDao;
 import dao.UsrNfDao;
-import model.Ctgry;
 import model.Hshld;
 
 @WebServlet("/AddHousehold")
