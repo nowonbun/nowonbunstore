@@ -1,6 +1,5 @@
 package service;
 
-import java.math.BigDecimal;
 import java.util.Map;
 import javax.servlet.annotation.WebServlet;
 import common.AbstractHttpServlet;
@@ -12,7 +11,6 @@ import dao.HshldLogDao;
 import dao.ManagerDao;
 import dao.UsrNfDao;
 import model.Hshld;
-import model.HshldLog;
 
 @WebServlet("/DeleteHousehold")
 public class DeleteHousehold extends AbstractHttpServlet {
