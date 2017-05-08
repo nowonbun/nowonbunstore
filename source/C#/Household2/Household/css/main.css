@@ -1,0 +1,160 @@
+﻿/* body */
+body {
+    margin: 0px;
+    padding: 0px;
+    font-size: 12pt;
+    font-family:Arial;
+}
+/* All select button stlyles.*/
+select {
+    -webkit-appearance: none;
+}
+table{
+    border-collapse:collapse;
+}
+/* header, footer*/
+header, footer {
+    position: fixed;
+    width: 100%;
+    background: #e5f4ff;
+    height: 20px;
+    text-align: center;
+    min-width: 300px;
+    z-index: 10;
+    margin: 0px;
+    padding: 0px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+header {
+    top: 0px;
+}
+
+footer {
+    bottom: 0px;
+}
+
+div.main {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+div.space {
+    height: 30px;
+}
+
+/* The select style of date in register screen */
+div.main-date {
+    text-align: center;
+    display: block;
+}
+
+select.household-date {
+    font-size: 20px;
+    text-align: center;
+    text-align-last: center;
+    border: 0px;
+    border-bottom: 2px solid #67b4ec;
+    background-color: #fff;
+    color: black;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+/* The select style of date in register screen */
+select.household-date.year {
+    width: 60px;
+}
+/* The select style of date in register screen */
+select.household-date.month {
+    width: 40px;
+}
+
+label.household-date {
+    font-size: 12pt;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+/* The arrow style in date*/
+span.main-date-arrow {
+    font-size: 18px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+span.main-date-arrow:hover {
+    color: #67b4ec;
+}
+
+i.fa fa-chevron-circle-left {
+    margin-right: 20px;
+}
+
+i.fa fa-chevron-circle-right {
+    margin-left: 20px;
+}
+
+/*common style*/
+div.template {
+    display: none;
+}
+
+.off {
+    display: none;
+}
+
+span.money-plus {
+    color: black;
+}
+
+span.money-minus {
+    color: red;
+}
+
+span.money-zero {
+    color: black;
+}
+
+input[type=button].signout{
+    float: right;
+    border: 0px;
+    border-bottom: 1px solid black;
+    border-radius: 10px;
+    background-color: white;
+    font-size: 10pt;
+}
+
+input[type=button].signout:hover{
+    background-color:#eee;
+}
+
+label.error{
+    color: red;
+    margin-bottom: 20px;
+    text-align: left;
+    margin: 0px;
+    float: left;
+}
+
+div.caption{
+    text-align:right;
+}
+
+table.table-data{
+    table-layout:fixed;
+}
+
+table.table-data1 > tbody > tr > td:nth-child(4),
+table.table-data2 > tbody > tr > td:nth-child(3),
+table.table-data3 > tbody > tr > td:nth-child(2) {
+    word-break:break-all;
+}
+div.search-data{
+    text-align:right;
+    margin-top:15px;
+    margin-bottom:10px;
+}
+
