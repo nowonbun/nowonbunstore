@@ -1,0 +1,24 @@
+﻿--author : SoonYub Hwang
+--Create Date: 2016/12/19
+
+INSERT INTO CTGRY(CD, NM) VALUES ('000','一般');
+INSERT INTO CTGRY(CD, NM) VALUES ('010','貯蓄');
+INSERT INTO CTGRY(CD, NM) VALUES ('020','クレジット');
+
+INSERT INTO TP(TP, NM, CD) VALUES ('001','収入','000');
+INSERT INTO TP(TP, NM, CD) VALUES ('002','支出','000');
+INSERT INTO TP(TP, NM, CD) VALUES ('011','入金','010');
+INSERT INTO TP(TP, NM, CD) VALUES ('012','出金','010');
+INSERT INTO TP(TP, NM, CD) VALUES ('022','支出','020');
+insert into tp(TP, NM, CD) values ('003','食費','000');
+insert into tp(TP, NM, CD) values ('004','交通費','000');
+insert into tp(TP, NM, CD) values ('005','ローン','000');
+insert into tp(TP, NM, CD) values ('006','お小遣い','000');
+insert into tp(TP, NM, CD) values ('007','外食','000');
+insert into tp(TP, NM, CD) values ('008','光熱費','000');
+
+
+INSERT INTO GRP_NF(GRPD,GRPNM,CPTN) VALUES ('TEST1','Tester group','Tester group');
+INSERT INTO USR_NF(GRPD,USRD,NM,PSWRD) VALUES ('TEST1','tester','Tester',md5('0000'));
+
+commit;

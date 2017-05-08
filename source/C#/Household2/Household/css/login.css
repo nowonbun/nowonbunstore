@@ -1,0 +1,38 @@
+﻿body {
+    margin: 0px;
+    padding: 0px;
+    font-size: 12pt;
+    font-family:"メイリオ","Hiragino Kaku Gothic Pro",Meiryo,"ヒラギノ角ゴ Pro W3","MS PGothic","MS UI Gothic",Helvetica,Arial,sans-serif;
+    background-color: #e5f4ff;
+}
+
+.form-signin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.form-signin-heading{
+    text-align:center;
+}
+
+.form-signin 
+.form-signin-heading,
+.form-signin 
+.checkbox {
+    margin-bottom: 10px;
+}
+
+div.login-box{
+    border: 1px solid;
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+}
+div.login-box input[type=image]{
+    width:100%;
+}
+div.login-box input[type=submit].applybtn {
+    display:block;
+    font-size:24px
+}

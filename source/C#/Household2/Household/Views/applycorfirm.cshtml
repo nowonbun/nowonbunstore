@@ -1,0 +1,19 @@
+﻿@using Household.Common;
+@{
+    Layout = "~/Views/master.cshtml";
+}
+<link rel="stylesheet" href="@Url.Content("~/css/login.css")">
+<style>
+    h3.title {
+        font-size: 22px !important;
+    }
+</style>
+<div class="container">
+    <form class="form-signin" method="post" action="/Home/Apply">
+        <div class="login-box">
+            <h3 class="form-signin-heading title">HOUSEHOLD LEDGER</h3>
+            <span>登録されている家計簿がありません。登録しますか？</span>
+            <input type="submit" class="applybtn" value="登録 ">
+        </div>
+    </form>
+</div>
