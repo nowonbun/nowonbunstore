@@ -83,9 +83,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AIsSocketServices\AIsSocketServices.csproj">
+    <ProjectReference Include="..\AIsSocketServices\AisSocketServices.csproj">
       <Project>{d91bc6e2-41e2-4735-8233-c35e6ab95075}</Project>
-      <Name>AIsSocketServices</Name>
+      <Name>AisSocketServices</Name>
     </ProjectReference>
     <ProjectReference Include="..\AisWebServicesDao\AisWebServicesDao.csproj">
       <Project>{09f45a19-81e0-4f41-b002-fe9754d30802}</Project>

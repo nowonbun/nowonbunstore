@@ -65,9 +65,9 @@
     <Folder Include="Common\Impl\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AIsSocketServices\AIsSocketServices.csproj">
+    <ProjectReference Include="..\AIsSocketServices\AisSocketServices.csproj">
       <Project>{d91bc6e2-41e2-4735-8233-c35e6ab95075}</Project>
-      <Name>AIsSocketServices</Name>
+      <Name>AisSocketServices</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
