@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AisWebServices", "AisWebSer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AisWebServicesDao", "AisWebServicesDao\AisWebServicesDao.csproj", "{09F45A19-81E0-4F41-B002-FE9754D30802}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIsSocketServices", "AIsSocketServices\AIsSocketServices.csproj", "{D91BC6E2-41E2-4735-8233-C35E6AB95075}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AisSocketServices", "AisSocketServices\AisSocketServices.csproj", "{D91BC6E2-41E2-4735-8233-C35E6AB95075}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
