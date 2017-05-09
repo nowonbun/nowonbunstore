@@ -17,13 +17,13 @@ header, footer {
     position: fixed;
     width: 100%;
     background: #e5f4ff;
-    height: 20px;
+    height: 40px;
     text-align: center;
     min-width: 300px;
     z-index: 10;
     margin: 0px;
     padding: 0px;
-    padding-top: 10px;
+    padding-top: 13px;
     padding-bottom: 10px;
 }
 
@@ -51,6 +51,7 @@ div.space {
 div.main-date {
     text-align: center;
     display: block;
+    margin-top: 20px;
 }
 
 select.household-date {
@@ -88,13 +89,11 @@ span.main-date-arrow {
 span.main-date-arrow:hover {
     color: #67b4ec;
 }
-
-i.fa fa-chevron-circle-left {
-    margin-right: 20px;
-}
-
-i.fa fa-chevron-circle-right {
+span.fa{
+    font-size: 20px;
     margin-left: 20px;
+    margin-right: 20px;
+    cursor: pointer;
 }
 
 /*common style*/
@@ -133,10 +132,12 @@ input[type=button].signout:hover{
 
 label.error{
     color: red;
-    margin-bottom: 20px;
+    /*margin-bottom: 20px;*/
     text-align: left;
     margin: 0px;
     float: left;
+    padding-left: 10px;
+    font-weight: bold;
 }
 
 div.caption{
@@ -152,9 +153,22 @@ table.table-data2 > tbody > tr > td:nth-child(3),
 table.table-data3 > tbody > tr > td:nth-child(2) {
     word-break:break-all;
 }
+
 div.search-data{
     text-align:right;
     margin-top:15px;
     margin-bottom:10px;
 }
 
+.container {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+* {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}

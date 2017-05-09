@@ -19,7 +19,7 @@
         <div class="space"></div>
         <form id="applyPc">
             <div class="main-date">
-                <i class="fa fa-chevron-circle-left" style="font-size:36px"></i>
+                <span class="fa fa-chevron-circle-left"></span>
                 <select class="household-date year" id="householdYear" name="householdYear">
                     @Html.Raw(HtmlUtil.GetSelectYearOption())
                 </select>
@@ -28,7 +28,7 @@
                     @Html.Raw(HtmlUtil.GetSelectMonthOption())
                 </select>
                 <label class="household-date">月</label>
-                <i class="fa fa-chevron-circle-right" style="font-size:36px"></i>
+                <span class="fa fa-chevron-circle-right"></span>
             </div>
             <div class="space"></div>
             <div class="main-input">
@@ -110,8 +110,8 @@
             </div>
             <div class="normal-data title-data">
                 <label class="mobile-private">
-                    <i class="fa fa-plus-square" style="font-size:24px"></i>
-                    <i class="fa fa-minus-square off" style="font-size:36px;"></i>
+                    <span class="fa fa-square fa-plus-square" ></span>
+                    <span class="fa fa-square fa-minus-square off"></span>
                 </label>
                 <label>一般</label>
                 <label>TOTAL : <span id="totalMoney1"></span></label>
@@ -128,10 +128,11 @@
                 </thead>
                 <tbody></tbody>
             </table>
+            <div class="caption"><sup>&nbsp;</sup></div>
             <div class="account-data title-data">
                 <label class="mobile-private">
-                    <i class="fa fa-plus-square" style="font-size:24px"></i>
-                    <i class="fa fa-minus-square off" style="font-size:36px;"></i>
+                    <span class="fa fa-square fa-plus-square"></span>
+                    <span class="fa fa-square fa-minus-square off"></span>
                 </label>
                 <label>貯蓄</label>
                 <label>TOTAL : <span id="totalMoney2"></span></label>
@@ -150,8 +151,8 @@
             <div class="caption"><sup>「貯蓄のTotal」は現在まで金額の合算である。</sup></div>
             <div class="credits-data title-data">
                 <label class="mobile-private">
-                    <i class="fa fa-plus-square" style="font-size:24px"></i>
-                    <i class="fa fa-minus-square off" style="font-size:36px;"></i>
+                    <span class="fa fa-square fa-plus-square"></span>
+                    <span class="fa fa-square fa-minus-square off"></span>
                 </label>
                 <label>クレジット</label>
                 <label>TOTAL : <span id="totalMoney3"></span></label>
@@ -227,7 +228,6 @@
         <div class="apply off">
             <div class="title">
                 <label>登録</label>
-                
                 <span class="remove fa fa-close" aria-hidden="true"></span>
             </div>
             <div class="layout-main">
@@ -298,7 +298,7 @@
             <div class="calcmain">
                 <div class="title">
                     <label>計算機</label>
-                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    <span class="remove fa fa-close" aria-hidden="true"></span>
                 </div>
                 <table>
                     <tbody>
