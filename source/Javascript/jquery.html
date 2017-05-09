@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+		<script>
+			_=(function(m){
+				$(function(){
+					m.test1.init();
+					m.test2.init();
+				});
+				return m;
+			})({
+				test1 : {
+					obj : null,
+					init : function(){
+						this.obj = $( "#abcd" );
+						this.obj.on( this.listener );
+					},
+					listener : {
+						click : function() {
+							console.log( _.test2.value );
+						}
+					}
+				},
+				test2 : {
+					value : null,
+					init : function(){
+						this.value = "hello world";
+					}
+				}
+			});
+		</script>
+	</head>
+	<body>
+		<input type=button id=abcd value=click>
+	</body>
+</html>
