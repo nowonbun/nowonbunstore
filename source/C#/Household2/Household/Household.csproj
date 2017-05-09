@@ -207,6 +207,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Bean\AjaxResultBean.cs" />
+    <Compile Include="Models\Bean\LoginToken.cs" />
     <Compile Include="Models\Bean\SearchBean.cs" />
     <Compile Include="Models\Bean\ApplyBean.cs" />
     <Compile Include="Models\Bean\LoginBean.cs" />

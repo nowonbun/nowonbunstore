@@ -10,6 +10,7 @@ namespace Household.Common
     {
         private static String clientID = "";
         private static String clientSecret = "";
+        private static String redirectUrl = "";
 
         public static String GetClientID()
         {
@@ -18,6 +19,10 @@ namespace Household.Common
         public static String GetClientSecret()
         {
             return HtmlUtil.clientSecret;
+        }
+        public static String GetRedirectUrl()
+        {
+            return HtmlUtil.redirectUrl;
         }
 
         public static String GetSelectYearOption()
@@ -41,7 +46,7 @@ namespace Household.Common
             {
                 buffer.Append("<option value='");
                 buffer.Append(i);
-                buffer.Append("' >");;
+                buffer.Append("' >"); ;
                 buffer.Append(i);
                 buffer.Append("</option>");
             }
@@ -55,7 +60,7 @@ namespace Household.Common
             {
                 buffer.Append("<option value='");
                 buffer.Append(i);
-                buffer.Append("' >");;
+                buffer.Append("' >"); ;
                 buffer.Append(i);
                 buffer.Append("</option>");
             }
