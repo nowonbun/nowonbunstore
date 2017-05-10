@@ -22,25 +22,32 @@ namespace Household.Controllers
             return View("~/Views/login.cshtml", "~/Views/master.cshtml");
         }
 
-        public ActionResult Redirect(String code)
+        public new ActionResult Redirect(String code)
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("code=").Append(code).Append("&");
-            sb.Append("client_id=").Append(HtmlUtil.GetClientID()).Append("&");
-            sb.Append("client_secret=").Append(HtmlUtil.GetClientSecret()).Append("&");
-            sb.Append("redirect_uri=").Append(HtmlUtil.GetRedirectUrl()).Append("&");
-            sb.Append("grant_type=").Append("authorization_code");
-            string data = Util.GetWebPostRequest("https://accounts.google.com/o/oauth2/token", sb.ToString());
+            string data = HttpConnector.GetRequest("https://accounts.google.com/o/oauth2/token",
+                                                    HttpConnector.HttpMethod.POST,
+                                                    new Dictionary<String, String>() { 
+                                                    { "code", code },
+                                                    { "client_id", HtmlUtil.GetClientID()},
+                                                    { "client_secret", HtmlUtil.GetClientSecret()},
+                                                    { "redirect_uri", HtmlUtil.GetRedirectUrl()},
+                                                    { "grant_type", "authorization_code"}});
             LoginToken token = JsonConvert.DeserializeObject<LoginToken>(data);
-
-            data = Util.GetWebGetRequest("https://www.googleapis.com/oauth2/v1/userinfo?access_token=" + token.Access_token);
+            data = HttpConnector.GetRequest("https://www.googleapis.com/oauth2/v1/userinfo",
+                                             HttpConnector.HttpMethod.GET,
+                                             new Dictionary<String, String>() { 
+                                             { "access_token", token.Access_token }});
             LoginBean login = JsonConvert.DeserializeObject<LoginBean>(data);
             login.Token = token;
-
-            /**
-             * TODO: data-center-process
-             **/
-            return base.Redirect("/Home/ApplyConfirm");
+            String usercheck = HttpConnector.GetDataRequest("CheckUser",
+                                                            new Dictionary<String, String>() { 
+                                                            { "GID", login.Id } });
+            Session["USER_BUFFER"] = login;
+            if ("FALSE".Equals(usercheck.ToUpper()))
+            {
+                return base.Redirect("/Home/ApplyConfirm");
+            }
+            return Apply();
         }
 
         public ActionResult ApplyConfirm()
@@ -50,12 +57,30 @@ namespace Household.Controllers
 
         public ActionResult Apply()
         {
-            return Redirect("/Home/Main");
+            LoginBean login = Session["USER_BUFFER"] as LoginBean;
+            Session["USER_BUFFER"] = null;
+            HttpConnector.GetDataRequest("ApplyUser",
+                                         new Dictionary<String, String>() { 
+                                         { "GID", login.Id },
+                                         {"NAME",login.Name},
+                                         {"EMAIL",""}});
+            UserSession = login;
+            FormsAuthentication.SetAuthCookie(login.Id, false);
+            return base.Redirect("/Home/Main");
         }
 
+        [AuthorizeFilter]
         public ActionResult Main()
         {
             return View("~/Views/main.cshtml", "~/Views/master.cshtml");
+        }
+
+        public ActionResult Signout()
+        {
+            FormsAuthentication.SignOut();
+            Session.Clear();
+            Request.Cookies.Clear();
+            return Redirect("/Home/Index");
         }
     }
 }

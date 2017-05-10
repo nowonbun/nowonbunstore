@@ -193,6 +193,7 @@
     <Compile Include="Common\AbstractFlow.cs" />
     <Compile Include="Common\Define.cs" />
     <Compile Include="Common\HtmlUtil.cs" />
+    <Compile Include="Common\HttpConnector.cs" />
     <Compile Include="Common\Message.cs" />
     <Compile Include="Common\Util.cs" />
     <Compile Include="Controllers\AjaxController.cs" />
