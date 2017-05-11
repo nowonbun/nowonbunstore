@@ -8,8 +8,6 @@
 <link rel="stylesheet" type="text/css" href="@Url.Content("~/css/loading.css")">
 <script language="javascript" src="@Url.Content("~/js/message.js")"></script>
 <script language="javascript" src="@Url.Content("~/js/main.js")"></script>
-<script language="javascript" src="@Url.Content("~/js/main_pc.js")"></script>
-<script language="javascript" src="@Url.Content("~/js/main_mobile.js")"></script>
 
 <header>HOUSEHOLD LEDGER</header>
 <div class="main">
@@ -20,10 +18,19 @@
         <form id="applyPc">
             <div class="main-date">
                 <span class="fa fa-chevron-circle-left"></span>
-                <select class="household-date year" id="householdYear" name="householdYear">
-                    @Html.Raw(HtmlUtil.GetSelectYearOption())
-                </select>
+                <div class="selectDiv">
+                    <span id="householdYearView"></span>
+                    <select class="household-date year" id="householdYear" name="householdYear">
+                        @Html.Raw(HtmlUtil.GetSelectYearOption())
+                    </select>
+                </div>
                 <label class="household-date">年</label>
+                <div class="selectDiv">
+                    <span id="householdMonthView"></span>
+                    <select class="household-date month" id="householdMonth" name="householdMonth">
+                        @Html.Raw(HtmlUtil.GetSelectMonthOption())
+                    </select>
+                </div>
                 <select class="household-date month" id="householdMonth" name="householdMonth">
                     @Html.Raw(HtmlUtil.GetSelectMonthOption())
                 </select>

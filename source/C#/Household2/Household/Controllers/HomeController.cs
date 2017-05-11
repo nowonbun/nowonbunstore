@@ -24,30 +24,39 @@ namespace Household.Controllers
 
         public new ActionResult Redirect(String code)
         {
-            string data = HttpConnector.GetRequest("https://accounts.google.com/o/oauth2/token",
-                                                    HttpConnector.HttpMethod.POST,
-                                                    new Dictionary<String, String>() { 
+            try
+            {
+                string data = HttpConnector.GetRequest("https://accounts.google.com/o/oauth2/token",
+                                                        HttpConnector.HttpMethod.POST,
+                                                        new Dictionary<String, String>() { 
                                                     { "code", code },
                                                     { "client_id", HtmlUtil.GetClientID()},
                                                     { "client_secret", HtmlUtil.GetClientSecret()},
                                                     { "redirect_uri", HtmlUtil.GetRedirectUrl()},
                                                     { "grant_type", "authorization_code"}});
-            LoginToken token = JsonConvert.DeserializeObject<LoginToken>(data);
-            data = HttpConnector.GetRequest("https://www.googleapis.com/oauth2/v1/userinfo",
-                                             HttpConnector.HttpMethod.GET,
-                                             new Dictionary<String, String>() { 
+                LoginToken token = JsonConvert.DeserializeObject<LoginToken>(data);
+                data = HttpConnector.GetRequest("https://www.googleapis.com/oauth2/v1/userinfo",
+                                                 HttpConnector.HttpMethod.GET,
+                                                 new Dictionary<String, String>() { 
                                              { "access_token", token.Access_token }});
-            LoginBean login = JsonConvert.DeserializeObject<LoginBean>(data);
-            login.Token = token;
-            String usercheck = HttpConnector.GetDataRequest("CheckUser",
-                                                            new Dictionary<String, String>() { 
+
+                LoginBean login = JsonConvert.DeserializeObject<LoginBean>(data);
+                login.Token = token;
+
+                String usercheck = HttpConnector.GetDataRequest("CheckUser",
+                                                                new Dictionary<String, String>() { 
                                                             { "GID", login.Id } });
-            Session["USER_BUFFER"] = login;
-            if ("FALSE".Equals(usercheck.ToUpper()))
-            {
-                return base.Redirect("/Home/ApplyConfirm");
+                Session["USER_BUFFER"] = login;
+                if ("FALSE".Equals(usercheck.ToUpper()))
+                {
+                    return base.Redirect("/Home/ApplyConfirm");
+                }
+                return Apply();
             }
-            return Apply();
+            catch (Exception)
+            {
+                return base.Redirect("/");
+            }
         }
 
         public ActionResult ApplyConfirm()
@@ -80,7 +89,7 @@ namespace Household.Controllers
             FormsAuthentication.SignOut();
             Session.Clear();
             Request.Cookies.Clear();
-            return Redirect("/Home/Index");
+            return base.Redirect("/");
         }
     }
 }

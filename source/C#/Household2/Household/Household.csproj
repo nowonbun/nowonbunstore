@@ -226,8 +226,6 @@
     <Content Include="DML.txt" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="js\main_pc.js" />
-    <Content Include="js\main_mobile.js" />
     <Content Include="js\main.js" />
     <Content Include="js\message.js" />
     <Content Include="log4net.xml" />
