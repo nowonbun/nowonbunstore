@@ -8,6 +8,10 @@ body {
 /* All select button stlyles.*/
 select {
     -webkit-appearance: none;
+    opacity:0;
+    position:absolute;
+    top:0px;
+    left:0px;
 }
 table{
     border-collapse:collapse;
@@ -91,7 +95,7 @@ span.main-date-arrow:hover {
 }
 span.fa{
     font-size: 20px;
-    margin-left: 20px;
+    margin-left: 10px;
     margin-right: 20px;
     cursor: pointer;
 }
@@ -171,4 +175,13 @@ div.search-data{
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
           box-sizing: border-box;
+}
+
+div.selectDiv{
+    display:inline-block;
+    position:relative;
+}
+div.selectDiv span{
+    font-size : 15pt;
+    border-bottom: 2px solid #67b4ec;
 }
