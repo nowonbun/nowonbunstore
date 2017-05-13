@@ -1,10 +1,7 @@
 package service;
 
-import java.util.Map;
-
 import javax.servlet.annotation.WebServlet;
 import common.AbstractHttpServlet;
-import common.HouseholdException;
 import common.ResourceDao;
 import dao.ManagerDao;
 import dao.UsrNfDao;
@@ -18,12 +15,9 @@ public class CheckUser extends AbstractHttpServlet {
 	@ResourceDao
 	private UsrNfDao usrNfDao;
 
-	public Object execute(Map<String, String[]> parameter) {
+	public Object execute() {
 
-		if (!parameter.containsKey("GID")) {
-			throw new HouseholdException(400);
-		}
-		final String id = parameter.get("GID")[0];
+		final String id = super.getParameter("GID");
 		return ManagerDao.transaction(() -> {
 			UsrNf entity = (UsrNf) usrNfDao.findOne(id);
 			if (entity == null) {
