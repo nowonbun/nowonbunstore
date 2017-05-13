@@ -1,9 +1,7 @@
 package service;
 
-import java.util.Map;
 import javax.servlet.annotation.WebServlet;
 import common.AbstractHttpServlet;
-import common.HouseholdException;
 import common.ResourceDao;
 import dao.CtgryDao;
 import dao.HshldDao;
@@ -28,19 +26,11 @@ public class SumHousehold extends AbstractHttpServlet {
 	@ResourceDao
 	private TpDao tpDao;
 
-	public Object execute(Map<String, String[]> parameter) {
-		if (!parameter.containsKey("GID")) {
-			throw new HouseholdException(400);
-		}
-		if (!parameter.containsKey("CD")) {
-			throw new HouseholdException(400);
-		}
-		if (!parameter.containsKey("TP")) {
-			throw new HouseholdException(400);
-		}
-		final String gid = parameter.get("GID")[0];
-		final String cd = parameter.get("CD")[0];
-		final String tp = parameter.get("TP")[0];
+	public Object execute() {
+
+		final String gid = super.getParameter("GID");
+		final String cd = super.getParameter("CD");
+		final String tp = super.getParameter("TP");
 		return ManagerDao.transaction(() -> {
 			return hshldDao.sum(usrNfDao.findOne(gid), ctgryDao.findOne(cd), tpDao.findOne(tp));
 		});

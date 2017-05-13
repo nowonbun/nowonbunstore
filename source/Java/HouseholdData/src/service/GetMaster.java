@@ -25,7 +25,7 @@ public class GetMaster extends AbstractHttpServlet {
 	@ResourceDao
 	private TpDao tpDao;
 
-	public Object execute(Map<String, String[]> parameter) {
+	public Object execute() {
 		final Map<String, Object> map = new HashMap<>();
 		ManagerDao.transaction(() -> {
 			map.put("CATEGORY", ctgryDao.findAll());

@@ -1,9 +1,7 @@
 package service;
 
-import java.util.Map;
 import javax.servlet.annotation.WebServlet;
 import common.AbstractHttpServlet;
-import common.HouseholdException;
 import common.ResourceDao;
 import common.Util;
 import dao.HshldDao;
@@ -26,16 +24,10 @@ public class DeleteHousehold extends AbstractHttpServlet {
 	@ResourceDao
 	private UsrNfDao usrNfDao;
 
-	public Object execute(Map<String,String[]> parameter){
-		if (!parameter.containsKey("IDX")) {
-			throw new HouseholdException(400);
-		}
-		if (!parameter.containsKey("GID")) {
-			throw new HouseholdException(400);
-		}
+	public Object execute(){
 
-		final String gid = parameter.get("GID")[0];
-		final String idx = parameter.get("IDX")[0];
+		final String gid = super.getParameter("GID");
+		final String idx = super.getParameter("IDX");
 
 		return ManagerDao.transaction(() -> {
 			Hshld entity = hshldDao.findEntity(Integer.parseInt(idx), usrNfDao.findOne(gid));

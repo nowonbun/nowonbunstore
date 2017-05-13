@@ -72,7 +72,7 @@ public abstract class AbstractHttpServlet extends HttpServlet {
 		this.request = request;
 		this.response = response;
 		try {
-			Object ret = execute(request.getParameterMap());
+			Object ret = execute();
 			String json = JsonConverter.create(ret);
 			String code = sendData(json);
 			response.getWriter().print(code);
@@ -118,6 +118,14 @@ public abstract class AbstractHttpServlet extends HttpServlet {
 		}
 		return properties.getProperty(key);
 	}
+	
+	protected String getParameter(String name){
+		Map<String, String[]> parameter = request.getParameterMap();
+		if (!parameter.containsKey(name)) {
+			throw new HouseholdException(400);
+		}
+		return parameter.get(name)[0];
+	}
 
-	protected abstract Object execute(Map<String, String[]> parameter);
+	protected abstract Object execute();
 }

@@ -34,6 +34,22 @@ public class HshldDao extends Dao<Hshld> {
 
 		return qy.getResultList();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Hshld> findList(UsrNf id, Date start, Date end,Ctgry ctgry) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(" select h from Hshld h ");
+		sb.append(" where (h.usrNf = ?1 or h.usrNf in (select hr.usrNf1 from HshldRelation hr where hr.usrNf2 = ?1)) ");
+		sb.append(" and h.dt >= ?2 and h.dt < ?3 ");
+		sb.append(" and h.ctgry = ?4 ");
+		Query qy = ManagerDao.get().createQuery(sb.toString(), Hshld.class);
+		qy.setParameter(1, id);
+		qy.setParameter(2, start);
+		qy.setParameter(3, end);
+		qy.setParameter(4, ctgry);
+
+		return qy.getResultList();
+	}
 
 	public Hshld findEntity(int idx, UsrNf id) {
 		StringBuilder sb = new StringBuilder();

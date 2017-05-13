@@ -1,10 +1,7 @@
 package service;
 
-
-import java.util.Map;
 import javax.servlet.annotation.WebServlet;
 import common.AbstractHttpServlet;
-import common.HouseholdException;
 import common.ResourceDao;
 import dao.HshldRelationDao;
 import dao.ManagerDao;
@@ -21,11 +18,8 @@ public class GetRelationUser2 extends AbstractHttpServlet {
 	@ResourceDao
 	private UsrNfDao usrNfDao;
 
-	public Object execute(Map<String, String[]> parameter) {
-		if (!parameter.containsKey("GID")) {
-			throw new HouseholdException(400);
-		}
-		String gid = parameter.get("GID")[0];
+	public Object execute() {
+		String gid = super.getParameter("GID");
 		return ManagerDao.transaction(() -> {
 			return hshldRelationDao.findByRid(usrNfDao.findOne(gid));
 		});

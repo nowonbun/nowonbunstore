@@ -1,11 +1,9 @@
 package service;
 
 import java.util.Calendar;
-import java.util.Map;
 
 import javax.servlet.annotation.WebServlet;
 import common.AbstractHttpServlet;
-import common.HouseholdException;
 import common.ResourceDao;
 import common.Util;
 import dao.ManagerDao;
@@ -20,26 +18,16 @@ public class ApplyUser extends AbstractHttpServlet {
 	@ResourceDao
 	private UsrNfDao usrNfDao;
 
-	public Object execute(Map<String, String[]> parameter) {
-		if (!parameter.containsKey("GID")) {
-			throw new HouseholdException(400);
-		}
-		if (!parameter.containsKey("NAME")) {
-			throw new HouseholdException(400);
-		}
-		if (!parameter.containsKey("EMAIL")) {
-			throw new HouseholdException(400);
-		}
-		final String id = parameter.get("GID")[0];
-		final String name = parameter.get("NAME")[0];
-		final String email = parameter.get("EMAIL")[0];
+	public Object execute() {
+		final String id = super.getParameter("GID");
+		final String name = super.getParameter("NAME");
 		return ManagerDao.transaction(() -> {
 			UsrNf entity = (UsrNf) usrNfDao.findOne(id);
 			if (entity == null) {
 				entity = new UsrNf();
 				entity.setId(id);
 				entity.setName(name);
-				entity.setEmail(email);
+				entity.setCreatedate(Calendar.getInstance().getTime());
 				usrNfDao.create(entity);
 			}
 			boolean refresh = false;
@@ -47,11 +35,8 @@ public class ApplyUser extends AbstractHttpServlet {
 				refresh = true;
 				entity.setName(name);
 			}
-			if (entity.getEmail() == null || !Util.StringEquals(email, entity.getEmail())) {
-				refresh = true;
-				entity.setEmail(email);
-			}
 			if (refresh) {
+				//TODO:updateはいらない
 				entity.setCreatedate(Calendar.getInstance().getTime());
 				usrNfDao.update(entity);
 			}

@@ -1,10 +1,8 @@
 package service;
 
 import java.math.BigDecimal;
-import java.util.Map;
 import javax.servlet.annotation.WebServlet;
 import common.AbstractHttpServlet;
-import common.HouseholdException;
 import common.ResourceDao;
 import common.Util;
 import dao.CtgryDao;
@@ -31,31 +29,13 @@ public class AddHousehold extends AbstractHttpServlet {
 	@ResourceDao
 	private TpDao tpDao;
 
-	public Object execute(Map<String,String[]> parameter){
-		if (!parameter.containsKey("GID")) {
-			throw new HouseholdException(400);
-		}
-		if (!parameter.containsKey("CD")) {
-			throw new HouseholdException(400);
-		}
-		if (!parameter.containsKey("TP")) {
-			throw new HouseholdException(400);
-		}
-		if (!parameter.containsKey("DT")) {
-			throw new HouseholdException(400);
-		}
-		if (!parameter.containsKey("CNTXT")) {
-			throw new HouseholdException(400);
-		}
-		if (!parameter.containsKey("PRC")) {
-			throw new HouseholdException(400);
-		}
-		final String gid = parameter.get("GID")[0];
-		final String cd = parameter.get("CD")[0];
-		final String tp = parameter.get("TP")[0];
-		final String dt = parameter.get("DT")[0];
-		final String cntxt = parameter.get("CNTXT")[0];
-		final String prc = parameter.get("PRC")[0];
+	public Object execute(){
+		final String gid = super.getParameter("GID");
+		final String cd = super.getParameter("CD");
+		final String tp = super.getParameter("TP");
+		final String dt = super.getParameter("DT");
+		final String cntxt = super.getParameter("CNTXT");
+		final String prc = super.getParameter("PRC");
 
 		return ManagerDao.transaction(() -> {
 			Hshld entity = new Hshld();

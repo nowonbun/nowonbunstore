@@ -5,12 +5,13 @@ import java.util.Date;
 import javax.servlet.annotation.WebServlet;
 import common.AbstractHttpServlet;
 import common.ResourceDao;
+import dao.CtgryDao;
 import dao.HshldDao;
 import dao.ManagerDao;
 import dao.UsrNfDao;
 
-@WebServlet("/GetHouseholdList")
-public class GetHouseholdList extends AbstractHttpServlet {
+@WebServlet("/GetHouseholdList2")
+public class GetHouseholdList2 extends AbstractHttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
@@ -19,19 +20,23 @@ public class GetHouseholdList extends AbstractHttpServlet {
 
 	@ResourceDao
 	private UsrNfDao usrNfDao;
+	
+	@ResourceDao
+	private CtgryDao ctgryDao;
 
 	public Object execute() {
 
 		final String gid = super.getParameter("GID");
 		final int year = Integer.parseInt(super.getParameter("YEAR"));
 		final int month = Integer.parseInt(super.getParameter("MONTH"));
+		final String category = super.getParameter("CATEGORY");
 
 		return ManagerDao.transaction(() -> {
 			Date start = createDate(year, month).getTime();
 			Calendar temp = createDate(year, month);
 			temp.add(Calendar.MONTH, 1);
 			Date end = temp.getTime();
-			return hshldDao.findList(usrNfDao.findOne(gid), start, end);
+			return hshldDao.findList(usrNfDao.findOne(gid), start, end,ctgryDao.findOne(category));
 		});
 	}
 
