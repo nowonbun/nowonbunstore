@@ -234,3 +234,10 @@ input[type=button]#searchInit{
     padding-left:5px;
     padding-right:5px;
 }
+
+div.household-date.day{
+    width:100%;
+}
+div.household-category{
+    width:100%;
+}

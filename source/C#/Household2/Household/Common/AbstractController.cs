@@ -10,11 +10,11 @@ namespace Household.Common
 {
     public class AbstractController : Controller
     {
-        public object UserSession
+        public LoginBean UserSession
         {
             get
             {
-                return Session[Define.USER_SESSION_NAME];
+                return Session[Define.USER_SESSION_NAME] as LoginBean;
             }
             set
             {

@@ -77,12 +77,11 @@ namespace Household.Common
             logger.Error(message);
         }
 
-        public object UserSession
+        public LoginBean UserSession
         {
             get
             {
-
-                return context.Session[Define.USER_SESSION_NAME];
+                return context.Session[Define.USER_SESSION_NAME] as LoginBean;
             }
             set
             {

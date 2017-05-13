@@ -57,7 +57,7 @@ namespace Household.Common
             return sb.ToString();
         }
 
-        public static string GetDataRequest(String code, IDictionary<String, string> param)
+        public static string GetDataRequest(String code, IDictionary<String, string> param = null)
         {
             String connUrl = serviceUrl + code;
             String key = GetRequest(connUrl, HttpMethod.POST, param);

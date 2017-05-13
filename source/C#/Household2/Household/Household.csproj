@@ -213,6 +213,15 @@
     <Compile Include="Models\Bean\ApplyBean.cs" />
     <Compile Include="Models\Bean\LoginBean.cs" />
     <Compile Include="Models\Bean\SearchResultBean.cs" />
+    <Compile Include="Models\Entity\Category.cs" />
+    <Compile Include="Models\Entity\Date.cs" />
+    <Compile Include="Models\Entity\HouseHold.cs" />
+    <Compile Include="Models\Entity\SystemData.cs" />
+    <Compile Include="Models\Entity\Type.cs" />
+    <Compile Include="Models\Master\CategoryMaster.cs" />
+    <Compile Include="Models\Master\FactoryMaster.cs" />
+    <Compile Include="Models\Master\SystemDataMaster.cs" />
+    <Compile Include="Models\Master\TypeMaster.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -242,7 +251,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\Master\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

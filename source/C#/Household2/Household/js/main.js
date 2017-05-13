@@ -1,11 +1,11 @@
 ﻿_ = (function (m) {
     $(function () {
         m.signout.init();
-        m.date.init();
-        m.selecter.init();
+        m.inputForm.init();
+        m.search.init();
+        m.data.init();
         m.calculator.init();
         m.screen.init();
-        m.input.init();
     });
     return m;
 })({
@@ -30,20 +30,36 @@
             $("#householdMonth").val(date.getMonth() + 1);
             $("#householdDay_pc").val(date.getDate());
             $("#householdDay_mobile").val(date.getDate());
+
+            $("div.selectDiv").children("span").each(function () {
+                $(this).html($(this).parent().children("select").children("option:selected").html());
+            });
         },
         setting: function () {
+            $("select").on("change", function () {
+                $(this).parent().children("span").html($(this).children("option:selected").html());
+            });
             //date-left
-            $("fa fa-chevron-circle-left").on("on", function () {
-                this.addMonth(-1);
-                this.search();
+            $("span.fa.fa-chevron-circle-left").on("click", function () {
+                _.search.addMonth(-1);
+                var select = $("div.selectDiv.household-date.year");
+                select.children("span").html(select.children("select").val());
+                var select = $("div.selectDiv.household-date.month");
+                select.children("span").html(select.children("select").val());
+                _.search.search();
             });
             //date-right
-            $("fa fa-chevron-circle-right").on("on", function () {
-                this.addMonth(1);
-                this.search();
+            $("span.fa.fa-chevron-circle-right").on("click", function () {
+                _.search.addMonth(1);
+                var select = $("div.selectDiv.household-date.year");
+                select.children("span").html(select.children("select").val());
+                var select = $("div.selectDiv.household-date.month");
+                select.children("span").html(select.children("select").val());
+                _.search.search();
             });
+            //検索セレクトが値が変更すると発生
             $("div.main-date select, select#searchDaySelect, select#searchTypeSelect").on("change", function () {
-                this.search();
+                _.search.search();
             });
             $("#householdYear").on("change", function () {
                 $("#householdYearView").html($("#householdYear").val());
@@ -51,9 +67,12 @@
             $("#householdMonth").on("change", function () {
                 $("#householdMonthView").html($("#householdMonth").val());
             });
+            //検索初期化
             $("input[type=button]#searchInit").on("click", function () {
                 $("select#searchDaySelect,select#searchTypeSelect").val("");
-                this.search();
+                $("div.selectDiv.searchDaySelect").children("span").html($("select#searchDaySelect").children("option:selected").html());
+                $("div.selectDiv.searchTypeSelect").children("span").html($("select#searchTypeSelect").children("option:selected").html());
+                _.search.search();
             });
         },
         search: function () {
@@ -64,7 +83,7 @@
                 day = "";
             }
             var type = $("#searchTypeSelect").val();
-            MoneyInit();
+            _.data.initVal();
             _.fn.sendAjax("Search", "year=" + year + "&month=" + month + "&day=" + day + "&type=" + type, _.data.searchData);
         },
         addMonth: function (addmonth) {
@@ -92,8 +111,8 @@
             $("table.table-data.table-data2 > tbody").html($("div.template > table.template-data2-nothing > tbody").html());
             $("table.table-data.table-data3 > tbody").html($("div.template > table.template-data3-nothing > tbody").html());
             this.viewTotal("span#totalMoney1", 0, "0");
-            this.ViewTotal("span#totalMoney2", 0, "0");
-            this.ViewTotal("span#totalMoney3", 0, "0");
+            this.viewTotal("span#totalMoney2", 0, "0");
+            this.viewTotal("span#totalMoney3", 0, "0");
         },
         setting: function () {
             /* The folding event*/
@@ -156,7 +175,7 @@
             });
         },
         viewTotal: function (name, val, valStr) {
-            $(name).html(ConvertMoneyStr(val, valStr));
+            $(name).html(_.fn.convertMoneyStr(val, valStr));
             $(name).removeClass("money-plus");
             $(name).removeClass("money-minus");
             $(name).removeClass("money-zero");
@@ -168,16 +187,13 @@
                 $(name).addClass("money-zero");
             }
         },
-        searchData: function (data) {
-            console.log(data);
-            var list;
-            var val = data.DATA;
-            ViewTotal("span#totalMoney1", val.TotalAmountNum, val.TotalAmount);
-
-            $("#Income").html(ConvertMoneyStr(val.IncomeAmountNum, val.IncomeAmount));
-            $("#expend").html(ConvertMoneyStr(val.ExpendAmountNum, val.ExpendAmount));
-
-            list = val.TotalList;
+        viewTotalMoneyLabel:function(data){
+            $("#Income").html(_.fn.convertMoneyStr(data.IncomeAmountNum, data.IncomeAmount));
+            $("#expend").html(_.fn.convertMoneyStr(data.ExpendAmountNum, data.ExpendAmount));
+        },
+        viewNomalMoneyLabel:function(data){
+            _.data.viewTotal("span#totalMoney1", data.TotalAmountNum, data.TotalAmount);
+            var list = data.TotalList;
             if (list.length > 0) {
                 $("table.table-data.table-data1 > tbody").html("");
                 for (i = 0; i < list.length; i++) {
@@ -185,7 +201,7 @@
                     var dom = $("div.template > table.template-data1 > tbody").html();
                     dom = dom.replace(/##DATA##/gi, CreateData(item));
                     if (item.Day === "--") {
-                        dom = dom.replace(/##HOVER##/gi, "class='credit'");
+                        dom = dom.replace(/##HOVER##/gi, "credit");
                     } else {
                         dom = dom.replace(/##HOVER##/gi, "");
                     }
@@ -193,7 +209,7 @@
                     dom = dom.replace(/##CATEGORY##/gi, item.Category);
                     dom = dom.replace(/##TYPE##/gi, item.Type);
                     dom = dom.replace(/##CONTENTS##/gi, item.Content);
-                    dom = dom.replace(/##PRICE##/gi, ConvertMoneyStr(item.PriceNum, item.Price));
+                    dom = dom.replace(/##PRICE##/gi, _.fn.convertMoneyStr(item.PriceNum, item.Price));
                     if (item.PriceNum < 0) {
                         dom = dom.replace(/##CLASS##/gi, "money-minus");
                     } else if (item.PriceNum > 0) {
@@ -204,8 +220,10 @@
                     $("table.table-data.table-data1 > tbody").append(dom);
                 }
             }
-            ViewTotal("span#totalMoney2", val.AccountAmountNum, val.AccountAmount);
-            list = val.AccountList;
+        },
+        viewAccountMoneyLabel:function(data){
+            _.data.viewTotal("span#totalMoney2", data.AccountAmountNum, data.AccountAmount);
+            var list = data.AccountList;
             if (list.length > 0) {
                 $("table.table-data.table-data2 > tbody").html("");
                 for (i = 0; i < list.length; i++) {
@@ -214,7 +232,7 @@
                     dom = dom.replace(/##DATE##/gi, item.Day);
                     dom = dom.replace(/##TYPE##/gi, item.Type);
                     dom = dom.replace(/##CONTENTS##/gi, item.Content);
-                    dom = dom.replace(/##PRICE##/gi, ConvertMoneyStr(item.PriceNum, item.Price));
+                    dom = dom.replace(/##PRICE##/gi, _.fn.convertMoneyStr(item.PriceNum, item.Price));
                     if (item.PriceNum < 0) {
                         dom = dom.replace(/##CLASS##/gi, "money-minus");
                     } else if (item.PriceNum > 0) {
@@ -225,8 +243,10 @@
                     $("table.table-data.table-data2 > tbody").append(dom);
                 }
             }
-            ViewTotal("span#totalMoney3", val.CreditAmountNum, val.CreditAmount);
-            list = val.CreditList;
+        },
+        viewCreditMoneyLabel:function(data){
+            _.data.viewTotal("span#totalMoney3", data.CreditAmountNum, data.CreditAmount);
+            var list = data.CreditList;
             if (list.length > 0) {
                 $("table.table-data.table-data3 > tbody").html("");
                 for (i = 0; i < list.length; i++) {
@@ -246,8 +266,16 @@
                     $("table.table-data.table-data3 > tbody").append(dom);
                 }
             }
+        },
+        searchData: function (data) {
+            console.log(data);
+            var list;
+            var val = data.DATA;
+            _.data.viewTotalMoneyLabel(data.DATA);
+            _.data.viewNomalMoneyLabel(data.DATA);
+            _.data.viewAccountMoneyLabel(data.DATA);
+            _.data.viewCreditMoneyLabel(data.DATA);
 
-            SetEvent();
             SetEventPc();
             SetEventMobile();
         },
@@ -364,10 +392,15 @@
             }
         }
     },
-    input: {
+    inputForm: {
         init: function () {
-            ChangeHouseholdTypePc();
-            InitPc();
+            this.changeHouseholdTypePc();
+            this.initVal();
+            this.setting();
+        },
+        initVal: function () {
+            $("#householdCategory_pc").val("000");
+            $("#householdType_pc").val("002");
         },
         setting: function () {
             //apply
@@ -400,10 +433,12 @@
                 SendAjax("Delete", formdata, DeleteDataPc);
             });
 
+            //カテゴリのセレクトを変更するたびに発生
             $("#householdCategory_pc").on("change", function () {
-                ChangeHouseholdTypePc();
+                _.inputForm.changeHouseholdTypePc(); 
             });
-        }, SetEventPc: function () {
+        },
+        SetEventPc: function () {
             ClearPc();
             // entity click
             $("table.table-data1 > tbody > tr:not(.credit)").on("click", function () {
@@ -439,10 +474,14 @@
             });
         },
 
-        ChangeHouseholdTypePc: function () {
+        changeHouseholdTypePc: function () {
             var name = "#select_" + $("#householdCategory_pc").val();
             var dom = $(name).html();
             $("#householdType_pc").html(dom);
+            if ($("#householdCategory_pc").val() === "000") {
+                $("#householdType_pc").val("002");
+            }
+            $("#householdType_pc").parent().children("span").html($("#householdType_pc").children("option:selected").html());
         },
 
         ApplyDataPc: function (data) {
@@ -487,10 +526,7 @@
             return true;
         },
 
-        InitPc: function () {
-            $("#householdCategory_pc").val("000");
-            $("#householdType_pc").val("002");
-        }
+        
     },
     calculator: {
         init: function () {
@@ -650,6 +686,7 @@
                 dataType: "json",
                 data: data,
                 success: function (data, textStatus, jqXHR) {
+                    console.log(data);
                     if (data.result === "SIGNERROR") {
                         SetErrorMsg(ERROR0004, 0);
                         location.href = "/Home/Index";

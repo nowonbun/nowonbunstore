@@ -8,6 +8,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using log4net;
 using log4net.Config;
+using Household.Models.Master;
 
 namespace Household
 {
@@ -25,6 +26,8 @@ namespace Household
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
+
+            FactoryMaster.CreateInstance();
 
             XmlConfigurator.Configure();
             ILog logger = LogManager.GetLogger("ApplicationStart");

@@ -18,22 +18,19 @@
         <form id="applyPc">
             <div class="main-date">
                 <span class="fa fa-chevron-circle-left"></span>
-                <div class="selectDiv">
-                    <span id="householdYearView"></span>
+                <div class="selectDiv household-date year">
+                    <span></span>
                     <select class="household-date year" id="householdYear" name="householdYear">
                         @Html.Raw(HtmlUtil.GetSelectYearOption())
                     </select>
                 </div>
                 <label class="household-date">年</label>
-                <div class="selectDiv">
-                    <span id="householdMonthView"></span>
+                <div class="selectDiv household-date month">
+                    <span></span>
                     <select class="household-date month" id="householdMonth" name="householdMonth">
                         @Html.Raw(HtmlUtil.GetSelectMonthOption())
                     </select>
                 </div>
-                <select class="household-date month" id="householdMonth" name="householdMonth">
-                    @Html.Raw(HtmlUtil.GetSelectMonthOption())
-                </select>
                 <label class="household-date">月</label>
                 <span class="fa fa-chevron-circle-right"></span>
             </div>
@@ -54,17 +51,26 @@
                             <td>
                                 <input type="hidden" id="householdIdx_pc" name="householdIdx" />
                                 <input type="hidden" id="householdPdt_pc" name="householdPdt" />
-                                <select class="household-date day" id="householdDay_pc" name="householdDay">
-                                    @Html.Raw(HtmlUtil.GetSelectDay31Option())
-                                </select>
+                                <div class="selectDiv household-date day">
+                                    <span></span>
+                                    <select class="household-date day" id="householdDay_pc" name="householdDay">
+                                        @Html.Raw(HtmlUtil.GetSelectDay31Option())
+                                    </select>
+                                </div>
                             </td>
                             <td>
-                                <select class="household-category" id="householdCategory_pc" name="householdCategory">
-                                    @Html.Raw(HtmlUtil.GetCategoryOption())
-                                </select>
+                                <div class="selectDiv household-category">
+                                    <span></span>
+                                    <select class="household-category" id="householdCategory_pc" name="householdCategory">
+                                        @Html.Raw(HtmlUtil.GetCategoryOption())
+                                    </select>
+                                </div>
                             </td>
                             <td>
-                                <select class="household-type" id="householdType_pc" name="householdType"></select>
+                                <div class="selectDiv household-category">
+                                    <span></span>
+                                    <select class="household-type" id="householdType_pc" name="householdType"></select>
+                                </div>
                             </td>
                             <td>
                                 <input name="householdContent" id="householdContent_pc" autocomplete="off" maxlength="40" />
@@ -105,15 +111,21 @@
             <div class="search-data">
                 <input type="button" id="searchInit" value="検索初期"/>
                 <label>日 : </label>
-                <select id="searchDaySelect">
-                    <option value="">全体</option>
-                    @Html.Raw(HtmlUtil.GetSelectDay31Option())
-                </select>
+                <div class="selectDiv searchDaySelect">
+                    <span></span>
+                    <select id="searchDaySelect">
+                        <option value="">全体</option>
+                        @Html.Raw(HtmlUtil.GetSelectDay31Option())
+                    </select>
+                </div>
                 <label>区分 : </label>
-                <select id="searchTypeSelect">
-                    <option value="">=全体=</option>
-                    @Html.Raw(HtmlUtil.GetSearchOption())
-                </select>
+                <div class="selectDiv searchTypeSelect">
+                    <span></span>
+                    <select id="searchTypeSelect">
+                        <option value="">=全体=</option>
+                        @Html.Raw(HtmlUtil.GetSearchOption())
+                    </select>
+                </div>
             </div>
             <div class="normal-data title-data">
                 <label class="mobile-private">
@@ -180,7 +192,7 @@
     <div class="template">
         <table class="template-data1">
             <tbody>
-                <tr ##HOVER##>
+                <tr class="##HOVER##">
                     <td>##DATE##日<input type="hidden" value="##DATA##" /></td>
                     <td>##CATEGORY##</td>
                     <td>##TYPE##</td>

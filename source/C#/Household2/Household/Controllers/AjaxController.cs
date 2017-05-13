@@ -12,7 +12,7 @@ using log4net;
 namespace Household.Controllers
 {
     [Household.Filters.ActionFilter]
-    public partial class AjaxController : Controller
+    public partial class AjaxController : AbstractController
     {
         public ActionResult Apply(ApplyBean bean)
         {
