@@ -12,10 +12,23 @@ namespace DataChecker
 {
     class Program
     {
+        
+        public enum HttpMethod
+        {
+            POST,
+            GET
+        }
         static void Main(string[] args)
         {
+            DateTime a = new DateTime(1490414594000);
+            a = new DateTime(2017, 04, 25);
+            Console.WriteLine(a.Ticks.ToString());
+            Console.ReadKey();
+            return;
             //String key = GetWeb("http://localhost:8080/HouseholdData/UserCheck", "GID=103311668963248489400&NAME=黄淳皣&EMAIL=nowonbun@gmail.com");
-            String key = GetWeb("http://localhost:8080/HouseholdData/GetHouseholdList", "GID=103311668963248489400&YEAR=2016&MONTH=2");
+            //String key = GetWeb("http://localhost:8080/HouseholdData/GetHouseholdList", "GID=103311668963248489400&YEAR=2016&MONTH=2");
+            //String key = GetWeb("http://192.168.0.2:8080/HouseholdData/CheckUser", "GID=103311668963248489401");
+            String key = GetWeb("http://localhost:8080/HouseholdData/GetHouseholdList2", "GID=103311668963248489400&YEAR=2016&MONTH=2&CATEGORY=020");
             Console.WriteLine(key);
             String data = GetData(key);
             Console.WriteLine(data);

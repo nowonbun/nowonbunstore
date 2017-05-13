@@ -12,6 +12,7 @@ select {
     position:absolute;
     top:0px;
     left:0px;
+    width:100%;
 }
 table{
     border-collapse:collapse;
@@ -70,11 +71,11 @@ select.household-date {
     padding-right: 5px;
 }
 /* The select style of date in register screen */
-select.household-date.year {
+div.household-date.year {
     width: 60px;
 }
 /* The select style of date in register screen */
-select.household-date.month {
+div.household-date.month {
     width: 40px;
 }
 
@@ -180,8 +181,20 @@ div.search-data{
 div.selectDiv{
     display:inline-block;
     position:relative;
+    display:inline-block;
 }
 div.selectDiv span{
-    font-size : 15pt;
+    font-size : 13pt;
     border-bottom: 2px solid #67b4ec;
+    width:100%;
+    display: block;
+    height: 25px;
+}
+div.selectDiv.searchDaySelect{
+    width:50px;
+    text-align:center;
+}
+div.selectDiv.searchTypeSelect{
+    width:70px;
+    text-align:center;
 }

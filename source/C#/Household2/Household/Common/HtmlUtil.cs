@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Text;
+using Household.Models.Master;
+using Household.Models.Entity;
 
 namespace Household.Common
 {
@@ -70,21 +72,53 @@ namespace Household.Common
         public static String GetCategoryOption()
         {
             StringBuilder buffer = new StringBuilder();
-
+            CategoryMaster list = FactoryMaster.Instance().GetCategoryMaster();
+            foreach (Category category in list)
+            {
+                buffer.Append("<option value='");
+                buffer.Append(category.Cd);
+                buffer.Append("' >"); ;
+                buffer.Append(category.Nm);
+                buffer.Append("</option>");
+            }
             return buffer.ToString();
         }
 
         public static String GetTypeTemplateOption()
         {
             StringBuilder buffer = new StringBuilder();
-
+            CategoryMaster master = FactoryMaster.Instance().GetCategoryMaster();
+            foreach (Category l in master)
+            {
+                buffer.Append("<select id='select_");
+                buffer.Append(l.Cd);
+                buffer.Append("' >");
+                var tplist = FactoryMaster.Instance().GetTypeMaster().GetByCategory(l.Cd);
+                foreach (Household.Models.Entity.Type t in tplist)
+                {
+                    buffer.Append("<option value='");
+                    buffer.Append(t.Tp);
+                    buffer.Append("'>");
+                    buffer.Append(t.Nm);
+                    buffer.Append("</option>");
+                }
+                buffer.Append("</select>");
+            }
             return buffer.ToString();
         }
 
         public static String GetSearchOption()
         {
             StringBuilder buffer = new StringBuilder();
-
+            var list = FactoryMaster.Instance().GetTypeMaster().GetBySearchCode();
+            foreach (var l in list)
+            {
+                buffer.Append("<option value='");
+                buffer.Append(l.Tp);
+                buffer.Append("'>");
+                buffer.Append(l.Nm);
+                buffer.Append("</option>");
+            }
             return buffer.ToString();
         }
     }

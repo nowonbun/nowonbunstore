@@ -5,6 +5,9 @@ using System.Web;
 using Household.Common;
 using Household.Models.Bean;
 using System.Web.Mvc;
+using Newtonsoft.Json;
+using Household.Models.Entity;
+using Household.Models.Master;
 
 namespace Household.Controllers
 {
@@ -36,7 +39,52 @@ namespace Household.Controllers
 
         public override ActionResult Run()
         {
+            String json = HttpConnector.GetDataRequest("GetHouseholdList", new Dictionary<String, String>()
+            {
+                {"GID",UserSession.Id},
+                {"YEAR",model.Year},
+                {"MONTH",model.Month}
+            });
+            List<HouseHold> householdList = JsonConvert.DeserializeObject<List<HouseHold>>(json);
+            json = HttpConnector.GetDataRequest("GetHouseholdList2", new Dictionary<String, String>()
+            {
+                {"GID",UserSession.Id},
+                {"YEAR",model.Year},
+                {"MONTH",model.Month},
+                {"CATEGORY","020"}
+            });
+            List<HouseHold> credit = JsonConvert.DeserializeObject<List<HouseHold>>(json);
+            string income = HttpConnector.GetDataRequest("SumHousehold", new Dictionary<String, String>()
+            {
+                {"GID",UserSession.Id},
+                {"CD","010"},
+                {"TP","011"}
+            });
+            string extend = HttpConnector.GetDataRequest("SumHousehold", new Dictionary<String, String>()
+            {
+                {"GID",UserSession.Id},
+                {"CD","010"},
+                {"TP","012"}
+            });
+            SearchResultBean result = new SearchResultBean();
+            //nomalList create
+            foreach (HouseHold hshld in householdList)
+            {
+                SearchResultBean.Node node = CreateNode(hshld);
+                if (String.Equals(hshld.Ctgry.Cd, "010"))
+                {
+                    result.AddAccount(node);
+                    node = (SearchResultBean.Node)node.Clone();
+                    node.PriceNum = node.PriceNum * -1;
+
+                }
+                result.AddTotal(node);
+            }
+
+            
             ResultBean.Result = Define.RESULT_OK;
+            ResultBean.Add("DATA", result);
+
             return Json(ResultBean, JsonRequestBehavior.AllowGet);
         }
 
@@ -44,6 +92,24 @@ namespace Household.Controllers
         {
             return null;
         }
+
+        private SearchResultBean.Node CreateNode(HouseHold entity)
+        {
+            SearchResultBean.Node node = new SearchResultBean.Node();
+            node.Idx = entity.Index;
+            node.Tp = entity.Tp.Tp;
+            node.Cd = entity.Ctgry.Cd;
+            node.Date = entity.Date;
+            node.Day = entity.Date.Day.ToString();
+            node.Type = FactoryMaster.Instance().GetTypeMaster().Where(item => String.Equals(item.Tp,entity.Tp.Tp)).Single().Nm;
+            node.Category = FactoryMaster.Instance().GetCategoryMaster().Where(item => String.Equals(item.Cd,entity.Ctgry.Cd)).Single().Nm;
+            node.Content = entity.Context;
+            node.PriceNum = Util.GetPlusMinus(entity.Tp.Tp) ? entity.Price : entity.Price * -1;
+            node.Pdt = entity.Createdate.ToString(Define.PDT_FORMAT);
+            return node;
+        }
+
+
 
 
 
