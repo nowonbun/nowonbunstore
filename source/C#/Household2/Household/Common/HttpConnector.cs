@@ -19,27 +19,34 @@ namespace Household.Common
         }
         public static string GetRequest(String url, HttpMethod method, IDictionary<String, string> param = null)
         {
-            string paramStr = param != null ? combineParameter(param) : null;
-            if (HttpMethod.GET.Equals(method) && paramStr != null)
+            try
             {
-                url += (url.IndexOf("?") != -1) ? "&" : "?" + paramStr;
-            }
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            request.Method = method.ToString();
-            request.ContentType = "application/x-www-form-urlencoded";
-            if (HttpMethod.POST.Equals(method) && paramStr != null)
-            {
-                byte[] byteArray = Encoding.UTF8.GetBytes(paramStr);
-                request.ContentLength = byteArray.Length;
-                using (Stream dataStream = request.GetRequestStream())
+                string paramStr = param != null ? combineParameter(param) : null;
+                if (HttpMethod.GET.Equals(method) && paramStr != null)
                 {
-                    dataStream.Write(byteArray, 0, byteArray.Length);
+                    url += (url.IndexOf("?") != -1) ? "&" : "?" + paramStr;
+                }
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                request.Method = method.ToString();
+                request.ContentType = "application/x-www-form-urlencoded";
+                if (HttpMethod.POST.Equals(method) && paramStr != null)
+                {
+                    byte[] byteArray = Encoding.UTF8.GetBytes(paramStr);
+                    request.ContentLength = byteArray.Length;
+                    using (Stream dataStream = request.GetRequestStream())
+                    {
+                        dataStream.Write(byteArray, 0, byteArray.Length);
+                    }
+                }
+                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                {
+                    return reader.ReadToEnd();
                 }
             }
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+            catch (Exception)
             {
-                return reader.ReadToEnd();
+                return GetRequest(url, method, param);
             }
         }
 

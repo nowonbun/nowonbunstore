@@ -26,5 +26,14 @@ namespace Household.Common
         {
             return String.Equals("1",code.Substring(2, 1));
         }
+
+        public static DateTime TransDateTImeByJavaTicks(Int64 ticks)
+        {
+            ticks *= 10000L;
+            //ticks += 621355968000000000L;
+            ticks += 621356292000000000L;
+            DateTime ret = new DateTime(ticks);
+            return ret;
+        }
     }
 }

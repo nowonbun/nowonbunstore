@@ -1,6 +1,8 @@
 package service;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
+
 import javax.servlet.annotation.WebServlet;
 import common.AbstractHttpServlet;
 import common.ResourceDao;
@@ -45,6 +47,7 @@ public class AddHousehold extends AbstractHttpServlet {
 			entity.setDt(Util.convertStringtoDate(dt));
 			entity.setCntxt(cntxt);
 			entity.setPrc(new BigDecimal(prc));
+			entity.setPdt(Calendar.getInstance().getTime());
 			hshldDao.create(entity);
 			return entity;
 		});

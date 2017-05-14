@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Household.Common;
 
 namespace Household.Models.Entity
 {
@@ -20,7 +21,7 @@ namespace Household.Models.Entity
         }
         public DateTime ToDateTime()
         {
-            return new DateTime(fastTime);
+            return Util.TransDateTImeByJavaTicks(fastTime);
         }
     }
 }

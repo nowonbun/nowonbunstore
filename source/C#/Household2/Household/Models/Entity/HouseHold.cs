@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Household.Models.Bean;
+using Household.Common;
 
 namespace Household.Models.Entity
 {
