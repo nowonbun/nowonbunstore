@@ -6,7 +6,7 @@ import model.Hshld;
 import model.HshldLog;
 
 public class Util {
-	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
 	public static boolean StringEquals(String val1, String val2) {
 		if (val1 == null) {

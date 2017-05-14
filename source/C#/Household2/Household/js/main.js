@@ -125,53 +125,13 @@
                 if ($(this).hasClass("nothing")) {
                     return;
                 }
-                ClearList();
+                _.inputForm.clearList();
                 $(this).addClass("click");
             });
-            /* The register button event and popup*/
-            $("input#apply_mobile").on("click", function () {
-                $("html").addClass("fixed");
 
-                $("div.layout").removeClass("off");
-                $("div.apply").removeClass("off");
-                $("div.apply").removeClass("height380");
-                $("div.apply").addClass("height340");
-
-                $("div.apply-area.mobile-private").removeClass("off");
-                $("div.modify-area.mobile-private").addClass("off");
-
-                $("input[type=text]#householdContent_mobile").focus();
-
-                $("#householdYear_mobile").val($("#householdYear").val());
-                $("#householdMonth_mobile").val($("#householdMonth").val());
-            });
-            //apply
-            $("input[type=button]#applySubmit_mobile").on("click", function () {
-                if (!ValidateMobile()) {
-                    return;
-                }
-                var formdata = $("#apply_form_mobile").serialize();
-                ClearMobile();
-                SendAjax("Apply", formdata, ApplyDataMobile);
-            });
-            //modify
-            $("input[type=button]#modifySubmit_mobile").bind("click", function () {
-                if (!ValidateMobile()) {
-                    return;
-                }
-                var formdata = $("#apply_form_mobile").serialize();
-                ClearMobile();
-                SendAjax("Modify", formdata, ModifyDataMobile);
-            });
-            //delete
-            $("input[type=button]#deleteSubmit_mobile").bind("click", function () {
-                var formdata = $("#apply_form_mobile").serialize();
-                ClearMobile();
-                SendAjax("Delete", formdata, DeleteDataMobile);
-            });
             /* The popup close button event*/
             $("div.apply > div.title > span.remove").bind("click", function () {
-                ClearMobile();
+                _.mobileInputForm.clear();
             });
         },
         viewTotal: function (name, val, valStr) {
@@ -187,11 +147,11 @@
                 $(name).addClass("money-zero");
             }
         },
-        viewTotalMoneyLabel:function(data){
+        viewTotalMoneyLabel: function (data) {
             $("#Income").html(_.fn.convertMoneyStr(data.IncomeAmountNum, data.IncomeAmount));
             $("#expend").html(_.fn.convertMoneyStr(data.ExpendAmountNum, data.ExpendAmount));
         },
-        viewNomalMoneyLabel:function(data){
+        viewNomalMoneyLabel: function (data) {
             _.data.viewTotal("span#totalMoney1", data.TotalAmountNum, data.TotalAmount);
             var list = data.TotalList;
             if (list.length > 0) {
@@ -199,7 +159,7 @@
                 for (i = 0; i < list.length; i++) {
                     var item = list[i];
                     var dom = $("div.template > table.template-data1 > tbody").html();
-                    dom = dom.replace(/##DATA##/gi, CreateData(item));
+                    dom = dom.replace(/##DATA##/gi, _.fn.createData(item));
                     if (item.Day === "--") {
                         dom = dom.replace(/##HOVER##/gi, "credit");
                     } else {
@@ -221,7 +181,7 @@
                 }
             }
         },
-        viewAccountMoneyLabel:function(data){
+        viewAccountMoneyLabel: function (data) {
             _.data.viewTotal("span#totalMoney2", data.AccountAmountNum, data.AccountAmount);
             var list = data.AccountList;
             if (list.length > 0) {
@@ -244,7 +204,7 @@
                 }
             }
         },
-        viewCreditMoneyLabel:function(data){
+        viewCreditMoneyLabel: function (data) {
             _.data.viewTotal("span#totalMoney3", data.CreditAmountNum, data.CreditAmount);
             var list = data.CreditList;
             if (list.length > 0) {
@@ -255,7 +215,7 @@
                     dom = dom.replace(/##DATE##/gi, item.Day);
                     dom = dom.replace(/##TYPE##/gi, item.Type);
                     dom = dom.replace(/##CONTENTS##/gi, item.Content);
-                    dom = dom.replace(/##PRICE##/gi, ConvertMoneyStr(item.PriceNum, item.Price));
+                    dom = dom.replace(/##PRICE##/gi, _.fn.convertMoneyStr(item.PriceNum, item.Price));
                     if (item.PriceNum < 0) {
                         dom = dom.replace(/##CLASS##/gi, "money-minus");
                     } else if (item.PriceNum > 0) {
@@ -268,7 +228,7 @@
             }
         },
         searchData: function (data) {
-            console.log(data);
+            //console.log(data);
             var list;
             var val = data.DATA;
             _.data.viewTotalMoneyLabel(data.DATA);
@@ -276,11 +236,128 @@
             _.data.viewAccountMoneyLabel(data.DATA);
             _.data.viewCreditMoneyLabel(data.DATA);
 
-            SetEventPc();
-            SetEventMobile();
+            _.inputForm.setEvent();
+            _.mobileInputForm.setEvent();
+        }
+    },
+    mobileInputForm: {
+        init: function () {
+            _.mobileInputForm.changeType();
+            _.mobileInputForm.setting();
+            _.mobileInputForm.initVal();
         },
-        SetEventMobile: function () {
-            ClearMobile();
+        //initMobile
+        initVal: function () {
+            $("#householdCategory_mobile").val("000");
+            $("#householdType_mobile").val("002");
+            _.mobileInputForm.clearData();
+        },
+        setting: function () {
+            $("#householdCategory_mobile").on("change", function () {
+                _.mobileInputForm.changeType();
+            });
+            /* The register button event and popup*/
+            $("input#apply_mobile").on("click", function () {
+                $("html").addClass("fixed");
+
+                $("div.layout").removeClass("off");
+                $("div.apply").removeClass("off");
+                $("div.apply").removeClass("height380");
+                $("div.apply").addClass("height340");
+
+                $("div.apply-area.mobile-private").removeClass("off");
+                $("div.modify-area.mobile-private").addClass("off");
+
+                $("input[type=text]#householdContent_mobile").focus();
+
+                $("#householdYear_mobile").val($("#householdYear").val());
+                $("#householdMonth_mobile").val($("#householdMonth").val());
+            });
+            //apply
+            $("input[type=button]#applySubmit_mobile").on("click", function () {
+                if (!_.mobileInputForm.validate()) {
+                    return;
+                }
+                var formdata = $("#apply_form_mobile").serialize();
+                _.mobileInputForm.clear();
+                _.fn.sendAjax("Apply", formdata, _.mobileInputForm.apply);
+            });
+            //modify
+            $("input[type=button]#modifySubmit_mobile").bind("click", function () {
+                if (!_.mobileInputForm.validate()) {
+                    return;
+                }
+                var formdata = $("#apply_form_mobile").serialize();
+                _.mobileInputForm.clear();
+                _.fn.sendAjax("Modify", formdata, _.mobileInputForm.modify);
+            });
+            //delete
+            $("input[type=button]#deleteSubmit_mobile").bind("click", function () {
+                var formdata = $("#apply_form_mobile").serialize();
+                _.mobileInputForm.clear();
+                _.fn.sendAjax("Delete", formdata, _.mobileInputForm.delete);
+            });
+        },
+        clear: function () {
+            $("html").removeClass("fixed");
+            $("div.layout").addClass("off");
+            $("div.apply").addClass("off");
+            $("div.apply-area.mobile-private,div.modify-area.mobile-private").removeClass("off");
+            $("div.calc").addClass("off");
+
+            _.mobileInputForm.clearData();
+        },
+        changeType: function () {
+            var name = "#select_" + $("#householdCategory_mobile").val();
+            var dom = $(name).html();
+            $("#householdType_mobile").html(dom);
+        },
+        clearData: function () {
+            $("#householdYear_mobile").val("");
+            $("#householdMonth_mobile").val("");
+            $("#householdIdx_mobile").val("");
+            $("#householdPdt_mobile").val("");
+            $("#householdContent_mobile").val("");
+            $("#householdPrice_mobile").val("");
+        },
+        //ValidateMobile
+        validate: function () {
+            var month = parseInt($("#householdMonth_mobile").val());
+            var date = new Date($("#householdYear_mobile").val(), month - 1, $("#householdDay_mobile").val());
+            if (month !== date.getMonth() + 1) {
+                _.fn.setErrorMobileMsg(ERROR0001, 3000);
+                return false;
+            }
+            var contents = $("#householdContent_mobile").val();
+            if (contents === null || contents.trim() === "") {
+                _.fn.setErrorMobileMsg(ERROR0002, 3000);
+                return false;
+            }
+            var price = $("#householdPrice_mobile").val();
+            if (price === null || price.trim() === "") {
+                _.fn.setErrorMobileMsg(ERROR0003, 3000);
+                return false;
+            }
+            if (parseInt(price) < 0) {
+                _.fn.setErrorMobileMsg(ERROR0005, 3000);
+                return false;
+            }
+            return true;
+        },
+        apply: function (data) {
+            _.fn.setErrorMsg(INFO00001, 3000);
+            _.search.search();
+        },
+        modify: function (data) {
+            _.fn.setErrorMsg(INFO00002, 3000);
+            _.search.search();
+        },
+        delete: function (data) {
+            _.fn.setErrorMsg(INFO00003, 3000);
+            _.search.search();
+        },
+        setEvent: function () {
+            _.mobileInputForm.clear();
             // entity click
             $("table.table-data1 > tbody > tr:not(.credit)").on("click", function () {
 
@@ -296,105 +373,23 @@
                 $("input[type=text]#householdContent_mobile").focus();
 
                 var v = $(this).children(0).children("input").val();
-                var c = new CreateClass(v);
+                var c = new _.fn.createClass(v);
                 $("#householdYear_mobile").val($("#householdYear").val());
                 $("#householdMonth_mobile").val($("#householdMonth").val());
                 $("#householdIdx_mobile").val(c.Idx);
                 $("#householdPdt_mobile").val(c.Pdt);
                 $("#householdDay_mobile").val(c.Day);
                 $("#householdCategory_mobile").val(c.Cd);
-                ChangeHouseholdTypeMobile();
+                _.mobileInputForm.changeType();
                 $("#householdType_mobile").val(c.Tp);
                 $("#householdContent_mobile").val(c.Content);
                 $("#householdPrice_mobile").val(c.Price > 0 ? c.Price : c.Price * -1);
             });
         }
     },
-    mobilePopup: {
-        init: function () {
-            ChangeHouseholdTypeMobile();
-            InitMobile();
-        },
-        setting: function () {
-            $("#householdCategory_mobile").on("change", function () {
-                ChangeHouseholdTypeMobile();
-            });
-        },
-        ClearMobile: function () {
-            $("html").removeClass("fixed");
-            $("div.layout").addClass("off");
-            $("div.apply").addClass("off");
-            $("div.apply-area.mobile-private,div.modify-area.mobile-private").removeClass("off");
-            $("div.calc").addClass("off");
-
-            ClearMobileData();
-        },
-        ChangeHouseholdTypeMobile: function () {
-            var name = "#select_" + $("#householdCategory_mobile").val();
-            var dom = $(name).html();
-            $("#householdType_mobile").html(dom);
-        },
-
-        InitMobile: function () {
-            $("#householdCategory_mobile").val("000");
-            $("#householdType_mobile").val("002");
-            ClearMobileData();
-        },
-
-        ClearMobileData: function () {
-            $("#householdYear_mobile").val("");
-            $("#householdMonth_mobile").val("");
-            $("#householdIdx_mobile").val("");
-            $("#householdPdt_mobile").val("");
-            $("#householdContent_mobile").val("");
-            $("#householdPrice_mobile").val("");
-        },
-
-        ValidateMobile: function () {
-            var month = parseInt($("#householdMonth_mobile").val());
-            var date = new Date($("#householdYear_mobile").val(), month - 1, $("#householdDay_mobile").val());
-            if (month !== date.getMonth() + 1) {
-                SetErrorMobileMsg(ERROR0001, 3000);
-                return false;
-            }
-            var contents = $("#householdContent_mobile").val();
-            if (contents === null || contents.trim() === "") {
-                SetErrorMobileMsg(ERROR0002, 3000);
-                return false;
-            }
-            var price = $("#householdPrice_mobile").val();
-            if (price === null || price.trim() === "") {
-                SetErrorMobileMsg(ERROR0003, 3000);
-                return false;
-            }
-            if (parseInt(price) < 0) {
-                SetErrorMobileMsg(ERROR0005, 3000);
-                return false;
-            }
-            return true;
-        },
-        ApplyDataMobile: function (data) {
-            SetErrorMsg(INFO00001, 3000);
-            Search();
-        },
-        ModifyDataMobile: function (data) {
-            SetErrorMsg(INFO00002, 3000);
-            Search();
-        },
-        DeleteDataMobile: function (data) {
-            SetErrorMsg(INFO00003, 3000);
-            Search();
-        },
-        SetErrorMobileMsg: function (msg, time) {
-            $(".error_mobile").html(msg);
-            if (time > 0) {
-                setTimeout(SetErrorMobileMsg, time, "", 0);
-            }
-        }
-    },
     inputForm: {
         init: function () {
-            this.changeHouseholdTypePc();
+            this.chageType();
             this.initVal();
             this.setting();
         },
@@ -405,76 +400,73 @@
         setting: function () {
             //apply
             $("input[type=button]#applySubmit_pc").on("click", function () {
-                if (!ValidatePc()) {
+                if (!_.inputForm.validate()) {
                     return;
                 }
                 var formdata = $("#applyPc").serialize();
-                //add
-                SendAjax("Apply", formdata, ApplyDataPc);
+                _.fn.sendAjax("Apply", formdata, _.inputForm.apply);
             });
 
             //cancel
             $("input[type=button]#cancelSubmit_pc").on("click", function () {
-                ClearPc();
+                _.inputForm.clear();
             });
 
             //modify
             $("input[type=button]#modifySubmit_pc").on("click", function () {
-                if (!ValidatePc()) {
+                if (!_.inputForm.validate()) {
                     return;
                 }
                 var formdata = $("#applyPc").serialize();
-                SendAjax("Modify", formdata, ModifyDataPc);
+                _.fn.sendAjax("Modify", formdata, _.inputForm.modify);
             });
 
             //delete
             $("input[type=button]#deleteSubmit_pc").on("click", function () {
                 var formdata = $("#applyPc").serialize();
-                SendAjax("Delete", formdata, DeleteDataPc);
+                _.fn.sendAjax("Delete", formdata, _.inputForm.delete);
             });
 
             //カテゴリのセレクトを変更するたびに発生
             $("#householdCategory_pc").on("change", function () {
-                _.inputForm.changeHouseholdTypePc(); 
+                _.inputForm.chageType();
             });
         },
-        SetEventPc: function () {
-            ClearPc();
+        //search result row event
+        setEvent: function () {
+            _.inputForm.clear();
             // entity click
             $("table.table-data1 > tbody > tr:not(.credit)").on("click", function () {
                 $("table.table-input.pc-private div.apply-area").addClass("off");
                 $("table.table-input.pc-private div.modify-area").removeClass("off");
 
                 var v = $(this).children(0).children("input").val();
-                var c = new CreateClass(v);
+                var c = new _.fn.createClass(v);
                 $("#householdIdx_pc").val(c.Idx);
                 $("#householdPdt_pc").val(c.Pdt);
                 $("#householdDay_pc").val(c.Day);
                 $("#householdCategory_pc").val(c.Cd);
-                ChangeHouseholdTypePc();
+                _.inputForm.chageType();
                 $("#householdType_pc").val(c.Tp);
                 $("#householdContent_pc").val(c.Content);
                 $("#householdPrice_pc").val(c.Price > 0 ? c.Price : c.Price * -1);
                 location.href = "#top";
             });
         },
-
-        ClearPc: function () {
-            ClearList();
+        clear: function () {
+            _.inputForm.clearList();
             $("table.table-input.pc-private div.apply-area").removeClass("off");
             $("table.table-input.pc-private div.modify-area").addClass("off");
             $("#householdIdx_pc").val("");
             $("#householdContent_pc").val("");
             $("#householdPrice_pc").val("");
         },
-
-        ClearList: function () {
+        clearList: function () {
             $("table.table-data1 > tbody > tr").each(function () {
                 $(this).removeClass("click");
             });
         },
-
-        changeHouseholdTypePc: function () {
+        chageType: function () {
             var name = "#select_" + $("#householdCategory_pc").val();
             var dom = $(name).html();
             $("#householdType_pc").html(dom);
@@ -483,50 +475,44 @@
             }
             $("#householdType_pc").parent().children("span").html($("#householdType_pc").children("option:selected").html());
         },
-
-        ApplyDataPc: function (data) {
-            ClearPc();
-            SetErrorMsg(INFO00001, 3000);
-            Search();
+        apply: function (data) {
+            _.inputForm.clear();
+            _.fn.setErrorMsg(INFO00001, 3000);
+            _.search.search();
         },
-
-        ModifyDataPc: function (data) {
-            ClearPc();
-            SetErrorMsg(INFO00002, 3000);
-            Search();
+        modify: function (data) {
+            _.inputForm.clear();
+            _.fn.setErrorMsg(INFO00002, 3000);
+            _.search.search();
         },
-
-        DeleteDataPc: function (data) {
-            ClearPc();
-            SetErrorMsg(INFO00003, 3000);
-            Search();
+        delete: function (data) {
+            _.inputForm.clear();
+            _.fn.setErrorMsg(INFO00003, 3000);
+            _.search.search();
         },
-
-        ValidatePc: function () {
+        validate: function () {
             var month = parseInt($("#householdMonth").val());
             var date = new Date($("#householdYear").val(), month - 1, $("#householdDay_pc").val());
             if (month !== date.getMonth() + 1) {
-                SetErrorMsg(ERROR0001, 3000);
+                _.fn.setErrorMsg(ERROR0001, 3000);
                 return false;
             }
             var contents = $("#householdContent_pc").val();
             if (contents === null || contents.trim() === "") {
-                SetErrorMsg(ERROR0002, 3000);
+                _.fn.setErrorMsg(ERROR0002, 3000);
                 return false;
             }
             var price = $("#householdPrice_pc").val();
             if (price === null || price.trim() === "") {
-                SetErrorMsg(ERROR0003, 3000);
+                _.fn.setErrorMsg(ERROR0003, 3000);
                 return false;
             }
             if (parseInt(price) < 0) {
-                SetErrorMsg(ERROR0005, 3000);
+                _.fn.setErrorMsg(ERROR0005, 3000);
                 return false;
             }
             return true;
         },
-
-        
     },
     calculator: {
         init: function () {
@@ -546,54 +532,54 @@
             //calculater
             $("input[type=button]#calc_mobile").on("click", function () {
                 $("div.calc").removeClass("off");
-                InitCalc(true);
+                _.calculator.initCalc(true);
             });
 
             $("div.layout > div.calc > div.calcmain > div.title  > span").on("click", function () {
-                InitCalc(false);
+                _.calculator.initCalc(false);
                 $("div.calc").addClass("off");
             });
 
             $("input[type=button]#calc_add").on("click", function () {
-                AddCalcNumber();
+                _.calculator.addCalcNumber();
             });
 
             $("input[type=button]#calc_subtract").on("click", function () {
-                SubtractCalcNumber();
+                _.calculator.subtractCalcNumber();
             });
 
             $("input[type=button]#calc_multiply").on("click", function () {
-                MultiplyCalcNumber();
+                _.calculator.multiplyCalcNumber();
             });
 
             $("input[type=button]#calc_division").on("click", function () {
-                DivisionCalcNumber();
+                _.calculator.divisionCalcNumber();
             });
 
             $("input[type=button]#calc_clear").on("click", function () {
-                InitCalc(true);
+                _.calculator.initCalc(true);
             });
 
             $("#calc_result").on("click", function () {
                 var buffer = $("input[type=tel]#calc_sum").val();
                 $("#householdPrice_mobile").val(buffer);
-                InitCalc(false);
+                _.calculator.initCalc(false);
                 $("div.calc").addClass("off");
             });
         },
-        setCalc: function (val) {
-            $("input[type=tel]#calc").val("");
-            $("input[type=tel]#calc_sum").val(val);
-            $("input[type=tel]#calc").focus();
-        },
-        InitCalc: function (focus) {
+        initCalc: function (focus) {
             $("input[type=tel]#calc").val("");
             $("input[type=tel]#calc_sum").val(0);
             if (focus) {
                 $("input[type=tel]#calc").focus();
             }
         },
-        AddCalcNumber: function () {
+        setCalc: function (val) {
+            $("input[type=tel]#calc").val("");
+            $("input[type=tel]#calc_sum").val(val);
+            $("input[type=tel]#calc").focus();
+        },
+        addCalcNumber: function () {
             var a = parseInt($("input[type=tel]#calc").val());
             var b = parseInt($("input[type=tel]#calc_sum").val());
             if (isNaN(a)) {
@@ -602,9 +588,9 @@
             if (isNaN(b)) {
                 b = 0;
             }
-            SetCalc(a + b);
+            _.calculator.setCalc(a + b);
         },
-        SubtractCalcNumber: function () {
+        subtractCalcNumber: function () {
             var a = parseInt($("input[type=tel]#calc").val());
             var b = parseInt($("input[type=tel]#calc_sum").val());
             if (isNaN(a)) {
@@ -617,10 +603,9 @@
             if (buffer < 0) {
                 buffer = 0;
             }
-            SetCalc(buffer);
+            _.calculator.setCalc(buffer);
         },
-
-        MultiplyCalcNumber: function () {
+        multiplyCalcNumber: function () {
             var a = parseInt($("input[type=tel]#calc").val());
             var b = parseInt($("input[type=tel]#calc_sum").val());
             if (isNaN(a)) {
@@ -629,10 +614,9 @@
             if (isNaN(b)) {
                 b = 0;
             }
-            SetCalc(a * b);
+            _.calculator.setCalc(a * b);
         },
-
-        DivisionCalcNumber: function () {
+        divisionCalcNumber: function () {
             var a = parseInt($("input[type=tel]#calc").val());
             var b = parseInt($("input[type=tel]#calc_sum").val());
             if (isNaN(a)) {
@@ -646,11 +630,9 @@
                 c = 0;
             }
             c = Math.round(c);
-            SetCalc(c);
+            _.calculator.setCalc(c);
         },
-
-
-        GetNumber: function (tag) {
+        getNumber: function (tag) {
             var val = parseInt($("td.calc-txt > input[type=tel]").val());
             if (isNaN(val)) {
                 val = 0;
@@ -662,14 +644,14 @@
         w_width: 0,
         init: function () {
             $(window).resize(function () {
-                ClearPc();
+                _.inputForm.clear();
                 if (this.w_width == 0) {
                     this.w_width = $(window).width();
                     return;
                 }
                 if (this.w_width != $(window).width()) {
                     this.w_width = $(window).width();
-                    ClearMobile();
+                    _.mobileInputForm.clear();
                 }
             });
         }
@@ -686,20 +668,20 @@
                 dataType: "json",
                 data: data,
                 success: function (data, textStatus, jqXHR) {
-                    console.log(data);
+                    //console.log(data);
                     if (data.result === "SIGNERROR") {
-                        SetErrorMsg(ERROR0004, 0);
+                        _.fn.SetErrorMsg(ERROR0004, 0);
                         location.href = "/Home/Index";
                     }
                     if (data.result === "NG") {
-                        SetErrorMsg(data.error, 0);
+                        _.fn.SetErrorMsg(data.error, 0);
                     }
                     if (data.result === "OK") {
                         setTimeout(method, 1, data);
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    SetErrorMsg(ERROR0000, 0);
+                    _.fn.SetErrorMsg(ERROR0000, 0);
                 },
                 complete: function (jqXHR, textStatus) {
                     $(".lodding").addClass("lodding-off");
@@ -709,7 +691,13 @@
         setErrorMsg: function (msg, time) {
             $("#error").html(msg);
             if (time > 0) {
-                setTimeout(SetErrorMsg, time, "", 0);
+                setTimeout(_.fn.setErrorMsg, time, "", 0);
+            }
+        },
+        setErrorMobileMsg: function (msg, time) {
+            $(".error_mobile").html(msg);
+            if (time > 0) {
+                setTimeout(_.fn.setErrorMobileMsg, time, "", 0);
             }
         },
         createData: function (val) {
@@ -722,7 +710,7 @@
             ret += val.Pdt;
             return ret;
         },
-        createClass: function CreateClass(val) {
+        createClass: function (val) {
             var res = val.split(",");
             this.Idx = res[0];
             this.Day = res[1];

@@ -72,6 +72,15 @@ namespace Household.Controllers
         public override ActionResult Run()
         {
             String date = String.Format("{0}-{1}-{2}", model.HouseholdYear, model.HouseholdMonth, model.HouseholdDay);
+            String json = HttpConnector.GetDataRequest("AddHousehold", new Dictionary<String, String>()
+            {
+                {"GID",UserSession.Id},
+                {"CD",model.HouseholdCategory},
+                {"TP",model.HouseholdType},
+                {"DT",date},
+                {"CNTXT",model.HouseholdContent},
+                {"PRC",model.Householdprice}
+            });
 
             ResultBean.Result = Define.RESULT_OK;
             return Json(ResultBean, JsonRequestBehavior.AllowGet);
