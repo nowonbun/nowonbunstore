@@ -7,7 +7,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Household;
 using Household.Controllers;
 using Household.Models.Entity;
-using Household.Dao;
 using Household.Common;
 
 namespace Household.Tests.Common

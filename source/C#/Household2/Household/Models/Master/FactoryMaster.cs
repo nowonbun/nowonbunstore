@@ -16,7 +16,7 @@ namespace Household.Models.Master
 
         private FactoryMaster() 
         {
-            String json = HttpConnector.GetDataRequest("GetMaster");
+            String json = HttpConnector.GetInstance().GetDataRequest("GetMaster");
             Dictionary<String, Object> map = JsonConvert.DeserializeObject < Dictionary<String, Object>>(json);
 
             typemaster = JsonConvert.DeserializeObject<TypeMaster>(map["TP"].ToString());

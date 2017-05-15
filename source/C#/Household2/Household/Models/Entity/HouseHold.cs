@@ -51,7 +51,7 @@ namespace Household.Models.Entity
         public DateTime Date
         {
             get { return this.dt.ToDateTime(); }
-        } 
+        }
         public String Cntxt
         {
             set { this.context = value; }
@@ -74,7 +74,7 @@ namespace Household.Models.Entity
         }
         public DateTime Createdate
         {
-            get { return this.createdate.ToDateTime(); }
+            get { return this.createdate != null ? this.createdate.ToDateTime() : default(DateTime); }
         }
     }
 }

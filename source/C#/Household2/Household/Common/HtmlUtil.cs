@@ -10,9 +10,16 @@ namespace Household.Common
 {
     public static class HtmlUtil
     {
-        private static String clientID = "";
-        private static String clientSecret = "";
-        private static String redirectUrl = "";
+        private static String clientID = null;
+        private static String clientSecret = null;
+        private static String redirectUrl = null;
+
+        public static void Initialize(String clientID,String clientSecret,String redirectUrl)
+        {
+            HtmlUtil.clientID = clientID;
+            HtmlUtil.clientSecret = clientSecret;
+            HtmlUtil.redirectUrl = redirectUrl;
+        }
 
         public static String GetClientID()
         {
@@ -120,6 +127,10 @@ namespace Household.Common
                 buffer.Append("</option>");
             }
             return buffer.ToString();
+        }
+        public static String GetConfig(String id)
+        {
+            return System.Configuration.ConfigurationManager.ConnectionStrings[id].ConnectionString;
         }
     }
 }

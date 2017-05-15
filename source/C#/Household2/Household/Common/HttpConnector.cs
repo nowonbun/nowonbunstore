@@ -10,14 +10,33 @@ namespace Household.Common
 {
     public class HttpConnector
     {
-        private static String serviceUrl = "";
-        private static String dataUrl = "";
+        private String serviceUrl = null;
+        private String dataUrl = null;
+        private static HttpConnector instance = null;
+        public static HttpConnector CreateInstance(String serviceUrl, String dataUrl)
+        {
+            instance = new HttpConnector(serviceUrl, dataUrl);
+            return instance;
+        }
+        public static HttpConnector GetInstance()
+        {
+            if(instance == null)
+            {
+                throw new NullReferenceException();
+            }
+            return instance;
+        }
         public enum HttpMethod
         {
             POST,
             GET
         }
-        public static string GetRequest(String url, HttpMethod method, IDictionary<String, string> param = null)
+        public HttpConnector(String serviceUrl,String dataUrl)
+        {
+            this.serviceUrl = serviceUrl;
+            this.dataUrl = dataUrl;
+        }
+        public string GetRequest(String url, HttpMethod method, IDictionary<String, string> param = null)
         {
             try
             {
@@ -38,19 +57,21 @@ namespace Household.Common
                         dataStream.Write(byteArray, 0, byteArray.Length);
                     }
                 }
-                HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-                using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
                 {
-                    return reader.ReadToEnd();
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        return reader.ReadToEnd();
+                    }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return GetRequest(url, method, param);
             }
         }
 
-        private static string combineParameter(IDictionary<String, string> param)
+        private string combineParameter(IDictionary<string, string> param)
         {
             StringBuilder sb = new StringBuilder();
             foreach (String key in param.Keys)
@@ -64,7 +85,7 @@ namespace Household.Common
             return sb.ToString();
         }
 
-        public static string GetDataRequest(String code, IDictionary<String, string> param = null)
+        public string GetDataRequest(String code, IDictionary<String, string> param = null)
         {
             String connUrl = serviceUrl + code;
             String key = GetRequest(connUrl, HttpMethod.POST, param);

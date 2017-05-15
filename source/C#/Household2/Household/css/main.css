@@ -198,3 +198,10 @@ div.selectDiv.searchTypeSelect{
     width:70px;
     text-align:center;
 }
+div.total-data {
+    position:relative;
+}
+div.total-data span{
+    position:absolute;
+    right:0px;
+}
