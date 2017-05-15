@@ -26,7 +26,7 @@ namespace Household.Controllers
         {
             try
             {
-                string data = HttpConnector.GetRequest("https://accounts.google.com/o/oauth2/token",
+                string data = HttpConnector.GetInstance().GetRequest("https://accounts.google.com/o/oauth2/token",
                                                         HttpConnector.HttpMethod.POST,
                                                         new Dictionary<String, String>() { 
                                                     { "code", code },
@@ -35,7 +35,7 @@ namespace Household.Controllers
                                                     { "redirect_uri", HtmlUtil.GetRedirectUrl()},
                                                     { "grant_type", "authorization_code"}});
                 LoginToken token = JsonConvert.DeserializeObject<LoginToken>(data);
-                data = HttpConnector.GetRequest("https://www.googleapis.com/oauth2/v1/userinfo",
+                data = HttpConnector.GetInstance().GetRequest("https://www.googleapis.com/oauth2/v1/userinfo",
                                                  HttpConnector.HttpMethod.GET,
                                                  new Dictionary<String, String>() { 
                                              { "access_token", token.Access_token }});
@@ -43,7 +43,7 @@ namespace Household.Controllers
                 LoginBean login = JsonConvert.DeserializeObject<LoginBean>(data);
                 login.Token = token;
 
-                String usercheck = HttpConnector.GetDataRequest("CheckUser",
+                String usercheck = HttpConnector.GetInstance().GetDataRequest("CheckUser",
                                                                 new Dictionary<String, String>() { 
                                                             { "GID", login.Id } });
                 Session["USER_BUFFER"] = login;
@@ -68,7 +68,7 @@ namespace Household.Controllers
         {
             LoginBean login = Session["USER_BUFFER"] as LoginBean;
             Session["USER_BUFFER"] = null;
-            HttpConnector.GetDataRequest("ApplyUser",
+            HttpConnector.GetInstance().GetDataRequest("ApplyUser",
                                          new Dictionary<String, String>() { 
                                          { "GID", login.Id },
                                          {"NAME",login.Name},

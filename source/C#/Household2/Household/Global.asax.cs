@@ -9,6 +9,7 @@ using System.Web.Routing;
 using log4net;
 using log4net.Config;
 using Household.Models.Master;
+using Household.Common;
 
 namespace Household
 {
@@ -27,6 +28,9 @@ namespace Household
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
 
+            
+            HttpConnector.CreateInstance(HtmlUtil.GetConfig("serviceUrl"), HtmlUtil.GetConfig("dataUrl"));
+            HtmlUtil.Initialize(HtmlUtil.GetConfig("clientID"), HtmlUtil.GetConfig("clientSecret"), HtmlUtil.GetConfig("redirectUrl"));
             FactoryMaster.CreateInstance();
 
             XmlConfigurator.Configure();

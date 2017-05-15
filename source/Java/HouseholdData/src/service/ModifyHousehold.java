@@ -34,7 +34,7 @@ public class ModifyHousehold extends AbstractHttpServlet {
 	private TpDao tpDao;
 	
 	public Object execute(){
-		String idx = super.getParameter("IDX");
+		final String idx = super.getParameter("IDX");
 		final String gid = super.getParameter("GID");
 		final String cd = super.getParameter("CD");
 		final String tp = super.getParameter("TP");
