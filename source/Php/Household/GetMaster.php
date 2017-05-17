@@ -14,9 +14,9 @@ class GetMaster extends AbstractController {
 		$this->ctgryDao = new CtgryDao ();
 		$this->sysDtDao = new SysDtDao ();
 		$this->tpDao = new TpDao ();
-		if ("test" != parent::getParam ( "gid" )) {
-			throw new Exception ();
-		}
+	}
+	protected function validate(){
+		return true;
 	}
 	protected function main() {
 		$rslt = array ();
@@ -24,18 +24,18 @@ class GetMaster extends AbstractController {
 		$rslt ["TP"] = array ();
 		$rslt ["SYSTEMDATA"] = array ();
 		foreach ( $this->ctgryDao->findAll () as $key => $value ) {
-			array_push ( $rslt ["CATEGORY"], $value->toString () );
+			array_push ( $rslt ["CATEGORY"], $value->toArray() );
 		}
 		foreach ( $this->tpDao->findAll () as $key => $value ) {
-			array_push ( $rslt ["TP"], $value->toString () );
+			array_push ( $rslt ["TP"], $value->toArray() );
 		}
 		foreach ( $this->sysDtDao->findAll () as $key => $value ) {
-			array_push ( $rslt ["SYSTEMDATA"], $value->toString () );
+			array_push ( $rslt ["SYSTEMDATA"], $value->toArray() );
 		}
 		return $rslt;
 	}
 	protected function error() {
-		http_response_code ( 406 );
+		parent::setHeaderError(406,"");
 	}
 }
 $obj = new GetMaster ();

@@ -11,11 +11,11 @@ namespace Household.Models.Master
     {
         public List<Entity.Type> GetByCategory(string cd)
         {
-            return (from item in this where item.Ctgry.Cd.Equals(cd) select item).ToList();
+            return (from item in this where item.Cd.Equals(cd) select item).ToList();
         }
         public List<Entity.Type> GetBySearchCode()
         {
-            return (from item in this where item.Ctgry.Cd.Equals("000") select item).ToList();
+            return (from item in this where item.Cd.Equals("000") select item).ToList();
         }
     }
 }

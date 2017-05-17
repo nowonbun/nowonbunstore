@@ -14,10 +14,10 @@ class Ctgry {
 	public function getNm() {
 		return $this->nm;
 	}
-	public function toString(){
-		return array(
-			"cd" => $this->cd,
-			"nm" => $this->nm
+	public function toArray() {
+		return array (
+				"cd" => $this->cd,
+				"nm" => $this->nm 
 		);
 	}
 }

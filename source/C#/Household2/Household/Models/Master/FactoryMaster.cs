@@ -14,10 +14,10 @@ namespace Household.Models.Master
         private CategoryMaster categorymaster;
         private SystemDataMaster systemdatamaster;
 
-        private FactoryMaster() 
+        private FactoryMaster()
         {
-            String json = HttpConnector.GetInstance().GetDataRequest("GetMaster");
-            Dictionary<String, Object> map = JsonConvert.DeserializeObject < Dictionary<String, Object>>(json);
+            String json = HttpConnector.GetInstance().GetDataRequest("GetMaster.php", new Dictionary<String, Object>() { { "a", 0 } });
+            Dictionary<String, Object> map = JsonConvert.DeserializeObject<Dictionary<String, Object>>(json);
 
             typemaster = JsonConvert.DeserializeObject<TypeMaster>(map["TP"].ToString());
             categorymaster = JsonConvert.DeserializeObject<CategoryMaster>(map["CATEGORY"].ToString());

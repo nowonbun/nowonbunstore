@@ -75,7 +75,7 @@ namespace Household.Controllers
                 ResultBean.Error = Message.DATA_EROR;
                 return false;
             }
-            String json = HttpConnector.GetInstance().GetDataRequest("GetHousehold", new Dictionary<String, String>()
+            String json = HttpConnector.GetInstance().GetDataRequest("GetHousehold", new Dictionary<String, Object>()
             {
                 {"GID",UserSession.Id},
                 {"IDX",model.HouseholdIdx}
@@ -93,7 +93,7 @@ namespace Household.Controllers
         public override ActionResult Run()
         {
             String date = String.Format("{0}-{1}-{2}", model.HouseholdYear, model.HouseholdMonth, model.HouseholdDay);
-            HttpConnector.GetInstance().GetDataRequest("ModifyHousehold", new Dictionary<String, String>()
+            HttpConnector.GetInstance().GetDataRequest("ModifyHousehold", new Dictionary<String, Object>()
             {
                 {"IDX",model.HouseholdIdx},
                 {"GID",UserSession.Id},

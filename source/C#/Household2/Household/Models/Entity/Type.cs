@@ -10,7 +10,7 @@ namespace Household.Models.Entity
     {
         private String tp;
         private String nm;
-        private Category ctgry;
+        private String cd;
 
         public String Tp
         {
@@ -23,11 +23,10 @@ namespace Household.Models.Entity
             get { return this.nm; }
             set { this.nm = value; }
         }
-
-        public Category Ctgry
+        public String Cd
         {
-            get { return this.ctgry; }
-            set { this.ctgry = value; }
+            get { return this.cd; }
+            set { this.cd = value; }
         }
     }
 }

@@ -72,7 +72,7 @@ namespace Household.Controllers
         public override ActionResult Run()
         {
             String date = String.Format("{0}-{1}-{2}", model.HouseholdYear, model.HouseholdMonth, model.HouseholdDay);
-            String json = HttpConnector.GetInstance().GetDataRequest("AddHousehold", new Dictionary<String, String>()
+            String json = HttpConnector.GetInstance().GetDataRequest("AddHousehold", new Dictionary<String, Object>()
             {
                 {"GID",UserSession.Id},
                 {"CD",model.HouseholdCategory},

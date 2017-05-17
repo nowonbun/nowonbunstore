@@ -1,3 +1,4 @@
+#git bash
 
 git stash
 git status
@@ -6,9 +7,12 @@ git filter-branch --index-filter 'git rm --cached --ignore-unmatch source/C#/Hou
 git filter-branch --index-filter 'git rm --cached --ignore-unmatch source/Java/HouseholdData/src/META-INF/persistence.xml' --prune-empty -- --all
 git push origin master --force
 
-git filter-branch -f --index-filter 'git rm --cached --ignore-unmatch source/C#/Household/Household/obj/Release/Package/PackageTmp/Web.config'HEAD
-git filter-branch -f --index-filter 'git rm --cached --ignore-unmatch source/C#/Household/Household/obj/Release/TransformWebConfig/original/Web.config'HEAD
-git filter-branch -f --index-filter 'git rm --cached --ignore-unmatch source/C#/Household/Household/obj/Release/TransformWebConfig/transformed/Web.config'HEAD
-git filter-branch -f --index-filter 'git rm --cached --ignore-unmatch source/Php/Household/Common/DBConn.php'HEAD
+git filter-branch -f --index-filter 'git rm --cached --ignore-unmatch source/C#/Household/Household/obj/Release/Package/PackageTmp/Web.config'  --prune-empty -- --all
+git filter-branch -f --index-filter 'git rm --cached --ignore-unmatch source/C#/Household/Household/obj/Release/TransformWebConfig/original/Web.config'  --prune-empty -- --all
+git filter-branch -f --index-filter 'git rm --cached --ignore-unmatch source/C#/Household/Household/obj/Release/TransformWebConfig/transformed/Web.config'  --prune-empty -- --all
+git filter-branch -f --index-filter 'git rm --cached --ignore-unmatch source/Php/Household/Common/DBConn.php' --prune-empty -- --all
+git filter-branch -f --index-filter 'git rm --cached --ignore-unmatch source/Java/HouseholdData/target/classes/META-INF/persistence.xml' --prune-empty -- --all
 
-source\Php\Household\Common
+
+
+git push origin master --force

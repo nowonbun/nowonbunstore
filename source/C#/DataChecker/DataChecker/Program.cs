@@ -38,11 +38,11 @@ namespace DataChecker
             //String key = GetWeb("http://localhost:8080/HouseholdData/GetHouseholdList", "GID=103311668963248489400&YEAR=2016&MONTH=2");
             //String key = GetWeb("http://192.168.0.2:8080/HouseholdData/CheckUser", "GID=103311668963248489401");
             //String key = GetWeb("http://localhost:8080/HouseholdData/GetHouseholdList2", "GID=103311668963248489400&YEAR=2016&MONTH=2&CATEGORY=020");
-            var tt = new Dictionary<String, String>() { { "gid", "test" } };
+            var tt = new Dictionary<String, Int32>() { { "a",0  } };
             String json = JsonConvert.SerializeObject(tt);
             var base64 = System.Convert.ToBase64String(Encoding.UTF8.GetBytes(json));
             
-            String key = GetWeb("http://localhost/Household/GetMaster.php","p=SY" + base64);
+            String key = GetWeb("http://localhost/Household/GetMaster.php","p=SY"+base64 );
             key = key.Substring(2);
             byte[] data = System.Convert.FromBase64String(key);
             key = Encoding.UTF8.GetString(data);

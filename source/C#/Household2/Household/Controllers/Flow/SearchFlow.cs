@@ -39,14 +39,14 @@ namespace Household.Controllers
 
         public override ActionResult Run()
         {
-            String json = HttpConnector.GetInstance().GetDataRequest("GetHouseholdList", new Dictionary<String, String>()
+            String json = HttpConnector.GetInstance().GetDataRequest("GetHouseholdList", new Dictionary<String, Object>()
             {
                 {"GID",UserSession.Id},
                 {"YEAR",model.Year},
                 {"MONTH",model.Month}
             });
             List<HouseHold> householdList = JsonConvert.DeserializeObject<List<HouseHold>>(json);
-            json = HttpConnector.GetInstance().GetDataRequest("GetHouseholdList2", new Dictionary<String, String>()
+            json = HttpConnector.GetInstance().GetDataRequest("GetHouseholdList2", new Dictionary<String, Object>()
             {
                 {"GID",UserSession.Id},
                 {"YEAR",model.Year},
@@ -54,12 +54,12 @@ namespace Household.Controllers
                 {"CATEGORY","020"}
             });
             List<HouseHold> creditList = JsonConvert.DeserializeObject<List<HouseHold>>(json);
-            Decimal accountSum = Decimal.Parse(HttpConnector.GetInstance().GetDataRequest("SumHousehold", new Dictionary<String, String>()
+            Decimal accountSum = Decimal.Parse(HttpConnector.GetInstance().GetDataRequest("SumHousehold", new Dictionary<String, Object>()
             {
                 {"GID",UserSession.Id},
                 {"CD","010"},
                 {"TP","011"}
-            })) - Decimal.Parse(HttpConnector.GetInstance().GetDataRequest("SumHousehold", new Dictionary<String, String>()
+            })) - Decimal.Parse(HttpConnector.GetInstance().GetDataRequest("SumHousehold", new Dictionary<String, Object>()
             {
                 {"GID",UserSession.Id},
                 {"CD","010"},

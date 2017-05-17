@@ -29,7 +29,7 @@ namespace Household
             AuthConfig.RegisterAuth();
 
             
-            HttpConnector.CreateInstance(HtmlUtil.GetConfig("serviceUrl"), HtmlUtil.GetConfig("dataUrl"));
+            HttpConnector.CreateInstance(HtmlUtil.GetConfig("serviceUrl"));
             HtmlUtil.Initialize(HtmlUtil.GetConfig("clientID"), HtmlUtil.GetConfig("clientSecret"), HtmlUtil.GetConfig("redirectUrl"));
             FactoryMaster.CreateInstance();
 

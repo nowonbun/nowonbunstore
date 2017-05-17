@@ -5,22 +5,22 @@ using System.Web;
 using System.Net;
 using System.IO;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace Household.Common
 {
     public class HttpConnector
     {
         private String serviceUrl = null;
-        private String dataUrl = null;
         private static HttpConnector instance = null;
-        public static HttpConnector CreateInstance(String serviceUrl, String dataUrl)
+        public static HttpConnector CreateInstance(String serviceUrl)
         {
-            instance = new HttpConnector(serviceUrl, dataUrl);
+            instance = new HttpConnector(serviceUrl);
             return instance;
         }
         public static HttpConnector GetInstance()
         {
-            if(instance == null)
+            if (instance == null)
             {
                 throw new NullReferenceException();
             }
@@ -31,24 +31,57 @@ namespace Household.Common
             POST,
             GET
         }
-        public HttpConnector(String serviceUrl,String dataUrl)
+        public HttpConnector(String serviceUrl)
         {
             this.serviceUrl = serviceUrl;
-            this.dataUrl = dataUrl;
         }
-        public string GetRequest(String url, HttpMethod method, IDictionary<String, string> param = null)
+
+        private string GetRequest(String url, HttpMethod method, String param = null)
+        {
+            try
+            {
+                if (HttpMethod.GET.Equals(method) && param != null)
+                {
+                    url += (url.IndexOf("?") != -1) ? "&" : "?" + param;
+                }
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                request.Method = method.ToString();
+                if (HttpMethod.POST.Equals(method) && param != null)
+                {
+                    request.ContentType = "application/x-www-form-urlencoded";
+                    byte[] byteArray = Encoding.UTF8.GetBytes(param);
+                    request.ContentLength = byteArray.Length;
+                    using (Stream dataStream = request.GetRequestStream())
+                    {
+                        dataStream.Write(byteArray, 0, byteArray.Length);
+                    }
+                }
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    {
+                        return reader.ReadToEnd();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                return GetRequest(url, method, param);
+            }
+        }
+        public string GetRequest(String url, HttpMethod method, IDictionary<String, Object> param = null)
         {
             try
             {
                 string paramStr = param != null ? combineParameter(param) : null;
                 if (HttpMethod.GET.Equals(method) && paramStr != null)
                 {
-                    url += (url.IndexOf("?") != -1) ? "&" : "?" + paramStr;
+                    url += (url.IndexOf("?") != -1) ? "&" : "?" + param;
                 }
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
                 request.Method = method.ToString();
                 request.ContentType = "application/x-www-form-urlencoded";
-                if (HttpMethod.POST.Equals(method) && paramStr != null)
+                if (HttpMethod.POST.Equals(method) && param != null)
                 {
                     byte[] byteArray = Encoding.UTF8.GetBytes(paramStr);
                     request.ContentLength = byteArray.Length;
@@ -71,7 +104,7 @@ namespace Household.Common
             }
         }
 
-        private string combineParameter(IDictionary<string, string> param)
+        private string combineParameter(IDictionary<string, Object> param)
         {
             StringBuilder sb = new StringBuilder();
             foreach (String key in param.Keys)
@@ -85,14 +118,20 @@ namespace Household.Common
             return sb.ToString();
         }
 
-        public string GetDataRequest(String code, IDictionary<String, string> param = null)
+        public string GetDataRequest(String code, IDictionary<String, Object> param)
         {
+            String paramBuffer = "p=sY";
+            if (param != null)
+            {
+                String json = JsonConvert.SerializeObject(param);
+                String base64 = System.Convert.ToBase64String(Encoding.UTF8.GetBytes(json));
+                paramBuffer += base64;
+            }
             String connUrl = serviceUrl + code;
-            String key = GetRequest(connUrl, HttpMethod.POST, param);
-            return GetRequest(dataUrl,
-                              HttpMethod.POST,
-                              new Dictionary<String, String>() { 
-                              { "CODE", key } });
+            String ret = GetRequest(connUrl, HttpMethod.POST, paramBuffer);
+            ret = ret.Substring(2);
+            byte[] data = System.Convert.FromBase64String(ret);
+            return Encoding.UTF8.GetString(data);
         }
     }
 }

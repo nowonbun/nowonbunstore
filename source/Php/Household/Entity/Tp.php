@@ -21,11 +21,11 @@ class Tp {
 	public function getCd() {
 		return $this->cd;
 	}
-	public function toString(){
-		return array(
-			"tp" => $this->tp,
-			"nm" => $this->nm,
-			"cd" => $this->cd
+	public function toArray() {
+		return array (
+				"tp" => $this->tp,
+				"nm" => $this->nm,
+				"cd" => $this->cd 
 		);
 	}
 }

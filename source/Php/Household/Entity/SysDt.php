@@ -14,10 +14,10 @@ class SysDt {
 	public function getDt() {
 		return $this->dt;
 	}
-	public function toString(){
-		return array(
-			"kycd" => $this->kycd,
-			"dt" => $this->dt
+	public function toArray() {
+		return array (
+				"kycd" => $this->kycd,
+				"dt" => $this->dt 
 		);
 	}
 }
