@@ -1,6 +1,6 @@
 <?php
 include_once $_SERVER ['DOCUMENT_ROOT'] . '/Household/Common/AbstractDao.php';
-include_once $_SERVER ['DOCUMENT_ROOT'] . '/Household/Entiry/Ctgry.php';
+include_once $_SERVER ['DOCUMENT_ROOT'] . '/Household/Entity/Ctgry.php';
 class CtgryDao extends AbstractDao {
 	public function findAll() {
 		$stmt = null;

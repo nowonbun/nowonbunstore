@@ -7,8 +7,11 @@ class SumHousehold extends AbstractController {
 	protected function main(){
 		
 	}
-	protected function error(){
+	protected function validate(){
 		
+	}
+	protected function error($e){
+		parent::setHeaderError(406,"");
 	}
 }
 $obj = new SumHousehold();

@@ -1,32 +1,40 @@
 <?php
-error_reporting ( E_ALL ^ E_NOTICE || E_WARNING );
-include_once $_SERVER ['DOCUMENT_ROOT'] . '/Household/Common/DefineMessage.php';
+error_reporting ( E_ALL ^ E_NOTICE );
+date_default_timezone_set ( "Asia/Tokyo" );
 include_once $_SERVER ['DOCUMENT_ROOT'] . '/Household/Common/SessionClass.php';
+include_once $_SERVER ['DOCUMENT_ROOT'] . '/Household/Log4j/Logger.php';
 abstract class AbstractController extends SessionClass {
 	private $param;
+	private $logger;
 	public function run() {
 		try {
-			date_default_timezone_set ( "Asis/Tokyu" );
+			Logger::configure ( $_SERVER ['DOCUMENT_ROOT'] . '/Household/Log4j/config.xml' );
+			$this->logger = Logger::getLogger ( get_class ( $this ) );
 			
 			if (! $this->isPostBack ()) {
-				throw new Exception ();
+				throw new Exception ( "not post back" );
 			}
 			
 			// http://localhost/Household/GetMaster.php?p=aaeyJnaWQiOiJ0ZXN0In0=
 			if ($_POST ["p"] == null) {
-				throw new Exception ();
+				throw new Exception ( "not p parameter" );
 			}
 			$this->param = json_decode ( base64_decode ( substr ( $_POST ["p"], 2 ) ) );
 			
 			$this->initialize ();
 			
 			if ($this->validate () == false) {
-				throw new Exception ();
+				throw new Exception ( "validate error" );
 			}
-			
-			echo "=A" . base64_encode ( json_encode ( $this->main () ) );
+			$ret = $this->main ();
+			if ($ret == false) {
+				die ();
+			}
+			echo "=A" . base64_encode ( json_encode ( $this->main ( $ret ) ) );
+			die ();
 		} catch ( Exception $e ) {
-			$this->error ();
+			$this->setErrorLog ( $e );
+			$this->error ( $e );
 		}
 	}
 	protected function isPostBack() {
@@ -118,9 +126,18 @@ abstract class AbstractController extends SessionClass {
 	protected function moveFile($source, $destination) {
 		rename ( $source, $destination );
 	}
+	protected function setDebug($message) {
+		$this->logger->debug ( $message );
+	}
+	protected function setInfoLog($message) {
+		$this->logger->info ( $message );
+	}
+	protected function setErrorLog($message) {
+		$this->logger->error ( $message );
+	}
 	protected abstract function initialize();
 	protected abstract function main();
-	protected abstract function error();
+	protected abstract function error($e);
 	protected abstract function validate();
 }
 ?>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns="http://logging.apache.org/log4php/">
+	<appender name="default" class="LoggerAppenderRollingFile">
+		<layout class="LoggerLayoutPattern">
+			<param name="conversionPattern" value="%d [%t] %-5p %c - %m%n" />
+		</layout>
+		<param name="file" value="e:\log\householdData.log" />
+		<param name="maxFileSize" value="1MB" />
+		<param name="maxBackupIndex" value="5" />
+	</appender>
+	<root>
+		<appender_ref ref="default" />
+	</root>
+</configuration>

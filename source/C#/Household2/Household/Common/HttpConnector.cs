@@ -76,12 +76,12 @@ namespace Household.Common
                 string paramStr = param != null ? combineParameter(param) : null;
                 if (HttpMethod.GET.Equals(method) && paramStr != null)
                 {
-                    url += (url.IndexOf("?") != -1) ? "&" : "?" + param;
+                    url += (url.IndexOf("?") != -1) ? "&" : "?" + paramStr;
                 }
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
                 request.Method = method.ToString();
                 request.ContentType = "application/x-www-form-urlencoded";
-                if (HttpMethod.POST.Equals(method) && param != null)
+                if (HttpMethod.POST.Equals(method) && paramStr != null)
                 {
                     byte[] byteArray = Encoding.UTF8.GetBytes(paramStr);
                     request.ContentLength = byteArray.Length;
@@ -129,6 +129,10 @@ namespace Household.Common
             }
             String connUrl = serviceUrl + code;
             String ret = GetRequest(connUrl, HttpMethod.POST, paramBuffer);
+            if(ret.Length < 2)
+            {
+                return null;
+            }
             ret = ret.Substring(2);
             byte[] data = System.Convert.FromBase64String(ret);
             return Encoding.UTF8.GetString(data);

@@ -34,7 +34,8 @@ class GetMaster extends AbstractController {
 		}
 		return $rslt;
 	}
-	protected function error() {
+	
+	protected function error($e){
 		parent::setHeaderError(406,"");
 	}
 }

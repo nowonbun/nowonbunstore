@@ -12,7 +12,6 @@ class CheckUser extends AbstractController {
 	}
 	protected function validate() {
 		$this->gid = parent::getParam("GID");
-		
 		return true;
 	}
 	protected function main() {
@@ -23,7 +22,8 @@ class CheckUser extends AbstractController {
 		return $item->toArray();
 	}
 	
-	protected function error() {
+	protected function error($e){
+		parent::setHeaderError(406,"");
 	}
 }
 $obj = new CheckUser ();

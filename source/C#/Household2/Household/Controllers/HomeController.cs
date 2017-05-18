@@ -43,17 +43,17 @@ namespace Household.Controllers
                 LoginBean login = JsonConvert.DeserializeObject<LoginBean>(data);
                 login.Token = token;
 
-                String usercheck = HttpConnector.GetInstance().GetDataRequest("CheckUser",
+                String usercheck = HttpConnector.GetInstance().GetDataRequest("CheckUser.php",
                                                                 new Dictionary<String, Object>() { 
                                                             { "GID", login.Id } });
                 Session["USER_BUFFER"] = login;
-                if ("FALSE".Equals(usercheck.ToUpper()))
+                if (usercheck == null)
                 {
                     return base.Redirect("/Home/ApplyConfirm");
                 }
                 return Apply();
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return base.Redirect("/");
             }
@@ -68,7 +68,7 @@ namespace Household.Controllers
         {
             LoginBean login = Session["USER_BUFFER"] as LoginBean;
             Session["USER_BUFFER"] = null;
-            HttpConnector.GetInstance().GetDataRequest("ApplyUser",
+            HttpConnector.GetInstance().GetDataRequest("ApplyUser.php",
                                          new Dictionary<String, Object>() { 
                                          { "GID", login.Id },
                                          {"NAME",login.Name},
