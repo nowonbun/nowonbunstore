@@ -39,38 +39,43 @@ namespace Household.Controllers
 
         public override ActionResult Run()
         {
-            String json = HttpConnector.GetInstance().GetDataRequest("GetHouseholdList", new Dictionary<String, Object>()
+            String json = HttpConnector.GetInstance().GetDataRequest("GetHouseholdList.php", new Dictionary<String, Object>()
             {
                 {"GID",UserSession.Id},
                 {"YEAR",model.Year},
                 {"MONTH",model.Month}
             });
-            List<HouseHold> householdList = JsonConvert.DeserializeObject<List<HouseHold>>(json);
-            json = HttpConnector.GetInstance().GetDataRequest("GetHouseholdList2", new Dictionary<String, Object>()
+            IList<HouseHold> householdList = GetListByJson<HouseHold>(json);
+            json = HttpConnector.GetInstance().GetDataRequest("GetHouseholdList2.php", new Dictionary<String, Object>()
             {
                 {"GID",UserSession.Id},
                 {"YEAR",model.Year},
                 {"MONTH",model.Month},
                 {"CATEGORY","020"}
             });
-            List<HouseHold> creditList = JsonConvert.DeserializeObject<List<HouseHold>>(json);
-            Decimal accountSum = Decimal.Parse(HttpConnector.GetInstance().GetDataRequest("SumHousehold", new Dictionary<String, Object>()
+            IList<HouseHold> creditList = GetListByJson<HouseHold>(json);
+
+            json = HttpConnector.GetInstance().GetDataRequest("SumHousehold.php", new Dictionary<String, Object>()
             {
                 {"GID",UserSession.Id},
                 {"CD","010"},
                 {"TP","011"}
-            })) - Decimal.Parse(HttpConnector.GetInstance().GetDataRequest("SumHousehold", new Dictionary<String, Object>()
+            });
+            HouseholdSum income = GetObjectByJson<HouseholdSum>(json);
+            json = HttpConnector.GetInstance().GetDataRequest("SumHousehold.php", new Dictionary<String, Object>()
             {
                 {"GID",UserSession.Id},
                 {"CD","010"},
                 {"TP","012"}
-            }));
+            });
+            HouseholdSum expend = GetObjectByJson<HouseholdSum>(json);
+            Decimal accountSum = income.Value -expend.Value;
             SearchResultBean result = new SearchResultBean();
             //nomalList create
             foreach (HouseHold hshld in householdList.OrderBy(node => node.Date))
             {
                 SearchResultBean.Node node = CreateNode(hshld);
-                if (String.Equals(hshld.Ctgry.Cd, "010"))
+                if (String.Equals(hshld.Ctgry, "010"))
                 {
                     result.AddAccount(node);
                     node = (SearchResultBean.Node)node.Clone();
@@ -117,18 +122,41 @@ namespace Household.Controllers
             return null;
         }
 
+        private IList<T> GetListByJson<T>(String json)
+        {
+            if (json == null)
+            {
+                return new List<T>();
+            }
+            else
+            {
+                return JsonConvert.DeserializeObject<List<T>>(json);
+            }
+        }
+        private T GetObjectByJson<T>(String json)
+        {
+            if (json == null)
+            {
+                return (T)Activator.CreateInstance(typeof(T));
+            }
+            else
+            {
+                return JsonConvert.DeserializeObject<T>(json);
+            }
+        }
+
         private SearchResultBean.Node CreateNode(HouseHold entity)
         {
             SearchResultBean.Node node = new SearchResultBean.Node();
             node.Idx = entity.Index;
-            node.Tp = entity.Tp.Tp;
-            node.Cd = entity.Ctgry.Cd;
+            node.Tp = entity.Tp;
+            node.Cd = entity.Ctgry;
             node.Date = entity.Date;
             node.Day = entity.Date.Day.ToString();
-            node.Type = FactoryMaster.Instance().GetTypeMaster().Where(item => String.Equals(item.Tp, entity.Tp.Tp)).Single().Nm;
-            node.Category = FactoryMaster.Instance().GetCategoryMaster().Where(item => String.Equals(item.Cd, entity.Ctgry.Cd)).Single().Nm;
+            node.Type = FactoryMaster.Instance().GetTypeMaster().Where(item => String.Equals(item.Tp, entity.Tp)).Single().Nm;
+            node.Category = FactoryMaster.Instance().GetCategoryMaster().Where(item => String.Equals(item.Cd, entity.Ctgry)).Single().Nm;
             node.Content = entity.Context;
-            node.PriceNum = Util.GetPlusMinus(entity.Tp.Tp) ? entity.Price : entity.Price * -1;
+            node.PriceNum = Util.GetPlusMinus(entity.Tp) ? entity.Price : entity.Price * -1;
             node.Pdt = entity.Createdate.ToString(Define.PDT_FORMAT);
             return node;
         }

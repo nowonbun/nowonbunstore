@@ -10,13 +10,13 @@ namespace Household.Models.Entity
     public class HouseHold
     {
         private int index;
-        private LoginBean id;
-        private Category ctgry;
-        private Type tp;
-        private Date dt;
+        private String id;
+        private String ctgry;
+        private String tp;
+        private DateTime dt;
         private String context;
         private Decimal price;
-        private Date createdate;
+        private DateTime createdate;
 
         public int Ndx
         {
@@ -26,31 +26,31 @@ namespace Household.Models.Entity
         {
             get { return index; }
         }
-        public LoginBean Id
+        public String Id
         {
             get { return this.id; }
             set { this.id = value; }
         }
-        public Category Ctgry
+        public String Cd
         {
-            get { return this.ctgry; }
             set { this.ctgry = value; }
         }
-        public Type TpBean
+        public String Ctgry
         {
-            set { this.tp = value; }
+            get { return this.ctgry; }
         }
-        public Type Tp
+        public String Tp
         {
             get { return this.tp; }
+            set { this.tp = value; }
         }
-        public Date Dt
+        public DateTime Dt
         {
             set { this.dt = value; }
         }
         public DateTime Date
         {
-            get { return this.dt.ToDateTime(); }
+            get { return this.dt; }
         }
         public String Cntxt
         {
@@ -68,13 +68,18 @@ namespace Household.Models.Entity
         {
             get { return this.price; }
         }
-        public Date Pdt
+        public DateTime Pdt
         {
-            set { this.createdate = value; }
+            set {
+                if(value != null)
+                {
+                    this.createdate = value;
+                }
+            }
         }
         public DateTime Createdate
         {
-            get { return this.createdate != null ? this.createdate.ToDateTime() : default(DateTime); }
+            get { return this.createdate; }
         }
     }
 }

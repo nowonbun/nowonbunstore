@@ -56,5 +56,17 @@ class Hshld {
 	public function getPdt() {
 		return $this->pdt;
 	}
+	public function toArray() {
+		return array (
+				"ndx" => $this->ndx,
+				"id" => $this->id,
+				"cd" => $this->cd,
+				"tp" => $this->tp,
+				"dt" => $this->dt,
+				"cntxt" => $this->cntxt,
+				"prc" => $this->prc,
+				"pdt" => $this->pdt 
+		);
+	}
 }
 ?>

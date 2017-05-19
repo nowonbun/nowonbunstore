@@ -24,6 +24,7 @@
     <SccLocalPath>Svn</SccLocalPath>
     <SccAuxPath>Svn</SccAuxPath>
     <SccProvider>SubversionScc</SccProvider>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -216,6 +217,7 @@
     <Compile Include="Models\Entity\Category.cs" />
     <Compile Include="Models\Entity\Date.cs" />
     <Compile Include="Models\Entity\HouseHold.cs" />
+    <Compile Include="Models\Entity\HouseholdSum.cs" />
     <Compile Include="Models\Entity\SystemData.cs" />
     <Compile Include="Models\Entity\Type.cs" />
     <Compile Include="Models\Master\CategoryMaster.cs" />

@@ -9,7 +9,8 @@ class HshldDao extends AbstractDao {
 			$qy .= " where (id = ? or id in (select id from hshld_relation where rid = ?)) ";
 			$qy .= " and dt >= ? and dt < ? ";
 			$stmt = parent::getStmt ( $qy );
-			
+			parent::setDebug($start);
+			parent::setDebug($end);
 			$stmt->bind_param ( "ssss", $id, $id, $start, $end );
 			$stmt->execute ();
 			$stmt->bind_result ( $rndx, $rid, $rcd, $rtp, $rdt, $rcntxt, $rprc, $rpdt );
@@ -76,7 +77,7 @@ class HshldDao extends AbstractDao {
 		try {
 			$qy = " select NDX,ID,CD,TP,DT,CNTXT,PRC,PDT from hshld ";
 			$qy .= " where ndx = ? ";
-			$qy .= " and  (id = ? or id in (select id from hshld_relation where rid = ?) ";
+			$qy .= " and  (id = ? or id in (select id from hshld_relation where rid = ?)) ";
 			$stmt = parent::getStmt ( $qy );
 			
 			$stmt->bind_param ( "sss", $idx, $id, $id );
@@ -105,12 +106,14 @@ class HshldDao extends AbstractDao {
 	public function sum($id, $ctgry, $tp) {
 		$stmt = null;
 		try {
-			$qy = " select sum(PRC) from hshld ";
-			$qy .= " where (id = ? or id in (select id from hshld_relation where rid = ?) ";
+			$qy = " select IFNULL(sum(PRC),0) from hshld ";
+			$qy .= " where (id = ? or id in (select id from hshld_relation where rid = ?)) ";
 			$qy .= " and cd = ? ";
 			$qy .= " and tp = ? ";
 			$stmt = parent::getStmt ( $qy );
-			
+			parent::setDebug($id);
+			parent::setDebug($ctgry);
+			parent::setDebug($tp);
 			$stmt->bind_param ( "ssss", $id, $id, $ctgry, $tp );
 			$stmt->execute ();
 			$stmt->bind_result ( $rsum );
