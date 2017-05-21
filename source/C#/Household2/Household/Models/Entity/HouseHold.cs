@@ -68,12 +68,13 @@ namespace Household.Models.Entity
         {
             get { return this.price; }
         }
-        public DateTime Pdt
+        public String Pdt
         {
-            set {
-                if(value != null)
+            set
+            {
+                if (value != null)
                 {
-                    this.createdate = value;
+                    this.createdate = DateTime.ParseExact(value, "yyyy-MM-dd HH:mm:ss", null);
                 }
             }
         }

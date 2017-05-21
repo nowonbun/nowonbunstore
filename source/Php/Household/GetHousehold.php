@@ -1,19 +1,20 @@
 <?php
 include_once $_SERVER ['DOCUMENT_ROOT'] . '/Household/Common/AbstractController.php';
+include_once $_SERVER ['DOCUMENT_ROOT'] . '/Household/Dao/HshldDao.php';
 class GetHouseholdList extends AbstractController {
-	protected function initialize(){
-		
+	private $hshldDao;
+	
+	protected function initialize() {
+		$tihs->hshldDao = new HshldDao ();
 	}
-	protected function main(){
-		
+	protected function validate() {
 	}
-	protected function validate(){
-		
+	protected function main() {
 	}
-	protected function error($e){
-		parent::setHeaderError(406,"");
+	protected function error($e) {
+		parent::setHeaderError ( 406, "" );
 	}
 }
-$obj = new GetHouseholdList();
-$obj->run();
+$obj = new GetHouseholdList ();
+$obj->run ();
 ?>

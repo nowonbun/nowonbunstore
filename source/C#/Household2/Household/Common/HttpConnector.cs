@@ -66,7 +66,8 @@ namespace Household.Common
             }
             catch (Exception e)
             {
-                return GetRequest(url, method, param);
+                throw e;
+                //return GetRequest(url, method, param);
             }
         }
         public string GetRequest(String url, HttpMethod method, IDictionary<String, Object> param = null)
@@ -100,7 +101,8 @@ namespace Household.Common
             }
             catch (Exception e)
             {
-                return GetRequest(url, method, param);
+                throw e;
+                //return GetRequest(url, method, param);
             }
         }
 

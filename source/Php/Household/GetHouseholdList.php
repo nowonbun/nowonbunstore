@@ -21,6 +21,7 @@ class GetHouseholdList extends AbstractController {
 		foreach ( $this->hshldDao->findList ( $this->gid, $this->getThisMonth (), $this->getNextMonth () ) as $value ) {
 			array_push ( $rslt, $value->toArray () );
 		}
+		parent::setDebug("SELECT");
 		return $rslt;
 	}
 	protected function error($e) {

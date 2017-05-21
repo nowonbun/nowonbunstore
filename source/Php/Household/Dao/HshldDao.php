@@ -9,23 +9,23 @@ class HshldDao extends AbstractDao {
 			$qy .= " where (id = ? or id in (select id from hshld_relation where rid = ?)) ";
 			$qy .= " and dt >= ? and dt < ? ";
 			$stmt = parent::getStmt ( $qy );
-			parent::setDebug($start);
-			parent::setDebug($end);
+			parent::setDebug ( $start );
+			parent::setDebug ( $end );
 			$stmt->bind_param ( "ssss", $id, $id, $start, $end );
 			$stmt->execute ();
-			$stmt->bind_result ( $rndx, $rid, $rcd, $rtp, $rdt, $rcntxt, $rprc, $rpdt );
+			$stmt->bind_result ( $r1, $r2, $r3, $r4, $r5, $r6, $r7, $r8 );
 			
 			$rslt = array ();
 			while ( $stmt->fetch () ) {
 				$item = new Hshld ();
-				$item->setNdx ( $rndx );
-				$item->setId ( $rid );
-				$item->setCd ( $rcd );
-				$item->setTp ( $rtp );
-				$item->setDt ( $rdt );
-				$item->setCntxt ( $rcntxt );
-				$item->setPrc ( $rprc );
-				$item->setPdt ( $rpdt );
+				$item->setNdx ( $r1 );
+				$item->setId ( $r2 );
+				$item->setCd ( $r3 );
+				$item->setTp ( $r4 );
+				$item->setDt ( $r5 );
+				$item->setCntxt ( $r6 );
+				$item->setPrc ( $r7 );
+				$item->setPdt ( $r8 );
 				array_push ( $rslt, $item );
 			}
 			return $rslt;
@@ -48,19 +48,19 @@ class HshldDao extends AbstractDao {
 			
 			$stmt->bind_param ( "sssss", $id, $id, $start, $end, $ctgry );
 			$stmt->execute ();
-			$stmt->bind_result ( $rndx, $rid, $rcd, $rtp, $rdt, $rcntxt, $rprc, $rpdt );
+			$stmt->bind_result ( $r1, $r2, $r3, $r4, $r5, $r6, $r7, $r8 );
 			
 			$rslt = array ();
 			while ( $stmt->fetch () ) {
 				$item = new Hshld ();
-				$item->setNdx ( $rndx );
-				$item->setId ( $rid );
-				$item->setCd ( $rcd );
-				$item->setTp ( $rtp );
-				$item->setDt ( $rdt );
-				$item->setCntxt ( $rcntxt );
-				$item->setPrc ( $rprc );
-				$item->setPdt ( $rpdt );
+				$item->setNdx ( $r1 );
+				$item->setId ( $r2 );
+				$item->setCd ( $r3 );
+				$item->setTp ( $r4 );
+				$item->setDt ( $r5 );
+				$item->setCntxt ( $r6 );
+				$item->setPrc ( $r7 );
+				$item->setPdt ( $r8 );
 				array_push ( $rslt, $item );
 			}
 			return $rslt;
@@ -82,18 +82,18 @@ class HshldDao extends AbstractDao {
 			
 			$stmt->bind_param ( "sss", $idx, $id, $id );
 			$stmt->execute ();
-			$stmt->bind_result ( $rndx, $rid, $rcd, $rtp, $rdt, $rcntxt, $rprc, $rpdt );
+			$stmt->bind_result ( $r1, $r2, $r3, $r4, $r5, $r6, $r7, $r8 );
 			
 			$stmt->fetch ();
 			$item = new Hshld ();
-			$item->setNdx ( $rndx );
-			$item->setId ( $rid );
-			$item->setCd ( $rcd );
-			$item->setTp ( $rtp );
-			$item->setDt ( $rdt );
-			$item->setCntxt ( $rcntxt );
-			$item->setPrc ( $rprc );
-			$item->setPdt ( $rpdt );
+			$item->setNdx ( $r1 );
+			$item->setId ( $r2 );
+			$item->setCd ( $r3 );
+			$item->setTp ( $r4 );
+			$item->setDt ( $r5 );
+			$item->setCntxt ( $r6 );
+			$item->setPrc ( $r7 );
+			$item->setPdt ( $r8 );
 			return $item;
 		} catch ( Exception $e ) {
 			echo $e;
@@ -111,9 +111,9 @@ class HshldDao extends AbstractDao {
 			$qy .= " and cd = ? ";
 			$qy .= " and tp = ? ";
 			$stmt = parent::getStmt ( $qy );
-			parent::setDebug($id);
-			parent::setDebug($ctgry);
-			parent::setDebug($tp);
+			parent::setDebug ( $id );
+			parent::setDebug ( $ctgry );
+			parent::setDebug ( $tp );
 			$stmt->bind_param ( "ssss", $id, $id, $ctgry, $tp );
 			$stmt->execute ();
 			$stmt->bind_result ( $rsum );
@@ -123,6 +123,30 @@ class HshldDao extends AbstractDao {
 		} catch ( Exception $e ) {
 			echo $e;
 			die ( $e );
+		} finally {
+			$stmt->close ();
+			parent::close ();
+		}
+	}
+	public function insert($item) {
+		$stmt = null;
+		try {
+			$qy = "insert into hshld(id,cd,tp,dt,cntxt,prc,pdt)values";
+			$qy .= "(?,?,?,?,?,?,now())";
+			$stmt = parent::getStmt ( $qy );
+			$stmt->bind_param ( "ssssss", $p1, $p2, $p3, $p4, $p5, $p6 );
+			$p1 = $item->getId ();
+			$p2 = $item->getCd ();
+			$p3 = $item->getTp ();
+			$p4 = $item->getDt ();
+			$p5 = $item->getCntxt ();
+			$p6 = $item->getPrc ();
+			if ($stmt->execute ()) {
+				return true;
+			}
+			return false;
+		} catch ( Exception $e ) {
+			throw $e;
 		} finally {
 			$stmt->close ();
 			parent::close ();

@@ -34,7 +34,7 @@ namespace Household.Controllers
                 ResultBean.Error = Message.DATA_EROR;
                 return false;
             }
-            String json = HttpConnector.GetInstance().GetDataRequest("GetHousehold", new Dictionary<String, Object>()
+            String json = HttpConnector.GetInstance().GetDataRequest("GetHousehold.php", new Dictionary<String, Object>()
             {
                 {"GID",UserSession.Id},
                 {"IDX",model.HouseholdIdx}
@@ -51,7 +51,7 @@ namespace Household.Controllers
 
         public override ActionResult Run()
         {
-            HttpConnector.GetInstance().GetDataRequest("DeleteHousehold", new Dictionary<String, Object>()
+            HttpConnector.GetInstance().GetDataRequest("DeleteHousehold.php", new Dictionary<String, Object>()
             {
                 {"IDX",model.HouseholdIdx},
                 {"GID",UserSession.Id}

@@ -10,7 +10,7 @@ abstract class AbstractController extends SessionClass {
 		try {
 			Logger::configure ( $_SERVER ['DOCUMENT_ROOT'] . '/Household/Log4j/config.xml' );
 			$this->logger = Logger::getLogger ( get_class ( $this ) );
-			
+			$this->setDebug("DEBUG DEBUG");
 			if (! $this->isPostBack ()) {
 				throw new Exception ( "not post back" );
 			}
@@ -30,7 +30,7 @@ abstract class AbstractController extends SessionClass {
 			if ($ret == false) {
 				die ();
 			}
-			echo "=A" . base64_encode ( json_encode ( $this->main ( $ret ) ) );
+			echo "=A" . base64_encode ( json_encode ( $ret ) );
 			die ();
 		} catch ( Exception $e ) {
 			$this->setErrorLog ( $e );
