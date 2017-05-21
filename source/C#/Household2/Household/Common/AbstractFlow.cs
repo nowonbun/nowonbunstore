@@ -34,7 +34,7 @@ namespace Household.Common
 
             logger = LogManager.GetLogger(this.GetType());
             bean = new AjaxResultBean();
-            
+
         }
 
         public static implicit operator ActionResult(AbstractFlow flow)
@@ -60,21 +60,11 @@ namespace Household.Common
         protected AjaxResultBean ResultBean
         {
             get { return this.bean; }
-        } 
-
-        protected void DebugLog(object message)
-        {
-            logger.Debug(message);
         }
 
-        protected void InfoLog(object message)
+        protected ILog Logger
         {
-            logger.Info(message);
-        }
-
-        protected void ErrorLog(object message)
-        {
-            logger.Error(message);
+            get { return logger; }
         }
 
         public LoginBean UserSession

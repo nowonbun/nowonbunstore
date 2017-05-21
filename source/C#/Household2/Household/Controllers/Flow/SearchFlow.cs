@@ -18,6 +18,7 @@ namespace Household.Controllers
         public SearchFlow(HttpRequestBase request, HttpResponseBase response, HttpContextBase context, SearchBean model)
             : base(request, response, context)
         {
+            base.Logger.Info("Search Flow Initialize");
             this.model = model;
         }
         public override bool Validate()
@@ -25,26 +26,33 @@ namespace Household.Controllers
             if (UserSession == null)
             {
                 ResultBean.Result = Define.LOGIN_ERROR;
+                base.Logger.Error("Session Null");
                 return false;
             }
             if (String.IsNullOrEmpty(model.Year) ||
             String.IsNullOrEmpty(model.Month))
             {
+                base.Logger.Error("year or month null");
+                base.Logger.Error(" model Year - " + model.Year);
+                base.Logger.Error(" model Month - " + model.Month);
                 ResultBean.Result = Define.RESULT_NG;
                 ResultBean.Error = Message.DATA_EROR;
                 return false;
             }
+            base.Logger.Info("Validate Ok!");
             return true;
         }
 
         public override ActionResult Run()
         {
+            base.Logger.Info("Run Ok!");
             String json = HttpConnector.GetInstance().GetDataRequest("GetHouseholdList.php", new Dictionary<String, Object>()
             {
                 {"GID",UserSession.Id},
                 {"YEAR",model.Year},
                 {"MONTH",model.Month}
             });
+            base.Logger.Info("GetHouseholdList.php Ok!");
             IList<HouseHold> householdList = GetListByJson<HouseHold>(json);
             json = HttpConnector.GetInstance().GetDataRequest("GetHouseholdList2.php", new Dictionary<String, Object>()
             {
@@ -53,6 +61,7 @@ namespace Household.Controllers
                 {"MONTH",model.Month},
                 {"CATEGORY","020"}
             });
+            base.Logger.Info("GetHouseholdList2.php Ok!");
             IList<HouseHold> creditList = GetListByJson<HouseHold>(json);
 
             json = HttpConnector.GetInstance().GetDataRequest("SumHousehold.php", new Dictionary<String, Object>()
@@ -61,6 +70,7 @@ namespace Household.Controllers
                 {"CD","010"},
                 {"TP","011"}
             });
+            base.Logger.Info("SumHousehold.php Ok!");
             HouseholdSum income = GetObjectByJson<HouseholdSum>(json);
             json = HttpConnector.GetInstance().GetDataRequest("SumHousehold.php", new Dictionary<String, Object>()
             {
@@ -68,8 +78,9 @@ namespace Household.Controllers
                 {"CD","010"},
                 {"TP","012"}
             });
+            base.Logger.Info("SumHousehold.php Ok!");
             HouseholdSum expend = GetObjectByJson<HouseholdSum>(json);
-            Decimal accountSum = income.Value -expend.Value;
+            Decimal accountSum = income.Value - expend.Value;
             SearchResultBean result = new SearchResultBean();
             //nomalList create
             foreach (HouseHold hshld in householdList.OrderBy(node => node.Date))
@@ -113,7 +124,7 @@ namespace Household.Controllers
 
             ResultBean.Result = Define.RESULT_OK;
             ResultBean.Add("DATA", result);
-
+            base.Logger.Info("Run Ok!");
             return Json(ResultBean, JsonRequestBehavior.AllowGet);
         }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using log4net;
 using System.Net;
 using System.IO;
 using System.Text;
@@ -11,6 +12,8 @@ namespace Household.Common
 {
     public class HttpConnector
     {
+        private ILog logger;
+
         private String serviceUrl = null;
         private static HttpConnector instance = null;
         public static HttpConnector CreateInstance(String serviceUrl)
@@ -34,6 +37,7 @@ namespace Household.Common
         public HttpConnector(String serviceUrl)
         {
             this.serviceUrl = serviceUrl;
+            logger = LogManager.GetLogger(this.GetType());
         }
 
         private string GetRequest(String url, HttpMethod method, String param = null)
@@ -66,6 +70,7 @@ namespace Household.Common
             }
             catch (Exception e)
             {
+                this.logger.Error(e);
                 throw e;
                 //return GetRequest(url, method, param);
             }
@@ -101,6 +106,7 @@ namespace Household.Common
             }
             catch (Exception e)
             {
+                this.logger.Error(e);
                 throw e;
                 //return GetRequest(url, method, param);
             }
@@ -130,14 +136,26 @@ namespace Household.Common
                 paramBuffer += base64;
             }
             String connUrl = serviceUrl + code;
+            this.logger.Info("connUrl - " + connUrl);
+            this.logger.Info("parameter - " + paramBuffer);
             String ret = GetRequest(connUrl, HttpMethod.POST, paramBuffer);
-            if(ret.Length < 2)
+            if (ret.Length < 2)
             {
+                this.logger.Info("result not length");
                 return null;
             }
-            ret = ret.Substring(2);
-            byte[] data = System.Convert.FromBase64String(ret);
-            return Encoding.UTF8.GetString(data);
+            try
+            {
+                this.logger.Info(" result - " + ret);
+                ret = ret.Substring(2);
+                byte[] data = System.Convert.FromBase64String(ret);
+                return Encoding.UTF8.GetString(data);
+            }
+            catch (Exception e)
+            {
+                this.logger.Error(e);
+                throw e;
+            }
         }
     }
 }

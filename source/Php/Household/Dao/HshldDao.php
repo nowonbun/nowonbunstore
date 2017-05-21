@@ -5,7 +5,7 @@ class HshldDao extends AbstractDao {
 	public function findList($id, $start, $end) {
 		$stmt = null;
 		try {
-			$qy = " select NDX,ID,CD,TP,DT,CNTXT,PRC,PDT from hshld ";
+			$qy = " select NDX, ID, CD, TP, DT, CNTXT, PRC, PDT from hshld ";
 			$qy .= " where (id = ? or id in (select id from hshld_relation where rid = ?)) ";
 			$qy .= " and dt >= ? and dt < ? ";
 			$stmt = parent::getStmt ( $qy );
@@ -40,7 +40,7 @@ class HshldDao extends AbstractDao {
 	public function findListByCtgry($id, $start, $end, $ctgry) {
 		$stmt = null;
 		try {
-			$qy = " select NDX,ID,CD,TP,DT,CNTXT,PRC,PDT from hshld ";
+			$qy = " select NDX, ID, CD, TP, DT, CNTXT, PRC, PDT from hshld ";
 			$qy .= " where (id = ? or id in (select id from hshld_relation where rid = ?)) ";
 			$qy .= " and dt >= ? and dt < ? ";
 			$qy .= " and cd = ? ";
@@ -75,7 +75,7 @@ class HshldDao extends AbstractDao {
 	public function find($idx, $id) {
 		$stmt = null;
 		try {
-			$qy = " select NDX,ID,CD,TP,DT,CNTXT,PRC,PDT from hshld ";
+			$qy = " select NDX, ID, CD, TP, DT, CNTXT, PRC, PDT from hshld ";
 			$qy .= " where ndx = ? ";
 			$qy .= " and  (id = ? or id in (select id from hshld_relation where rid = ?)) ";
 			$stmt = parent::getStmt ( $qy );
@@ -106,7 +106,7 @@ class HshldDao extends AbstractDao {
 	public function sum($id, $ctgry, $tp) {
 		$stmt = null;
 		try {
-			$qy = " select IFNULL(sum(PRC),0) from hshld ";
+			$qy = " select IFNULL( sum(PRC), 0 ) from hshld ";
 			$qy .= " where (id = ? or id in (select id from hshld_relation where rid = ?)) ";
 			$qy .= " and cd = ? ";
 			$qy .= " and tp = ? ";
@@ -131,8 +131,8 @@ class HshldDao extends AbstractDao {
 	public function insert($item) {
 		$stmt = null;
 		try {
-			$qy = "insert into hshld(id,cd,tp,dt,cntxt,prc,pdt)values";
-			$qy .= "(?,?,?,?,?,?,now())";
+			$qy = " insert into hshld( ID, CD, TP, DT, CNTXT, PRC, PDT)values ";
+			$qy .= " ( ?, ?, ?, ?, ?, ?, now() ) ";
 			$stmt = parent::getStmt ( $qy );
 			$stmt->bind_param ( "ssssss", $p1, $p2, $p3, $p4, $p5, $p6 );
 			$p1 = $item->getId ();
@@ -141,6 +141,53 @@ class HshldDao extends AbstractDao {
 			$p4 = $item->getDt ();
 			$p5 = $item->getCntxt ();
 			$p6 = $item->getPrc ();
+			if ($stmt->execute ()) {
+				return true;
+			}
+			return false;
+		} catch ( Exception $e ) {
+			throw $e;
+		} finally {
+			$stmt->close ();
+			parent::close ();
+		}
+	}
+	public function update($item) {
+		$stmt = null;
+		try {
+			$qy = " update hshld set id = ?, cd = ?, tp = ?, dt = ?, cntxt = ?, prc = ? , pdt=now() ";
+			$qy .= " where ndx=?  ";
+			$stmt = parent::getStmt ( $qy );
+			$stmt->bind_param ( "sssssss", $p1, $p2, $p3, $p4, $p5, $p6, $p7 );
+			
+			$p1 = $item->getId ();
+			$p2 = $item->getCd ();
+			$p3 = $item->getTp ();
+			$p4 = $item->getDt ();
+			$p5 = $item->getCntxt ();
+			$p6 = $item->getPrc ();
+			$p7 = $item->getNdx ();
+			
+			if ($stmt->execute ()) {
+				return true;
+			}
+			return false;
+		} catch ( Exception $e ) {
+			throw $e;
+		} finally {
+			$stmt->close ();
+			parent::close ();
+		}
+	}
+	public function delete($idx, $id) {
+		$stmt = null;
+		try {
+			$qy = " delete from hshld ";
+			$qy .= " where NDX = ? ";
+			$stmt = parent::getStmt ( $qy );
+			$stmt->bind_param ( "s", $p1 );
+			$p1 = $idx;
+			
 			if ($stmt->execute ()) {
 				return true;
 			}

@@ -11,6 +11,7 @@ class AddHousehold extends AbstractController {
 	private $cntxt;
 	private $prc;
 	protected function initialize() {
+		parent::setInfoLog("AddHousehold Start");
 		$this->hshldDao = new HshldDao ();
 	}
 	protected function validate() {
@@ -20,6 +21,7 @@ class AddHousehold extends AbstractController {
 		$this->dt = parent::getParam ( "DT" );
 		$this->cntxt = parent::getParam ( "CNTXT" );
 		$this->prc = parent::getParam ( "PRC" );
+		parent::setInfoLog("AddHousehold validate Ok!");
 		return true;
 	}
 	protected function main() {
@@ -30,8 +32,8 @@ class AddHousehold extends AbstractController {
 		$item->setDt ( $this->dt );
 		$item->setCntxt ( $this->cntxt );
 		$item->setPrc ( $this->prc );
-		parent::setDebug("INSERT");
 		$this->hshldDao->insert ( $item );
+		parent::setInfoLog("AddHousehold Insert Ok!");
 		return $item->toArray ();
 	}
 	protected function error($e) {
