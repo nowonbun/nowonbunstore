@@ -260,23 +260,33 @@
                                     <input type="hidden" id="householdMonth_mobile" name="householdMonth">
                                     <input type="hidden" id="householdIdx_mobile" name="householdIdx" />
                                     <input type="hidden" id="householdPdt_mobile" name="householdPdt" />
-                                    <select class="household-date day" id="householdDay_mobile" name="householdDay">
-                                        @Html.Raw(HtmlUtil.GetSelectDay31Option())
-                                    </select>
+                                    <div class="selectDiv householdDay_mobile">
+                                        <span></span>
+                                        <select class="household-date day" id="householdDay_mobile" name="householdDay">
+                                            @Html.Raw(HtmlUtil.GetSelectDay31Option())
+                                        </select>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
                                 <th>カテゴリ</th>
                                 <td>
-                                    <select class="household-category" id="householdCategory_mobile" name="householdCategory">
-                                        @Html.Raw(HtmlUtil.GetCategoryOption())
-                                    </select>
+                                    <div class="selectDiv householdCategory_mobile">
+                                        <span></span>
+                                        <select class="household-category" id="householdCategory_mobile" name="householdCategory">
+                                            @Html.Raw(HtmlUtil.GetCategoryOption())
+                                        </select>
+                                    </div>
                                 </td>
                             </tr>
                             <tr>
                                 <th>区分</th>
                                 <td>
-                                    <select class="household-type" id="householdType_mobile" name="householdType"></select>
+                                    <div class="selectDiv householdType_mobile">
+                                        <span></span>
+                                        <select class="household-type" id="householdType_mobile" name="householdType"></select>
+                                    </div>
+                                    
                                 </td>
                             </tr>
                             <tr>
@@ -323,12 +333,12 @@
                     <tbody>
                         <tr>
                             <td colspan="2" class="calc-txt">
-                                <input type="tel" pattern="[0-9]*" id="calc" autocomplete="off"/>
+                                <input type="tel" pattern="[0-9]*" id="calc" autocomplete="off" />
                             </td>
                         </tr>
                         <tr>
                             <td colspan="2" class="calc-sum">
-                                S : <input type="tel" pattern="[0-9]*" id="calc_sum" autocomplete="off" readonly disabled="disabled" maxlength="8"/>
+                                S : <input type="tel" pattern="[0-9]*" id="calc_sum" autocomplete="off" readonly disabled="disabled" maxlength="8" />
                             </td>
                         </tr>
                         <tr>
@@ -353,6 +363,11 @@
                             </td>
                             <td>
                                 <input type="button" id="calc_result" value="=" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <input type="button" id="calc_input" value="入力" />
                             </td>
                         </tr>
                     </tbody>

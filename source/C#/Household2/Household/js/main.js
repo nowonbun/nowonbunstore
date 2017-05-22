@@ -1,11 +1,16 @@
 ﻿_ = (function (m) {
     $(function () {
         m.signout.init();
-        m.inputForm.init();
-        m.search.init();
+
         m.data.init();
+        m.mobileInputForm.init();
+        m.inputForm.init();
         m.calculator.init();
         m.screen.init();
+        m.fn.init();
+
+        //because select setting
+        m.search.init();
     });
     return m;
 })({
@@ -256,6 +261,7 @@
             $("#householdCategory_mobile").on("change", function () {
                 _.mobileInputForm.changeType();
             });
+            console.log("mobileInputForm -> setting");
             /* The register button event and popup*/
             $("input#apply_mobile").on("click", function () {
                 $("html").addClass("fixed");
@@ -515,6 +521,7 @@
         },
     },
     calculator: {
+        oper: null,
         init: function () {
             this.setting();
         },
@@ -559,13 +566,26 @@
             $("input[type=button]#calc_clear").on("click", function () {
                 _.calculator.initCalc(true);
             });
-
+            //
             $("#calc_result").on("click", function () {
+                _.calculator.calculate();
+            });
+            $("#calc_input").on("click", function () {
                 var buffer = $("input[type=tel]#calc_sum").val();
                 $("#householdPrice_mobile").val(buffer);
                 _.calculator.initCalc(false);
                 $("div.calc").addClass("off");
             });
+        },
+        calculate: function () {
+            if (_.calculator.oper === "plus") {
+                _.calculator.addCalcNumber();
+            } else if (_.calculator.oper === "plus") {
+                _.calculator.subtractCalcNumber();
+            } else {
+                var a = parseInt($("input[type=tel]#calc").val());
+                _.calculator.setCalc(a);
+            }
         },
         initCalc: function (focus) {
             $("input[type=tel]#calc").val("");
@@ -657,6 +677,9 @@
         }
     },
     fn: {
+        init: function () {
+
+        },
         convertMoneyStr: function (val, valStr) {
             return "￥" + valStr.replace("-", "");
         },
