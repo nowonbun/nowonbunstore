@@ -1,0 +1,217 @@
+@CHARSET "UTF-8";
+
+* {
+	box-sizing: border-box;
+}
+
+html, body, header, footer, div.main {
+	min-width: 360px;
+}
+
+html {
+	height: 97%;
+}
+
+/*header*/
+header {
+	background: black;
+	border-bottom: 1px solid #fff;
+	color: #fff;
+	display: block;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	text-align: center;
+	width: 100%;
+}
+
+label.menuIcon {
+	position: absolute;
+	left: 0px;
+	margin-left: 10px;
+	cursor: pointer;
+}
+
+label.idIcon {
+	position: absolute;
+	right: 0px;
+	margin-right: 10px;
+	cursor: pointer;
+}
+
+label.menuIcon:hover, label.idIcon:hover {
+	color: #444;
+}
+
+/*body*/
+body {
+	box-sizing: border-box;
+	font-family: arial;
+	font-size: 12pt;
+	height: 98%;
+	margin: 0px;
+	padding: 0px;
+}
+
+.main {
+	text-align: center;
+}
+
+.main>.container {
+	width: 100%;
+	display: flex;
+	position: relative;
+	height: 100%;
+}
+/*menu*/
+.disp-off {
+	display: none;
+}
+
+ul {
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+	text-align: left;
+	width: 100%;
+}
+
+li {
+	text-align: left;
+}
+
+aside {
+	overflow-y: scroll;
+	overflow-x: hidden;
+	background-color: #000;
+}
+
+aside::-webkit-scrollbar {
+	width: 2px;
+	background-color: #000;
+}
+
+.contents::-webkit-scrollbar {
+	width: 8px;
+	background-color: #000;
+}
+
+aside::-webkit-scrollbar-thumb, .contents::-webkit-scrollbar {
+	background: #aaa;
+}
+/*body -> main*/
+.contents {
+	width: 100%;
+	word-break: break-all;
+	text-align: left;
+	overflow-y: auto;
+	overflow-x: hidden;
+	background-color: #FFF;
+}
+/*footer*/
+footer {
+	background: black;
+	color: #fff;
+	text-align: center;
+	display: block;
+	width: 100%;
+	border-top: 1px solid #fff;
+	font-size: 10pt;
+	height: 30px;
+	padding-bottom: 32px;
+}
+
+span.state {
+	position: absolute;
+	left: 0px;
+	margin-left: 20px;
+	width: 150px;
+	background: #fff;
+	color: #000;
+	font-size: 9pt;
+	text-align: left;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	margin-top: -8px;
+}
+
+span.styleVersion {
+	display: none;
+	position: absolute;
+	right: 0px;
+	margin-right: 20px;
+}
+
+span.copyright {
+	display: block;
+	text-align: right;
+	margin-right: 20px;
+}
+
+/* id card*/
+section.userInfo {
+	position: absolute;
+	right: 0px;
+	width: 200px;
+	height: 100px;
+	border: 3px solid;
+	background-color: #FFF;
+	border-radius: 10px;
+	box-shadow: 3px 3px 3px 3px grey;
+	font-size: 10pt;
+	transform-origin: top;
+	transform: rotateX(90deg);
+	transition-duration: 100ms;
+	z-index:3;
+}
+
+#idcheck:checked ~ section.userInfo {
+	transform: rotateX(0deg);
+	transition-duration: 100ms;
+}
+
+section.userInfo>.info {
+	padding: 10px;
+	text-align: left;
+}
+
+section.userInfo>.info>span {
+	display: block;
+}
+
+input.set {
+	position: absolute;
+	bottom: 0px;
+	left: 0px;
+	width: 50%;
+	border: 0;
+	background: #000;
+	color: #FFF;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	font-size: 12pt;
+	border-bottom-left-radius: 5px;
+	cursor: pointer;
+	border-top: 1px solid;
+	border-right: 1px solid;
+}
+
+input.signout {
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	width: 50%;
+	border: 0;
+	background: #000;
+	color: #FFF;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	font-size: 12pt;
+	border-bottom-right-radius: 5px;
+	border-top: 1px solid;
+	border-left: 1px solid;
+	cursor: pointer;
+}
+
+input.signout:hover, input.set:hover {
+	background: #111;
+}

@@ -1,22 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
-<title>Insert title here</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>GSM</title>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<link rel="stylesheet" href="./css/common.css">
-<link rel="stylesheet" media="screen and (max-width:480px)" href="./css/mobile.css">
-<link rel="stylesheet" media="screen and (min-width:481px) and (max-width:768px)" href="./css/tablet.css">
-<link rel="stylesheet" media="screen and (min-width:769px)" href="./css/pc.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" media="screen and (max-width:480px)" href="./css/main/mobile.css">
+<link rel="stylesheet" media="screen and (min-width:481px) and (max-width:768px)" href="./css/main/tablet.css">
+<link rel="stylesheet" media="screen and (min-width:769px)" href="./css/main/pc.css">
+<link rel="stylesheet" href="./css/main/common.css">
+<script src="./js/main/common.js"></script>
 </head>
 <body>
-<header></header>
-<div class="main">
-	<div class="container">
-		<aside class="menu"></aside>
-		<div class="contents"></div>
+	<header>
+	<label class="fa fa-ellipsis-h menuIcon" for="menucheck"></label>
+	GSM
+	<label class="fa fa-id-card-o idIcon" for="idcheck"></label>
+	</header>
+	<div class="main">
+		<div class="container">
+			<input type="checkbox" class="disp-off" id="menucheck">
+			<aside class="menu"></aside>
+			<input type="checkbox" class="disp-off" id="idcheck">
+			<section class="userInfo">
+				<div class="info">
+					<span>last connection</span>
+					<span>2000/01/01 09:00:00</span>
+				</div>
+				<input type="button" class="set" value="set">
+				<input type="button" class="signout" value="signout">
+			</section>
+			<div class="contents">
+				aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+			</div>
+		</div>
 	</div>
-</div>
-<footer></footer>
+	<footer>
+		<span class="copyright">Copyright (C) 2017 Only1 all rights reserved.</span>
+		<span class="state">&nbsp;</span>
+		<span class="styleVersion pc">pc</span>
+		<span class="styleVersion tablet">tablet</span>
+		<span class="styleVersion mobile">mobile</span>		
+	</footer>
 </body>
 </html>

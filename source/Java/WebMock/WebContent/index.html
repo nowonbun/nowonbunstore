@@ -1,10 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
-<title>Insert title here</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>GSM</title>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="./css/index/common.css">
 </head>
 <body>
-
+<div class="container">
+    <form class="form-signin">
+        <div class="login-box">
+            <h3 class="form-signin-heading title">GSM</h3>
+            <input type="text" id="lcd" name="lcd" class="form-control" placeholder="Company Code" required autofocus autocomplete="off" value="">
+            <input type="text" id="lid" name="lid" class="form-control" placeholder="ID" required autofocus autocomplete="off" value="">
+            <input type="password" id="lpw" name="lpw" class="form-control" placeholder="Password" required>
+            <label class="error"></label>
+            <button class="btn" type="submit">Sign in</button>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" name="remember" id="remember" value="1"> Remember me(During remain 7 days.)
+                </label>
+            </div>
+        </div>
+        <input type="hidden" name="post" value="1" />
+    </form>
+</div>
 </body>
 </html>
