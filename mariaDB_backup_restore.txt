@@ -1,0 +1,7 @@
+backup
+set file=%date:/=%%time:~0,2%%time:~3,2%%time:~6,2%%time:~9,2%
+mysqldump -uroot -p --opt --no-autocommit=1 --single-transaction=1 --extended-insert=1 --hex-blob --routines --triggers --default-character-set=utf8 [database name]>%file%.sql
+
+
+restore
+mysql -uroot -p --default-character-set=utf8 [database name] < %file%.sql

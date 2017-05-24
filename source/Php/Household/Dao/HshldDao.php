@@ -103,18 +103,16 @@ class HshldDao extends AbstractDao {
 			parent::close ();
 		}
 	}
-	public function sum($id, $ctgry, $tp) {
+	public function sum($id, $ctgry, $tp, $date) {
 		$stmt = null;
 		try {
 			$qy = " select IFNULL( sum(PRC), 0 ) from hshld ";
 			$qy .= " where (id = ? or id in (select id from hshld_relation where rid = ?)) ";
 			$qy .= " and cd = ? ";
 			$qy .= " and tp = ? ";
+			$qy .= " and dt < ? ";
 			$stmt = parent::getStmt ( $qy );
-			parent::setDebug ( $id );
-			parent::setDebug ( $ctgry );
-			parent::setDebug ( $tp );
-			$stmt->bind_param ( "ssss", $id, $id, $ctgry, $tp );
+			$stmt->bind_param ( "sssss", $id, $id, $ctgry, $tp, $date );
 			$stmt->execute ();
 			$stmt->bind_result ( $rsum );
 			

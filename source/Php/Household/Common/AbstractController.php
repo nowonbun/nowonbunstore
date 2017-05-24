@@ -10,7 +10,6 @@ abstract class AbstractController extends SessionClass {
 		try {
 			Logger::configure ( $_SERVER ['DOCUMENT_ROOT'] . '/Household/Log4j/config.xml' );
 			$this->logger = Logger::getLogger ( get_class ( $this ) );
-			$this->setDebug("DEBUG DEBUG");
 			if (! $this->isPostBack ()) {
 				throw new Exception ( "not post back" );
 			}
@@ -19,8 +18,9 @@ abstract class AbstractController extends SessionClass {
 			if ($_POST ["p"] == null) {
 				throw new Exception ( "not p parameter" );
 			}
-			$this->param = json_decode ( base64_decode ( substr ( $_POST ["p"], 2 ) ) );
-			
+			$p = str_replace(" ", "+", $_POST ["p"]);
+			$this->param = json_decode ( base64_decode ( substr ( $p, 2 ) ) );
+			$this->setDebug($this->param);
 			$this->initialize ();
 			
 			if ($this->validate () == false) {

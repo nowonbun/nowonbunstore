@@ -1,9 +1,11 @@
 <?php
 include_once $_SERVER ['DOCUMENT_ROOT'] . '/Household/Common/AbstractController.php';
 include_once $_SERVER ['DOCUMENT_ROOT'] . '/Household/Dao/HshldDao.php';
+include_once $_SERVER ['DOCUMENT_ROOT'] . '/Household/Dao/HshldLogDao.php';
 include_once $_SERVER ['DOCUMENT_ROOT'] . '/Household/Entity/Hshld.php';
 class ModifyHousehold extends AbstractController {
 	private $hshldDao;
+	private $hshldLogDao;
 	private $idx;
 	private $gid;
 	private $cd;
@@ -13,6 +15,7 @@ class ModifyHousehold extends AbstractController {
 	private $prc;
 	protected function initialize() {
 		$this->hshldDao = new HshldDao ();
+		$this->hshldLogDao = new HshldLogDao ();
 	}
 	protected function validate() {
 		$this->idx = parent::getParam ( "IDX" );
@@ -25,7 +28,10 @@ class ModifyHousehold extends AbstractController {
 		return true;
 	}
 	protected function main() {
-		$item = new Hshld ();
+		parent::setDebug($this->idx);
+		parent::setDebug($this->gid);
+		$item = $this->hshldDao->find ( $this->idx, $this->gid );
+		$this->hshldLogDao->insert ( $item );
 		$item->setNdx ( $this->idx );
 		$item->setId ( $this->gid );
 		$item->setCd ( $this->cd );

@@ -68,7 +68,9 @@ namespace Household.Controllers
             {
                 {"GID",UserSession.Id},
                 {"CD","010"},
-                {"TP","011"}
+                {"TP","011"},
+                {"YEAR",model.Year},
+                {"MONTH",model.Month}
             });
             base.Logger.Info("SumHousehold.php Ok!");
             HouseholdSum income = GetObjectByJson<HouseholdSum>(json);
@@ -76,7 +78,9 @@ namespace Household.Controllers
             {
                 {"GID",UserSession.Id},
                 {"CD","010"},
-                {"TP","012"}
+                {"TP","012"},
+                {"YEAR",model.Year},
+                {"MONTH",model.Month}
             });
             base.Logger.Info("SumHousehold.php Ok!");
             HouseholdSum expend = GetObjectByJson<HouseholdSum>(json);
