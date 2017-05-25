@@ -14,5 +14,6 @@ namespace Household.Common
 
         public static String DATA_EROR = "不正的にデータ入力をできません。";
         public static String DATA_CHECK = "他のユーザがデータを修正しました。";
+        public static String EXCEPTION = "エラー発生しました。管理者にお問合せください。";
     }
 }

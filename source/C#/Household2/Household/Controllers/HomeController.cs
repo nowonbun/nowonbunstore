@@ -68,17 +68,25 @@ namespace Household.Controllers
 
         public ActionResult Apply()
         {
-            base.Logger.Info("Apply Open");
-            LoginBean login = Session["USER_BUFFER"] as LoginBean;
-            Session["USER_BUFFER"] = null;
-            HttpConnector.GetInstance().GetDataRequest("ApplyUser.php",
-                                         new Dictionary<String, Object>() {
+            try
+            {
+                base.Logger.Info("Apply Open");
+                LoginBean login = Session["USER_BUFFER"] as LoginBean;
+                Session["USER_BUFFER"] = null;
+                HttpConnector.GetInstance().GetDataRequest("ApplyUser.php",
+                                             new Dictionary<String, Object>() {
                                          { "GID", login.Id },
                                          {"NAME",login.Name},
                                          {"EMAIL",""}});
-            UserSession = login;
-            FormsAuthentication.SetAuthCookie(login.Id, false);
-            return base.Redirect("/Home/Main");
+                UserSession = login;
+                FormsAuthentication.SetAuthCookie(login.Id, false);
+                return base.Redirect("/Home/Main");
+            }
+            catch (Exception e)
+            {
+                base.Logger.Error(e);
+                return base.Redirect("/");
+            }
         }
 
         [AuthorizeFilter]

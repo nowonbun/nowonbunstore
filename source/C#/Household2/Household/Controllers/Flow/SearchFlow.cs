@@ -129,6 +129,7 @@ namespace Household.Controllers
             ResultBean.Result = Define.RESULT_OK;
             ResultBean.Add("DATA", result);
             base.Logger.Info("Run Ok!");
+
             return Json(ResultBean, JsonRequestBehavior.AllowGet);
         }
 

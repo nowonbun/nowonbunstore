@@ -691,20 +691,20 @@
                 dataType: "json",
                 data: data,
                 success: function (data, textStatus, jqXHR) {
-                    //console.log(data);
+                    console.log(data);
                     if (data.result === "SIGNERROR") {
-                        _.fn.SetErrorMsg(ERROR0004, 0);
+                        _.fn.setErrorMsg(ERROR0004, 0);
                         location.href = "/Home/Index";
                     }
                     if (data.result === "NG") {
-                        _.fn.SetErrorMsg(data.error, 0);
+                        _.fn.setErrorMsg(data.error, 0);
                     }
                     if (data.result === "OK") {
                         setTimeout(method, 1, data);
                     }
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    _.fn.SetErrorMsg(ERROR0000, 0);
+                    _.fn.setErrorMsg(ERROR0000, 0);
                 },
                 complete: function (jqXHR, textStatus) {
                     $(".lodding").addClass("lodding-off");
