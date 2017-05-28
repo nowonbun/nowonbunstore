@@ -17,6 +17,9 @@ select {
 table{
     border-collapse:collapse;
 }
+input{
+    -webkit-appearance: none;
+}
 /* header, footer*/
 header, footer {
     position: fixed;

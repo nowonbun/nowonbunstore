@@ -182,7 +182,8 @@ div.apply {
     display: inline-block;
     width: 80%;
     background: #fff;
-    margin-top: 20%;
+    /*margin-top: 20%;*/
+    margin-top:0;
     border-radius: 5px;
     height: 100%;
     max-height: 340px;
@@ -191,8 +192,9 @@ div.apply {
     max-width: 320px;
     box-shadow: 3px 3px 3px 3px #928d8d;
 }
-div.apply.height340{
-    max-height: 340px;
+div.apply.height340 {
+    /*max-height: 340px;*/
+    max-height: 310px;
 }
 div.apply.height380{
     max-height: 380px;
@@ -234,7 +236,8 @@ div.apply > div.layout-main > form > table {
 }
 
 div.apply > div.layout-main > form > table > tbody > tr {
-    height: 40px;
+    /*height: 40px;*/
+    height: 30px;
 }
 
 div.apply > div.layout-main > form > table > tbody > tr > th {
@@ -314,7 +317,8 @@ div.calc {
 
 div.calc > div.calcmain {
     position: absolute;
-    top: 20%;
+    /*top: 20%;*/
+    top:0;
     left: 30%;
     border: 3px solid black;
     width: 200px;
@@ -441,4 +445,9 @@ div.selectDiv.householdCategory_mobile {
 div.selectDiv.householdType_mobile {
     width: 100px;
     text-align: center;
+}
+
+#operation {
+    margin-right: 30px;
+    padding-top: 5px;
 }

@@ -521,7 +521,6 @@
         },
     },
     calculator: {
-        oper: null,
         init: function () {
             this.setting();
         },
@@ -548,19 +547,27 @@
             });
 
             $("input[type=button]#calc_add").on("click", function () {
-                _.calculator.addCalcNumber();
+                _.calculator.calculate();
+                $("#operation").html("+");
+                //_.calculator.addCalcNumber();
             });
 
             $("input[type=button]#calc_subtract").on("click", function () {
-                _.calculator.subtractCalcNumber();
+                //_.calculator.subtractCalcNumber();
+                _.calculator.calculate();
+                $("#operation").html("-");
             });
 
             $("input[type=button]#calc_multiply").on("click", function () {
-                _.calculator.multiplyCalcNumber();
+                //_.calculator.multiplyCalcNumber();
+                _.calculator.calculate();
+                $("#operation").html("*");
             });
 
             $("input[type=button]#calc_division").on("click", function () {
-                _.calculator.divisionCalcNumber();
+                //_.calculator.divisionCalcNumber();
+                _.calculator.calculate();
+                $("#operation").html("/");
             });
 
             $("input[type=button]#calc_clear").on("click", function () {
@@ -569,6 +576,7 @@
             //
             $("#calc_result").on("click", function () {
                 _.calculator.calculate();
+                $("#operaion").html("");
             });
             $("#calc_input").on("click", function () {
                 var buffer = $("input[type=tel]#calc_sum").val();
@@ -578,16 +586,37 @@
             });
         },
         calculate: function () {
-            if (_.calculator.oper === "plus") {
+            var oper = $("#operation").html();
+            if (oper === "+") {
+                _.calculator.addCalcNumber();
+                $("#operation").html("");
+            } else if (oper === "-") {
+                _.calculator.subtractCalcNumber();
+                $("#operation").html("");
+            } else if (oper === "*") {
+                _.calculator.multiplyCalcNumber();
+                $("#operation").html("");
+            } else if (oper === "/") {
+                _.calculator.divisionCalcNumber();
+                $("#operation").html("");
+            } else {
+                var a = parseInt($("input[type=tel]#calc").val());
+                if (!isNaN(a)) {
+                    _.calculator.setCalc(a);
+                }
+            }
+
+            /*if (_.calculator.oper === "plus") {
                 _.calculator.addCalcNumber();
             } else if (_.calculator.oper === "plus") {
                 _.calculator.subtractCalcNumber();
             } else {
                 var a = parseInt($("input[type=tel]#calc").val());
                 _.calculator.setCalc(a);
-            }
+            }*/
         },
         initCalc: function (focus) {
+            $("#operation").html("");
             $("input[type=tel]#calc").val("");
             $("input[type=tel]#calc_sum").val(0);
             if (focus) {
