@@ -108,6 +108,10 @@ abstract class AbstractController extends SessionClass {
 		die ();
 	}
 	protected function writeFile($filepath, $data) {
+		$dir = dirname ( $filepath );
+		if (! is_dir ( $dir )) {
+		    mkdir ( $dir );
+		}
 		$file = fopen ( $filepath, "w" );
 		try {
 			fwrite ( $file, $data );
