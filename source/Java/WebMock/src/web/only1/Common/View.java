@@ -22,7 +22,8 @@ public class View {
 				try (FileInputStream input = new FileInputStream(file)) {
 					input.read(data, 0, data.length);
 				}
-				return new String(data);
+				System.out.println(new String(data,"UTF-8"));
+				return new String(data,"UTF-8");
 			} catch (URISyntaxException | IOException e) {
 				throw new RuntimeException(e);
 			}

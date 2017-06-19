@@ -11,13 +11,15 @@ var menu = (function(m) {
 		this.menuRolling();
 		this.showInit();
 		$(window).resize(menu.menuResize);
-		$(".contents").before().on({
-			click : function() {
-				if(!common.isPc() && $("#menucheck").prop("checked") === true){
-					menu.hide();
-				}
-			}
-		});
+		$("div.contents").before().on(
+				{
+					click : function() {
+						if (!common.isPc()
+								&& $("#menucheck").prop("checked") === true) {
+							menu.hide();
+						}
+					}
+				});
 	},
 	showInit : function() {
 		$("#idcheck").prop("checked", "");
@@ -54,6 +56,6 @@ var menu = (function(m) {
 		$("#menucheck").prop("checked", "");
 	},
 	show : function() {
-		$("#menucheck").prop("checked", true);
+		$("#menucheck").prop("checked", "checked");
 	}
 });

@@ -11,7 +11,9 @@ html, body, header, footer, div.main {
 html {
 	height: 97%;
 }
-
+li>a{
+	display:block;
+}
 /*header*/
 header {
 	background: black;
@@ -99,7 +101,7 @@ aside::-webkit-scrollbar-thumb, .contents::-webkit-scrollbar {
 	background: #aaa;
 }
 /*body -> main*/
-.contents {
+.contents-body {
 	width: 100%;
 	word-break: break-all;
 	text-align: left;
@@ -117,7 +119,6 @@ footer {
 	border-top: 1px solid #fff;
 	font-size: 10pt;
 	height: 30px;
-	padding-bottom: 32px;
 }
 
 span.state {
@@ -161,7 +162,7 @@ section.userInfo {
 	transform-origin: top;
 	transform: rotateX(90deg);
 	transition-duration: 100ms;
-	z-index:3;
+	z-index: 3;
 }
 
 #idcheck:checked ~ section.userInfo {
@@ -214,4 +215,28 @@ input.signout {
 
 input.signout:hover, input.set:hover {
 	background: #111;
+}
+
+div.tab{
+	border-bottom: 1px solid;
+    margin-top: 5px;
+}
+
+div.tab > span{
+	border: 1px solid;
+    margin: 0px;
+    width: 150px;
+    display: inline-block;
+    /*font-size: 15pt;*/
+    font-size: 10pt;
+    text-align: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    cursor: pointer;
+    background: #000;
+    color: #fff;
+    font-weight: bold;
+}
+div.tab > span:hover{
+	 background: #333;
 }

@@ -17,18 +17,20 @@ public abstract class AbstractLoadServlect extends HttpServlet {
 		super();
 	}
 
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
 		this.request = request;
 		this.response = response;
-
+		this.response.setCharacterEncoding("UTF-8");
 		ViewResult result = execute();
 		PrintWriter out = response.getWriter();
 		out.write(result.getHTMLCode());
 
 	}
 
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		this.doGet(request, response);

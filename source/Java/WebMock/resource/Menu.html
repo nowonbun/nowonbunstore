@@ -1,164 +1,96 @@
 <script src='./js/main/menu.js'> </script>
 <ul>
-	<li>menu1
+	<li>기준정보관리
 		<ul class="disp-off">
-			<li><a onclick="common.mainNavigate('./Main1')">menu1 - submenu1</a></li>
-			<li><a onclick="common.mainNavigate('./Main2')">menu1 - submenu2</a></li>
-			<li><a onclick="common.mainNavigate('./Main3')">menu1 - submenu3</a></li>
+			<li><a onclick="common.mainNavigate('공통 코드 관리','./CommonCodeAdmin')">공통 코드 관리</a></li>
+			<li><a onclick="common.mainNavigate('회원 구분 항목 관리','./MemberTypeAdmin')">회원 구분 항목 관리</a></li>
+			<li><a onclick="common.mainNavigate('대출 상품 관리','./LoanAdmin')">대출 상품 관리</a></li>
+			<li><a onclick="common.mainNavigate('심사 기준 정보','./OperationDefaultAdmin')">심사 기준 정보</a></li>
 		</ul>
 	</li>
-	<li>menu2
+	<li>회원관리
 		<ul class="disp-off">
-			<li>menu2 - submenu1</li>
-			<li>menu2 - submenu2</li>
-			<li>menu2 - submenu3</li>
+			<li><a onclick="common.mainNavigate('회원 정보 관리','./MemberAdmin')">회원 정보 관리</a></li>
+			<li><a onclick="common.mainNavigate('회원 리스트','./MemberList')">회원 리스트</a></li>
+			<li><a onclick="common.mainNavigate('회원 변경 히스토리','./MemberHistory')">회원 변경 히스토리</a></li>
 		</ul>
 	</li>
-	<li>menu3
+	<li>영업관리
 		<ul class="disp-off">
-			<li>menu3 - submenu1</li>
-			<li>menu3 - submenu2</li>
-			<li>menu3 - submenu3</li>
+			<li><a onclick="common.mainNavigate('영업 기준 정보','./SalesDefaultInfo')">영업 기준 정보</a></li>
+			<li><a onclick="common.mainNavigate('영업 실적 조회','./SalesPerformance')">영업 실적 조회</a></li>
+			<li><a onclick="common.mainNavigate('인센티브 조회','./Incentive')">인센티브 조회</a></li>
+			<li><a onclick="common.mainNavigate('수수료 조회','./Fees')">수수료 조회</a></li>
+			<li><a onclick="common.mainNavigate('영업 고객 관리','./SalesCostomerAdmin')">영업 고객 관리</a></li>
 		</ul>
 	</li>
-	<li>menu4
+	<li>상담접수
 		<ul class="disp-off">
-			<li>menu4 - submenu1</li>
-			<li>menu4 - submenu2</li>
-			<li>menu4 - submenu3</li>
+			<li><a onclick="common.mainNavigate('상담 관리','./ConsultAdmin')">상담 관리</a></li>
+			<li><a onclick="common.mainNavigate('상담 내역 조회','./ConsultHistory')">상담 내역 조회</a></li>
+			<li><a onclick="common.mainNavigate('대출 접수','./LoanApply')">대출 접수</a></li>
+			<li><a onclick="common.mainNavigate('대출 접수 현황','./LoanApplyHistory')">대출 접수 현황</a></li>
+			<li><a onclick="common.mainNavigate('상담 실적 현황','./ConsultHistory2')">상담 실적 현황</a></li>
 		</ul>
 	</li>
-	<li>menu5
+	<li>대출심사
 		<ul class="disp-off">
-			<li>menu5 - submenu1</li>
-			<li>menu5 - submenu2</li>
-			<li>menu5 - submenu3</li>
+			<li><a onclick="common.mainNavigate('대출 심사','./LoanAudit')">대출 심사</a></li>
+			<li><a onclick="common.mainNavigate('대출 승인','./LoanAdmission')">대출 승인</a></li>
+			<li><a onclick="common.mainNavigate('대출 현황 조회','./LoanHistory')">대출 현황 조회</a></li>
 		</ul>
 	</li>
-	<li>menu6
+	<li>채권관리
 		<ul class="disp-off">
-			<li>menu6 - submenu1</li>
-			<li>menu6 - submenu2</li>
-			<li>menu6 - submenu3</li>
+			<li><a onclick="common.mainNavigate('대출 계약','./LoanAgreement')">대출 계약</a></li>
+			<li><a onclick="common.mainNavigate('채권 관제','./LoanView')">채권 관제</a></li>
+			<li><a onclick="common.mainNavigate('상환 스케줄 관리','./LoanPaymentSchedule')">상환 스케줄 관리</a></li>
+			<li><a onclick="common.mainNavigate('대출 현황 조회','./LoanHistory')">대출 현황 조회</a></li>
+			<li><a onclick="common.mainNavigate('실행 대출 관리','./LoanApplyAdmin')">실행 대출 관리</a></li>
+			<li><a onclick="common.mainNavigate('대출 고객 원장 조회','./LoanHistory2')">대출 고객 원장 조회</a></li>
 		</ul>
 	</li>
-	<li>menu7
+	<li>법수/대손
 		<ul class="disp-off">
-			<li>menu7 - submenu1</li>
-			<li>menu7 - submenu2</li>
-			<li>menu7 - submenu3</li>
+			<li><a onclick="common.mainNavigate('법수 접수 및 관리','./RishApply')">법수 접수 및 관리</a></li>
+			<li><a onclick="common.mainNavigate('대손 접수 및 관리','./RiskApply2')">대손 접수 및 관리</a></li>
+			<li><a onclick="common.mainNavigate('대손 채권 현황','./RishHistory')">대손 채권 현황</a></li>
 		</ul>
 	</li>
-	<li>menu8
+	<li>투자관리
 		<ul class="disp-off">
-			<li>menu8 - submenu1</li>
-			<li>menu8 - submenu2</li>
-			<li>menu8 - submenu3</li>
+			<li><a onclick="common.mainNavigate('투자 상담 관리','./InvestConsult')">투자 상담 관리</a></li>
+			<li><a onclick="common.mainNavigate('투자 상담 내역 조회','./InvestConsultHistory')">투자 상담 내역 조회</a></li>
+			<li><a onclick="common.mainNavigate('투자 접수','./InvestAgreement')">투자 접수</a></li>
+			<li><a onclick="common.mainNavigate('투자 접수 현황','./InvestApply')">투자 접수 현황</a></li>
+			<li><a onclick="common.mainNavigate('상담 실적 현황','./ConsultHistory2')">상담 실적 현황</a></li>
+			<li><a onclick="common.mainNavigate('투자 계약 관리','./InvestAgreementAdmin')">투자 계약 관리</a></li>
+			<li><a onclick="common.mainNavigate('투자 고객 원장 조회','./InvestHistory')">투자 고객 원장 조회</a></li>
 		</ul>
 	</li>
-	<li>menu9
+	<li>마감관리
 		<ul class="disp-off">
-			<li>menu9 - submenu1</li>
-			<li>menu9 - submenu2</li>
-			<li>menu9 - submenu3</li>
+			<li><a onclick="common.mainNavigate('일 마감','./DayDeadline')">일 마감</a></li>
+			<li><a onclick="common.mainNavigate('월 마감','./MonthDeadline')">월 마감</a></li>
+			<li><a onclick="common.mainNavigate('대출처별 원장 조회','./ViewAboutInvest')">대출처별 원장 조회</a></li>
+			<li><a onclick="common.mainNavigate('투자처별 원장 조회','./ViewAboutLoan')">투자처별 원장 조회</a></li>
+			<li><a onclick="common.mainNavigate('통합 원장 조회','./ViewIntegral')">통합 원장 조회</a></li>
 		</ul>
 	</li>
-	<li>menu10
+	<li>경영분석정보
 		<ul class="disp-off">
-			<li>menu10 - submenu1</li>
-			<li>menu10 - submenu2</li>
-			<li>menu10 - submenu3</li>
+			<li><a onclick="common.mainNavigate('영업률 분석','./AnalysisMoney')">영업률 분석</a></li>
+			<li><a onclick="common.mainNavigate('수익률 분석','./AnalysisOperation')">수익률 분석</a></li>
+			<li><a onclick="common.mainNavigate('자금 회전률 분석','./AnalysisRevenue')">자금 회전률 분석</a></li>
 		</ul>
 	</li>
-	<li>menu11
+	<li>시스템관리
 		<ul class="disp-off">
-			<li>menu11 - submenu1</li>
-			<li>menu11 - submenu2</li>
-			<li>menu11 - submenu3</li>
-		</ul>
-	</li>
-	<li>menu12
-		<ul class="disp-off">
-			<li>menu12 - submenu1</li>
-			<li>menu12 - submenu2</li>
-			<li>menu12 - submenu3</li>
-		</ul>
-	</li>
-	<li>menu13
-		<ul class="disp-off">
-			<li>menu13 - submenu1</li>
-			<li>menu13 - submenu2</li>
-			<li>menu13 - submenu3</li>
-		</ul>
-	</li>
-	<li>menu14
-		<ul class="disp-off">
-			<li>menu14 - submenu1</li>
-			<li>menu14 - submenu2</li>
-			<li>menu14 - submenu3</li>
-		</ul>
-	</li>
-	<li>menu15
-		<ul class="disp-off">
-			<li>menu15 - submenu1</li>
-			<li>menu15 - submenu2</li>
-			<li>menu15 - submenu3</li>
-		</ul>
-	</li>
-	<li>menu16
-		<ul class="disp-off">
-			<li>menu16 - submenu1</li>
-			<li>menu16 - submenu2</li>
-			<li>menu16 - submenu3</li>
-		</ul>
-	</li>
-	<li>menu17
-		<ul class="disp-off">
-			<li>menu17 - submenu1</li>
-			<li>menu17 - submenu2</li>
-			<li>menu17 - submenu3</li>
-		</ul>
-	</li>
-	<li>menu18
-		<ul class="disp-off">
-			<li>menu18 - submenu1</li>
-			<li>menu18 - submenu2</li>
-			<li>menu18 - submenu3</li>
-		</ul>
-	</li>
-	<li>menu19
-		<ul class="disp-off">
-			<li>menu19 - submenu1</li>
-			<li>menu19 - submenu2</li>
-			<li>menu19 - submenu3</li>
-		</ul>
-	</li>
-	<li>menu20
-		<ul class="disp-off">
-			<li>menu20 - submenu1</li>
-			<li>menu20 - submenu2</li>
-			<li>menu20 - submenu3</li>
-		</ul>
-	</li>
-	<li>menu21
-		<ul class="disp-off">
-			<li>menu21 - submenu1</li>
-			<li>menu21 - submenu2</li>
-			<li>menu21 - submenu3</li>
-		</ul>
-	</li>
-	<li>menu22
-		<ul class="disp-off">
-			<li>menu22 - submenu1</li>
-			<li>menu22 - submenu2</li>
-			<li>menu22 - submenu3</li>
-		</ul>
-	</li>
-	<li>menu23
-		<ul class="disp-off">
-			<li>menu23 - submenu1</li>
-			<li>menu23 - submenu2</li>
-			<li>menu23 - submenu3</li>
+			<li><a onclick="common.mainNavigate('사용자 관리','./UserAdmin')">사용자 관리</a></li>
+			<li><a onclick="common.mainNavigate('사용자 권한 관리','./UserAuthorAdmin')">사용자 권한 관리</a></li>
+			<li><a onclick="common.mainNavigate('연동 관리','./ConnectionAdmin')">연동 관리</a></li>
+			<li><a onclick="common.mainNavigate('Localization 설정','./LanguegeAdmin')">Localization 설정</a></li>
+			<li><a onclick="common.mainNavigate('시스템 설정','./SystemAdmin')">시스템 설정</a></li>
 		</ul>
 	</li>
 </ul>
