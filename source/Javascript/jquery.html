@@ -8,28 +8,37 @@
 				$(function(){
 					m.test1.init();
 					m.test2.init();
+					m.test3.init();
 				});
 				return m;
-			})({
-				test1 : {
-					obj : null,
-					init : function(){
-						this.obj = $( "#abcd" );
-						this.obj.on( this.listener );
+			})((function(){
+				var testVal = "gogo";
+				return {
+					test1 : {
+						obj : null,
+						init : function(){
+							this.obj = $( "#abcd" );
+							this.obj.on( this.listener );
+						},
+						listener : {
+							click : function() {
+								console.log( _.test2.value );
+							}
+						}
 					},
-					listener : {
-						click : function() {
-							console.log( _.test2.value );
+					test2 : {
+						value : null,
+						init : function(){
+							this.value = "hello world";
+						}
+					},
+					test3 : {
+						init : function(){
+							console.log(testVal);
 						}
 					}
-				},
-				test2 : {
-					value : null,
-					init : function(){
-						this.value = "hello world";
-					}
-				}
-			});
+				};
+			})());
 		</script>
 	</head>
 	<body>
