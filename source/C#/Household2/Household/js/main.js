@@ -243,6 +243,7 @@
 
             _.inputForm.setEvent();
             _.mobileInputForm.setEvent();
+
         }
     },
     mobileInputForm: {
@@ -390,6 +391,9 @@
                 $("#householdType_mobile").val(c.Tp);
                 $("#householdContent_mobile").val(c.Content);
                 $("#householdPrice_mobile").val(c.Price > 0 ? c.Price : c.Price * -1);
+                $("select").each(function () {
+                    $(this).parent().children("span").html($(this).children("option:selected").html());
+                });
             });
         }
     },
@@ -456,6 +460,9 @@
                 $("#householdType_pc").val(c.Tp);
                 $("#householdContent_pc").val(c.Content);
                 $("#householdPrice_pc").val(c.Price > 0 ? c.Price : c.Price * -1);
+                $("select").each(function () {
+                    $(this).parent().children("span").html($(this).children("option:selected").html());
+                });
                 location.href = "#top";
             });
         },
