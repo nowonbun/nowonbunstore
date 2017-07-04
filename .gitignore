@@ -54,3 +54,11 @@
 /source/Java/WebMock/target
 /source/C#/Household2/Household/Web_bak.config
 /source/Php/Household/Common/DBConn_bak.php
+/source/C#/Snipper/Snipper/obj
+/source/C#/Snipper/Snipper/bin
+/source/C#/Snipper/Snipper.Main/obj
+/source/C#/Snipper/Snipper.Main/bin
+/source/C#/WebScraping/WebScraping.Test/obj
+/source/C#/WebScraping/WebScraping.Test/bin
+/source/C#/WebScraping/WebScraping.WebServer/obj
+/source/C#/WebScraping/WebScraping.WebServer/bin
