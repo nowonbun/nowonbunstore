@@ -1,0 +1,72 @@
+@CHARSET "UTF-8";
+
+/* 'Open Sans' font from Google Fonts */
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,700);
+
+body {
+  margin:0px;
+  padding:0px;
+}
+
+header {
+	text-align: center;
+    background-color: #6df549;
+    height: 30px;
+    padding-top: 5px;
+    min-width:375px;
+}
+
+footer {
+	position: absolute;
+    bottom: 0px;
+    height: 30px;
+    text-align: right;
+    background-color: #6df549;
+    padding-top: 5px;
+    width: 100%;
+    min-width:375px;
+}
+
+.sign-in-button {
+  padding: 15px 25px;
+  font-size: 24px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #000000;
+  background-color: #FFFFFF;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 2.5px 2.5px 2.5px 2.5px rgba(0,0,0,0.4);
+}
+
+.revoke-access-button, .assign-site, .sign-out-button {
+  padding: 15px 25px;
+  font-size: 24px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #000000;
+  background-color: #FFFFFF;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 2.5px 2.5px 2.5px 2.5px rgba(0,0,0,0.4);
+  display: none;
+}
+
+.sign-in-button:hover, .sign-out-button:hover, .revoke-access-button:hover, .assign-site:hover {
+	background-color: #1fc122
+}
+
+.sign-in-button:hover, .sign-out-button:active, .revoke-access-button:active, .assign-site:active {
+  background-color: #1fc122;
+  box-shadow: 2.5px 2.5px 2.5px 2.5px rgba(0,0,0,0.4);
+  transform: translateY(4px);
+}
+
+.auth-status {
+	font-size: 12px;
+	font-family: 'Open Sans', sans-serif;
+	display: inline;
+	padding-left: 25px;
+}

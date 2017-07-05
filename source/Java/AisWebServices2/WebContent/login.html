@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};initializeLogin()" onreadystatechange="if (this.readyState === 'complete') this.onload()"></script>
+<script src="./js/common.js"></script>
+<script src="./js/login.js"></script>
+<link rel='stylesheet' type='text/css' href="./css/common.css">
+<link rel='stylesheet' type='text/css' href="./css/login.css">
+</head>
+<body>
+	<header class="header">ヘッダー<hr></header>
+	<div class="main">
+	<button id="sign-in-button" class="sign-in-button">Sign In/Authorize</button>
+	<button id="sign-out-button" class="sign-out-button">Sign Out</button>
+	<button id="revoke-access-button" class="revoke-access-button">Revoke access</button>
+	<!-- button id="assign-site" class="assign-site">
+	assign site</button-->
+
+	<p><div id="auth-status" class="auth-status"></div></p>
+	<!--script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script-->
+	
+	<!-- script async defer src="https://apis.google.com/js/api.js"
+		onload="this.onload=function(){};handleClientLoad()"
+		onreadystatechange="if (this.readyState === 'complete') this.onload()"-->
+	</script>
+	</div>
+	<footer class="footer"><hr>copyright 2017 ais</footer>
+</body>
+</html>

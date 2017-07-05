@@ -1,0 +1,9 @@
+eclipse.preferences.version=1
+encoding//src/org/tempuri/BasicHttpBinding_IMeetingRoomStub.java=UTF-8
+encoding//src/org/tempuri/BasicHttpBinding_IMemberStub.java=UTF-8
+encoding//src/org/tempuri/IMeetingRoom.java=UTF-8
+encoding//src/org/tempuri/IMember.java=UTF-8
+encoding//src/org/tempuri/MeetingRoom.java=UTF-8
+encoding//src/org/tempuri/MeetingRoomLocator.java=UTF-8
+encoding//src/org/tempuri/Member.java=UTF-8
+encoding//src/org/tempuri/MemberLocator.java=UTF-8

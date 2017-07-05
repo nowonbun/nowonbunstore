@@ -1,0 +1,48 @@
+@CHARSET "UTF-8";
+div.country,
+div.location{
+	display: inline-block;
+    min-width: 500px;
+    max-width: 500px;
+    margin-top: 30px;
+    margin-left: 40px;
+    margin-right: 40px;
+    margin-bottom: 40px;
+}
+div.country > table,
+div.location > table,
+div.product > table{
+	border-collapse: collapse;
+    box-shadow: 10px 10px 10px #000;
+    table-layout: fixed;
+}
+div.country > table th,
+div.country > table td,
+div.location > table th,
+div.location > table td,
+div.product > table th,
+div.product > table td{
+	border: 1px solid;
+	word-break:break-all;
+}
+div.country > table th,
+div.location > table th,
+div.product > table th{
+	background-color : #c1c1c1;
+}
+div.product{
+	display: inline-block;
+    min-width: 1000px;
+    max-width: 1000px;
+    margin-top: 30px;
+    margin-bottom: 40px;
+}
+input[type=submit],
+input[type=button]{
+	width: 100px;
+	height: 30px;
+	border: 1px solid;
+	background: #143fbf;
+	color: #fff;
+	cursor: pointer;
+}

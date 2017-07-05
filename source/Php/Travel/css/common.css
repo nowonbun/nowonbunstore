@@ -1,0 +1,50 @@
+@CHARSET "UTF-8";
+
+body {
+	margin: 0px;
+	padding: 0px;
+	font-family: arial;
+}
+
+header, footer {
+	position: fixed;
+	width: 100%;
+	background: #76cc62;
+	height: 20px;
+	text-align: center;
+	min-width: 300px;
+	z-index: 10;
+	margin: 0px;
+	padding: 0px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+header {
+	top: 0px;
+}
+
+footer {
+	bottom: 0px;
+	text-align: right;
+	font-size: 10pt;
+}
+
+div.main {
+	margin-top: 40px;
+	margin-bottom: 40px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	text-align: center;
+}
+
+header>div.logout {
+	display: inline-block;
+	position: absolute;
+	right: 10px;
+}
+
+header>div.logout>a {
+	text-decoration: none;
+	color: blue;
+}

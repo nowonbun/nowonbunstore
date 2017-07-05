@@ -1,0 +1,8 @@
+@CHARSET "UTF-8";
+div.error{
+	margin-top: 50px;
+}
+div.error > span{
+	font-size:10pt;
+	color:red;
+}

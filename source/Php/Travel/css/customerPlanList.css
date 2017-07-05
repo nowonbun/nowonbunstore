@@ -1,0 +1,65 @@
+@CHARSET "UTF-8";
+
+div.list{
+	display:inline-block;
+	margin-top: 60px;
+}
+
+p.header{
+	font-size: 2em;
+}
+
+table{
+	width: 1000px;
+	height: 240px;
+	color: #333;
+	font-family: Helvetica, Arial, sans-serif;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+tr.trHeader{
+	text-align: center;
+} 
+
+td{
+	border: 1px solid transparent;
+	height: 30px;
+	transition: all 0.3s;
+	background: #FAFAFA;
+	text-align: center;
+}
+
+td.price{
+	text-align: left;
+}
+
+td.jpt{
+	text-align: right;
+}	
+
+tr:nth-child(even) td{
+	background: #F1F1F1;
+}
+
+tr:nth-child(odd) td{
+	background: #FEFEFE;
+}
+
+tr.mainList:hover td{
+	background: #666;
+	color: #FFF;
+}
+
+tr.mainList input[type='button']{
+	width:  60px;
+	height: 30px;
+	border: 1px solid;
+	background: #76cc62;
+	color: #FFF;
+}
+
+tr.mainHeader td{
+	background: #76cc62;
+	color: #400040;
+}

@@ -1,0 +1,58 @@
+@CHARSET "UTF-8";
+div.apply{
+	display: inline-block;
+}
+table.applyBox{
+	border: 1px solid;
+    min-width: 500px;
+    margin-top: 30px;
+    box-shadow: 10px 10px 10px #000;
+    padding: 20px;
+}
+table.applyBox th{
+	font-size: 15pt;
+    height: 40px;
+}
+table.applyBox tbody > tr > td:nth-child(1):not(.errorLine){
+	text-align: left;
+	width:35%;
+}
+table.applyBox tbody > tr > td:nth-child(2){
+	text-align: left;
+}
+table.applyBox input[type=text],
+table.applyBox input[type=password]{
+	height:30px;
+	border:1px solid;
+	width:95%;
+	font-size: 13pt;
+	border-radius: 5px;
+}
+table.applyBox input[type=text]#pid{
+	width:60%;
+}
+table.applyBox input[type=button],
+table.applyBox input[type=submit]{
+	width: 100px;
+    height: 30px;
+    border: 1px solid;
+    background: #143fbf;
+    color: #fff;
+    cursor: pointer;
+}
+table.applyBox tfoot > tr > td{
+	padding-top: 5px;
+}
+td.checked{
+	color:red;
+}
+td.errorLine{
+	height:30px;
+	text-align:left;
+}
+span.errorMsg{
+	color: red;
+}
+input[type=text].disabled{
+	background-color: gray;
+}

@@ -1,0 +1,16 @@
+@CHARSET "UTF-8";
+div.login{
+	display: block;
+    min-width: 375px;
+    text-align: right;
+    margin-top: 5px;
+}
+div.login > a{
+	text-decoration: none;
+    color: blue;
+    margin-right: 10px;
+}
+
+header > a{
+	display: none;
+}

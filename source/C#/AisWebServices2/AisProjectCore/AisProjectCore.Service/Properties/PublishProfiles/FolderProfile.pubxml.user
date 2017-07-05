@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+このファイルは、Web プロジェクトの発行 / パッケージ処理で使用されます。この MSBuild ファイルを編集すると、
+この処理の動作をカスタマイズできます。詳細については、https://go.microsoft.com/fwlink/?LinkID=208121 を参照してください。 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_NewBackgroundProfile>True</_NewBackgroundProfile>
+    <_PublishTargetUrl>C:\soon\eclipse\workspace\Repo\trunk\AisWebServices_data\AisProjectCore\AisProjectCore.Service\bin\Release\PublishOutput</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="bin/AisProjectCore.Dinject.dll">
+      <publishTime>04/17/2017 15:33:32</publishTime>
+    </File>
+    <File Include="bin/AisProjectCore.Domain.dll">
+      <publishTime>04/17/2017 15:33:33</publishTime>
+    </File>
+    <File Include="bin/AisProjectCore.Domain.dll.config">
+      <publishTime>04/17/2017 12:28:04</publishTime>
+    </File>
+    <File Include="bin/AisProjectCore.Service.dll">
+      <publishTime>04/17/2017 15:59:54</publishTime>
+    </File>
+    <File Include="bin/MySql.Data.dll">
+      <publishTime>04/13/2017 11:57:16</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>04/13/2017 11:57:18</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>04/17/2017 12:50:41</publishTime>
+    </File>
+    <File Include="Service/MeetingRoom.svc">
+      <publishTime>04/17/2017 15:18:22</publishTime>
+    </File>
+    <File Include="Service/Member.svc">
+      <publishTime>04/17/2017 15:15:27</publishTime>
+    </File>
+    <File Include="Service/TestService.svc">
+      <publishTime>04/13/2017 11:57:12</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>04/17/2017 15:59:54</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

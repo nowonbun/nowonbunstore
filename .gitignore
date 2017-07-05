@@ -62,3 +62,6 @@
 /source/C#/WebScraping/WebScraping.Test/bin
 /source/C#/WebScraping/WebScraping.WebServer/obj
 /source/C#/WebScraping/WebScraping.WebServer/bin
+/source/Java/AisWebServices2/build
+/source/Java/AisWebServices2/target
+/source/C#/AisWebServices2/AisProjectCore/TestProject/bin

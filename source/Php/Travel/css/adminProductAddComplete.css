@@ -1,0 +1,16 @@
+@CHARSET "UTF-8";
+
+div.main > div:nth-child(1){
+	margin-top:100px;
+}
+div.main > div:nth-child(2){
+	margin-top:20px;
+}
+input[type=button] {
+	width: 150px;
+	height: 30px;
+	border: 1px solid #000;
+	background: #143fbf;
+	color: #fff;
+	cursor: pointer;
+}

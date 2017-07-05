@@ -1,0 +1,55 @@
+@CHARSET "UTF-8";
+
+div.main{
+	margin-top: 100px;
+}
+
+div.main > table{
+	margin: 0 auto;
+}
+
+th.mainHead{
+	min-width: 0px;
+}
+
+p.header{
+	font-size: 2em;
+	text-align: center;
+}
+
+div.start,
+div.arrive{
+	display: inline-block;
+    padding: 15px;
+}
+div.start > table,
+div.arrive > table{
+	border-collapse: collapse;
+    table-layout: fixed;
+}
+div.start > table th,
+div.start > table td,
+div.arrive > table th,
+div.arrive > table td{
+	border: 1px solid;
+	word-break:break-all;
+}
+div.start > table th,
+div.arrive > table th{
+	background-color : #76cc62;
+}
+
+div.buttonArea{
+	margin-top: 20px;
+	text-align: center;
+}
+
+div.buttonArea input[type='button']{
+	width: 100px;
+    height: 30px;
+    border: 1px solid;
+    background: #76cc62;
+    color: #fff;
+    cursor: pointer;
+}
+
