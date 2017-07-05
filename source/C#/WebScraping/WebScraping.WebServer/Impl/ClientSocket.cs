@@ -11,6 +11,13 @@ namespace WebScraping.WebServer.Impl
 {
     class ClientSocket : TcpClient, IClientSocket
     {
+        private String[] _header;
+
+        public String[] Header
+        {
+            get { return this._header; }
+        }
+
         public static implicit operator ClientSocket(Socket s)
         {
             ClientSocket r = new ClientSocket();
@@ -23,8 +30,42 @@ namespace WebScraping.WebServer.Impl
             using (Stream stream = GetStream())
             {
                 stream.Read(buffer, 0, buffer.Length);
-                Console.WriteLine(Encoding.Default.GetString(TrimByte(buffer)));
+                String msg = Encoding.Default.GetString(TrimByte(buffer));
+                //Log header
+                try
+                {
+                    _header = GetHeader(msg);
+                    byte[] rep = CreateResponse(200, "OK");
+                    stream.Write(rep, 0, rep.Length);
+                }
+                catch (Exception e)
+                {
+                    byte[] rep = CreateResponse(400, "Bad Request");
+                    stream.Write(rep, 0, rep.Length);
+                }
             }
+        }
+        private byte[] CreateResponse(int code,String msg)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append("HTTP/1.1 ").Append(code).Append(" ").Append(msg).AppendLine();
+            sb.AppendLine("Connection: close").AppendLine();
+            String ret = sb.ToString();
+            return Encoding.Default.GetBytes(ret);
+        }
+        private String[] GetHeader(String header)
+        {
+            if (header.Length < 0)
+            {
+                throw new Exception();
+            }
+            int pos = header.IndexOf("\r\n");
+            if (pos < 0)
+            {
+                throw new Exception();
+            }
+            header = header.Substring(0, pos);
+            return header.Split(' ');
         }
         private byte[] TrimByte(byte[] data)
         {

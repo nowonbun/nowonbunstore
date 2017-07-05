@@ -39,6 +39,10 @@ namespace WebScraping.WebServer.Impl
                 }
             });
         }
+        public void SetAcceptEvent(Action<IClientSocket> e)
+        {
+            acceptEvent += e;
+        }
         public void Run()
         {
             this._thread.Start();

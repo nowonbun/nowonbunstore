@@ -11,29 +11,28 @@ namespace WebScraping.WebServer
     {
         private static WebServer singleton = null;
         private IServerSocket server;
-        private int port = 80;
 
-        private WebServer()
+        private WebServer() { }
+
+        public static void Start(int port, Action<IClientSocket> e)
         {
-            server = Factory.GetServerSocket(port);
-        }
-        private static WebServer GetInstance()
-        {
-            if (singleton == null)
+            if (singleton != null)
             {
-                singleton = new WebServer();
+                throw new Exception("already");
             }
-            return singleton;
-        }
-
-        public static void Start()
-        {
-            WebServer.GetInstance().server.Run();
+            singleton = new WebServer();
+            singleton.server = Factory.GetServerSocket(port);
+            singleton.server.SetAcceptEvent(e);
+            singleton.server.Run();
         }
 
         public static void End()
         {
-            WebServer.GetInstance().server.Dispose();
+            if (singleton == null)
+            {
+                throw new Exception("not ready");
+            }
+            singleton.server.Dispose();
         }
     }
 }

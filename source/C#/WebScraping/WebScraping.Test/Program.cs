@@ -11,7 +11,11 @@ namespace WebScraping.Test
     {
         static void Main(string[] args)
         {
-            WebServer.WebServer.Start();
+            WebServer.WebServer.Start(80, (e) =>
+            {
+                String cmd = e.Header[1];
+                Console.WriteLine(cmd);
+            });
 
             Console.WriteLine("Press any key...");
             Console.ReadKey();

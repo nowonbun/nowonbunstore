@@ -9,6 +9,7 @@ namespace WebScraping.WebServer
     public interface IServerSocket: IDisposable
     {
         void Run();
-        void Dispose();
+
+        void SetAcceptEvent(Action<IClientSocket> e);
     }
 }
