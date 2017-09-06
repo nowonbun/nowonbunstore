@@ -44,8 +44,15 @@
     <Compile Include="Impl\Factory.cs" />
     <Compile Include="Impl\ServerSocket.cs" />
     <Compile Include="IServerSocket.cs" />
+    <Compile Include="Other\WebServerException.cs" />
     <Compile Include="WebServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WebScraping.Library\WebScraping.Library.csproj">
+      <Project>{e30f6319-724f-41dd-a5ef-a10ec83fc08d}</Project>
+      <Name>WebScraping.Library</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
