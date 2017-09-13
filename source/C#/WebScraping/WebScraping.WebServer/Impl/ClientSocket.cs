@@ -12,6 +12,7 @@ namespace WebScraping.WebServer.Impl
     class ClientSocket : TcpClient, IClientSocket
     {
         private String[] _header;
+        private String _response;
 
         public String[] Header
         {

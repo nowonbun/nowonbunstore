@@ -57,7 +57,7 @@ namespace WebScraping.WebServer.Impl
         {
             using (Socket s = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP))
             {
-                s.Connect(new IPEndPoint(IPAddress.Parse("127.0.0.1"),port));
+                s.Connect(new IPEndPoint(IPAddress.Parse("127.0.0.1"), port));
             }
         }
     }

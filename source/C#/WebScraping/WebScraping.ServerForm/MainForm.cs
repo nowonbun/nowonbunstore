@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Gecko;
 using Gecko.DOM;
 using System.IO;
+using WebScraping.WebServer;
 
 namespace WebScraping.ServerForm
 {
@@ -20,8 +21,18 @@ namespace WebScraping.ServerForm
             Xpcom.EnableProfileMonitoring = false;
             var app_dir = Path.GetDirectoryName(Application.ExecutablePath);
             Xpcom.Initialize(Path.Combine(app_dir, "Firefox"));
-            InitializeComponent();
-            webBrowser1.Navigate("about:mozilla");
+            WebScraping.Commander.Commnader.Start();
+            InitializeComponent();          
+        }
+        protected override void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            //webBrowser1.Navigate("about:mozilla");
+            webBrowser1.Navigate("http://localhost:19999/ControllView");
+        }
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            base.OnClosing(e);
         }
     }
 }

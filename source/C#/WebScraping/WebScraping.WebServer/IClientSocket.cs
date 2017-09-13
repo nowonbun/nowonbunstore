@@ -9,5 +9,6 @@ namespace WebScraping.WebServer
     public interface IClientSocket
     {
         String[] Header{ get; }
+        String Response { set; }
     }
 }
