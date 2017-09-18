@@ -21,8 +21,11 @@ namespace WebScraping.ServerForm
             Xpcom.EnableProfileMonitoring = false;
             var app_dir = Path.GetDirectoryName(Application.ExecutablePath);
             Xpcom.Initialize(Path.Combine(app_dir, "Firefox"));
-            WebScraping.Commander.Commnader.Start();
-            InitializeComponent();          
+            WebScraping.WebServer.WebServer.Start(19999, Path.Combine(app_dir, "WebServer"), e =>
+            {
+
+            });
+            InitializeComponent();
         }
         protected override void OnLoad(EventArgs e)
         {
@@ -32,6 +35,7 @@ namespace WebScraping.ServerForm
         }
         protected override void OnClosing(CancelEventArgs e)
         {
+            WebScraping.WebServer.WebServer.End();
             base.OnClosing(e);
         }
     }

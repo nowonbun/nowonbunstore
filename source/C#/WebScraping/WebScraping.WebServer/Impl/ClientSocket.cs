@@ -13,15 +13,18 @@ namespace WebScraping.WebServer.Impl
     {
         private String[] _header;
         private String _response;
+        private Commander commender;
 
         public String[] Header
         {
             get { return this._header; }
         }
+        public String Path { get; set; }
 
         public static implicit operator ClientSocket(Socket s)
         {
             ClientSocket r = new ClientSocket();
+            r.commender = new Commander(r);
             r.Client = s;
             return r;
         }
@@ -36,8 +39,10 @@ namespace WebScraping.WebServer.Impl
                 try
                 {
                     _header = GetHeader(msg);
-                    byte[] rep = CreateResponse(200, "OK");
-                    stream.Write(rep, 0, rep.Length);
+                    commender.Run(_header[1], stream);
+                    //byte[] rep = CreateResponse(200, "OK");
+                    //stream.Write(rep, 0, rep.Length);
+                   
                 }
                 catch (Exception e)
                 {
@@ -46,7 +51,7 @@ namespace WebScraping.WebServer.Impl
                 }
             }
         }
-        private byte[] CreateResponse(int code,String msg)
+        private byte[] CreateResponse(int code, String msg)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("HTTP/1.1 ").Append(code).Append(" ").Append(msg).AppendLine();

@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Impl\Commander.cs" />
     <Compile Include="IClientSocket.cs" />
     <Compile Include="Impl\ClientSocket.cs" />
     <Compile Include="Impl\Factory.cs" />

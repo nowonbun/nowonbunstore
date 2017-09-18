@@ -14,14 +14,14 @@ namespace WebScraping.WebServer
 
         private WebServer() { }
 
-        public static void Start(int port, Action<IClientSocket> e)
+        public static void Start(int port, String path, Action<IClientSocket> e)
         {
             if (singleton != null)
             {
                 throw new Exception("already");
             }
             singleton = new WebServer();
-            singleton.server = Factory.GetServerSocket(port);
+            singleton.server = Factory.GetServerSocket(port, path);
             singleton.server.SetAcceptEvent(e);
             singleton.server.Run();
         }

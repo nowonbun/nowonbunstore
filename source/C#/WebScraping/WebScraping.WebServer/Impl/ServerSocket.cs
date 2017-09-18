@@ -15,10 +15,12 @@ namespace WebScraping.WebServer.Impl
         private event Action<IClientSocket> acceptEvent;
         private Thread _thread;
         private bool live = true;
+        private String path;
 
-        public ServerSocket(int port) : base(AddressFamily.InterNetwork,SocketType.Stream,ProtocolType.IP)
+        public ServerSocket(int port,String path) : base(AddressFamily.InterNetwork,SocketType.Stream,ProtocolType.IP)
         {
             this.port = port;
+            this.path = path;
             base.Bind(new IPEndPoint(IPAddress.Any, port));
             base.Listen(100);
             acceptEvent += (c) => { };
@@ -29,6 +31,7 @@ namespace WebScraping.WebServer.Impl
                     try
                     {
                         ClientSocket client = Accept();
+                        client.Path = path;
                         client.Run();
                         acceptEvent(client);
                     }
