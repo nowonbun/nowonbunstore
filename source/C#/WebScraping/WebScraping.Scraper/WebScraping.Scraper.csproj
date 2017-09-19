@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E8512F64-ECD7-4329-8AD2-9E054D7DFB1D}</ProjectGuid>
+    <ProjectGuid>{91E38F46-CD40-4950-AB23-CF3B7721779D}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WebScraping.Test</RootNamespace>
-    <AssemblyName>WebScraping.Test</AssemblyName>
+    <RootNamespace>WebScraping.Scraper</RootNamespace>
+    <AssemblyName>WebScraping.Scraper</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -46,12 +46,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WebScraping.WebServer\WebScraping.WebServer.csproj">
-      <Project>{c05db667-07d7-43bc-a8e5-c9bf45601db3}</Project>
-      <Name>WebScraping.WebServer</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

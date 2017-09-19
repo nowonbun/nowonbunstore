@@ -3,21 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebScraping.WebServer;
 
-namespace WebScraping.Test
+namespace WebScraping.Scraper
 {
     class Program
     {
         static void Main(string[] args)
         {
-            WebServer.WebServer.Start(80, (e) =>
+            Console.WriteLine("hello world");
+            foreach (string a in args)
             {
-                String cmd = e.Header[1];
-                Console.WriteLine(cmd);
-            });
-
-            Console.WriteLine("Press any key...");
+                Console.WriteLine(a);
+            }
             Console.ReadKey();
         }
     }

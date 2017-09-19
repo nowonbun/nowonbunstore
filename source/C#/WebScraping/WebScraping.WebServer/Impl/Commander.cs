@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Diagnostics;
 
 namespace WebScraping.WebServer.Impl
 {
@@ -15,10 +16,29 @@ namespace WebScraping.WebServer.Impl
             this.socket = socket;
         }
 
-        public void Run(String cmd, Stream stream)
+        public void Run(String msg, Stream stream)
         {
             byte[] header = null;
-            if ("/ControllView".Equals(cmd))
+            Console.WriteLine(msg);
+            if (msg == null)
+            {
+                header = CreateResponse(501, "Not Implemented");
+                stream.Write(header, 0, header.Length);
+            }
+            String[] buffer = msg.Split('?');
+            if (buffer.Length < 1 || buffer[0].Length < 2)
+            {
+                header = CreateResponse(501, "Not Implemented");
+                stream.Write(header, 0, header.Length);
+            }
+            String cmd = buffer[0].ToUpper().Substring(1);
+            String param = null;
+            if (buffer.Length > 1)
+            {
+                param = buffer[1];
+            }
+            
+            if ("CONTROLLVIEW".Equals(cmd))
             {
                 var app_dir = Path.GetDirectoryName(socket.Path);
                 byte[] data = GetHtmlFile(app_dir + "\\Web\\index.html");
@@ -30,7 +50,7 @@ namespace WebScraping.WebServer.Impl
                     return;
                 }
             }
-            else if ("/jquery-3.2.1.min.js".Equals(cmd))
+            else if ("JQUERY".Equals(cmd))
             {
                 var app_dir = Path.GetDirectoryName(socket.Path);
                 byte[] data = GetHtmlFile(app_dir + "\\Web\\jquery-3.2.1.min.js");
@@ -42,7 +62,26 @@ namespace WebScraping.WebServer.Impl
                     return;
                 }
             }
+            else if ("SCRAP".Equals(cmd))
+            {
+                String key = System.Guid.NewGuid().ToString();
+                Process process = new Process();
+                process.StartInfo = new ProcessStartInfo();
+                process.StartInfo.FileName = "WebScraping.Scraper.exe";
+
+                process.StartInfo.Arguments = key + " " + param;
+                process.StartInfo.WorkingDirectory = Path.GetDirectoryName(socket.Path);
+                process.Start();
+
+                socket.Server.AddScraper(key, process);
+
+                header = CreateResponse(200, "OK", 1);
+                stream.Write(header, 0, header.Length);
+                return;
+            }
             header = CreateResponse(501, "Not Implemented");
+            stream.Write(header, 0, header.Length);
+            
         }
         private byte[] GetHtmlFile(String filepath)
         {

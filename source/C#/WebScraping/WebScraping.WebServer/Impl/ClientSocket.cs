@@ -19,14 +19,15 @@ namespace WebScraping.WebServer.Impl
         {
             get { return this._header; }
         }
-        public String Path { get; set; }
+        public String Path { get; private set; }
+        public ServerSocket Server { get; private set; }
 
-        public static implicit operator ClientSocket(Socket s)
+        public ClientSocket(ServerSocket server, Socket client, String path)
         {
-            ClientSocket r = new ClientSocket();
-            r.commender = new Commander(r);
-            r.Client = s;
-            return r;
+            commender = new Commander(this);
+            Server = server;
+            Path = path;
+            Client = client;
         }
         public void Run()
         {

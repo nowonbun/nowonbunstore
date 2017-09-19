@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using System.Diagnostics;
 
 namespace WebScraping.WebServer.Impl
 {
@@ -13,11 +14,37 @@ namespace WebScraping.WebServer.Impl
     {
         private int port;
         private event Action<IClientSocket> acceptEvent;
+        private Dictionary<String, Process> scraperlist = new Dictionary<string, Process>();
         private Thread _thread;
         private bool live = true;
         private String path;
 
-        public ServerSocket(int port,String path) : base(AddressFamily.InterNetwork,SocketType.Stream,ProtocolType.IP)
+        public Process AddScraper(String key, Process scraper)
+        {
+            scraperlist.Add(key, scraper);
+            return scraper;
+        }
+        public Process ExistScraper(String key)
+        {
+            if (scraperlist.ContainsKey(key))
+            {
+                return scraperlist[key];
+            }
+            return null;
+        }
+        public Process RemoveScraper(String key)
+        {
+            if (scraperlist.ContainsKey(key))
+            {
+                Process ret = scraperlist[key];
+                scraperlist.Remove(key);
+                return ret;
+            }
+            return null;
+        }
+
+        public ServerSocket(int port, String path)
+            : base(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP)
         {
             this.port = port;
             this.path = path;
@@ -30,8 +57,7 @@ namespace WebScraping.WebServer.Impl
                 {
                     try
                     {
-                        ClientSocket client = Accept();
-                        client.Path = path;
+                        ClientSocket client = new ClientSocket(this, Accept(), path);
                         client.Run();
                         acceptEvent(client);
                     }

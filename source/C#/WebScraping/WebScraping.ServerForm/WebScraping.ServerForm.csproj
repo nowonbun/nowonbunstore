@@ -127,6 +127,9 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Geckofx45.45.0.32\build\Geckofx45.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Geckofx45.45.0.32\build\Geckofx45.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PreBuildEvent>copy $(SolutionDir)WebScraping.Scraper\$(OutDir)WebScraping.Scraper.exe $(TargetDir)WebScraping.Scraper.exe</PreBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

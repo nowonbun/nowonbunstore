@@ -65,3 +65,11 @@
 /source/Java/AisWebServices2/build
 /source/Java/AisWebServices2/target
 /source/C#/AisWebServices2/AisProjectCore/TestProject/bin
+/source/C#/WebScraping/WebScraping.Library/obj
+/source/C#/WebScraping/WebScraping.ServerForm/bin
+/source/C#/WebScraping/WebScraping.ServerForm/obj
+/source/C#/WebScraping/WebScraping.Commander/bin
+/source/C#/WebScraping/WebScraping.Commander/obj
+/source/C#/WebScraping/WebScraping.Scraper/bin
+/source/C#/WebScraping/WebScraping.Scraper/obj
+/source/C#/WebScraping/WebScraping.Dao/obj
