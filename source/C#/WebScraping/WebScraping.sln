@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebScraping.ServerForm", "W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebScraping.Scraper", "WebScraping.Scraper\WebScraping.Scraper.csproj", "{91E38F46-CD40-4950-AB23-CF3B7721779D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebScraping.Dao", "WebScraping.Dao\WebScraping.Dao.csproj", "{EB2995C5-B732-46D0-9E5E-7DE25FB4AF5D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{91E38F46-CD40-4950-AB23-CF3B7721779D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{91E38F46-CD40-4950-AB23-CF3B7721779D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{91E38F46-CD40-4950-AB23-CF3B7721779D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB2995C5-B732-46D0-9E5E-7DE25FB4AF5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB2995C5-B732-46D0-9E5E-7DE25FB4AF5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB2995C5-B732-46D0-9E5E-7DE25FB4AF5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB2995C5-B732-46D0-9E5E-7DE25FB4AF5D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
