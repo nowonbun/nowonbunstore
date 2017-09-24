@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WebScraping.Library.Log;
+using WebScraping.Dao.Common;
+using WebScraping.Dao.Attribute;
+using WebScraping.Dao.Dao;
+using WebScraping.Dao.Entity;
 
 namespace WebScraping.ServerForm
 {
@@ -14,9 +19,28 @@ namespace WebScraping.ServerForm
         [STAThread]
         static void Main()
         {
+            LoggerBuilder.Init("d:\\log\\log4net.xml").Set("Server").Info("Server Program Start");
+            FactoryDao.CreateInstance("");
+            //Test test = new Test();
+            //test.Run();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());
+             
         }
+        /*class Test : Allocation
+        {
+            [ResourceDao]
+            private IScrapingStatusTypeDao testdao;
+
+            public void Run()
+            {
+                IList<ScrapingStatusType> list =  testdao.Select();
+                foreach (var l in list)
+                {
+                    Console.WriteLine(l.StatusName);
+                }
+            }
+        }*/
     }
 }

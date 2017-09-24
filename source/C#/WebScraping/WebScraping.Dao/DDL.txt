@@ -1,10 +1,51 @@
-﻿CREATE TABLE ScrapingStatus
+﻿drop table ScrapingPakageData;
+drop table ScrapingCommonData;
+drop table ScrapingStatus;
+drop table ScrapingStatusType;
+CREATE TABLE ScrapingStatusType
 (
-    KEYCODE VARCHAR(100) COMMENT '키',
+	STATUS CHAR(1) COMMENT '상태',
+	STATUSNAME VARCHAR(255) COMMENT '상태명',
+
+	PRIMARY KEY(STATUS)
+);
+ALTER TABLE ScrapingStatusType COMMENT= '스크래핑상태타입';
+CREATE TABLE ScrapingStatus
+(
+    KEYCODE CHAR(36) COMMENT '키',
     STARTTIME DATETIME COMMENT '시작시간',
     ENDTIME DATETIME COMMENT '종료시간',
-    SCODE CHAR(4) COMMENT '스크래핑코드',
+    SCODE CHAR(3) COMMENT '스크래핑코드',
     SID VARCHAR(255) COMMENT '아이디',
     STATUS CHAR(1) COMMENT '상태',
+	FOREIGN KEY(STATUS) REFERENCES ScrapingStatusType(STATUS),
     PRIMARY KEY(KEYCODE)
-)
+);
+ALTER TABLE ScrapingStatus COMMENT= '스크래핑상태';
+CREATE TABLE ScrapingCommonData
+(
+	KEYCODE CHAR(36) COMMENT '키',
+	KEYINDEX INT COMMENT '키색인',
+	DATA VARCHAR(255) COMMENT '데이터',
+	CREATEDATE DATETIME COMMENT '생성일시',
+
+	FOREIGN KEY(KEYCODE) REFERENCES ScrapingStatus(KEYCODE),
+	PRIMARY KEY(KEYCODE,KEYINDEX)
+);
+ALTER TABLE ScrapingCommonData COMMENT= '스크래핑공통데이터';
+CREATE TABLE ScrapingPakageData
+(
+	KEYCODE CHAR(36) COMMENT '키',
+	KEYINDEX INT COMMENT '키색인',
+	SEPARATION INT COMMENT '구분자',
+	DATA VARCHAR(255),
+	CREATEDATE DATETIME COMMENT '생성일시',
+
+	FOREIGN KEY(KEYCODE) REFERENCES ScrapingStatus(KEYCODE),
+	PRIMARY KEY(KEYCODE,KEYINDEX,SEPARATION)
+);
+ALTER TABLE ScrapingPakageData COMMENT= '스크래핑패키지데이터';
+
+--Mysql character database
+show variables like 'c%';
+ALTER DATABASE scrap CHARACTER SET utf8 COLLATE utf8_general_ci;

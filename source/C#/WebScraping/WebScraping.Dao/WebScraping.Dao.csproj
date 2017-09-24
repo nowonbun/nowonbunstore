@@ -51,6 +51,18 @@
     <Compile Include="Common\Dao.cs" />
     <Compile Include="Common\Entity.cs" />
     <Compile Include="Common\FactoryDao.cs" />
+    <Compile Include="Dao\Impl\ScrapingCommonDataDao.cs" />
+    <Compile Include="Dao\Impl\ScrapingPakageDataDao.cs" />
+    <Compile Include="Dao\Impl\ScrapingStatusDao.cs" />
+    <Compile Include="Dao\Impl\ScrapingStatusTypeDao.cs" />
+    <Compile Include="Dao\IScrapingCommonDataDao.cs" />
+    <Compile Include="Dao\IScrapingPakageDataDao.cs" />
+    <Compile Include="Dao\IScrapingStatusDao.cs" />
+    <Compile Include="Dao\IScrapingStatusTypeDao.cs" />
+    <Compile Include="Entity\ScrapingCommonData.cs" />
+    <Compile Include="Entity\ScrapingPakageData.cs" />
+    <Compile Include="Entity\ScrapingStatus.cs" />
+    <Compile Include="Entity\ScrapingStatusType.cs" />
     <Compile Include="Interface\IDao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -61,6 +73,7 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

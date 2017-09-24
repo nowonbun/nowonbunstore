@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Exception\LogException.cs" />
     <Compile Include="Log\Logger.cs" />
+    <Compile Include="Log\LoggerBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

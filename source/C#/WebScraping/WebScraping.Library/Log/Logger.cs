@@ -9,76 +9,51 @@ namespace WebScraping.Library.Log
     public sealed class Logger
     {
         private ILog logger = null;
-        private static String logPath = null;
-
-        public static Logger Init()
-        {
-            if (Logger.logPath != null)
-            {
-                FileInfo file = new FileInfo(logPath);
-                if (!file.Exists)
-                {
-                    throw new LogException("Not found file of log setting");
-                }
-                XmlConfigurator.Configure(file);
-            }
-            else
-            {
-                XmlConfigurator.Configure();
-            }
-            return new Logger();
-        }
-        public Logger Init(String logPath)
-        {
-            if (logPath == null)
-            {
-                Logger.logPath = logPath;
-            }
-            return Init();
-        }
-        private Logger()
-        {
-
-        }
-        public void Set(String name)
+        public Logger Set(String name)
         {
             logger = LogManager.GetLogger(name);
+            return this;
         }
-        public void Set(Type type)
+        public Logger Set(Type type)
         {
             logger = LogManager.GetLogger(type);
+            return this;
         }
-        public void Info(String message)
+        public Logger Info(String message)
         {
             if (logger == null)
             {
                 throw new LogException("Not initialize that is Set");
             }
             logger.Info(message);
+            return this;
         }
-        public void Debug(String message)
+        public Logger Debug(String message)
         {
             if (logger == null)
             {
                 throw new LogException("Not initialize that is Set");
             }
             logger.Debug(message);
+            return this;
         }
-        public void Warn(String message)
+        public Logger Warn(String message)
         {
             if (logger == null)
             {
                 throw new LogException("Not initialize that is Set");
             }
             logger.Warn(message);
+            return this;
         }
-        public void Error(String message)
+        public Logger Error(String message)
         {
             if (logger == null)
             {
                 throw new LogException("Not initialize that is Set");
             }
             logger.Error(message);
+            return this;
         }
     }
 }

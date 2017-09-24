@@ -114,6 +114,14 @@
     <Content Include="Web\index.html" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WebScraping.Dao\WebScraping.Dao.csproj">
+      <Project>{eb2995c5-b732-46d0-9e5e-7de25fb4af5d}</Project>
+      <Name>WebScraping.Dao</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebScraping.Library\WebScraping.Library.csproj">
+      <Project>{e30f6319-724f-41dd-a5ef-a10ec83fc08d}</Project>
+      <Name>WebScraping.Library</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WebScraping.WebServer\WebScraping.WebServer.csproj">
       <Project>{c05db667-07d7-43bc-a8e5-c9bf45601db3}</Project>
       <Name>WebScraping.WebServer</Name>
