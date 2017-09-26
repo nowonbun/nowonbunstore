@@ -52,10 +52,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Flow\Gmarket\Flow001.cs" />
     <Compile Include="Impl\ScrapBrowser.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Impl\ScraperContext.cs" />
+    <Compile Include="Interface\IScrapFlow.cs" />
+    <Compile Include="Node\ScrapParameter.cs" />
     <Compile Include="Scraper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -64,11 +67,7 @@
     <None Include="Firefox\omni.ja" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Flow\" />
-    <Folder Include="Interface\" />
-    <Folder Include="Node\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Firefox\AccessibleMarshal.dll" />
     <Content Include="Firefox\breakpadinjector.dll" />
