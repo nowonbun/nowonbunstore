@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Gecko;
+using Gecko.DOM;
 
 namespace WebScraping.Scraper.Interface
 {
     public interface IScrapFlow
     {
-        String SetStartPage();
-        void Procedure(String uri);
+        String StartPage();
+        Action<GeckoDocument, Uri> Procedure(Uri uri);
     }
 }

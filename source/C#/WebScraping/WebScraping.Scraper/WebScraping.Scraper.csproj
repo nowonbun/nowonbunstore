@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\AbstractScrapFlow.cs" />
     <Compile Include="Flow\Gmarket\Flow001.cs" />
     <Compile Include="Impl\ScrapBrowser.cs">
       <SubType>Component</SubType>
@@ -59,6 +60,7 @@
     <Compile Include="Impl\ScraperContext.cs" />
     <Compile Include="Interface\IScrapFlow.cs" />
     <Compile Include="Node\ScrapParameter.cs" />
+    <Compile Include="Other\ScraperException.cs" />
     <Compile Include="Scraper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -67,7 +69,12 @@
     <None Include="Firefox\omni.ja" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\WebScraping.Library\WebScraping.Library.csproj">
+      <Project>{e30f6319-724f-41dd-a5ef-a10ec83fc08d}</Project>
+      <Name>WebScraping.Library</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Firefox\AccessibleMarshal.dll" />
     <Content Include="Firefox\breakpadinjector.dll" />

@@ -8,8 +8,35 @@ namespace WebScraping.Scraper.Node
 {
     public class ScrapParameter
     {
-        public String Code { get; set; }
-        public String Id { get; set; }
-        public String Pw { get; set; }
+        public ScrapParameter(String param)
+        {
+            String[] temp = param.Split('&');
+            foreach (String t in temp)
+            {
+                String[] buffer = t.Split('=');
+                String key = buffer[0].ToUpper();
+                String data = buffer[1];
+                switch (key)
+                {
+                    case "ID":
+                        this.Id = data;
+                        break;
+                    case "PW":
+                        this.Pw = data;
+                        break;
+                    case "CODE":
+                        this.Code = data;
+                        break;
+                }
+            }
+        }
+        public String Code { get; private set; }
+        public String Id { get; private set; }
+        public String Pw { get; private set; }
+
+        public override string ToString()
+        {
+            return String.Format("Code={0}, Id={1}", Code, Id);
+        }
     }
 }

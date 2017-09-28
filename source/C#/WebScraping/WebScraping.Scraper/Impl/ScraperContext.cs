@@ -11,47 +11,25 @@ using System.Net;
 using WebScraping.Scraper.Node;
 using WebScraping.Scraper.Interface;
 using WebScraping.Scraper.Flow.Gmarket;
+using WebScraping.Library.Log;
 
 namespace WebScraping.Scraper.Impl
 {
     class ScraperContext : ApplicationContext
     {
-        ScrapBrowser browser = new ScrapBrowser();
-        //HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+        private Logger logger = LoggerBuilder.Init().Set(typeof(ScraperContext));
+        private ScrapBrowser browser = new ScrapBrowser();
 
         public ScraperContext(String key, String param)
         {
+            logger.Info("ScraperContext initialize");
             Xpcom.EnableProfileMonitoring = false;
             var app_dir = Path.GetDirectoryName(Application.ExecutablePath);
             Xpcom.Initialize(Path.Combine(app_dir, "Firefox"));
 
-            ScrapParameter sp = GetParameter(param);
+            ScrapParameter sp = new ScrapParameter(param);
+            logger.Debug("ScrapParameter : " + sp);
             browser.Set(sp);
-        }
-        
-        private ScrapParameter GetParameter(String param)
-        {
-            String[] temp = param.Split('&');
-            ScrapParameter ret = new ScrapParameter();
-            foreach (String t in temp)
-            {
-                String[] buffer = t.Split('=');
-                String key = buffer[0].ToUpper();
-                String data = buffer[1];
-                switch (key)
-                {
-                    case "ID":
-                        ret.Id = data;
-                        break;
-                    case "PW":
-                        ret.Pw = data;
-                        break;
-                    case "CODE":
-                        ret.Code = data;
-                        break;
-                }
-            }
-            return ret;
         }
     }
 }

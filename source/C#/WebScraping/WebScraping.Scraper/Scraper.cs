@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebScraping.Scraper.Impl;
+using WebScraping.Library.Log;
+using WebScraping.Scraper.Other;
 
 namespace WebScraping.Scraper
 {
@@ -13,9 +11,10 @@ namespace WebScraping.Scraper
         [STAThread]
         static void Main(string[] args)
         {
+            LoggerBuilder.Init("d:\\log\\log4net.xml").Set("Server").Info("Client Program Start");
             if (args.Length != 2)
             {
-                //error;
+                throw new ScraperException("Parameter Length Error " + args.Length);
             }
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
