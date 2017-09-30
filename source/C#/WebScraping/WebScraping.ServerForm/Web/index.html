@@ -3,22 +3,240 @@
     <meta charset="utf-8" />
     <title></title>
 	<script language="javascript" src="./Jquery"></script>
+	<!--script language="javascript" src="./jquery-3.2.1.min.js"></script-->
 	<script>
 		var ins = (function(f){
 			$(function(){
 				f.init();			
 			});
+			return {
+				receive: f.receive
+			}
 		})(
 			{
 				init: function(){
-					$('#test').val('hello world');
+					$("#refresh_btn").on("click",function(){
+						$("#reflesh_view").html($("#reflesh_init").val());
+						ins.receive();
+					});
+					$("#manual").on("click",function(){
+						$("#manual").toggleClass("hide");
+						$("#manual_panel").toggleClass("hide");
+					})
+					$("#manual_close").on("click",function(){
+						$("#manual").toggleClass("hide");
+						$("#manual_panel").toggleClass("hide");
+					});
+					this.refresh();
+				},
+				refresh: function(){
+					this.receive();
+					$("#reflesh_view").html($("#reflesh_init").val());
+					setTimeout(this.tick,1000,this);
+				},
+				receive: function(){
+					function now(){
+						function format(time){
+							var temp = time+"";
+							if(temp.length == 1){
+								return "0"+temp;
+							}
+							return temp;
+						}
+						var dt = new Date();
+						return 	dt.getFullYear()+"/"+
+								format((dt.getMonth()+1))+"/"+
+								format(dt.getDate())+" "+
+								format(dt.getHours())+":"+
+								format(dt.getMinutes())+":"+
+								format(dt.getSeconds());
+					}
+					function initTable(){
+						$("#status_table > tbody").html("");
+					}
+					initTable();
+					$.ajax({
+		                url: "./Receive",
+		                type: "GET",
+		                dataType: "json",
+		                success: function (data, textStatus, jqXHR) {
+		                	if(data.length === 0){
+		                		$("#status_table > tbody").append("<tr><td colspan='5' class='noData'>Not excuted</td></tr>");
+		                	}
+		                	for(var i in data){
+		                		var temp = "<tr>"
+		                    		 + "<td>"+data[i].code+"</td>"
+		                    		 + "<td>"+data[i].id+"</td>"
+		                    		 + "<td>"+data[i].starttime+"</td>"
+		                    		 + "<td>"+data[i].pingtime+"</td>"
+		                    		 + "<td>"+data[i].status+"</td>"
+		                    		 + "</tr>";
+		                 		$("#status_table > tbody").append(temp);
+		                	}
+		                	$("#refreshTime").html(now());
+		                },
+		                error: function (jqXHR, textStatus, errorThrown) {
+
+		                },
+		                complete: function (jqXHR, textStatus) {
+
+		                }
+		            });
+				},
+				tick: function(obj){
+					var temp = Number($("#reflesh_view").html()) - 1;
+					if(temp < 0){
+						obj.refresh();
+					}else{
+						$("#reflesh_view").html(temp);
+						setTimeout(obj.tick,1000,obj);
+					}
 				}
 			}
 		)
 
 	</script>
+	<style>
+		body {
+		    margin: 0px;
+		    padding: 0px;
+		    font-size: 12pt;
+		    font-family: Arial;
+		}
+		div
+		{
+			margin-left:20px;
+			margin-right:20px;
+			margin-top:5px;
+			magin-botton:5px;
+		}
+		table
+		{
+			width:100%;
+			border-collapse: collapse;
+			
+		}
+		table th,td{
+			border:1px solid #000;
+			height:35px;
+		}
+		table th{
+			background-color : #555;
+			color:#FFF;
+		}
+		table td{
+			font-size:10pt;
+		}
+		table tbody > tr > td:nth-child(1)
+		{
+			width:30%;
+			table-layout:fixed; 
+			word-break:break-all;
+		}
+		table tbody > tr > td:nth-child(2)
+		{
+			width:30%;
+			text-align: center;
+			table-layout:fixed; 
+			word-break:break-all;
+		}
+		table tbody > tr > td:nth-child(3)
+		{
+			width:15%;
+			text-align: right;
+			padding-right:5px;
+			table-layout:fixed; 
+			word-break:break-all;
+		}
+		table tbody > tr > td:nth-child(4)
+		{
+			width:15%;
+			text-align: right;
+			padding-right:5px;
+			table-layout:fixed; 
+			word-break:break-all;
+		}
+		table tbody > tr > td:nth-child(5)
+		{
+			width:10%;
+			text-align: center;
+			table-layout:fixed; 
+			word-break:break-all;
+		}
+		div.refresh > div
+		{
+			display:inline-block;
+		}
+		td.noData
+		{
+			text-align: center;
+		}
+		div.rightalign{
+			text-align:right;
+			padding-right:10px;
+		}
+		input.manualBtn
+		{
+			height: 30px;
+    		width: 100%;
+		}
+		div.title{
+			margin-top:20px;
+		    height: 40px;
+    		font-size: 15pt;
+    		text-align: center;
+		}
+		.hide
+		{
+			display:none;
+		}
+	</style>
 </head>
 <body>
-	<input type='text' id='test' value=''>
+	<div class="title">
+		Administrator of scraping machine.
+	</div>
+	<div>
+		<input type="button" class="manualBtn" id="manual" value="Manual Scraping">
+		<div class="hide" id="manual_panel">
+			Code : 
+			<select>
+				<option value="001">001</option>
+			</select>
+			Id : <input type="text" value="">
+			Pw : <input type="text" value="">
+			<input type="button" id="manual_scraping" value="scraping">
+			<input type="button" id="manual_close" value="close">
+		</div>
+	</div>
+	<div class="refresh">
+		<div>Refresh time : <span id="reflesh_view">0</span></div>
+		<div>Refresh time setting(second) : <select id="reflesh_init">
+											<option value=10>10</option>
+											<option value=20>20</option>
+											<option value=30>30</option>
+											<option value=60>60</option>
+											<option value=120>120</option>
+											<option value=600>600</option>
+											<option value=3600>3600</option>
+										</select>
+		</div>
+		<div>Refresh button: <input type=button id="refresh_btn" value='Refresh'></div>
+	</div>
+	<div>
+		<div class="rightalign">Recently refresh time : <span id="refreshTime">0000/00/00 00:00:00.0000</span></div>
+		<table id="status_table">
+			<thead>
+				<tr>
+					<th>Code</th>
+					<th>Id</th>
+					<th>StartTime</th>
+					<th>PingTime</th>
+					<th>Status</th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+	</div>
 </body>
 </html>
