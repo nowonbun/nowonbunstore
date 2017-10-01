@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\AbstractScrapFlow.cs" />
+    <Compile Include="Common\GeckoDocumentEx.cs" />
     <Compile Include="Flow\Gmarket\Flow001.cs" />
     <Compile Include="Impl\ScrapBrowser.cs">
       <SubType>Component</SubType>

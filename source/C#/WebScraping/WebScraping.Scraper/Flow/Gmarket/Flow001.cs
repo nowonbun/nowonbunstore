@@ -16,38 +16,30 @@ namespace WebScraping.Scraper.Flow.Gmarket
             : base(param, login_mode)
         {
             logger.Info("Gmarket initialize");
-        }
-        public override Action<GeckoDocument, Uri> Procedure(Uri uri)
-        {
-            logger.Info("Procedure uri : " + uri);
-            if (CheckSiteUrl(uri, "Member/SignIn/LogOn"))
-            {
-                return Login;
-            }
-            else if (CheckSiteUrl(uri, "Home/Home"))
-            {
-                return Home;
-            }
-            return NotAction;
-        }
-        public override String StartPage()
-        {
-            return "https://www.esmplus.com/Member/SignIn/LogOn";
+            StartPageUrl = "https://www.esmplus.com/Member/SignIn/LogOn";
+            FlowMap.Add("Member/SignIn/LogOn", Login);
+            FlowMap.Add("Home/Home", Home);
         }
         private void Login(GeckoDocument document, Uri uri)
         {
-            (document.GetElementsByName("rdoSiteSelect")[1] as GeckoInputElement).Checked = true;
-            (document.GetElementById("SiteId") as GeckoInputElement).Value = Parameter.Id;
-            (document.GetElementById("SitePassword") as GeckoInputElement).Value = Parameter.Pw;
-            (document.GetElementById("btnSiteLogOn") as GeckoAnchorElement).Click();
+            if (uri.ToString().IndexOf("ReturnValue") != -1)
+            {
+                //login 실패
+                String label = document.GetElementByClassName<GeckoHtmlElement>("login_text", 0).TextContent;
+                Console.WriteLine(label);
+                return;
+            }
+            document.GetElementByName<GeckoInputElement>("rdoSiteSelect", 1).Checked = true;
+            document.GetElementById<GeckoInputElement>("SiteId").Value = Parameter.Id;
+            document.GetElementById<GeckoInputElement>("SitePassword").Value = Parameter.Pw;
+            document.GetElementById<GeckoAnchorElement>("btnSiteLogOn").Click();
         }
         private void Home(GeckoDocument document, Uri uri)
         {
-            String value = ((((document.GetElementById("header") as GeckoHtmlElement)
-                                .GetElementsByTagName("DIV")[0] as GeckoHtmlElement)
-                                    .GetElementsByTagName("SPAN")[0] as GeckoHtmlElement)
-                                        .GetElementsByTagName("STRONG")[0] as GeckoHtmlElement)
-                                            .FirstChild.NodeValue;
+            String value = document.GetElementById<GeckoHtmlElement>("header")
+                                      .GetElementByTagName<GeckoHtmlElement>("DIV", 0)
+                                          .GetElementByTagName<GeckoHtmlElement>("SPAN", 0)
+                                              .GetElementByTagName<GeckoHtmlElement>("STRONG", 0).FirstChild.NodeValue;
             Console.WriteLine(value);
 
         }
