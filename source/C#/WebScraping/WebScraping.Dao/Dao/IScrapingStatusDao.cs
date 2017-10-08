@@ -9,5 +9,9 @@ namespace WebScraping.Dao.Dao
     public interface IScrapingStatusDao
     {
         IList<ScrapingStatus> Select();
+
+        ScrapingStatus GetEntity(String keycode);
+
+        int Update(ScrapingStatus entity);
     }
 }

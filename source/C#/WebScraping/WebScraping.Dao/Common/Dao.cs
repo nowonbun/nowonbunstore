@@ -37,7 +37,69 @@ namespace WebScraping.Dao.Common
         {
             return new MySqlParameter(paramName, paramObject);
         }
-
+        protected int UpdateByEntity(T entity)
+        {
+            cmd.Parameters.Clear();
+            StringBuilder sb = new StringBuilder();
+            Type clsTp = typeof(T);
+            Table table = clsTp.GetCustomAttribute(typeof(Table)) as Table;
+            IList<FieldInfo> fields = GetWhere(entity);
+            StringBuilder where = new StringBuilder();
+            StringBuilder set = new StringBuilder();
+            foreach (FieldInfo field in fields)
+            {
+                Column cn = field.GetCustomAttribute(typeof(Column)) as Column;
+                if (cn.Key)
+                {
+                    if (where.Length == 0)
+                    {
+                        where.Append(" WHERE ");
+                    }
+                    else
+                    {
+                        where.Append(" AND ");
+                    }
+                    String temp = "@" + cn.ColumnName;
+                    where = where.Append(" ").Append(cn.ColumnName).Append(" = ").Append(temp);
+                    var param = new MySqlParameter(temp, cn.ColumnType);
+                    param.Value = field.GetValue(entity);
+                    cmd.Parameters.Add(param);
+                }
+                else
+                {
+                    if (set.Length == 0)
+                    {
+                        set.Append(" SET ");
+                    }
+                    else
+                    {
+                        set.Append(" , ");
+                    }
+                    String temp = "@" + cn.ColumnName;
+                    set = set.Append(" ").Append(cn.ColumnName).Append(" = ").Append(temp);
+                    var param = new MySqlParameter(temp, cn.ColumnType);
+                    param.Value = field.GetValue(entity);
+                    cmd.Parameters.Add(param);
+                }
+            }
+            sb.Append(" UPDATE ").Append(table.TableName).Append(" ");
+            sb.Append(set);
+            sb.Append(where);
+            cmd.CommandText = sb.ToString();
+            cmd.Connection.Open();
+            try
+            {
+                return cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+        }
         protected int InsertByEntity(T entity, Boolean scope = false)
         {
             cmd.Parameters.Clear();
@@ -69,7 +131,9 @@ namespace WebScraping.Dao.Common
                 sb = sb.Append(cn.ColumnName);
                 String temp = "@" + cn.ColumnName;
                 value = value.Append(temp);
-                cmd.Parameters.AddWithValue(temp, cn.ColumnType).Value = pi.GetValue(entity);
+                var param = new MySqlParameter(temp, cn.ColumnType);
+                param.Value = pi.GetValue(entity);
+                cmd.Parameters.Add(param);
             }
             sb = sb.Append(")");
             value.Append(")");
@@ -281,7 +345,10 @@ namespace WebScraping.Dao.Common
                     where = where.Append(" = ");
                 }
                 where = where.Append(temp);
-                parameter.AddWithValue(temp, cn.ColumnType).Value = pi.GetValue(entity);
+
+                var param = new MySqlParameter(temp, cn.ColumnType);
+                param.Value = pi.GetValue(entity);
+                parameter.Add(param);
             }
             return where.ToString();
         }

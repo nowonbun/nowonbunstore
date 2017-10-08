@@ -7,6 +7,7 @@ namespace WebScraping.Scraper.Interface
     public interface IScrapFlow
     {
         String StartPage();
-        Action<GeckoDocument, Uri> Procedure(Uri uri);
+        Func<GeckoDocument, Uri, Boolean> Procedure(Uri uri);
+        void End();
     }
 }

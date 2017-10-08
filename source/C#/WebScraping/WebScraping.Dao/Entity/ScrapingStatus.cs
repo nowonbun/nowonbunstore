@@ -1,22 +1,23 @@
 ﻿using System;
 using WebScraping.Dao.Attribute;
+using MySql.Data.MySqlClient;
 
 namespace WebScraping.Dao.Entity
 {
     [Table("ScrapingStatus")]
     public class ScrapingStatus
     {
-        [Column("KEYCODE", System.Data.SqlDbType.Char, LogicalName = "keycode")]
+        [Column("KEYCODE", MySqlDbType.VarChar, LogicalName = "keycode", Key = true)]
         private String keycode;
-        [Column("STARTTIME", System.Data.SqlDbType.DateTime, LogicalName = "starttime")]
-        private DateTime starttime;
-        [Column("ENDTIME", System.Data.SqlDbType.DateTime, LogicalName = "endtime")]
-        private DateTime endtime;
-        [Column("SCODE", System.Data.SqlDbType.Char, LogicalName = "scode")]
+        [Column("STARTTIME", MySqlDbType.DateTime, LogicalName = "starttime")]
+        private DateTime? starttime;
+        [Column("ENDTIME", MySqlDbType.DateTime, LogicalName = "endtime")]
+        private DateTime? endtime;
+        [Column("SCODE", MySqlDbType.VarChar, LogicalName = "scode")]
         private String scode;
-        [Column("SID", System.Data.SqlDbType.VarChar, LogicalName = "sid")]
+        [Column("SID", MySqlDbType.VarChar, LogicalName = "sid")]
         private String sid;
-        [Column("STATUS", System.Data.SqlDbType.Char, LogicalName = "status")]
+        [Column("STATUS", MySqlDbType.VarChar, LogicalName = "status")]
         private String status;
 
         public String KeyCode
@@ -24,12 +25,12 @@ namespace WebScraping.Dao.Entity
             get { return this.keycode; }
             set { this.keycode = value; }
         }
-        public DateTime StartTime
+        public DateTime? StartTime
         {
             get { return this.starttime; }
             set { this.starttime = value; }
         }
-        public DateTime EndTime
+        public DateTime? EndTime
         {
             get { return this.endtime; }
             set { this.endtime = value; }

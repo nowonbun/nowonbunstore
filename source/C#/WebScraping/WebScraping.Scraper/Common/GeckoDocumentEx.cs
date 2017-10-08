@@ -26,5 +26,13 @@ namespace WebScraping.Scraper.Common
         {
             return element.GetElementsByTagName(tag)[index] as T;
         }
+        public static String GetElementByIdToNodeValue(this GeckoDocument document, String id)
+        {
+            return document.GetElementById(id).FirstChild.NodeValue;
+        }
+        public static String GetElementByTagNameToNodeValue(this GeckoElement element, String tag, int index)
+        {
+            return element.GetElementsByTagName(tag)[index].FirstChild.NodeValue;
+        }
     }
 }

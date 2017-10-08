@@ -4,7 +4,7 @@ drop table ScrapingStatus;
 drop table ScrapingStatusType;
 CREATE TABLE ScrapingStatusType
 (
-	STATUS CHAR(1) COMMENT '상태',
+	STATUS VARCHAR(1) COMMENT '상태',
 	STATUSNAME VARCHAR(255) COMMENT '상태명',
 
 	PRIMARY KEY(STATUS)
@@ -12,19 +12,19 @@ CREATE TABLE ScrapingStatusType
 ALTER TABLE ScrapingStatusType COMMENT= '스크래핑상태타입';
 CREATE TABLE ScrapingStatus
 (
-    KEYCODE CHAR(36) COMMENT '키',
+    KEYCODE VARCHAR(36) COMMENT '키',
     STARTTIME DATETIME COMMENT '시작시간',
     ENDTIME DATETIME COMMENT '종료시간',
-    SCODE CHAR(3) COMMENT '스크래핑코드',
+    SCODE VARCHAR(3) COMMENT '스크래핑코드',
     SID VARCHAR(255) COMMENT '아이디',
-    STATUS CHAR(1) COMMENT '상태',
+    STATUS VARCHAR(1) COMMENT '상태',
 	FOREIGN KEY(STATUS) REFERENCES ScrapingStatusType(STATUS),
     PRIMARY KEY(KEYCODE)
 );
 ALTER TABLE ScrapingStatus COMMENT= '스크래핑상태';
 CREATE TABLE ScrapingCommonData
 (
-	KEYCODE CHAR(36) COMMENT '키',
+	KEYCODE VARCHAR(36) COMMENT '키',
 	KEYINDEX INT COMMENT '키색인',
 	DATA VARCHAR(255) COMMENT '데이터',
 	CREATEDATE DATETIME COMMENT '생성일시',
@@ -33,9 +33,9 @@ CREATE TABLE ScrapingCommonData
 	PRIMARY KEY(KEYCODE,KEYINDEX)
 );
 ALTER TABLE ScrapingCommonData COMMENT= '스크래핑공통데이터';
-CREATE TABLE ScrapingPakageData
+CREATE TABLE ScrapingPackageData
 (
-	KEYCODE CHAR(36) COMMENT '키',
+	KEYCODE VARCHAR(36) COMMENT '키',
 	KEYINDEX INT COMMENT '키색인',
 	SEPARATION INT COMMENT '구분자',
 	DATA VARCHAR(255),
@@ -44,7 +44,16 @@ CREATE TABLE ScrapingPakageData
 	FOREIGN KEY(KEYCODE) REFERENCES ScrapingStatus(KEYCODE),
 	PRIMARY KEY(KEYCODE,KEYINDEX,SEPARATION)
 );
-ALTER TABLE ScrapingPakageData COMMENT= '스크래핑패키지데이터';
+ALTER TABLE ScrapingPackageData COMMENT= '스크래핑패키지데이터';
+
+insert into scrapingstatustype value('0','스크래핑준비');
+insert into scrapingstatustype value('1','스크래핑개시');
+insert into scrapingstatustype value('2','스크래핑완료');
+insert into scrapingstatustype value('3','스크래핑에러');
+insert into scrapingstatustype value('4','스크래핑준비-로그인');
+insert into scrapingstatustype value('5','스크래핑개시-로그인');
+insert into scrapingstatustype value('6','스크래핑완료-로그인');
+insert into scrapingstatustype value('7','스크래핑에러-로그인');
 
 --Mysql character database
 show variables like 'c%';

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using MySql.Data.MySqlClient;
 
 namespace WebScraping.Dao.Attribute
 {
@@ -11,7 +12,7 @@ namespace WebScraping.Dao.Attribute
             get;
             set;
         }
-        public SqlDbType ColumnType
+        public MySqlDbType ColumnType
         {
             get;
             set;
@@ -32,7 +33,7 @@ namespace WebScraping.Dao.Attribute
             get;
             set;
         }
-        public Column(String ColumnName, SqlDbType ColumnType)
+        public Column(String ColumnName, MySqlDbType ColumnType)
         {
 
             this.ColumnName = ColumnName;

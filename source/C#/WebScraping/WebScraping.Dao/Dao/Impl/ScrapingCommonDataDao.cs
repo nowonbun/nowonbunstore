@@ -11,5 +11,9 @@ namespace WebScraping.Dao.Dao.Impl
         {
             return base.SelectByEntity(null);
         }
+        public int Insert(ScrapingCommonData entity)
+        {
+            return base.InsertByEntity(entity);
+        }
     }
 }

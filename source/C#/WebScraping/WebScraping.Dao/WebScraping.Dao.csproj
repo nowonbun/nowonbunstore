@@ -60,7 +60,7 @@
     <Compile Include="Dao\IScrapingStatusDao.cs" />
     <Compile Include="Dao\IScrapingStatusTypeDao.cs" />
     <Compile Include="Entity\ScrapingCommonData.cs" />
-    <Compile Include="Entity\ScrapingPakageData.cs" />
+    <Compile Include="Entity\ScrapingPackageData.cs" />
     <Compile Include="Entity\ScrapingStatus.cs" />
     <Compile Include="Entity\ScrapingStatusType.cs" />
     <Compile Include="Interface\IDao.cs" />
@@ -73,7 +73,9 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

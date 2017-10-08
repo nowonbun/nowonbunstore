@@ -9,5 +9,7 @@ namespace WebScraping.Dao.Dao
     public interface IScrapingCommonDataDao
     {
         IList<ScrapingCommonData> Select();
+
+        int Insert(ScrapingCommonData entity);
     }
 }

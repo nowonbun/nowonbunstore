@@ -1,14 +1,15 @@
 ﻿using System;
 using WebScraping.Dao.Attribute;
+using MySql.Data.MySqlClient;
 
 namespace WebScraping.Dao.Entity
 {
     [Table("ScrapingStatusType")]
     public class ScrapingStatusType
     {
-        [Column("STATUS", System.Data.SqlDbType.Char, LogicalName = "status")]
+        [Column("STATUS", MySqlDbType.VarChar, LogicalName = "status")]
         private String status;
-        [Column("STATUSNAME", System.Data.SqlDbType.VarChar, LogicalName = "statusname")]
+        [Column("STATUSNAME", MySqlDbType.VarChar, LogicalName = "statusname")]
         private String statusname;
 
         public String Status

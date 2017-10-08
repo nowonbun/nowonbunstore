@@ -8,6 +8,8 @@ namespace WebScraping.Dao.Dao
     [ImplementDao("WebScraping.Dao.Dao.Impl.ScrapingPakageDataDao")]
     public interface IScrapingPakageDataDao
     {
-        IList<ScrapingPakageData> Select();
+        IList<ScrapingPackageData> Select();
+
+        int Insert(ScrapingPackageData entity);
     }
 }

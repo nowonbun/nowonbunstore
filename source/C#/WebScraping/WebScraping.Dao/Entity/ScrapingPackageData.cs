@@ -1,21 +1,22 @@
 ﻿using System;
 using WebScraping.Dao.Attribute;
+using MySql.Data.MySqlClient;
 
 namespace WebScraping.Dao.Entity
 {
-    [Table("ScrapingPakageData")]
-    public class ScrapingPakageData
+    [Table("ScrapingPackageData")]
+    public class ScrapingPackageData
     {
-        [Column("KEYCODE", System.Data.SqlDbType.Char, LogicalName = "keycode")]
+        [Column("KEYCODE", MySqlDbType.VarChar, LogicalName = "keycode", Key = true)]
         private String keycode;
-        [Column("KEYINDEX", System.Data.SqlDbType.Int, LogicalName = "keyindex")]
+        [Column("KEYINDEX", MySqlDbType.Int32, LogicalName = "keyindex", Key = true)]
         private int keyindex;
-        [Column("SEPARATION", System.Data.SqlDbType.Int, LogicalName = "separation")]
+        [Column("SEPARATION", MySqlDbType.Int32, LogicalName = "separation", Key = true)]
         private int separation;
-        [Column("DATA", System.Data.SqlDbType.VarChar, LogicalName = "data")]
+        [Column("DATA", MySqlDbType.VarChar, LogicalName = "data")]
         private String data;
-        [Column("CREATEDATE", System.Data.SqlDbType.DateTime, LogicalName = "createdate")]
-        private DateTime createdate;
+        [Column("CREATEDATE", MySqlDbType.DateTime, LogicalName = "createdate")]
+        private DateTime? createdate;
 
         public String KeyCode
         {
@@ -37,7 +38,7 @@ namespace WebScraping.Dao.Entity
             get { return this.data; }
             set { this.data = value; }
         }
-        public DateTime CreateDate
+        public DateTime? CreateDate
         {
             get { return this.createdate; }
             set { this.createdate = value; }

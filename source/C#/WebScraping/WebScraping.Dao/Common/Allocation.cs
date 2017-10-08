@@ -17,7 +17,6 @@ namespace WebScraping.Dao.Common
                          from attr in attrs
                          where attr is ResourceDao
                          select field;
-
             foreach (var field in fields)
             {
                 ImplementDao impl = field.FieldType.GetCustomAttribute(typeof(ImplementDao)) as ImplementDao;

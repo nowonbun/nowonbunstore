@@ -8,7 +8,7 @@ namespace WebScraping.Scraper.Node
 {
     public class ScrapParameter
     {
-        public ScrapParameter(String param)
+        public ScrapParameter(String keycode, String param)
         {
             String[] temp = param.Split('&');
             foreach (String t in temp)
@@ -29,14 +29,16 @@ namespace WebScraping.Scraper.Node
                         break;
                 }
             }
+            this.Keycode = keycode;
         }
         public String Code { get; private set; }
         public String Id { get; private set; }
         public String Pw { get; private set; }
+        public String Keycode { get; private set; }
 
         public override string ToString()
         {
-            return String.Format("Code={0}, Id={1}", Code, Id);
+            return String.Format("Key={0}, Code={1}, Id={2}", Keycode, Code, Id);
         }
     }
 }

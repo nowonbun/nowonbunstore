@@ -1,16 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using Gecko;
-using Gecko.DOM;
-using System.Net;
 using WebScraping.Scraper.Node;
-using WebScraping.Scraper.Interface;
-using WebScraping.Scraper.Flow.Gmarket;
 using WebScraping.Library.Log;
 
 namespace WebScraping.Scraper.Impl
@@ -27,7 +19,7 @@ namespace WebScraping.Scraper.Impl
             var app_dir = Path.GetDirectoryName(Application.ExecutablePath);
             Xpcom.Initialize(Path.Combine(app_dir, "Firefox"));
 
-            ScrapParameter sp = new ScrapParameter(param);
+            ScrapParameter sp = new ScrapParameter(key, param);
             logger.Debug("ScrapParameter : " + sp);
             browser.Set(sp);
         }

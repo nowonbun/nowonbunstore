@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Gecko;
 using WebScraping.Scraper.Node;
 using WebScraping.Scraper.Interface;
 using WebScraping.Scraper.Flow.Gmarket;
+using WebScraping.Scraper.Flow.Auction;
 using WebScraping.Scraper.Other;
 using WebScraping.Library.Log;
 
@@ -26,10 +28,16 @@ namespace WebScraping.Scraper.Impl
             switch (param.Code)
             {
                 case "001":
-                    flow = new Flow001(param, false);
+                    flow = new GMarketFlow(this, param, false);
+                    break;
+                case "002":
+                    flow = new AuctionFlow(this, param, false);
                     break;
                 case "501":
-                    flow = new Flow001(param, true);
+                    flow = new GMarketFlow(this, param, true);
+                    break;
+                case "502":
+                    flow = new AuctionFlow(this, param, false);
                     break;
             }
             if (flow == null)
@@ -41,8 +49,12 @@ namespace WebScraping.Scraper.Impl
         protected override void OnDocumentCompleted(Gecko.Events.GeckoDocumentCompletedEventArgs e)
         {
             base.OnDocumentCompleted(e);
-            Action<GeckoDocument,Uri> action = flow.Procedure(e.Uri);
-            action(this.Document,e.Uri);
+            Func<GeckoDocument, Uri, Boolean> action = flow.Procedure(e.Uri);
+            if (!action(this.Document, e.Uri))
+            {
+                flow.End();
+                Application.Exit();
+            }
         }
         protected override void OnCreateWindow(GeckoCreateWindowEventArgs e)
         {
