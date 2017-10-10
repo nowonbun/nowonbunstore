@@ -50,6 +50,11 @@ namespace WebScraping.Scraper.Impl
         {
             base.OnDocumentCompleted(e);
             Func<GeckoDocument, Uri, Boolean> action = flow.Procedure(e.Uri);
+            GeckoElement script = this.Document.CreateElement("script");
+            script.SetAttribute("type", "text/javascript");
+            script.TextContent = "window.alert = function(){};";
+            this.Document.Head.AppendChild(script);
+
             if (!action(this.Document, e.Uri))
             {
                 flow.End();

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Diagnostics;
+using Newtonsoft.Json;
 
 namespace WebScraping.WebServer.Impl
 {
@@ -37,7 +38,7 @@ namespace WebScraping.WebServer.Impl
             {
                 param = buffer[1];
             }
-            
+
             if ("CONTROLLVIEW".Equals(cmd))
             {
                 var app_dir = Path.GetDirectoryName(socket.Path);
@@ -64,24 +65,27 @@ namespace WebScraping.WebServer.Impl
             }
             else if ("SCRAP".Equals(cmd))
             {
-                String key = System.Guid.NewGuid().ToString();
-                Process process = new Process();
-                process.StartInfo = new ProcessStartInfo();
-                process.StartInfo.FileName = "WebScraping.Scraper.exe";
-
-                process.StartInfo.Arguments = key + " " + param;
-                process.StartInfo.WorkingDirectory = Path.GetDirectoryName(socket.Path);
-                process.Start();
-
-                socket.Server.AddScraper(key, process);
-
+                socket.Server.StartScraper(param);
                 header = CreateResponse(200, "OK", 1);
                 stream.Write(header, 0, header.Length);
                 return;
             }
+            else if ("RECEIVE".Equals(cmd))
+            {
+                IList<Scraper> scraperlist =  socket.Server.GetScraperList();
+                IList<Parameter> jsonlist = scraperlist.Select(node => { return node.Parameter; }).ToList();
+                String json = JsonConvert.SerializeObject(jsonlist);
+
+                //byte[] data = Encoding.UTF8.GetBytes("[{\"code\":\"XXXXX - XXXXX - XXXXX - XXXXX - XXXXX - XXXXXX\",\"id\":\"test\",\"starttime\":\"1970 / 01 / 01 01:00:00\", \"pingtime\":\"1970 / 01 / 01 01:00:01\",\"status\":\"Scraping\"}]");
+                byte[] data = Encoding.UTF8.GetBytes(json);
+                header = CreateResponse(200, "OK", 2);
+                stream.Write(header, 0, header.Length);
+                stream.Write(data, 0, data.Length);
+                return;
+            }
             header = CreateResponse(501, "Not Implemented");
             stream.Write(header, 0, header.Length);
-            
+
         }
         private byte[] GetHtmlFile(String filepath)
         {

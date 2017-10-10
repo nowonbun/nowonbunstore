@@ -87,6 +87,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Web\Receive" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -112,6 +113,7 @@
     <Content Include="Firefox\softokn3.dll" />
     <Content Include="Firefox\xul.dll" />
     <Content Include="Web\index.html" />
+    <Content Include="Web\jquery-3.2.1.min.js" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WebScraping.Dao\WebScraping.Dao.csproj">

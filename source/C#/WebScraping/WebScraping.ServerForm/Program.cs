@@ -20,7 +20,7 @@ namespace WebScraping.ServerForm
         static void Main()
         {
             LoggerBuilder.Init("d:\\log\\log4net.xml").Set("Server").Info("Server Program Start");
-            FactoryDao.CreateInstance("");
+            FactoryDao.CreateInstance("Server=only1.iptime.org;Port=3306;Database=scrap;Uid=nowonbun;Pwd=1234;");
             //Test test = new Test();
             //test.Run();
             Application.EnableVisualStyles();

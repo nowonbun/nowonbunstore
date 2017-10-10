@@ -8,11 +8,24 @@ using Gecko;
 using Gecko.DOM;
 using WebScraping.Scraper.Impl;
 using WebScraping.Scraper.Node;
+using WebScraping.Scraper.Other;
+using System.Net;
+using Newtonsoft.Json;
 
 namespace WebScraping.Scraper.Flow.Auction
 {
     class AuctionFlow : AbstractScrapFlow
     {
+        private class State
+        {
+            public int StateIndex { get; set; }
+            public int Page { get; set; }
+            public DateTime sdt;
+            public DateTime edt;
+        }
+        private String idkey;
+        private String idcode;
+        private State state = new State();
         public AuctionFlow(ScrapBrowser browser, ScrapParameter param, bool login_mode)
             : base(browser, param, login_mode)
         {
@@ -21,11 +34,12 @@ namespace WebScraping.Scraper.Flow.Auction
             FlowMap.Add("Member/SignIn/LogOn", Login);
             FlowMap.Add("Home/Home", Home);
             FlowMap.Add("membership/MyInfo/MyInfoComp", Profile);
+            FlowMap.Add("Escrow/Delivery/BuyDecision", GetIDKey);
+            FlowMap.Add("Escrow/Delivery/BuyDecisionSearch", BuyDecisionSearch);
         }
         protected override void Finally()
         {
             Console.WriteLine("End!");
-            Console.ReadLine();
         }
         private Boolean Login(GeckoDocument document, Uri uri)
         {
@@ -69,8 +83,93 @@ namespace WebScraping.Scraper.Flow.Auction
             String tel2 = document.GetElementById<GeckoInputElement>("txtMobileTel2").Value;
             String tel3 = document.GetElementById<GeckoInputElement>("txtMobileTel3").Value;
             SetCommonData(9, tel1 + "-" + tel2 + "-" + tel3);
+            String fax1 = document.GetElementById<GeckoSelectElement>("ddlOfficeFax").Value;
+            String fax2 = document.GetElementById<GeckoInputElement>("txtOfficeFax2").Value;
+            String fax3 = document.GetElementById<GeckoInputElement>("txtOfficeFax3").Value;
+            SetCommonData(11, fax1 + "-" + fax2 + "-" + fax3);
+            String hp1 = document.GetElementById<GeckoSelectElement>("ddlMobileTel").Value;
+            String hp2 = document.GetElementById<GeckoInputElement>("txtMobileTel2").Value;
+            String hp3 = document.GetElementById<GeckoInputElement>("txtMobileTel3").Value;
+            SetCommonData(10, hp1 + "-" + hp2 + "-" + hp3);
+            String mail1 = document.GetElementById<GeckoInputElement>("txtEmailId").Value;
+            String mail2 = document.GetElementById<GeckoInputElement>("txtEmailDomain").Value;
+            SetCommonData(13, mail1 + "@" + mail2);
+            SetCommonData(14, document.GetElementByIdToNodeValue("bn"));
+            SetCommonData(15, document.GetElementById<GeckoInputElement>("txtName").Value);
+            SetCommonData(16, document.GetElementById<GeckoInputElement>("txtAcctNumb").Value);
 
-            return false;
+            base.Navigate("https://www.esmplus.com/Escrow/Delivery/BuyDecision");
+            return true;
+        }
+        private Boolean GetIDKey(GeckoDocument document, Uri uri)
+        {
+            GeckoSelectElement item = document.GetElementById<GeckoSelectElement>("searchAccount");
+            for (uint i = 0; i < item.Length; i++)
+            {
+                GeckoOptionElement option = item.Options.item(i);
+                if (String.Equals(option.Label, "A_" + Parameter.Id))
+                {
+                    //10757^id^_1
+                    idkey = option.Value;
+                    idcode = idkey.Split('^')[0];
+                    /*
+                        page:1
+                        limit:20
+                        siteGbn:0
+                        searchAccount:10757
+                        searchDateType:TRD
+                        searchSDT:2017-09-09
+                        searchEDT:2017-10-09
+                        searchKey:ON
+                        searchKeyword:
+                        searchStatus:5010
+                        searchAllYn:N
+                        SortFeild:TransDate
+                        SortType:Desc
+                        start:0
+                        searchDistrType:AL
+                        searchGlobalShopType:
+                        searchOverseaDeliveryYn:
+                    */
+                    //1년전부터
+                    state.StateIndex = 0;
+                    state.Page = 1;
+                    DateTime now = DateTime.Now;
+                    state.sdt = now.AddMonths(-11).AddDays((now.Day * -1) + 1);
+                    state.edt = state.sdt.AddMonths(1).AddDays(-1);
+                    //DateTime sdt = edt.AddYears(-1).AddDays(edt.Day * -1).AddDays(1);
+
+                    PostAjaxJson(document, "/Escrow/Delivery/BuyDecisionSearch", new Dictionary<String, Object>()
+                    {
+                       {"page",state.Page },
+                       {"limit","500" },
+                       {"siteGbn","0" },
+                       {"searchAccount",idkey },
+                       {"searchDateType","TRD" },
+                       {"searchSDT",state.sdt.ToString("yyyy-MM-dd") },
+                       {"searchEDT",state.edt.ToString("yyyy-MM-dd") },
+                       {"searchKey","ON" },
+                       {"searchKeyword","" },
+                       {"searchStatus","5010" },
+                       {"searchAllYn","N" },
+                       {"SortFeild","TransDate" },
+                       {"SortType","Desc" },
+                       {"start","0" },
+                       {"searchDistrType","AL" },
+                       {"searchGlobalShopType","" },
+                       {"searchOverseaDeliveryYn","" },
+                    });
+                    return true;
+                    //DecisionSearch
+                }
+            }
+            throw new ScraperException("Failed to get id key..");
+        }
+        private Boolean BuyDecisionSearch(GeckoDocument document, Uri uri)
+        {
+            String data = document.Body.TextContent;
+            var json = JsonConvert.DeserializeObject<BuyDecisionSearchJson>(data);
+            return true;
         }
     }
 }

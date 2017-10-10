@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -43,6 +46,10 @@
     <Compile Include="IClientSocket.cs" />
     <Compile Include="Impl\ClientSocket.cs" />
     <Compile Include="Impl\Factory.cs" />
+    <Compile Include="Impl\Parameter.cs" />
+    <Compile Include="Impl\Scraper.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Impl\ServerSocket.cs" />
     <Compile Include="IServerSocket.cs" />
     <Compile Include="Other\WebServerException.cs" />
@@ -50,10 +57,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WebScraping.Dao\WebScraping.Dao.csproj">
+      <Project>{eb2995c5-b732-46d0-9e5e-7de25fb4af5d}</Project>
+      <Name>WebScraping.Dao</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WebScraping.Library\WebScraping.Library.csproj">
       <Project>{e30f6319-724f-41dd-a5ef-a10ec83fc08d}</Project>
       <Name>WebScraping.Library</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

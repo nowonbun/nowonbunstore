@@ -10,7 +10,8 @@
 				f.init();			
 			});
 			return {
-				receive: f.receive
+				receive: f.receive,
+				refresh: f.refresh
 			}
 		})(
 			{
@@ -24,6 +25,24 @@
 						$("#manual_panel").toggleClass("hide");
 					})
 					$("#manual_close").on("click",function(){
+						$("#manual").toggleClass("hide");
+						$("#manual_panel").toggleClass("hide");
+					});
+					$("#manual_scraping").on("click",function(){
+						var url = "./Scrap?Code="+$("#manual_code").val()+"&Id="+$("#manual_id").val()+"&Pw="+$("#manual_pwd").val();
+						$.ajax({
+							url: url,
+							type: "GET",
+							success: function (data, textStatus, jqXHR) {
+								ins.refresh();
+							},
+							error: function (jqXHR, textStatus, errorThrown) {
+
+							},
+							complete: function (jqXHR, textStatus) {
+
+							}
+						});
 						$("#manual").toggleClass("hide");
 						$("#manual_panel").toggleClass("hide");
 					});
@@ -65,11 +84,12 @@
 		                	}
 		                	for(var i in data){
 		                		var temp = "<tr>"
-		                    		 + "<td>"+data[i].code+"</td>"
-		                    		 + "<td>"+data[i].id+"</td>"
-		                    		 + "<td>"+data[i].starttime+"</td>"
-		                    		 + "<td>"+data[i].pingtime+"</td>"
-		                    		 + "<td>"+data[i].status+"</td>"
+									 + "<td>"+data[i].Key+"</td>"
+		                    		 + "<td>"+data[i].Code+"</td>"
+		                    		 + "<td>"+data[i].Id+"</td>"
+		                    		 + "<td>"+data[i].Starttime+"</td>"
+		                    		 + "<td>"+data[i].Pingtime+"</td>"
+		                    		 //+ "<td>"+data[i].Status+"</td>"
 		                    		 + "</tr>";
 		                 		$("#status_table > tbody").append(temp);
 		                	}
@@ -135,7 +155,7 @@
 		}
 		table tbody > tr > td:nth-child(2)
 		{
-			width:30%;
+			width:15%;
 			text-align: center;
 			table-layout:fixed; 
 			word-break:break-all;
@@ -143,8 +163,7 @@
 		table tbody > tr > td:nth-child(3)
 		{
 			width:15%;
-			text-align: right;
-			padding-right:5px;
+			text-align: center;
 			table-layout:fixed; 
 			word-break:break-all;
 		}
@@ -157,6 +176,14 @@
 			word-break:break-all;
 		}
 		table tbody > tr > td:nth-child(5)
+		{
+			width:15%;
+			text-align: right;
+			padding-right:5px;
+			table-layout:fixed; 
+			word-break:break-all;
+		}
+		table tbody > tr > td:nth-child(6)
 		{
 			width:10%;
 			text-align: center;
@@ -200,11 +227,12 @@
 		<input type="button" class="manualBtn" id="manual" value="Manual Scraping">
 		<div class="hide" id="manual_panel">
 			Code : 
-			<select>
+			<select id="manual_code">
 				<option value="001">001</option>
+				<option value="002">002</option>
 			</select>
-			Id : <input type="text" value="">
-			Pw : <input type="text" value="">
+			Id : <input type="text" id="manual_id">
+			Pw : <input type="text" id="manual_pwd">
 			<input type="button" id="manual_scraping" value="scraping">
 			<input type="button" id="manual_close" value="close">
 		</div>
@@ -228,11 +256,12 @@
 		<table id="status_table">
 			<thead>
 				<tr>
+					<th>Key</th>
 					<th>Code</th>
 					<th>Id</th>
 					<th>StartTime</th>
 					<th>PingTime</th>
-					<th>Status</th>
+					<!--th>Status</th-->
 				</tr>
 			</thead>
 			<tbody></tbody>

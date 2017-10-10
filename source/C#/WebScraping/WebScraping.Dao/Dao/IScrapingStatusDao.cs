@@ -13,5 +13,7 @@ namespace WebScraping.Dao.Dao
         ScrapingStatus GetEntity(String keycode);
 
         int Update(ScrapingStatus entity);
+
+        int Insert(ScrapingStatus entity);
     }
 }

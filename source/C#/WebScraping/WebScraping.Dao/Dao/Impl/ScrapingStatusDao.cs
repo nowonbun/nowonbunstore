@@ -28,5 +28,9 @@ namespace WebScraping.Dao.Dao.Impl
         {
             return base.UpdateByEntity(entity);
         }
+        public int Insert(ScrapingStatus entity)
+        {
+            return base.InsertByEntity(entity);
+        }
     }
 }
