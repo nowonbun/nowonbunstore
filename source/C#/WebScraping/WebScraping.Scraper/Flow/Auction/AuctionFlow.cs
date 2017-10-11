@@ -11,6 +11,7 @@ using WebScraping.Scraper.Node;
 using WebScraping.Scraper.Other;
 using System.Net;
 using Newtonsoft.Json;
+using System.Threading;
 
 namespace WebScraping.Scraper.Flow.Auction
 {
@@ -26,6 +27,7 @@ namespace WebScraping.Scraper.Flow.Auction
         private String idkey;
         private String idcode;
         private State state = new State();
+        private IDictionary<String, BuyDescisionNode> buyNodeList = new Dictionary<String, BuyDescisionNode>();
         public AuctionFlow(ScrapBrowser browser, ScrapParameter param, bool login_mode)
             : base(browser, param, login_mode)
         {
@@ -135,9 +137,11 @@ namespace WebScraping.Scraper.Flow.Auction
                     state.StateIndex = 0;
                     state.Page = 1;
                     DateTime now = DateTime.Now;
-                    state.sdt = now.AddMonths(-11).AddDays((now.Day * -1) + 1);
-                    state.edt = state.sdt.AddMonths(1).AddDays(-1);
+                    //state.sdt = now.AddMonths(-11).AddDays((now.Day * -1) + 1);
+                    //state.edt = state.sdt.AddMonths(1).AddDays(-1);
                     //DateTime sdt = edt.AddYears(-1).AddDays(edt.Day * -1).AddDays(1);
+                    state.sdt = now.AddYears(-1).AddDays(1);
+                    state.edt = state.sdt.AddMonths(1).AddDays(-1);
 
                     PostAjaxJson(document, "/Escrow/Delivery/BuyDecisionSearch", new Dictionary<String, Object>()
                     {
@@ -169,7 +173,104 @@ namespace WebScraping.Scraper.Flow.Auction
         {
             String data = document.Body.TextContent;
             var json = JsonConvert.DeserializeObject<BuyDecisionSearchJson>(data);
+            if (state.StateIndex == 0)
+            {
+                new Thread((d) =>
+                {
+                    foreach (var jsonData in d as IList<BuyDecisionSearchDataJson>)
+                    {
+                        String date = jsonData.BuyDecisionDate.Substring(0, 7);
+                        BuyDescisionNode node = GetBuyDescisionNode(date);
+                        lock (node)
+                        {
+                            node.BuyDecisionDate += TransDecimal(jsonData.BuyDecisionDate);
+                            node.DeliveryFee += TransDecimal(jsonData.DeliveryFee);
+                            node.OrderAmnt += TransDecimal(jsonData.OrderAmnt);
+                            node.SellPrice += TransDecimal(jsonData.SellPrice);
+                            node.SttlExpectedAmnt += TransDecimal(jsonData.SttlExpectedAmnt);
+                        }
+                    }
+                }).Start(json.Data);
+
+                int count = state.Page * json.Data.Count;
+                int total = TransInt(json.Total);
+                if (total > count)
+                {
+                    state.Page++;
+                    PostAjaxJson(document, "/Escrow/Delivery/BuyDecisionSearch", new Dictionary<String, Object>()
+                    {
+                       {"page",state.Page },
+                       {"limit","500" },
+                       {"siteGbn","0" },
+                       {"searchAccount",idkey },
+                       {"searchDateType","TRD" },
+                       {"searchSDT",state.sdt.ToString("yyyy-MM-dd") },
+                       {"searchEDT",state.edt.ToString("yyyy-MM-dd") },
+                       {"searchKey","ON" },
+                       {"searchKeyword","" },
+                       {"searchStatus","5010" },
+                       {"searchAllYn","N" },
+                       {"SortFeild","TransDate" },
+                       {"SortType","Desc" },
+                       {"start","0" },
+                       {"searchDistrType","AL" },
+                       {"searchGlobalShopType","" },
+                       {"searchOverseaDeliveryYn","" },
+                    });
+                    return true;
+                }
+            }
+
             return true;
+        }
+        private int TransInt(String data)
+        {
+            if (data == null)
+            {
+                return 0;
+            }
+            try
+            {
+                String buffer = data.Replace(",", "");
+                return int.Parse(buffer);
+            }
+            catch
+            {
+                return 0;
+            }
+        }
+        private Decimal TransDecimal(String data)
+        {
+            if (data == null)
+            {
+                return Decimal.Zero;
+            }
+            try
+            {
+                String buffer = data.Replace(",", "");
+                return Decimal.Parse(buffer);
+            }
+            catch
+            {
+                return Decimal.Zero;
+            }
+        }
+        private BuyDescisionNode GetBuyDescisionNode(String date)
+        {
+            //DateTime dt = DateTime.Parse(date);
+            //date = dt.ToString("yyyyMM");
+            if (!buyNodeList.ContainsKey(date))
+            {
+                BuyDescisionNode node = new BuyDescisionNode();
+                node.YearMonth = DateTime.Parse(date + "-01");
+                node.BuyDecisionDate = 0;
+                node.DeliveryFee = 0;
+                node.OrderAmnt = 0;
+                node.SellPrice = 0;
+                node.SttlExpectedAmnt = 0;
+                buyNodeList.Add(date, node);
+            }
+            return buyNodeList[date];
         }
     }
 }

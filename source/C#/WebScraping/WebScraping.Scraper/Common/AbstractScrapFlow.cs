@@ -47,7 +47,7 @@ namespace WebScraping.Scraper.Common
             this.browser = browser;
             this.commondao = FactoryDao.GetInstance().GetDao("WebScraping.Dao.Dao.Impl.ScrapingCommonDataDao") as IScrapingCommonDataDao;
             this.packagedao = FactoryDao.GetInstance().GetDao("WebScraping.Dao.Dao.Impl.ScrapingPakageDataDao") as IScrapingPakageDataDao;
-            
+
             logger = LoggerBuilder.Init().Set(this.GetType());
         }
         protected virtual Boolean NotAction(GeckoDocument document, Uri uri)
@@ -80,7 +80,8 @@ namespace WebScraping.Scraper.Common
                 {
                     urlTemp = uri.ToString();
                 }
-                key = temp.Where(k => {
+                key = temp.Where(k =>
+                {
                     int index = urlTemp.LastIndexOf(k);
                     int length = urlTemp.Length;
                     int ret = length - index - k.Length;
