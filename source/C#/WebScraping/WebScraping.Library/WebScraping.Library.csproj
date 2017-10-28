@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="Config\ConfigSystem.cs" />
     <Compile Include="Config\Debug.cs" />
+    <Compile Include="Config\Server.cs" />
     <Compile Include="Excel\BuilderEntity.cs" />
     <Compile Include="Excel\ExcelHeader.cs" />
     <Compile Include="Exception\LogException.cs" />

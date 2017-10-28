@@ -6,9 +6,6 @@ using System.Threading.Tasks;
 
 namespace WebScraping.Scraper.Flow.Auction
 {
-    /**
-     * Deprecated
-     */
     class BuyDescisionNode
     {
         public DateTime YearMonth { get; set; }

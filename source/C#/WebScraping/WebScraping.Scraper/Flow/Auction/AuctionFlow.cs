@@ -39,7 +39,7 @@ namespace WebScraping.Scraper.Flow.Auction
             FlowMap.Add("Member/SignIn/LogOn", Login);
             FlowMap.Add("Home/Home", Home);
             FlowMap.Add("membership/MyInfo/MyInfoComp", Profile);
-            FlowMap.Add("Escrow/Delivery/BuyDecision", BuyDecisionSearch);
+            FlowMap.Add("Escrow/Delivery/BuyDecision", BuyDecision);
             browser.InitializeDownLoad(ExcelDownload);
         }
         protected override void Finally()
@@ -106,7 +106,7 @@ namespace WebScraping.Scraper.Flow.Auction
             base.Navigate("https://www.esmplus.com/Escrow/Delivery/BuyDecision");
             return true;
         }
-        private Boolean BuyDecisionSearch(GeckoDocument document, Uri uri)
+        private Boolean BuyDecision(GeckoDocument document, Uri uri)
         {
             if (!String.IsNullOrEmpty(idkey))
             {
