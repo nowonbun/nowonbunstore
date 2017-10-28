@@ -58,9 +58,8 @@
     <Compile Include="Common\AbstractScrapFlow.cs" />
     <Compile Include="Common\GeckoDocumentEx.cs" />
     <Compile Include="Flow\Auction\AuctionFlow.cs" />
-    <Compile Include="Flow\Auction\BuyDecisionSearchDataJson.cs" />
-    <Compile Include="Flow\Auction\BuyDecisionSearchJson.cs" />
     <Compile Include="Flow\Auction\BuyDescisionNode.cs" />
+    <Compile Include="Flow\Auction\BuyDecisionExcel.cs" />
     <Compile Include="Flow\Gmarket\GMarketFlow.cs" />
     <Compile Include="Impl\ScrapBrowser.cs">
       <SubType>Component</SubType>

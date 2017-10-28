@@ -6,6 +6,11 @@ using WebScraping.Scraper.Other;
 using WebScraping.Dao.Common;
 using WebScraping.Dao.Dao;
 using WebScraping.Dao.Entity;
+using WebScraping.Library.Config;
+using WebScraping.Library.Excel;
+
+using WebScraping.Scraper.Flow.Auction;
+using System.Collections.Generic;
 
 namespace WebScraping.Scraper
 {
@@ -14,37 +19,55 @@ namespace WebScraping.Scraper
         [STAThread]
         static void Main(string[] args)
         {
+            Logger logger = null;
             try
             {
-                LoggerBuilder.Init("d:\\log\\log4net.xml").Set("Server").Info("Client Program Start");
+                logger = LoggerBuilder.Init(ConfigSystem.ReadConfig("Config", "Log", "Path")).Set("Server").Info("Client Program Start");
+
+
+                if (Debug.IsDebug())
+                {
+                    args = new String[] { Debug.GetDebugKey(), Debug.GetDebugParam() };
+                }
                 if (args.Length != 2)
                 {
                     throw new ScraperException("Parameter Length Error " + args.Length);
                 }
-                FactoryDao.CreateInstance("Server=only1.iptime.org;Port=3306;Database=scrap;Uid=nowonbun;Pwd=1234;");
+                FactoryDao.CreateInstance(ConfigSystem.ReadConfig("Config", "DB", "Connection"));
                 IScrapingStatusDao dao = FactoryDao.GetInstance().GetDao("WebScraping.Dao.Dao.Impl.ScrapingStatusDao") as IScrapingStatusDao;
-                ScrapingStatus entity = dao.GetEntity(args[0]);
-                if (entity == null)
+                if (!Debug.IsDebug())
                 {
-                    throw new ScraperException("Nothing entity " + args[0]);
-                }
-                /*if(entity.Status != "0")
-                {
-                    throw new ScraperException("entity status" + args[0]);
-                }*/
-                entity.Status = "1";
-                dao.Update(entity);
+                    ScrapingStatus entity = dao.GetEntity(args[0]);
 
+                    if (entity == null)
+                    {
+                        throw new ScraperException("Nothing entity " + args[0]);
+                    }
+
+                    if (entity.Status != "0")
+                    {
+                        throw new ScraperException("entity status" + args[0]);
+                    }
+                    entity.Status = "1";
+                    dao.Update(entity);
+                }
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new ScraperContext(args[0], args[1]));
             }
-            catch
+            catch (Exception e)
             {
-                Console.ReadKey();
-                Application.Exit();
+                if (logger != null)
+                {
+                    logger.Error(e.ToString());
+                }
+                Exit();
             }
-
+        }
+        public static void Exit()
+        {
+            LoggerBuilder.Init().Set("Server").Info("Client Program Exit");
+            Application.Exit();
         }
     }
 }

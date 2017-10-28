@@ -18,7 +18,7 @@ namespace WebScraping.WebServer
         {
             if (singleton != null)
             {
-                throw new Exception("already");
+                throw new Exception("Webserver is already");
             }
             singleton = new WebServer();
             singleton.server = Factory.GetServerSocket(port, path);
@@ -30,7 +30,7 @@ namespace WebScraping.WebServer
         {
             if (singleton == null)
             {
-                throw new Exception("not ready");
+                throw new Exception("Webserver is not ready");
             }
             singleton.server.Dispose();
         }

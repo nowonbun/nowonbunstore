@@ -12,6 +12,7 @@ using Gecko.DOM;
 using System.IO;
 using WebScraping.WebServer;
 using WebScraping.Library.Log;
+using WebScraping.Library.Config;
 
 namespace WebScraping.ServerForm
 {
@@ -25,7 +26,7 @@ namespace WebScraping.ServerForm
             var app_dir = Path.GetDirectoryName(Application.ExecutablePath);
             Xpcom.Initialize(Path.Combine(app_dir, "Firefox"));
             logger.Info("FireFox Dll Initialize");
-            WebScraping.WebServer.WebServer.Start(19999, Path.Combine(app_dir, "WebServer"), e =>
+            WebScraping.WebServer.WebServer.Start(ServerInfo.GetPort(), Path.Combine(app_dir, "WebServer"), e =>
             {
 
             });
@@ -34,7 +35,7 @@ namespace WebScraping.ServerForm
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            webBrowser1.Navigate("http://localhost:19999/ControllView");
+            webBrowser1.Navigate("http://localhost:" + ServerInfo.GetPort() + "/ControllView");
         }
         protected override void OnClosing(CancelEventArgs e)
         {

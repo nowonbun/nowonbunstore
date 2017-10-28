@@ -11,6 +11,8 @@ using WebScraping.Scraper.Flow.Gmarket;
 using WebScraping.Scraper.Flow.Auction;
 using WebScraping.Scraper.Other;
 using WebScraping.Library.Log;
+using WebScraping.Library.Config;
+using System.IO;
 
 namespace WebScraping.Scraper.Impl
 {
@@ -19,10 +21,27 @@ namespace WebScraping.Scraper.Impl
         private IScrapFlow flow = null;
         private Logger logger = LoggerBuilder.Init().Set(typeof(ScrapBrowser));
         //HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+        public ScrapBrowser()
+        {
+
+        }
+        public void InitializeDownLoad(Action<String, String> download)
+        {
+            Gecko.LauncherDialog.Download += (sender, e) =>
+            {
+                String tempPath = ConfigSystem.ReadConfig("Config", "Temp", "Path");
+                String file = Path.Combine(tempPath, e.Filename);
+                nsILocalFile objTarget = (nsILocalFile)Xpcom.NewNativeLocalFile(file);
+                e.HelperAppLauncher.SaveToDisk(objTarget, false);
+                download(e.Url, file);
+            };
+        }
+
         protected override void OnNavigated(GeckoNavigatedEventArgs e)
         {
             base.OnNavigated(e);
         }
+
         public void Set(ScrapParameter param)
         {
             switch (param.Code)
@@ -46,6 +65,7 @@ namespace WebScraping.Scraper.Impl
             }
             this.Navigate(flow.StartPage());
         }
+
         protected override void OnDocumentCompleted(Gecko.Events.GeckoDocumentCompletedEventArgs e)
         {
             base.OnDocumentCompleted(e);
@@ -58,13 +78,12 @@ namespace WebScraping.Scraper.Impl
             if (!action(this.Document, e.Uri))
             {
                 flow.End();
-                Application.Exit();
+                Scraper.Exit();
             }
         }
         protected override void OnCreateWindow(GeckoCreateWindowEventArgs e)
         {
             e.Cancel = true;
-            //base.OnCreateWindow(e);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace WebScraping.WebServer.Impl
         {
             parameter.Key = System.Guid.NewGuid().ToString();
             base.StartInfo.Arguments = parameter.Key + " " + this.parameterStr;
-            
+
             IScrapingStatusDao dao = FactoryDao.GetInstance().GetDao("WebScraping.Dao.Dao.Impl.ScrapingStatusDao") as IScrapingStatusDao;
             ScrapingStatus entity = new ScrapingStatus();
             entity.KeyCode = parameter.Key;
@@ -41,13 +41,14 @@ namespace WebScraping.WebServer.Impl
         {
             Parameter ret = new Parameter();
             String[] buffer = param.Split('&');
-            foreach(String b in buffer)
+            foreach (String b in buffer)
             {
                 String[] t = b.Split('=');
                 if ("CODE".Equals(t[0].ToUpper()))
                 {
                     ret.Code = t[1];
-                }else if ("ID".Equals(t[0].ToUpper()))
+                }
+                else if ("ID".Equals(t[0].ToUpper()))
                 {
                     ret.Id = t[1];
                 }

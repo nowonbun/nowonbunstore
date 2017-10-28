@@ -208,7 +208,13 @@ namespace WebScraping.Scraper.Common
             buffer.Append("<FORM ACTION='").Append(ajaxurl).Append("' method='POST'>");
             foreach (String key in param.Keys)
             {
-                buffer.Append("<INPUT type='hidden' name='").Append(key).Append("' value='").Append(param[key]).Append("'>");
+                buffer.Append("<INPUT type='hidden' name='")
+                    .Append(key)
+                    .Append("' id='")
+                    .Append(key)
+                    .Append("' value='")
+                    .Append(param[key])
+                    .Append("'>");
             }
             buffer.Append("<INPUT type='submit' id='trigger'>");
             buffer.Append("</FORM>");

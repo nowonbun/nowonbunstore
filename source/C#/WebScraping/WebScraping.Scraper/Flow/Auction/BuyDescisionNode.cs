@@ -6,13 +6,21 @@ using System.Threading.Tasks;
 
 namespace WebScraping.Scraper.Flow.Auction
 {
+    /**
+     * Deprecated
+     */
     class BuyDescisionNode
     {
         public DateTime YearMonth { get; set; }
-        public Decimal BuyDecisionDate { get; set; }
         public Decimal DeliveryFee { get; set; }
         public Decimal OrderAmnt { get; set; }
         public Decimal SttlExpectedAmnt { get; set; }
         public Decimal SellPrice { get; set; }
+
+        public override string ToString()
+        {
+            return String.Format("YearMonth:{0}, DeliveryFee:{1}, OrderAmnt:{2}, SttlExpectedAmnt:{3}, SellPrice:{4}",
+                YearMonth.ToString("yyyy-MM"), DeliveryFee, OrderAmnt, SttlExpectedAmnt, SellPrice);
+        }
     }
 }

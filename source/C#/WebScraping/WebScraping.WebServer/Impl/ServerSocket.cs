@@ -8,6 +8,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Diagnostics;
 using System.IO;
+using WebScraping.Library.Log;
 
 namespace WebScraping.WebServer.Impl
 {
@@ -19,6 +20,7 @@ namespace WebScraping.WebServer.Impl
         private Thread _thread;
         private bool live = true;
         private String path;
+        private Logger logger;
 
         public String StartScraper(String param)
         {
@@ -58,6 +60,7 @@ namespace WebScraping.WebServer.Impl
         public ServerSocket(int port, String path)
             : base(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP)
         {
+            this.logger = logger = LoggerBuilder.Init().Set(this.GetType()); ;
             this.port = port;
             this.path = path;
             base.Bind(new IPEndPoint(IPAddress.Any, port));
@@ -75,7 +78,7 @@ namespace WebScraping.WebServer.Impl
                     }
                     catch (Exception e)
                     {
-                        //TODO: Log
+                        logger.Error(e.ToString());
                     }
                 }
             });

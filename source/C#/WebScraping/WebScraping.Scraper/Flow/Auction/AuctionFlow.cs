@@ -12,6 +12,8 @@ using WebScraping.Scraper.Other;
 using System.Net;
 using Newtonsoft.Json;
 using System.Threading;
+using System.IO;
+using WebScraping.Library.Excel;
 
 namespace WebScraping.Scraper.Flow.Auction
 {
@@ -28,6 +30,7 @@ namespace WebScraping.Scraper.Flow.Auction
         private String idcode;
         private State state = new State();
         private IDictionary<String, BuyDescisionNode> buyNodeList = new Dictionary<String, BuyDescisionNode>();
+
         public AuctionFlow(ScrapBrowser browser, ScrapParameter param, bool login_mode)
             : base(browser, param, login_mode)
         {
@@ -36,12 +39,12 @@ namespace WebScraping.Scraper.Flow.Auction
             FlowMap.Add("Member/SignIn/LogOn", Login);
             FlowMap.Add("Home/Home", Home);
             FlowMap.Add("membership/MyInfo/MyInfoComp", Profile);
-            FlowMap.Add("Escrow/Delivery/BuyDecision", GetIDKey);
-            FlowMap.Add("Escrow/Delivery/BuyDecisionSearch", BuyDecisionSearch);
+            FlowMap.Add("Escrow/Delivery/BuyDecision", BuyDecisionSearch);
+            browser.InitializeDownLoad(ExcelDownload);
         }
         protected override void Finally()
         {
-            Console.WriteLine("End!");
+            logger.Info("Action scraping is exit");
         }
         private Boolean Login(GeckoDocument document, Uri uri)
         {
@@ -103,8 +106,28 @@ namespace WebScraping.Scraper.Flow.Auction
             base.Navigate("https://www.esmplus.com/Escrow/Delivery/BuyDecision");
             return true;
         }
-        private Boolean GetIDKey(GeckoDocument document, Uri uri)
+        private Boolean BuyDecisionSearch(GeckoDocument document, Uri uri)
         {
+            if (!String.IsNullOrEmpty(idkey))
+            {
+                //document.GetElementById<GeckoAnchorElement>("excelDown").Click();
+                StringBuilder urlbuffer = new StringBuilder();
+                urlbuffer.Append("https://www.esmplus.com/Escrow/Delivery/BuyDecisionExcel?")
+                    .Append("siteGbn=0&searchAccount=")
+                    .Append(idkey)
+                    .Append("&searchDateType=TRD&searchSDT=")
+                    .Append(state.sdt.ToString("yyyy-MM-dd"))
+                    .Append("&searchEDT=")
+                    .Append(state.edt.ToString("yyyy-MM-dd"))
+                    .Append("&searchKey=ON&searchKeyword=&searchStatus=5010&searchAllYn=N&searchDistrType=AL&searchGlobalShopType=&searchOverseaDeliveryYn=");
+                //base.Navigate(urlbuffer.ToString());
+                logger.Debug(urlbuffer.ToString());
+                PostAjaxJson(document, urlbuffer.ToString(), new Dictionary<String, Object>()
+                {
+                    {"eSortType","" },
+                });
+                return true;
+            }
             GeckoSelectElement item = document.GetElementById<GeckoSelectElement>("searchAccount");
             for (uint i = 0; i < item.Length; i++)
             {
@@ -137,92 +160,66 @@ namespace WebScraping.Scraper.Flow.Auction
                     state.StateIndex = 0;
                     state.Page = 1;
                     DateTime now = DateTime.Now;
-                    //state.sdt = now.AddMonths(-11).AddDays((now.Day * -1) + 1);
-                    //state.edt = state.sdt.AddMonths(1).AddDays(-1);
-                    //DateTime sdt = edt.AddYears(-1).AddDays(edt.Day * -1).AddDays(1);
                     state.sdt = now.AddYears(-1).AddDays(1);
-                    state.edt = state.sdt.AddMonths(1).AddDays(-1);
+                    state.edt = now;
+                    StringBuilder urlbuffer = new StringBuilder();
+                    urlbuffer.Append("https://www.esmplus.com/Escrow/Delivery/BuyDecision?")
+                        .Append("gbn=0&status=5010&type=N&searchTotal=-&searchAccount=").Append(idkey)
+                        .Append("&searchDateType=TRD&searchSDT=")
+                        .Append(state.sdt.ToString("yyyy-MM-dd"))
+                        .Append("&searchEDT=")
+                        .Append(state.edt.ToString("yyyy-MM-dd"))
+                        .Append("&searchKey=ON&searchKeyword=&searchStatus=5010&listAllView=false&searchDistrType=AL&searchGlobalShopType=&searchOverseaDeliveryYn=");
 
-                    PostAjaxJson(document, "/Escrow/Delivery/BuyDecisionSearch", new Dictionary<String, Object>()
-                    {
-                       {"page",state.Page },
-                       {"limit","500" },
-                       {"siteGbn","0" },
-                       {"searchAccount",idkey },
-                       {"searchDateType","TRD" },
-                       {"searchSDT",state.sdt.ToString("yyyy-MM-dd") },
-                       {"searchEDT",state.edt.ToString("yyyy-MM-dd") },
-                       {"searchKey","ON" },
-                       {"searchKeyword","" },
-                       {"searchStatus","5010" },
-                       {"searchAllYn","N" },
-                       {"SortFeild","TransDate" },
-                       {"SortType","Desc" },
-                       {"start","0" },
-                       {"searchDistrType","AL" },
-                       {"searchGlobalShopType","" },
-                       {"searchOverseaDeliveryYn","" },
-                    });
+                    base.Navigate(urlbuffer.ToString());
                     return true;
-                    //DecisionSearch
                 }
             }
             throw new ScraperException("Failed to get id key..");
         }
-        private Boolean BuyDecisionSearch(GeckoDocument document, Uri uri)
+
+        private void ExcelDownload(String url, String file)
         {
-            String data = document.Body.TextContent;
-            var json = JsonConvert.DeserializeObject<BuyDecisionSearchJson>(data);
-            if (state.StateIndex == 0)
+            logger.Debug(url);
+            logger.Debug(file);
+            if (url.IndexOf("BuyDecisionExcel") != -1)
             {
-                new Thread((d) =>
+                logger.Debug("BuyDecisionExcel");
+                ThreadPool.QueueUserWorkItem((c) =>
                 {
-                    foreach (var jsonData in d as IList<BuyDecisionSearchDataJson>)
+                    while (true)
                     {
-                        String date = jsonData.BuyDecisionDate.Substring(0, 7);
-                        BuyDescisionNode node = GetBuyDescisionNode(date);
-                        lock (node)
+                        if (File.Exists(file))
                         {
-                            node.BuyDecisionDate += TransDecimal(jsonData.BuyDecisionDate);
-                            node.DeliveryFee += TransDecimal(jsonData.DeliveryFee);
-                            node.OrderAmnt += TransDecimal(jsonData.OrderAmnt);
-                            node.SellPrice += TransDecimal(jsonData.SellPrice);
-                            node.SttlExpectedAmnt += TransDecimal(jsonData.SttlExpectedAmnt);
+                            break;
+                        }
+                        Thread.Sleep(1000);
+                    }
+                    logger.Debug("Excel analysis");
+                    BuilderExcelEntity<BuyDecisionExcel> builder = new BuilderExcelEntity<BuyDecisionExcel>();
+                    List<BuyDecisionExcel> list = builder.Builder(file);
+                    logger.Debug("It complete to build excel ");
+                    foreach (var item in list)
+                    {
+                        try
+                        {
+                            BuyDescisionNode node = GetBuyDescisionNode(item.BuyDate);
+                            node.DeliveryFee += item.DeliveryPrice;
+                            node.OrderAmnt += item.ProductQuanity;
+                            node.SellPrice += item.SellPrice;
+                            node.SttlExpectedAmnt += item.ExpectPrice;
+                        }
+                        catch (Exception e)
+                        {
+                            logger.Error(item.OrderNumber);
+                            logger.Error(e.ToString());
                         }
                     }
-                }).Start(json.Data);
-
-                int count = state.Page * json.Data.Count;
-                int total = TransInt(json.Total);
-                if (total > count)
-                {
-                    state.Page++;
-                    PostAjaxJson(document, "/Escrow/Delivery/BuyDecisionSearch", new Dictionary<String, Object>()
-                    {
-                       {"page",state.Page },
-                       {"limit","500" },
-                       {"siteGbn","0" },
-                       {"searchAccount",idkey },
-                       {"searchDateType","TRD" },
-                       {"searchSDT",state.sdt.ToString("yyyy-MM-dd") },
-                       {"searchEDT",state.edt.ToString("yyyy-MM-dd") },
-                       {"searchKey","ON" },
-                       {"searchKeyword","" },
-                       {"searchStatus","5010" },
-                       {"searchAllYn","N" },
-                       {"SortFeild","TransDate" },
-                       {"SortType","Desc" },
-                       {"start","0" },
-                       {"searchDistrType","AL" },
-                       {"searchGlobalShopType","" },
-                       {"searchOverseaDeliveryYn","" },
-                    });
-                    return true;
-                }
+                    return;
+                });
             }
-
-            return true;
         }
+
         private int TransInt(String data)
         {
             if (data == null)
@@ -257,13 +254,12 @@ namespace WebScraping.Scraper.Flow.Auction
         }
         private BuyDescisionNode GetBuyDescisionNode(String date)
         {
-            //DateTime dt = DateTime.Parse(date);
-            //date = dt.ToString("yyyyMM");
+            DateTime dt = DateTime.Parse(date);
+            date = dt.ToString("yyyy-MM");
             if (!buyNodeList.ContainsKey(date))
             {
                 BuyDescisionNode node = new BuyDescisionNode();
                 node.YearMonth = DateTime.Parse(date + "-01");
-                node.BuyDecisionDate = 0;
                 node.DeliveryFee = 0;
                 node.OrderAmnt = 0;
                 node.SellPrice = 0;
@@ -272,5 +268,6 @@ namespace WebScraping.Scraper.Flow.Auction
             }
             return buyNodeList[date];
         }
+
     }
 }
