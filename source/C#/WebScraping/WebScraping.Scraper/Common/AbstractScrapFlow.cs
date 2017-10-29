@@ -108,12 +108,11 @@ namespace WebScraping.Scraper.Common
             node.CreateDate = DateTime.Now;
             commondata.Add(node);
         }
-        protected void SetPackageData(int index, int separation, String data)
+        protected void SetPackageData(int index, String data)
         {
             ScrapingPackageData node = new ScrapingPackageData();
             node.KeyCode = this.Parameter.Keycode;
             node.keyIndex = index;
-            node.Separation = separation;
             node.Data = data;
             node.CreateDate = DateTime.Now;
             packagedata.Add(node);
@@ -222,6 +221,13 @@ namespace WebScraping.Scraper.Common
             buffer.Append("</HTML>");
             document.Body.InnerHtml = buffer.ToString();
             document.GetElementById<GeckoInputElement>("trigger").Click();
+        }
+        protected void ExcuteJavascript(GeckoDocument document, String script)
+        {
+            GeckoElement scriptelement = document.CreateElement("script");
+            scriptelement.SetAttribute("type", "text/javascript");
+            scriptelement.TextContent = script;
+            document.Head.AppendChild(scriptelement);
         }
         protected abstract void Finally();
     }

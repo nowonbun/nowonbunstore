@@ -40,6 +40,8 @@ namespace WebScraping.Scraper.Flow.Auction
             FlowMap.Add("Home/Home", Home);
             FlowMap.Add("membership/MyInfo/MyInfoComp", Profile);
             FlowMap.Add("Escrow/Delivery/BuyDecision", BuyDecision);
+            FlowMap.Add("Member/Settle/IacSettleDetail", LacSettleDetail);
+            FlowMap.Add("Areas/Manual/SellerGuide", ScrapEnd);
             browser.InitializeDownLoad(ExcelDownload);
         }
         protected override void Finally()
@@ -110,7 +112,6 @@ namespace WebScraping.Scraper.Flow.Auction
         {
             if (!String.IsNullOrEmpty(idkey))
             {
-                //document.GetElementById<GeckoAnchorElement>("excelDown").Click();
                 StringBuilder urlbuffer = new StringBuilder();
                 urlbuffer.Append("https://www.esmplus.com/Escrow/Delivery/BuyDecisionExcel?")
                     .Append("siteGbn=0&searchAccount=")
@@ -120,7 +121,6 @@ namespace WebScraping.Scraper.Flow.Auction
                     .Append("&searchEDT=")
                     .Append(state.edt.ToString("yyyy-MM-dd"))
                     .Append("&searchKey=ON&searchKeyword=&searchStatus=5010&searchAllYn=N&searchDistrType=AL&searchGlobalShopType=&searchOverseaDeliveryYn=");
-                //base.Navigate(urlbuffer.ToString());
                 logger.Debug(urlbuffer.ToString());
                 PostAjaxJson(document, urlbuffer.ToString(), new Dictionary<String, Object>()
                 {
@@ -170,12 +170,44 @@ namespace WebScraping.Scraper.Flow.Auction
                         .Append("&searchEDT=")
                         .Append(state.edt.ToString("yyyy-MM-dd"))
                         .Append("&searchKey=ON&searchKeyword=&searchStatus=5010&listAllView=false&searchDistrType=AL&searchGlobalShopType=&searchOverseaDeliveryYn=");
-
+                    //구매 결정 완료 일단 넘기기
                     base.Navigate(urlbuffer.ToString());
                     return true;
                 }
             }
             throw new ScraperException("Failed to get id key..");
+        }
+
+        private bool LacSettleDetail(GeckoDocument document, Uri uri)
+        {
+            Thread.Sleep(5000);
+            var SearchParam = new
+            {
+                MemberID = Parameter.Id,
+                ItemNo = "",
+                BuyerName = "",
+                BuyerId = "",
+                OrderNo = 0,
+                DateType = "R",
+                DateFrom = state.sdt.ToString("yyyy-MM-dd"),
+                DateTo = state.edt.ToString("yyyy-MM-dd"),
+                CategoryId = "",
+                RemittanceType = "0",
+                GroupOrderSeqNo = "0",
+                PageNo = 1,
+                PageSize = 20
+            };
+            String json = JsonConvert.SerializeObject(SearchParam);
+            logger.Debug(json);
+            PostAjaxJson(document, "https://www.esmplus.com/Member/Settle/IacRemitListExcelDownload?SearchParam=" + json, new Dictionary<String, Object>()
+            {
+                {"eSortType","" },
+            });
+            return true;
+        }
+        private bool ScrapEnd(GeckoDocument document, Uri uri)
+        {
+            return false;
         }
 
         private void ExcelDownload(String url, String file)
@@ -195,11 +227,16 @@ namespace WebScraping.Scraper.Flow.Auction
                         }
                         Thread.Sleep(1000);
                     }
-                    logger.Debug("Excel analysis");
+                    logger.Debug("BuyDecisionExcel Excel analysis");
                     BuilderExcelEntity<BuyDecisionExcel> builder = new BuilderExcelEntity<BuyDecisionExcel>();
                     List<BuyDecisionExcel> list = builder.Builder(file);
                     logger.Debug("It complete to build excel ");
-                    foreach (var item in list)
+                    String data = JsonConvert.SerializeObject(list);
+                    logger.Debug("BuyDecisionExcel size = " + data.Length.ToString());
+                    SetPackageData(0, data);
+                    list.Clear();
+                    base.Navigate("http://www.esmplus.com/Member/Settle/IacSettleDetail?menuCode=TDM298");
+                    /*foreach (var item in list)
                     {
                         try
                         {
@@ -215,43 +252,40 @@ namespace WebScraping.Scraper.Flow.Auction
                             logger.Error(e.ToString());
                         }
                     }
+                    foreach (var item in buyNodeList)
+                    {
+                        logger.Debug(item.ToString());
+                    }*/
+                    return;
+                });
+            }
+            if (url.IndexOf("IacRemitListExcelDownload") != -1)
+            {
+                logger.Debug("IacRemitListExcelDownload");
+                ThreadPool.QueueUserWorkItem((c) =>
+                {
+                    while (true)
+                    {
+                        if (File.Exists(file))
+                        {
+                            break;
+                        }
+                        Thread.Sleep(1000);
+                    }
+                    logger.Debug("IacRemitListExcelDownload Excel analysis");
+                    BuilderExcelEntity<LacRemitListExcel> builder = new BuilderExcelEntity<LacRemitListExcel>();
+                    List<LacRemitListExcel> list = builder.Builder(file);
+                    String data = JsonConvert.SerializeObject(list);
+                    logger.Debug("IacRemitListExcelDownload size = " + data.Length.ToString());
+                    SetPackageData(1, data);
+                    list.Clear();
+                    base.Navigate("http://www.esmplus.com/Areas/Manual/SellerGuide/main.html");
                     return;
                 });
             }
         }
+        
 
-        private int TransInt(String data)
-        {
-            if (data == null)
-            {
-                return 0;
-            }
-            try
-            {
-                String buffer = data.Replace(",", "");
-                return int.Parse(buffer);
-            }
-            catch
-            {
-                return 0;
-            }
-        }
-        private Decimal TransDecimal(String data)
-        {
-            if (data == null)
-            {
-                return Decimal.Zero;
-            }
-            try
-            {
-                String buffer = data.Replace(",", "");
-                return Decimal.Parse(buffer);
-            }
-            catch
-            {
-                return Decimal.Zero;
-            }
-        }
         private BuyDescisionNode GetBuyDescisionNode(String date)
         {
             DateTime dt = DateTime.Parse(date);

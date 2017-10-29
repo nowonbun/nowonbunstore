@@ -34,5 +34,18 @@ namespace WebScraping.Scraper.Common
         {
             return element.GetElementsByTagName(tag)[index].FirstChild.NodeValue;
         }
+        public static void SelectElementById<T>(this GeckoDocument document, String id, String value) where T : GeckoSelectElement
+        {
+            var options = document.GetElementById<T>(id).Options;
+            for (int i = 0; i < options.Length; i++)
+            {
+                var option = options.item((uint)i);
+                if (String.Equals(option.Value, value))
+                {
+                    document.GetElementById<GeckoSelectElement>("Account").SelectedIndex = i;
+                    return;
+                }
+            }
+        }
     }
 }

@@ -60,6 +60,7 @@
     <Compile Include="Flow\Auction\AuctionFlow.cs" />
     <Compile Include="Flow\Auction\BuyDescisionNode.cs" />
     <Compile Include="Flow\Auction\BuyDecisionExcel.cs" />
+    <Compile Include="Flow\Auction\LacRemitListExcel.cs" />
     <Compile Include="Flow\Gmarket\GMarketFlow.cs" />
     <Compile Include="Impl\ScrapBrowser.cs">
       <SubType>Component</SubType>

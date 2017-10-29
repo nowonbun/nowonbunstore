@@ -30,7 +30,7 @@ namespace WebScraping.Scraper.Impl
             Gecko.LauncherDialog.Download += (sender, e) =>
             {
                 String tempPath = ConfigSystem.ReadConfig("Config", "Temp", "Path");
-                String file = Path.Combine(tempPath, e.Filename);
+                String file = Path.Combine(tempPath, DateTime.Now.ToString("yyyyMMddHHmmss") + e.Filename);
                 nsILocalFile objTarget = (nsILocalFile)Xpcom.NewNativeLocalFile(file);
                 e.HelperAppLauncher.SaveToDisk(objTarget, false);
                 download(e.Url, file);
@@ -69,15 +69,23 @@ namespace WebScraping.Scraper.Impl
         protected override void OnDocumentCompleted(Gecko.Events.GeckoDocumentCompletedEventArgs e)
         {
             base.OnDocumentCompleted(e);
-            Func<GeckoDocument, Uri, Boolean> action = flow.Procedure(e.Uri);
-            GeckoElement script = this.Document.CreateElement("script");
-            script.SetAttribute("type", "text/javascript");
-            script.TextContent = "window.alert = function(){};";
-            this.Document.Head.AppendChild(script);
-
-            if (!action(this.Document, e.Uri))
+            try
             {
-                flow.End();
+                Func<GeckoDocument, Uri, Boolean> action = flow.Procedure(e.Uri);
+                GeckoElement script = this.Document.CreateElement("script");
+                script.SetAttribute("type", "text/javascript");
+                script.TextContent = "window.alert = function(){};";
+                this.Document.Head.AppendChild(script);
+
+                if (!action(this.Document, e.Uri))
+                {
+                    flow.End();
+                    Scraper.Exit();
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex.ToString());
                 Scraper.Exit();
             }
         }

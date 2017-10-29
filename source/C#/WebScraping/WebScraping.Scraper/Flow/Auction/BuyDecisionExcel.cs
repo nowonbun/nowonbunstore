@@ -202,7 +202,7 @@ namespace WebScraping.Scraper.Flow.Auction
 
         public String BuyerPhoneNumber
         {
-            get { return this.BuyerPhoneNumber; }
+            get { return this.buyerPhoneNumber; }
         }
 
         [ExcelHeader("장바구니번호(결제번호)", 25)]

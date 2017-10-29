@@ -11,9 +11,7 @@ namespace WebScraping.Dao.Entity
         private String keycode;
         [Column("KEYINDEX", MySqlDbType.Int32, LogicalName = "keyindex", Key = true)]
         private int keyindex;
-        [Column("SEPARATION", MySqlDbType.Int32, LogicalName = "separation", Key = true)]
-        private int separation;
-        [Column("DATA", MySqlDbType.VarChar, LogicalName = "data")]
+        [Column("DATA", MySqlDbType.LongText, LogicalName = "data")]
         private String data;
         [Column("CREATEDATE", MySqlDbType.DateTime, LogicalName = "createdate")]
         private DateTime? createdate;
@@ -27,11 +25,6 @@ namespace WebScraping.Dao.Entity
         {
             get { return this.keyindex; }
             set { this.keyindex = value; }
-        }
-        public int Separation
-        {
-            get { return this.separation; }
-            set { this.separation = value; }
         }
         public String Data
         {
