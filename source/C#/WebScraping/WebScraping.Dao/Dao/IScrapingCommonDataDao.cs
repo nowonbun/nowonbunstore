@@ -11,5 +11,11 @@ namespace WebScraping.Dao.Dao
         IList<ScrapingCommonData> Select();
 
         int Insert(ScrapingCommonData entity);
+
+        int Update(ScrapingCommonData entity);
+
+        int Delete(ScrapingCommonData entity);
+
+        int InsertList(IList<ScrapingCommonData> list);
     }
 }

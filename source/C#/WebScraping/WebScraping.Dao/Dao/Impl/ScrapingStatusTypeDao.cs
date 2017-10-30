@@ -9,7 +9,19 @@ namespace WebScraping.Dao.Dao.Impl
     {
         public IList<ScrapingStatusType> Select()
         {
-            return base.SelectByEntity(null);
+            return base.SelectAll();
+        }
+        public int Insert(ScrapingStatusType entity)
+        {
+            return base.InsertByEntity(entity);
+        }
+        public int Update(ScrapingStatusType entity)
+        {
+            return base.UpdateByEntity(entity);
+        }
+        public int Delete(ScrapingStatusType entity)
+        {
+            return base.DeleteByEntity(entity);
         }
     }
 }

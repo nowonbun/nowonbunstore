@@ -2,7 +2,6 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Reflection;
-using MySql.Data;
 using MySql.Data.MySqlClient;
 using System.Linq;
 using WebScraping.Dao.Interface;
@@ -13,6 +12,7 @@ namespace WebScraping.Dao.Common
     abstract class Dao<T> : IDao
     {
         private MySqlCommand cmd;
+        private bool isTransaction = false;
         private Dictionary<Type, Dictionary<String, FieldInfo>> flyweight = new Dictionary<Type, Dictionary<string, FieldInfo>>();
 
         public Dao()
@@ -24,7 +24,6 @@ namespace WebScraping.Dao.Common
         {
             cmd.Connection.ConnectionString = connectString;
         }
-
         public MySqlCommand Commander
         {
             get
@@ -32,23 +31,87 @@ namespace WebScraping.Dao.Common
                 return cmd;
             }
         }
-
-        protected MySqlParameter CreateParameter(String paramName, Object paramObject)
+        protected MySqlParameter CreateParameter(String name, Object value, MySqlDbType type)
         {
-            return new MySqlParameter(paramName, paramObject);
+            MySqlParameter ret = new MySqlParameter();
+            ret.ParameterName = name;
+            ret.MySqlDbType = type;
+            ret.Value = value;
+            return ret;
         }
-        protected int UpdateByEntity(T entity)
+        protected IList<MySqlParameter> SetParameter(T entity)
         {
-            cmd.Parameters.Clear();
+            IList<MySqlParameter> ret = new List<MySqlParameter>();
+            List<FieldInfo> fds = GetFieldsInfo(typeof(T));
+            foreach (FieldInfo fd in fds)
+            {
+                Column cn = fd.GetCustomAttribute(typeof(Column)) as Column;
+                String columnName = String.Concat("@", cn.ColumnName);
+                ret.Add(this.CreateParameter(columnName, fd.GetValue(entity), cn.ColumnType));
+            }
+            return ret;
+        }
+        protected String CreateInsertQuery()
+        {
             StringBuilder sb = new StringBuilder();
-            Type clsTp = typeof(T);
-            Table table = clsTp.GetCustomAttribute(typeof(Table)) as Table;
-            IList<FieldInfo> fields = GetWhere(entity);
+            StringBuilder value = new StringBuilder();
+            Boolean c = true;
+            Type type = typeof(T);
+            Table table = type.GetCustomAttribute(typeof(Table)) as Table;
+            List<FieldInfo> fds = GetFieldsInfo(type);
+            sb = sb.Append(" insert ").Append(" into ").Append(table.TableName).Append(" (");
+            value = value.Append(" values (");
+
+            foreach (FieldInfo fd in fds)
+            {
+                Column cn = fd.GetCustomAttribute(typeof(Column)) as Column;
+                String columnName = String.Concat("@", cn.ColumnName);
+                if (c)
+                {
+                    c = false;
+                }
+                else
+                {
+                    sb = sb.Append(",");
+                    value = value.Append(",");
+                }
+                sb = sb.Append(cn.ColumnName);
+                value = value.Append(columnName);
+            }
+            sb = sb.Append(")");
+            value.Append(")");
+            sb.Append(value);
+            return sb.ToString();
+        }
+        protected int InsertByEntity(T entity, Boolean scope = false)
+        {
+            return this.Transaction(() =>
+            {
+                if (scope)
+                {
+                    return this.ExcuteReader(String.Concat(CreateInsertQuery(), ";select scope_identity();"), SetParameter(entity), dr =>
+                    {
+                        return Convert.ToInt32(dr.GetDecimal(0));
+                    });
+                }
+                else
+                {
+                    return this.ExcuteNonReader(CreateInsertQuery(), SetParameter(entity));
+                }
+            });
+        }
+        protected String CreateUpdateQuery()
+        {
+            StringBuilder sb = new StringBuilder();
             StringBuilder where = new StringBuilder();
             StringBuilder set = new StringBuilder();
-            foreach (FieldInfo field in fields)
+            Type type = typeof(T);
+            Table table = type.GetCustomAttribute(typeof(Table)) as Table;
+            IList<FieldInfo> fds = GetFieldsInfo(type);
+            foreach (FieldInfo fd in fds)
             {
-                Column cn = field.GetCustomAttribute(typeof(Column)) as Column;
+                Column cn = fd.GetCustomAttribute(typeof(Column)) as Column;
+                String columnName = String.Concat("@", cn.ColumnName);
                 if (cn.Key)
                 {
                     if (where.Length == 0)
@@ -59,11 +122,7 @@ namespace WebScraping.Dao.Common
                     {
                         where.Append(" AND ");
                     }
-                    String temp = "@" + cn.ColumnName;
-                    where = where.Append(" ").Append(cn.ColumnName).Append(" = ").Append(temp);
-                    var param = new MySqlParameter(temp, cn.ColumnType);
-                    param.Value = field.GetValue(entity);
-                    cmd.Parameters.Add(param);
+                    where = where.Append(" ").Append(cn.ColumnName).Append(" = ").Append(columnName);
                 }
                 else
                 {
@@ -75,256 +134,37 @@ namespace WebScraping.Dao.Common
                     {
                         set.Append(" , ");
                     }
-                    String temp = "@" + cn.ColumnName;
-                    set = set.Append(" ").Append(cn.ColumnName).Append(" = ").Append(temp);
-                    var param = new MySqlParameter(temp, cn.ColumnType);
-                    param.Value = field.GetValue(entity);
-                    cmd.Parameters.Add(param);
+                    set = set.Append(" ").Append(cn.ColumnName).Append(" = ").Append(columnName);
                 }
             }
             sb.Append(" UPDATE ").Append(table.TableName).Append(" ");
             sb.Append(set);
             sb.Append(where);
-            cmd.CommandText = sb.ToString();
-            cmd.Connection.Open();
-            try
-            {
-                return cmd.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
+            return sb.ToString();
         }
-        protected int InsertByEntity(T entity, Boolean scope = false)
+        protected int UpdateByEntity(T entity)
         {
-            cmd.Parameters.Clear();
+            return this.Transaction(() =>
+            {
+                return this.ExcuteNonReader(CreateUpdateQuery(), SetParameter(entity));
+            });
+        }
+        protected String CreateDeleteQuery()
+        {
+            Type type = typeof(T);
+            Table table = type.GetCustomAttribute(typeof(Table)) as Table;
             StringBuilder sb = new StringBuilder();
-            StringBuilder value = new StringBuilder();
-            Type clsTp = typeof(T);
-            Table table = clsTp.GetCustomAttribute(typeof(Table)) as Table;
-
-            sb = sb.Append(" insert ").Append(" into ").Append(table.TableName).Append(" (");
-            value = value.Append(" values (");
-            if (entity == null)
-            {
-                throw new Exception("Not entity.");
-            }
-            List<FieldInfo> pis = GetWhere(entity);
-            Boolean c = true;
-            foreach (FieldInfo pi in pis)
-            {
-                if (c)
-                {
-                    c = false;
-                }
-                else
-                {
-                    sb = sb.Append(",");
-                    value = value.Append(",");
-                }
-                Column cn = pi.GetCustomAttribute(typeof(Column)) as Column;
-                sb = sb.Append(cn.ColumnName);
-                String temp = "@" + cn.ColumnName;
-                value = value.Append(temp);
-                var param = new MySqlParameter(temp, cn.ColumnType);
-                param.Value = pi.GetValue(entity);
-                cmd.Parameters.Add(param);
-            }
-            sb = sb.Append(")");
-            value.Append(")");
-            sb.Append(value);
-            if (scope)
-            {
-                sb = sb.Append(";");
-                sb = sb.Append("select scope_identity();");
-            }
-            cmd.CommandText = sb.ToString();
-            cmd.Connection.Open();
-            try
-            {
-                if (scope)
-                {
-                    MySqlDataReader dr = cmd.ExecuteReader();
-                    if (dr.Read())
-                    {
-                        return Convert.ToInt32(dr.GetDecimal(0));
-                    }
-                    throw new Exception("No applied data.");
-                }
-                return cmd.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
-        }
-
-
-        protected List<Dictionary<String, Object>> Execute(String query, params MySqlParameter[] param)
-        {
-            cmd.Parameters.Clear();
-            cmd.CommandText = query;
-            foreach (MySqlParameter p in param)
-            {
-                cmd.Parameters.Add(p);
-            }
-            cmd.Connection.Open();
-            try
-            {
-                List<Dictionary<String, Object>> ret = new List<Dictionary<string, object>>();
-                MySqlDataReader dr = cmd.ExecuteReader();
-                while (dr.Read())
-                {
-                    Dictionary<String, Object> item = new Dictionary<string, object>();
-                    for (int i = 0; i < dr.FieldCount; i++)
-                    {
-                        item.Add(dr.GetName(i), dr.GetValue(i));
-                    }
-                    ret.Add(item);
-                }
-                return ret;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
-        }
-
-        protected int ExecuteNotResult(String query, params MySqlParameter[] param)
-        {
-            cmd.Parameters.Clear();
-            cmd.CommandText = query;
-            foreach (MySqlParameter p in param)
-            {
-                cmd.Parameters.Add(p);
-            }
-            cmd.Connection.Open();
-            try
-            {
-                return cmd.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
-        }
-
-        protected IList<T> Select(String query, params MySqlParameter[] param)
-        {
-            Type clsTp = typeof(T);
-            IList<T> ret = new List<T>();
-            cmd.Parameters.Clear();
-            cmd.CommandText = query;
-            foreach (MySqlParameter p in param)
-            {
-                cmd.Parameters.Add(p);
-            }
-            try
-            {
-                cmd.Connection.Open();
-                using (MySqlDataReader dr = cmd.ExecuteReader())
-                {
-                    while (dr.Read())
-                    {
-                        T cls = (T)Activator.CreateInstance(clsTp);
-                        for (int i = 0; i < dr.FieldCount; i++)
-                        {
-                            if (dr.IsDBNull(i))
-                            {
-                                continue;
-                            }
-                            String columnName = dr.GetName(i);
-                            GetField(cls, columnName).SetValue(cls, dr.GetValue(i));
-                        }
-                        ret.Add(cls);
-                    }
-                }
-                return ret;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
-        }
-
-        protected IList<T> SelectByEntity(T entity, bool notflag = false)
-        {
-            cmd.Parameters.Clear();
-            IList<T> ret = new List<T>();
-            Type clsTp = typeof(T);
-            Table table = clsTp.GetCustomAttribute(typeof(Table)) as Table;
-            StringBuilder sb = new StringBuilder();
-
-            sb.Append(" SELECT ");
-            sb.Append(" * ");
-            sb.Append(" FROM ");
-            sb.Append(table.TableName);
-            if (entity != null)
-            {
-                List<FieldInfo> pis = GetWhere(entity);
-                String where = SetParameter(entity, pis, cmd.Parameters, notflag);
-                sb.Append(where);
-            }
-            cmd.CommandText = sb.ToString();
-            try
-            {
-                cmd.Connection.Open();
-                using (MySqlDataReader dr = cmd.ExecuteReader())
-                {
-                    while (dr.Read())
-                    {
-                        T cls = (T)Activator.CreateInstance(clsTp);
-                        for (int i = 0; i < dr.FieldCount; i++)
-                        {
-                            if (dr.IsDBNull(i))
-                            {
-                                continue;
-                            }
-                            String columnName = dr.GetName(i);
-                            GetField(cls, columnName).SetValue(cls, dr.GetValue(i));
-                        }
-                        ret.Add(cls);
-                    }
-                }
-                return ret;
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            finally
-            {
-                cmd.Connection.Close();
-            }
-        }
-
-        private String SetParameter(T entity, List<FieldInfo> pis, MySqlParameterCollection parameter, bool notflag)
-        {
             StringBuilder where = new StringBuilder();
+            IList<MySqlParameter> parameter = new List<MySqlParameter>();
+            List<FieldInfo> fds = GetFieldsInfo(type);
 
-            foreach (FieldInfo pi in pis)
+            sb.Append(" DELETE FROM ");
+            sb.Append(table.TableName);
+
+            foreach (FieldInfo fd in fds)
             {
+                Column cn = fd.GetCustomAttribute(typeof(Column)) as Column;
+                String columnName = String.Concat("@", cn.ColumnName);
                 if (where.Length == 0)
                 {
                     where.Append(" WHERE ");
@@ -333,31 +173,123 @@ namespace WebScraping.Dao.Common
                 {
                     where.Append(" AND ");
                 }
-                Column cn = pi.GetCustomAttribute(typeof(Column)) as Column;
-                String temp = "@" + cn.ColumnName;
                 where = where.Append(" ").Append(cn.ColumnName);
-                if (notflag)
+                where = where.Append(" = ");
+                where = where.Append(columnName);
+            }
+            sb.Append(where);
+            return sb.ToString();
+        }
+        protected int DeleteByEntity(T entity, bool notflag = false)
+        {
+            return Transaction(() =>
+            {
+                return this.ExcuteNonReader(CreateDeleteQuery(), SetParameter(entity));
+            });
+        }
+        [Obsolete("Not used", true)]
+        protected String CreateSelectQuery()
+        {
+            Type type = typeof(T);
+            Table table = type.GetCustomAttribute(typeof(Table)) as Table;
+            StringBuilder sb = new StringBuilder();
+            StringBuilder where = new StringBuilder();
+            List<FieldInfo> fds = GetFieldsInfo(type);
+
+            foreach (FieldInfo fd in fds)
+            {
+                Column cn = fd.GetCustomAttribute(typeof(Column)) as Column;
+                if (!cn.Key)
                 {
-                    where = where.Append(" <> ");
+                    continue;
+                }
+                String columnName = "@" + cn.ColumnName;
+                if (where.Length == 0)
+                {
+                    where.Append(" WHERE ");
                 }
                 else
                 {
-                    where = where.Append(" = ");
+                    where.Append(" AND ");
                 }
-                where = where.Append(temp);
 
-                var param = new MySqlParameter(temp, cn.ColumnType);
-                param.Value = pi.GetValue(entity);
-                parameter.Add(param);
+                where = where.Append(" ").Append(cn.ColumnName);
+                where = where.Append(" = ");
+                where = where.Append(columnName);
             }
-            return where.ToString();
+            sb.Append(where);
+            return sb.ToString();
         }
-
-        private List<FieldInfo> GetWhere(Object cls)
+        [Obsolete("Not used", true)]
+        protected T SelectByEntity(T entity)
+        {
+            return this.Transaction(() =>
+            {
+                IList<MySqlParameter> parameter = new List<MySqlParameter>();
+                List<FieldInfo> fds = GetFieldsInfo(typeof(T));
+                foreach (FieldInfo fd in fds)
+                {
+                    Column cn = fd.GetCustomAttribute(typeof(Column)) as Column;
+                    if (!cn.Key)
+                    {
+                        continue;
+                    }
+                    String columnName = String.Concat("@", cn.ColumnName);
+                    parameter.Add(this.CreateParameter(columnName, fd.GetValue(entity), cn.ColumnType));
+                }
+                T ret = (T)Activator.CreateInstance(typeof(T));
+                this.ExcuteReader(CreateSelectQuery(), parameter, (dr) =>
+                {
+                    for (int i = 0; i < dr.FieldCount; i++)
+                    {
+                        if (dr.IsDBNull(i))
+                        {
+                            continue;
+                        }
+                        String columnName = dr.GetName(i);
+                        GetFieldInfo(ret, columnName).SetValue(ret, dr.GetValue(i));
+                    }
+                });
+                return ret;
+            });
+        }
+        protected IList<T> SelectAll()
+        {
+            Type type = typeof(T);
+            Table table = type.GetCustomAttribute(typeof(Table)) as Table;
+            StringBuilder sb = new StringBuilder();
+            sb.Append(" SELECT ");
+            sb.Append(" * ");
+            sb.Append(" FROM ");
+            sb.Append(table.TableName);
+            return this.Transaction(() =>
+            {
+                IList<T> ret = new List<T>();
+                this.ExcuteReader(sb.ToString(), null, (dr) =>
+                {
+                    ret.Add(SetClass<T>(dr));
+                });
+                return ret;
+            });
+        }
+        protected R SetClass<R>(MySqlDataReader dr)
+        {
+            R ret = (R)Activator.CreateInstance(typeof(R));
+            for (int i = 0; i < dr.FieldCount; i++)
+            {
+                if (dr.IsDBNull(i))
+                {
+                    continue;
+                }
+                String columnName = dr.GetName(i);
+                GetFieldInfo(ret, columnName).SetValue(ret, dr.GetValue(i));
+            }
+            return ret;
+        }
+        private List<FieldInfo> GetFieldsInfo(Type cls)
         {
             List<FieldInfo> ret = new List<FieldInfo>();
-            Type clsType = cls.GetType();
-            FieldInfo[] pis = clsType.GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
+            FieldInfo[] pis = cls.GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
             foreach (FieldInfo pi in pis)
             {
                 Column c = pi.GetCustomAttribute(typeof(Column)) as Column;
@@ -369,16 +301,11 @@ namespace WebScraping.Dao.Common
                 {
                     continue;
                 }
-                Object data = pi.GetValue(cls);
-                if (data != null)
-                {
-                    ret.Add(pi);
-                }
+                ret.Add(pi);
             }
             return ret;
         }
-
-        private FieldInfo GetField(Object cls, String columnName)
+        private FieldInfo GetFieldInfo(Object cls, String columnName)
         {
             if (!flyweight.ContainsKey(cls.GetType()))
             {
@@ -399,6 +326,230 @@ namespace WebScraping.Dao.Common
                 subFlyweight.Add(columnName, pi);
             }
             return subFlyweight[columnName];
+        }
+        protected IList<T> Transaction(Func<IList<T>> action)
+        {
+            IList<T> ret = null;
+            cmd.Parameters.Clear();
+            try
+            {
+                cmd.Connection.Open();
+                try
+                {
+                    cmd.Transaction = cmd.Connection.BeginTransaction();
+                    isTransaction = true;
+                    ret = action();
+                    cmd.Transaction.Commit();
+                }
+                catch (Exception e)
+                {
+                    cmd.Transaction.Rollback();
+                    throw e;
+                }
+                finally
+                {
+                    isTransaction = false;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+            return ret;
+        }
+        protected T Transaction(Func<T> action)
+        {
+            T ret = default(T);
+            cmd.Parameters.Clear();
+            try
+            {
+                cmd.Connection.Open();
+                try
+                {
+                    cmd.Transaction = cmd.Connection.BeginTransaction();
+                    isTransaction = true;
+                    ret = action();
+                    cmd.Transaction.Commit();
+                }
+                catch (Exception e)
+                {
+                    cmd.Transaction.Rollback();
+                    throw e;
+                }
+                finally
+                {
+                    isTransaction = false;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+            return ret;
+        }
+        protected Object Transaction(Func<Object> action)
+        {
+            Object ret = null;
+            cmd.Parameters.Clear();
+            try
+            {
+                cmd.Connection.Open();
+                try
+                {
+                    cmd.Transaction = cmd.Connection.BeginTransaction();
+                    isTransaction = true;
+                    ret = action();
+                    cmd.Transaction.Commit();
+                }
+                catch (Exception e)
+                {
+                    cmd.Transaction.Rollback();
+                    throw e;
+                }
+                finally
+                {
+                    isTransaction = false;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+            return ret;
+        }
+        protected int Transaction(Func<int> action)
+        {
+            int ret = -1;
+            cmd.Parameters.Clear();
+            try
+            {
+                cmd.Connection.Open();
+                try
+                {
+                    cmd.Transaction = cmd.Connection.BeginTransaction();
+                    isTransaction = true;
+                    ret = action();
+                    cmd.Transaction.Commit();
+                }
+                catch (Exception e)
+                {
+                    cmd.Transaction.Rollback();
+                    throw e;
+                }
+                finally
+                {
+                    isTransaction = false;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+            return ret;
+        }
+        protected void Transaction(Action action)
+        {
+            cmd.Parameters.Clear();
+            try
+            {
+                cmd.Connection.Open();
+                try
+                {
+                    cmd.Transaction = cmd.Connection.BeginTransaction();
+                    isTransaction = true;
+                    action();
+                    cmd.Transaction.Commit();
+                }
+                catch (Exception e)
+                {
+                    cmd.Transaction.Rollback();
+                    throw e;
+                }
+                finally
+                {
+                    isTransaction = false;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            finally
+            {
+                cmd.Connection.Close();
+            }
+        }
+        protected int ExcuteReader(String query, IList<MySqlParameter> parameter, Action<MySqlDataReader> dataReader)
+        {
+            if (!isTransaction)
+            {
+                throw new Exception("not transaction");
+            }
+            int count = 0;
+            cmd.CommandText = query;
+            if (parameter != null)
+            {
+                cmd.Parameters.AddRange(parameter.ToArray());
+            }
+            using (MySqlDataReader dr = cmd.ExecuteReader())
+            {
+                while (dr.Read())
+                {
+                    dataReader(dr);
+                    count++;
+                }
+            }
+            return count;
+        }
+        protected int ExcuteReader(String query, IList<MySqlParameter> parameter, Func<MySqlDataReader, int> dataReader)
+        {
+            if (!isTransaction)
+            {
+                throw new Exception("not transaction");
+            }
+            int count = 0;
+            cmd.CommandText = query;
+            if (parameter != null)
+            {
+                cmd.Parameters.AddRange(parameter.ToArray());
+            }
+            using (MySqlDataReader dr = cmd.ExecuteReader())
+            {
+                while (dr.Read())
+                {
+                    count += dataReader(dr);
+                }
+            }
+            return count;
+        }
+        protected int ExcuteNonReader(String query, IList<MySqlParameter> parameter)
+        {
+            if (!isTransaction)
+            {
+                throw new Exception("not transaction");
+            }
+            cmd.CommandText = query;
+            if (parameter != null)
+            {
+                cmd.Parameters.AddRange(parameter.ToArray());
+            }
+            return cmd.ExecuteNonQuery();
         }
     }
 }

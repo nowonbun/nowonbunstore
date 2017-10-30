@@ -108,11 +108,12 @@ namespace WebScraping.Scraper.Common
             node.CreateDate = DateTime.Now;
             commondata.Add(node);
         }
-        protected void SetPackageData(int index, String data)
+        protected void SetPackageData(int index, int separator, String data)
         {
             ScrapingPackageData node = new ScrapingPackageData();
             node.KeyCode = this.Parameter.Keycode;
-            node.keyIndex = index;
+            node.KeyIndex = index;
+            node.Separator = separator;
             node.Data = data;
             node.CreateDate = DateTime.Now;
             packagedata.Add(node);

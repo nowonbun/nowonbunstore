@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using WebScraping.Dao.Common;
 using WebScraping.Dao.Entity;
+using MySql.Data.MySqlClient;
 using WebScraping.Dao.Dao;
 
 namespace WebScraping.Dao.Dao.Impl
@@ -10,27 +11,33 @@ namespace WebScraping.Dao.Dao.Impl
     {
         public IList<ScrapingStatus> Select()
         {
-            return base.SelectByEntity(null);
+            return base.SelectAll();
         }
 
         public ScrapingStatus GetEntity(String keycode)
         {
-            ScrapingStatus where = new ScrapingStatus();
-            where.KeyCode = keycode;
-            IList<ScrapingStatus> list = base.SelectByEntity(where);
-            if (list.Count > 0)
+            String query = "SELECT * FROM ScrapingStatus WHERE KEYCODE = @KEYCODE";
+            return base.Transaction(() =>
             {
-                return list[0];
-            }
-            return null;
+                ScrapingStatus ret = null;
+                base.ExcuteReader(query, new List<MySqlParameter>() { CreateParameter("@KEYCODE", keycode, MySqlDbType.VarChar) }, (dr) =>
+                {
+                    ret = SetClass<ScrapingStatus>(dr);
+                });
+                return ret;
+            });
+        }
+        public int Insert(ScrapingStatus entity)
+        {
+            return base.InsertByEntity(entity);
         }
         public int Update(ScrapingStatus entity)
         {
             return base.UpdateByEntity(entity);
         }
-        public int Insert(ScrapingStatus entity)
+        public int Delete(ScrapingStatus entity)
         {
-            return base.InsertByEntity(entity);
+            return base.DeleteByEntity(entity);
         }
     }
 }

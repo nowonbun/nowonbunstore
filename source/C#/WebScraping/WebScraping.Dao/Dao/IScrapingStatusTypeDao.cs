@@ -9,5 +9,11 @@ namespace WebScraping.Dao.Dao
     public interface IScrapingStatusTypeDao
     {
         IList<ScrapingStatusType> Select();
+
+        int Insert(ScrapingStatusType entity);
+
+        int Update(ScrapingStatusType entity);
+
+        int Delete(ScrapingStatusType entity);
     }
 }

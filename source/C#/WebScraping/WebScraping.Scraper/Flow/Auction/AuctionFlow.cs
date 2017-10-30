@@ -233,7 +233,8 @@ namespace WebScraping.Scraper.Flow.Auction
                     logger.Debug("It complete to build excel ");
                     String data = JsonConvert.SerializeObject(list);
                     logger.Debug("BuyDecisionExcel size = " + data.Length.ToString());
-                    SetPackageData(0, data);
+                    //수정 필요
+                    SetPackageData(0, 0, data);
                     list.Clear();
                     base.Navigate("http://www.esmplus.com/Member/Settle/IacSettleDetail?menuCode=TDM298");
                     /*foreach (var item in list)
@@ -277,14 +278,15 @@ namespace WebScraping.Scraper.Flow.Auction
                     List<LacRemitListExcel> list = builder.Builder(file);
                     String data = JsonConvert.SerializeObject(list);
                     logger.Debug("IacRemitListExcelDownload size = " + data.Length.ToString());
-                    SetPackageData(1, data);
+                    //수정필요
+                    SetPackageData(0, 1, data);
                     list.Clear();
                     base.Navigate("http://www.esmplus.com/Areas/Manual/SellerGuide/main.html");
                     return;
                 });
             }
         }
-        
+
 
         private BuyDescisionNode GetBuyDescisionNode(String date)
         {

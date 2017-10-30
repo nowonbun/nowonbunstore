@@ -10,10 +10,12 @@ namespace WebScraping.Dao.Dao
     {
         IList<ScrapingStatus> Select();
 
-        ScrapingStatus GetEntity(String keycode);
+        int Insert(ScrapingStatus entity);
 
         int Update(ScrapingStatus entity);
 
-        int Insert(ScrapingStatus entity);
+        int Delete(ScrapingStatus entity);
+
+        ScrapingStatus GetEntity(String keycode);
     }
 }

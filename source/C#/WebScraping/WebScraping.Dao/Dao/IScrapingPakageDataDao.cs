@@ -11,5 +11,9 @@ namespace WebScraping.Dao.Dao
         IList<ScrapingPackageData> Select();
 
         int Insert(ScrapingPackageData entity);
+
+        int Update(ScrapingPackageData entity);
+
+        int Delete(ScrapingPackageData entity);
     }
 }
