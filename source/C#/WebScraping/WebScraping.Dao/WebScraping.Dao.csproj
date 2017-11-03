@@ -44,7 +44,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attribute\Column.cs" />
-    <Compile Include="Attribute\ImplementDao.cs" />
     <Compile Include="Attribute\ResourceDao.cs" />
     <Compile Include="Attribute\Table.cs" />
     <Compile Include="Common\Allocation.cs" />
@@ -52,11 +51,11 @@
     <Compile Include="Common\Entity.cs" />
     <Compile Include="Common\FactoryDao.cs" />
     <Compile Include="Dao\Impl\ScrapingCommonDataDao.cs" />
-    <Compile Include="Dao\Impl\ScrapingPakageDataDao.cs" />
+    <Compile Include="Dao\Impl\ScrapingPackageDataDao.cs" />
     <Compile Include="Dao\Impl\ScrapingStatusDao.cs" />
     <Compile Include="Dao\Impl\ScrapingStatusTypeDao.cs" />
     <Compile Include="Dao\IScrapingCommonDataDao.cs" />
-    <Compile Include="Dao\IScrapingPakageDataDao.cs" />
+    <Compile Include="Dao\IScrapingPackageDataDao.cs" />
     <Compile Include="Dao\IScrapingStatusDao.cs" />
     <Compile Include="Dao\IScrapingStatusTypeDao.cs" />
     <Compile Include="Entity\ScrapingCommonData.cs" />

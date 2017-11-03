@@ -33,8 +33,8 @@ namespace WebScraping.Scraper
                 {
                     throw new ScraperException("Parameter Length Error " + args.Length);
                 }
-                FactoryDao.CreateInstance(ConfigSystem.ReadConfig("Config", "DB", "Connection"));
-                IScrapingStatusDao dao = FactoryDao.GetInstance().GetDao("WebScraping.Dao.Dao.Impl.ScrapingStatusDao") as IScrapingStatusDao;
+                FactoryDao.CreateInstance(ConfigSystem.ReadConfig("Config", "DB", "Connection"), ConfigSystem.ReadConfig("Config", "Temp", "Path"));
+                IScrapingStatusDao dao = FactoryDao.GetInstance().GetDao<IScrapingStatusDao>();
                 if (!Debug.IsDebug())
                 {
                     ScrapingStatus entity = dao.GetEntity(args[0]);

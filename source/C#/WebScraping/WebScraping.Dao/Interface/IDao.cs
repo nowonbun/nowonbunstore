@@ -12,5 +12,6 @@ namespace WebScraping.Dao.Interface
     {
         MySqlCommand Commander { get; }
         void SetConnectionString(String connectString);
+        void SetCsvPath(String tmppath);
     }
 }

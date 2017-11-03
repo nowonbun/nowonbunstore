@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using WebScraping.Dao.Common;
 using WebScraping.Dao.Entity;
+using MySql.Data.MySqlClient;
+using System.Text;
 
 namespace WebScraping.Dao.Dao.Impl
 {
-    class ScrapingPakageDataDao : Dao<ScrapingPackageData>, IScrapingPakageDataDao
+    class ScrapingPackageDataDao : Dao<ScrapingPackageData>, IScrapingPackageDataDao
     {
         public IList<ScrapingPackageData> Select()
         {
@@ -25,16 +27,28 @@ namespace WebScraping.Dao.Dao.Impl
         }
         public int InsertList(IList<ScrapingPackageData> list)
         {
-            int count = 0;
+            StringBuilder sb = new StringBuilder();
+            foreach (var item in list)
+            {
+                sb.Append(item.KeyCode).Append("||");
+                sb.Append(item.KeyIndex).Append("||");
+                sb.Append(item.Separation).Append("||");
+                sb.Append(item.Data).Append("||");
+                sb.Append(item.CreateDate).AppendLine();
+            }
+            String filepath = CreateCsv(sb.ToString());
+            return ExcuteBulk("ScrapingPackageData", filepath);
+            /*int count = 0;
             String query = CreateInsertQuery();
             base.Transaction(() =>
             {
                 foreach (var item in list)
                 {
+                    ClearParameter();
                     count += base.ExcuteNonReader(query, SetParameter(item));
                 }
             });
-            return count;
+            return count;*/
         }
     }
 }

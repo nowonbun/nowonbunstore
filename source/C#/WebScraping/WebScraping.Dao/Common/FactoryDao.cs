@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
+using WebScraping.Dao.Dao;
+using WebScraping.Dao.Dao.Impl;
 using WebScraping.Dao.Attribute;
 using WebScraping.Dao.Interface;
 
@@ -13,13 +15,13 @@ namespace WebScraping.Dao.Common
     {
         private static FactoryDao instance = null;
 
-        public static FactoryDao CreateInstance(String connectionString)
+        public static FactoryDao CreateInstance(String connectionString, String tempPath)
         {
             if (instance != null)
             {
                 throw new Exception("already allocaion!");
             }
-            instance = new FactoryDao(connectionString);
+            instance = new FactoryDao(connectionString, tempPath);
             return instance;
         }
         public static FactoryDao GetInstance()
@@ -31,12 +33,23 @@ namespace WebScraping.Dao.Common
             return instance;
         }
 
-        private IDictionary<String, IDao> flyweight = new Dictionary<String, IDao>();
+        private IDictionary<Type, IDao> flyweight = new Dictionary<Type, IDao>();
 
         private String connectionString;
-        private FactoryDao(String connectionString)
+        private FactoryDao(String connectionString, String temppath)
         {
             this.connectionString = connectionString;
+
+            flyweight.Add(typeof(IScrapingCommonDataDao), new ScrapingCommonDataDao());
+            flyweight.Add(typeof(IScrapingPackageDataDao), new ScrapingPackageDataDao());
+            flyweight.Add(typeof(IScrapingStatusDao), new ScrapingStatusDao());
+            flyweight.Add(typeof(IScrapingStatusTypeDao), new ScrapingStatusTypeDao());
+
+            Parallel.ForEach(flyweight, item =>
+            {
+                item.Value.SetConnectionString(connectionString);
+                item.Value.SetCsvPath(temppath);
+            });
         }
         public void AllocResource(object obj)
         {
@@ -48,11 +61,20 @@ namespace WebScraping.Dao.Common
 
             Parallel.ForEach(fields, field =>
             {
-                ImplementDao impl = field.ReflectedType.GetCustomAttribute(typeof(ImplementDao)) as ImplementDao;
-                field.SetValue(obj, FactoryDao.GetInstance().GetDao(impl.ClassName));
+                field.SetValue(obj, FactoryDao.GetInstance().GetDao(obj.GetType()));
+                //ImplementDao impl = field.ReflectedType.GetCustomAttribute(typeof(ImplementDao)) as ImplementDao;
+                //field.SetValue(obj, FactoryDao.GetInstance().GetDao());
             });
         }
-        public Object GetDao(String className)
+        public T GetDao<T>()
+        {
+            return (T)flyweight[typeof(T)];
+        }
+        public Object GetDao(Type type)
+        {
+            return flyweight[type];
+        }
+        /*public Object GetDao(String className)
         {
             lock (flyweight)
             {
@@ -64,6 +86,6 @@ namespace WebScraping.Dao.Common
                 }
             }
             return flyweight[className];
-        }
+        }*/
     }
 }

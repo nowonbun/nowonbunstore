@@ -6,12 +6,14 @@ using MySql.Data.MySqlClient;
 using System.Linq;
 using WebScraping.Dao.Interface;
 using WebScraping.Dao.Attribute;
+using System.IO;
 
 namespace WebScraping.Dao.Common
 {
     abstract class Dao<T> : IDao
     {
         private MySqlCommand cmd;
+        private String tmpPath;
         private bool isTransaction = false;
         private Dictionary<Type, Dictionary<String, FieldInfo>> flyweight = new Dictionary<Type, Dictionary<string, FieldInfo>>();
 
@@ -23,6 +25,10 @@ namespace WebScraping.Dao.Common
         public void SetConnectionString(String connectString)
         {
             cmd.Connection.ConnectionString = connectString;
+        }
+        public void SetCsvPath(String tmpPath)
+        {
+            this.tmpPath = tmpPath;
         }
         public MySqlCommand Commander
         {
@@ -50,6 +56,10 @@ namespace WebScraping.Dao.Common
                 ret.Add(this.CreateParameter(columnName, fd.GetValue(entity), cn.ColumnType));
             }
             return ret;
+        }
+        protected void ClearParameter()
+        {
+            cmd.Parameters.Clear();
         }
         protected String CreateInsertQuery()
         {
@@ -499,7 +509,7 @@ namespace WebScraping.Dao.Common
         {
             if (!isTransaction)
             {
-                throw new Exception("not transaction");
+                throw new Exception("ExcuteNonReader_000 : not transaction");
             }
             int count = 0;
             cmd.CommandText = query;
@@ -521,7 +531,7 @@ namespace WebScraping.Dao.Common
         {
             if (!isTransaction)
             {
-                throw new Exception("not transaction");
+                throw new Exception("ExcuteNonReader_001 : not transaction");
             }
             int count = 0;
             cmd.CommandText = query;
@@ -542,7 +552,7 @@ namespace WebScraping.Dao.Common
         {
             if (!isTransaction)
             {
-                throw new Exception("not transaction");
+                throw new Exception("ExcuteNonReader_002 : not transaction");
             }
             cmd.CommandText = query;
             if (parameter != null)
@@ -550,6 +560,25 @@ namespace WebScraping.Dao.Common
                 cmd.Parameters.AddRange(parameter.ToArray());
             }
             return cmd.ExecuteNonQuery();
+        }
+        protected String CreateCsv(String data)
+        {
+            String filepath = Path.Combine(tmpPath, DateTime.Now.ToString("yyyyMMddHHmmssSSS") + ".csv");
+            using (FileStream stream = new FileStream(filepath, FileMode.Create, FileAccess.Write))
+            {
+                byte[] buffer = Encoding.UTF8.GetBytes(data);
+                stream.Write(buffer, 0, buffer.Length);
+            }
+            return filepath;
+        }
+        protected int ExcuteBulk(String tablename, String file)
+        {
+            var bulk = new MySqlBulkLoader(cmd.Connection);
+            bulk.TableName = tablename;
+            bulk.FileName = file;
+            bulk.FieldTerminator = "||";
+            bulk.LineTerminator = "\r\n";
+            return bulk.Load();
         }
     }
 }

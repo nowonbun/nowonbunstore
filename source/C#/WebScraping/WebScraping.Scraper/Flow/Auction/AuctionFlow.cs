@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using WebScraping.Scraper.Common;
 using Gecko;
 using Gecko.DOM;
 using WebScraping.Scraper.Impl;
 using WebScraping.Scraper.Node;
 using WebScraping.Scraper.Other;
-using System.Net;
 using Newtonsoft.Json;
 using System.Threading;
 using System.IO;
 using WebScraping.Library.Excel;
+using System.Reflection;
 
 namespace WebScraping.Scraper.Flow.Auction
 {
@@ -30,11 +28,17 @@ namespace WebScraping.Scraper.Flow.Auction
         private String idcode;
         private State state = new State();
         private IDictionary<String, BuyDescisionNode> buyNodeList = new Dictionary<String, BuyDescisionNode>();
+        private IList<FieldInfo> buyDescisionExcelReflect = null;
+        private IList<FieldInfo> lacRemitListExcelReflect = null;
 
         public AuctionFlow(ScrapBrowser browser, ScrapParameter param, bool login_mode)
             : base(browser, param, login_mode)
         {
             logger.Info("Action initialize");
+            buyDescisionExcelReflect = new List<FieldInfo>(typeof(BuyDecisionExcel).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance));
+            lacRemitListExcelReflect = new List<FieldInfo>(typeof(LacRemitListExcel).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance));
+
+
             StartPageUrl = "https://www.esmplus.com/Member/SignIn/LogOn";
             FlowMap.Add("Member/SignIn/LogOn", Login);
             FlowMap.Add("Home/Home", Home);
@@ -231,10 +235,28 @@ namespace WebScraping.Scraper.Flow.Auction
                     BuilderExcelEntity<BuyDecisionExcel> builder = new BuilderExcelEntity<BuyDecisionExcel>();
                     List<BuyDecisionExcel> list = builder.Builder(file);
                     logger.Debug("It complete to build excel ");
-                    String data = JsonConvert.SerializeObject(list);
-                    logger.Debug("BuyDecisionExcel size = " + data.Length.ToString());
+                    StringBuilder buffer = new StringBuilder();
+                    int index = 0;
+                    foreach (var item in list)
+                    {
+                        buffer.Clear();
+                        buffer.Append("{");
+                        foreach (var data in buyDescisionExcelReflect)
+                        {
+                            buffer.Append("\"");
+                            buffer.Append(data.Name);
+                            buffer.Append("\":\"");
+                            buffer.Append(data.GetValue(item));
+                            buffer.Append("\",");
+                        }
+                        buffer.Remove(buffer.Length - 1, 1);
+                        buffer.Append("}");
+                        SetPackageData(0, index++, buffer.ToString());
+                    }
+                    //String data = JsonConvert.SerializeObject(list);
+                    //logger.Debug("BuyDecisionExcel size = " + data.Length.ToString());
                     //수정 필요
-                    SetPackageData(0, 0, data);
+                    //SetPackageData(0, 0, data);
                     list.Clear();
                     base.Navigate("http://www.esmplus.com/Member/Settle/IacSettleDetail?menuCode=TDM298");
                     /*foreach (var item in list)
@@ -276,17 +298,34 @@ namespace WebScraping.Scraper.Flow.Auction
                     logger.Debug("IacRemitListExcelDownload Excel analysis");
                     BuilderExcelEntity<LacRemitListExcel> builder = new BuilderExcelEntity<LacRemitListExcel>();
                     List<LacRemitListExcel> list = builder.Builder(file);
-                    String data = JsonConvert.SerializeObject(list);
-                    logger.Debug("IacRemitListExcelDownload size = " + data.Length.ToString());
+                    //String data = JsonConvert.SerializeObject(list);
+                    //logger.Debug("IacRemitListExcelDownload size = " + data.Length.ToString());
                     //수정필요
-                    SetPackageData(0, 1, data);
+                    //SetPackageData(0, 1, data);
+                    StringBuilder buffer = new StringBuilder();
+                    int index = 0;
+                    foreach (var item in list)
+                    {
+                        buffer.Clear();
+                        buffer.Append("{");
+                        foreach (var data in lacRemitListExcelReflect)
+                        {
+                            buffer.Append("\"");
+                            buffer.Append(data.Name);
+                            buffer.Append("\":\"");
+                            buffer.Append(data.GetValue(item));
+                            buffer.Append("\",");
+                        }
+                        buffer.Remove(buffer.Length - 1, 1);
+                        buffer.Append("}");
+                        SetPackageData(1, index++, buffer.ToString());
+                    }
                     list.Clear();
                     base.Navigate("http://www.esmplus.com/Areas/Manual/SellerGuide/main.html");
                     return;
                 });
             }
         }
-
 
         private BuyDescisionNode GetBuyDescisionNode(String date)
         {

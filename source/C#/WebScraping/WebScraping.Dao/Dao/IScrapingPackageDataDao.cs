@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using WebScraping.Dao.Attribute;
+using WebScraping.Dao.Dao;
 using WebScraping.Dao.Entity;
 
 namespace WebScraping.Dao.Dao
 {
-    [ImplementDao("WebScraping.Dao.Dao.Impl.ScrapingPakageDataDao")]
-    public interface IScrapingPakageDataDao
+    public interface IScrapingPackageDataDao
     {
         IList<ScrapingPackageData> Select();
 
@@ -15,5 +15,7 @@ namespace WebScraping.Dao.Dao
         int Update(ScrapingPackageData entity);
 
         int Delete(ScrapingPackageData entity);
+
+        int InsertList(IList<ScrapingPackageData> list);
     }
 }

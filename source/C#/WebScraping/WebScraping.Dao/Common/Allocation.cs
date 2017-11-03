@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using System.Reflection;
 using WebScraping.Dao.Attribute;
 
@@ -19,8 +15,9 @@ namespace WebScraping.Dao.Common
                          select field;
             foreach (var field in fields)
             {
-                ImplementDao impl = field.FieldType.GetCustomAttribute(typeof(ImplementDao)) as ImplementDao;
-                field.SetValue(this, FactoryDao.GetInstance().GetDao(impl.ClassName));
+                //ImplementDao impl = field.FieldType.GetCustomAttribute(typeof(ImplementDao)) as ImplementDao;
+                //field.SetValue(this, FactoryDao.GetInstance().GetDao(impl.ClassName));
+                field.SetValue(this, FactoryDao.GetInstance().GetDao(this.GetType()));
             }
         }
     }

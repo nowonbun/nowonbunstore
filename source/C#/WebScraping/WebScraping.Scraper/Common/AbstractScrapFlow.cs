@@ -25,13 +25,13 @@ namespace WebScraping.Scraper.Common
         protected String StartPageUrl { get; set; }
         protected Dictionary<String, Func<GeckoDocument, Uri, Boolean>> FlowMap = new Dictionary<string, Func<GeckoDocument, Uri, Boolean>>();
         private ScrapBrowser browser;
-        private IList<ScrapingCommonData> commondata = new List<ScrapingCommonData>();
-        private IList<ScrapingPackageData> packagedata = new List<ScrapingPackageData>();
+        private IList<ScrapingCommonData> common_data_list = new List<ScrapingCommonData>();
+        private IList<ScrapingPackageData> package_data_list = new List<ScrapingPackageData>();
 
         [ResourceDao]
         private IScrapingCommonDataDao commondao;
         [ResourceDao]
-        private IScrapingPakageDataDao packagedao;
+        private IScrapingPackageDataDao packagedao;
 
         protected Logger logger { get; private set; }
 
@@ -45,8 +45,8 @@ namespace WebScraping.Scraper.Common
         {
             Parameter = param;
             this.browser = browser;
-            this.commondao = FactoryDao.GetInstance().GetDao("WebScraping.Dao.Dao.Impl.ScrapingCommonDataDao") as IScrapingCommonDataDao;
-            this.packagedao = FactoryDao.GetInstance().GetDao("WebScraping.Dao.Dao.Impl.ScrapingPakageDataDao") as IScrapingPakageDataDao;
+            this.commondao = FactoryDao.GetInstance().GetDao<IScrapingCommonDataDao>();
+            this.packagedao = FactoryDao.GetInstance().GetDao<IScrapingPackageDataDao>();
 
             logger = LoggerBuilder.Init().Set(this.GetType());
         }
@@ -103,31 +103,25 @@ namespace WebScraping.Scraper.Common
         {
             ScrapingCommonData node = new ScrapingCommonData();
             node.KeyCode = this.Parameter.Keycode;
-            node.keyIndex = index;
+            node.KeyIndex = index;
             node.Data = data;
             node.CreateDate = DateTime.Now;
-            commondata.Add(node);
+            common_data_list.Add(node);
         }
-        protected void SetPackageData(int index, int separator, String data)
+        protected void SetPackageData(int index, int separation, String data)
         {
             ScrapingPackageData node = new ScrapingPackageData();
             node.KeyCode = this.Parameter.Keycode;
             node.KeyIndex = index;
-            node.Separator = separator;
+            node.Separation = separation;
             node.Data = data;
             node.CreateDate = DateTime.Now;
-            packagedata.Add(node);
+            package_data_list.Add(node);
         }
         protected void UpdateData()
         {
-            foreach (ScrapingCommonData node in commondata)
-            {
-                commondao.Insert(node);
-            }
-            foreach (ScrapingPackageData node in packagedata)
-            {
-                packagedao.Insert(node);
-            }
+            commondao.InsertList(common_data_list);
+            packagedao.InsertList(package_data_list);
         }
         public void End()
         {

@@ -21,7 +21,7 @@ namespace WebScraping.Dao.Entity
             get { return this.keycode; }
             set { this.keycode = value; }
         }
-        public int keyIndex
+        public int KeyIndex
         {
             get { return this.keyindex; }
             set { this.keyindex = value; }
