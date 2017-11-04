@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using WebScraping.Dao.Common;
 using WebScraping.Dao.Entity;
-using MySql.Data.MySqlClient;
 using System.Text;
 
 namespace WebScraping.Dao.Dao.Impl
@@ -38,17 +37,6 @@ namespace WebScraping.Dao.Dao.Impl
             }
             String filepath = CreateCsv(sb.ToString());
             return ExcuteBulk("ScrapingPackageData", filepath);
-            /*int count = 0;
-            String query = CreateInsertQuery();
-            base.Transaction(() =>
-            {
-                foreach (var item in list)
-                {
-                    ClearParameter();
-                    count += base.ExcuteNonReader(query, SetParameter(item));
-                }
-            });
-            return count;*/
         }
     }
 }

@@ -7,10 +7,6 @@ using WebScraping.Dao.Common;
 using WebScraping.Dao.Dao;
 using WebScraping.Dao.Entity;
 using WebScraping.Library.Config;
-using WebScraping.Library.Excel;
-
-using WebScraping.Scraper.Flow.Auction;
-using System.Collections.Generic;
 
 namespace WebScraping.Scraper
 {

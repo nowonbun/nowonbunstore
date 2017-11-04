@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using WebScraping.Scraper.Interface;
 using WebScraping.Scraper.Node;
 using Gecko;
@@ -16,9 +14,15 @@ using WebScraping.Dao.Dao;
 using WebScraping.Dao.Attribute;
 using System.Net;
 using System.IO;
+using WebScraping.Library.Config;
+using System.Reflection;
 
 namespace WebScraping.Scraper.Common
 {
+    /*
+        pingpong & end message!
+        window handler~
+    */
     abstract class AbstractScrapFlow : Allocation, IScrapFlow
     {
         protected ScrapParameter Parameter { get; private set; }
@@ -27,7 +31,7 @@ namespace WebScraping.Scraper.Common
         private ScrapBrowser browser;
         private IList<ScrapingCommonData> common_data_list = new List<ScrapingCommonData>();
         private IList<ScrapingPackageData> package_data_list = new List<ScrapingPackageData>();
-
+        private StringBuilder buffer = new StringBuilder();
         [ResourceDao]
         private IScrapingCommonDataDao commondao;
         [ResourceDao]
@@ -120,8 +124,57 @@ namespace WebScraping.Scraper.Common
         }
         protected void UpdateData()
         {
-            commondao.InsertList(common_data_list);
-            packagedao.InsertList(package_data_list);
+            if (Debug.IsDebug())
+            {
+                try
+                {
+                    foreach (var item in common_data_list)
+                    {
+                        this.buffer.Append(item.KeyCode).Append("||");
+                        this.buffer.Append(item.KeyIndex).Append("||");
+                        this.buffer.Append(item.Data).Append("||");
+                        this.buffer.Append(item.CreateDate).AppendLine();
+                    }
+                    String filepath = Path.Combine(ConfigSystem.ReadConfig("Config", "Temp", "Path"), DateTime.Now.ToString("yyyyMMddHHmmssSSS") + ".csv");
+                    using (FileStream stream = new FileStream(filepath, FileMode.Create, FileAccess.Write))
+                    {
+                        byte[] buffer = Encoding.UTF8.GetBytes(this.buffer.ToString());
+                        stream.Write(buffer, 0, buffer.Length);
+                    }
+                    logger.Debug("common_data_list - " + filepath);
+                }
+                finally
+                {
+                    this.buffer.Clear();
+                }
+                try
+                {
+                    foreach (var item in package_data_list)
+                    {
+                        this.buffer.Append(item.KeyCode).Append("||");
+                        this.buffer.Append(item.KeyIndex).Append("||");
+                        this.buffer.Append(item.Data).Append("||");
+                        this.buffer.Append(item.CreateDate).AppendLine();
+                    }
+                    String filepath = Path.Combine(ConfigSystem.ReadConfig("Config", "Temp", "Path"), DateTime.Now.ToString("yyyyMMddHHmmssSSS") + ".csv");
+                    using (FileStream stream = new FileStream(filepath, FileMode.Create, FileAccess.Write))
+                    {
+                        byte[] buffer = Encoding.UTF8.GetBytes(this.buffer.ToString());
+                        stream.Write(buffer, 0, buffer.Length);
+                    }
+                    logger.Debug("package_data_list - " + filepath);
+                }
+                finally
+                {
+                    this.buffer.Clear();
+                }
+                Finally();
+            }
+            else
+            {
+                commondao.InsertList(common_data_list);
+                packagedao.InsertList(package_data_list);
+            }
         }
         public void End()
         {
@@ -183,39 +236,51 @@ namespace WebScraping.Scraper.Common
         }
         private string CombineParameter(IDictionary<string, Object> param)
         {
-            StringBuilder sb = new StringBuilder();
-            foreach (String key in param.Keys)
+            try
             {
-                if (sb.Length > 0)
+                foreach (String key in param.Keys)
                 {
-                    sb.Append("&");
+                    if (this.buffer.Length > 0)
+                    {
+                        this.buffer.Append("&");
+                    }
+                    this.buffer.Append(key).Append("=").Append(param[key]);
                 }
-                sb.Append(key).Append("=").Append(param[key]);
+                return this.buffer.ToString();
             }
-            return sb.ToString();
+            finally
+            {
+                this.buffer.Clear();
+            }
         }
         protected void PostAjaxJson(GeckoDocument document, string ajaxurl, IDictionary<String, Object> param)
         {
-            StringBuilder buffer = new StringBuilder();
-            buffer.Append("<HTML>");
-            buffer.Append("<BODY>");
-            buffer.Append("<FORM ACTION='").Append(ajaxurl).Append("' method='POST'>");
-            foreach (String key in param.Keys)
+            try
             {
-                buffer.Append("<INPUT type='hidden' name='")
-                    .Append(key)
-                    .Append("' id='")
-                    .Append(key)
-                    .Append("' value='")
-                    .Append(param[key])
-                    .Append("'>");
+                this.buffer.Append("<HTML>");
+                this.buffer.Append("<BODY>");
+                this.buffer.Append("<FORM ACTION='").Append(ajaxurl).Append("' method='POST'>");
+                foreach (String key in param.Keys)
+                {
+                    this.buffer.Append("<INPUT type='hidden' name='")
+                        .Append(key)
+                        .Append("' id='")
+                        .Append(key)
+                        .Append("' value='")
+                        .Append(param[key])
+                        .Append("'>");
+                }
+                this.buffer.Append("<INPUT type='submit' id='trigger'>");
+                this.buffer.Append("</FORM>");
+                this.buffer.Append("</BODY>");
+                this.buffer.Append("</HTML>");
+                document.Body.InnerHtml = this.buffer.ToString();
+                document.GetElementById<GeckoInputElement>("trigger").Click();
             }
-            buffer.Append("<INPUT type='submit' id='trigger'>");
-            buffer.Append("</FORM>");
-            buffer.Append("</BODY>");
-            buffer.Append("</HTML>");
-            document.Body.InnerHtml = buffer.ToString();
-            document.GetElementById<GeckoInputElement>("trigger").Click();
+            finally
+            {
+                this.buffer.Clear();
+            }
         }
         protected void ExcuteJavascript(GeckoDocument document, String script)
         {
@@ -223,6 +288,47 @@ namespace WebScraping.Scraper.Common
             scriptelement.SetAttribute("type", "text/javascript");
             scriptelement.TextContent = script;
             document.Head.AppendChild(scriptelement);
+        }
+        protected String CreateGetParameter(IDictionary<String, String> param)
+        {
+            try
+            {
+                foreach (var node in param)
+                {
+                    this.buffer.Append(node.Key);
+                    this.buffer.Append("=");
+                    this.buffer.Append(node.Value);
+                    this.buffer.Append("&");
+                }
+                this.buffer.Remove(this.buffer.Length - 1, 1);
+                return this.buffer.ToString();
+            }
+            finally
+            {
+                this.buffer.Clear();
+            }
+        }
+        protected String ToJson(IList<FieldInfo> fields, Object data)
+        {
+            try
+            {
+                this.buffer.Append("{");
+                foreach (var field in fields)
+                {
+                    this.buffer.Append("\"");
+                    this.buffer.Append(field.Name);
+                    this.buffer.Append("\":\"");
+                    this.buffer.Append(field.GetValue(data));
+                    this.buffer.Append("\",");
+                }
+                this.buffer.Remove(buffer.Length - 1, 1);
+                this.buffer.Append("}");
+                return this.buffer.ToString();
+            }
+            finally
+            {
+                this.buffer.Clear();
+            }
         }
         protected abstract void Finally();
     }

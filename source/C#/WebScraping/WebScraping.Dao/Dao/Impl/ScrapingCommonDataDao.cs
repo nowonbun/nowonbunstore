@@ -29,10 +29,6 @@ namespace WebScraping.Dao.Dao.Impl
         {
             return base.DeleteByEntity(entity);
         }
-        public void Test()
-        {
-            ExcuteBulk("ScrapingCommonData", "D:\\Temp\\20171104015618SSS.csv");
-        }
         public int InsertList(IList<ScrapingCommonData> list)
         {
             StringBuilder sb = new StringBuilder();
@@ -45,17 +41,6 @@ namespace WebScraping.Dao.Dao.Impl
             }
             String filepath = CreateCsv(sb.ToString());
             return ExcuteBulk("ScrapingCommonData", filepath);
-            /*int count = 0;
-            String query = CreateInsertQuery();
-            base.Transaction(() =>
-            {
-                foreach (var item in list)
-                {
-                    ClearParameter();
-                    count += base.ExcuteNonReader(query, SetParameter(item));
-                }
-            });
-            return count;*/
         }
     }
 }

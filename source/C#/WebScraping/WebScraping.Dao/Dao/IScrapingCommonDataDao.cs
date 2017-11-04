@@ -16,7 +16,5 @@ namespace WebScraping.Dao.Dao
         int Delete(ScrapingCommonData entity);
 
         int InsertList(IList<ScrapingCommonData> list);
-
-        void Test();
     }
 }

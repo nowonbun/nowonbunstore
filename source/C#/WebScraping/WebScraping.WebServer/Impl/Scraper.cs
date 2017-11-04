@@ -4,28 +4,31 @@ using System.IO;
 using WebScraping.Dao.Common;
 using WebScraping.Dao.Dao;
 using WebScraping.Dao.Entity;
+using WebScraping.Library.Log;
 
 namespace WebScraping.WebServer.Impl
 {
     class Scraper : Process
     {
+        private Logger logger;
         private Parameter parameter;
         private String parameterStr;
         public Scraper(String parameter, String path)
         {
-
+            this.logger = LoggerBuilder.Init().Set(this.GetType());
             base.StartInfo = new ProcessStartInfo();
             base.StartInfo.FileName = "WebScraping.Scraper.exe";
             this.parameter = SetParamter(parameter);
             this.parameterStr = parameter;
             base.StartInfo.WorkingDirectory = Path.GetDirectoryName(path);
+            this.logger.Info("Scraper process initialize Parameter : " + parameterStr);
         }
         public String Run()
         {
             parameter.Key = System.Guid.NewGuid().ToString();
             base.StartInfo.Arguments = parameter.Key + " " + this.parameterStr;
 
-            IScrapingStatusDao dao = FactoryDao.GetInstance().GetDao("WebScraping.Dao.Dao.Impl.ScrapingStatusDao") as IScrapingStatusDao;
+            IScrapingStatusDao dao = FactoryDao.GetInstance().GetDao<IScrapingStatusDao>();
             ScrapingStatus entity = new ScrapingStatus();
             entity.KeyCode = parameter.Key;
             entity.SCode = parameter.Code;
@@ -35,6 +38,7 @@ namespace WebScraping.WebServer.Impl
             dao.Insert(entity);
             parameter.Starttime = DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss");
             base.Start();
+            this.logger.Info("Scraper process Start " + this.parameter.ToString());
             return parameter.Key;
         }
         private Parameter SetParamter(String param)

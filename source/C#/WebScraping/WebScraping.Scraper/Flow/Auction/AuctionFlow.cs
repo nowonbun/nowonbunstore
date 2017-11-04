@@ -28,6 +28,7 @@ namespace WebScraping.Scraper.Flow.Auction
         private String idcode;
         private State state = new State();
         private IDictionary<String, BuyDescisionNode> buyNodeList = new Dictionary<String, BuyDescisionNode>();
+        private StringBuilder buffer = new StringBuilder();
         private IList<FieldInfo> buyDescisionExcelReflect = null;
         private IList<FieldInfo> lacRemitListExcelReflect = null;
 
@@ -114,22 +115,37 @@ namespace WebScraping.Scraper.Flow.Auction
         }
         private Boolean BuyDecision(GeckoDocument document, Uri uri)
         {
+            logger.Info("2-1.매출내역 ( 주문관리 > 구매결정완료 )");
             if (!String.IsNullOrEmpty(idkey))
             {
-                StringBuilder urlbuffer = new StringBuilder();
-                urlbuffer.Append("https://www.esmplus.com/Escrow/Delivery/BuyDecisionExcel?")
-                    .Append("siteGbn=0&searchAccount=")
-                    .Append(idkey)
-                    .Append("&searchDateType=TRD&searchSDT=")
-                    .Append(state.sdt.ToString("yyyy-MM-dd"))
-                    .Append("&searchEDT=")
-                    .Append(state.edt.ToString("yyyy-MM-dd"))
-                    .Append("&searchKey=ON&searchKeyword=&searchStatus=5010&searchAllYn=N&searchDistrType=AL&searchGlobalShopType=&searchOverseaDeliveryYn=");
-                logger.Debug(urlbuffer.ToString());
-                PostAjaxJson(document, urlbuffer.ToString(), new Dictionary<String, Object>()
+                try
                 {
-                    {"eSortType","" },
-                });
+                    this.buffer.Append("https://www.esmplus.com/Escrow/Delivery/BuyDecisionExcel?");
+                    this.buffer.Append(CreateGetParameter(new Dictionary<String, String>()
+                    {
+                        {"siteGbn","0"},
+                        {"searchAccount",idkey},
+                        {"searchDateType","TRD"},
+                        {"searchSDT", state.sdt.ToString("yyyy-MM-dd")},
+                        {"searchEDT", state.edt.ToString("yyyy-MM-dd")},
+                        {"searchKey","ON" },
+                        {"searchKeyword","" },
+                        {"searchStatus","5010" },
+                        {"searchAllYn","N" },
+                        {"searchDistrType","AL" },
+                        {"searchGlobalShopType","" },
+                        {"searchOverseaDeliveryYn","" }
+                    }));
+                    logger.Debug(this.buffer.ToString());
+                    PostAjaxJson(document, this.buffer.ToString(), new Dictionary<String, Object>()
+                    {
+                        {"eSortType","" },
+                    });
+                }
+                finally
+                {
+                    this.buffer.Clear();
+                }
                 return true;
             }
             GeckoSelectElement item = document.GetElementById<GeckoSelectElement>("searchAccount");
@@ -141,50 +157,48 @@ namespace WebScraping.Scraper.Flow.Auction
                     //10757^id^_1
                     idkey = option.Value;
                     idcode = idkey.Split('^')[0];
-                    /*
-                        page:1
-                        limit:20
-                        siteGbn:0
-                        searchAccount:10757
-                        searchDateType:TRD
-                        searchSDT:2017-09-09
-                        searchEDT:2017-10-09
-                        searchKey:ON
-                        searchKeyword:
-                        searchStatus:5010
-                        searchAllYn:N
-                        SortFeild:TransDate
-                        SortType:Desc
-                        start:0
-                        searchDistrType:AL
-                        searchGlobalShopType:
-                        searchOverseaDeliveryYn:
-                    */
-                    //1년전부터
+                    this.logger.Info("idkey - " + idkey);
+                    this.logger.Info("idcode - " + idcode);
                     state.StateIndex = 0;
                     state.Page = 1;
                     DateTime now = DateTime.Now;
                     state.sdt = now.AddYears(-1).AddDays(1);
                     state.edt = now;
-                    StringBuilder urlbuffer = new StringBuilder();
-                    urlbuffer.Append("https://www.esmplus.com/Escrow/Delivery/BuyDecision?")
-                        .Append("gbn=0&status=5010&type=N&searchTotal=-&searchAccount=").Append(idkey)
-                        .Append("&searchDateType=TRD&searchSDT=")
-                        .Append(state.sdt.ToString("yyyy-MM-dd"))
-                        .Append("&searchEDT=")
-                        .Append(state.edt.ToString("yyyy-MM-dd"))
-                        .Append("&searchKey=ON&searchKeyword=&searchStatus=5010&listAllView=false&searchDistrType=AL&searchGlobalShopType=&searchOverseaDeliveryYn=");
-                    //구매 결정 완료 일단 넘기기
-                    base.Navigate(urlbuffer.ToString());
+                    try
+                    {
+                        this.buffer.Append("https://www.esmplus.com/Escrow/Delivery/BuyDecision?");
+                        this.buffer.Append(CreateGetParameter(new Dictionary<String, String>()
+                        {
+                            {"siteGbn","0"},
+                            {"status","5010"},
+                            {"type","N" },
+                            {"searchTotal","-" },
+                            {"searchAccount",idkey},
+                            {"searchDateType","TRD"},
+                            {"searchSDT", state.sdt.ToString("yyyy-MM-dd")},
+                            {"searchEDT", state.edt.ToString("yyyy-MM-dd")},
+                            {"searchKey","ON" },
+                            {"searchKeyword","" },
+                            {"searchStatus","5010" },
+                            {"listAllView","false" },
+                            {"searchDistrType","AL" },
+                            {"searchGlobalShopType","" },
+                            {"searchOverseaDeliveryYn","" }
+                        }));
+                        base.Navigate(this.buffer.ToString());
+                    }
+                    finally
+                    {
+                        this.buffer.Clear();
+                    }
                     return true;
                 }
             }
             throw new ScraperException("Failed to get id key..");
         }
-
         private bool LacSettleDetail(GeckoDocument document, Uri uri)
         {
-            Thread.Sleep(5000);
+            logger.Info("3-1.정산내역 ( 정산관리 > 정산내역 조회 > 옥션 정산내역 관리 )");
             var SearchParam = new
             {
                 MemberID = Parameter.Id,
@@ -213,13 +227,13 @@ namespace WebScraping.Scraper.Flow.Auction
         {
             return false;
         }
-
         private void ExcelDownload(String url, String file)
         {
             logger.Debug(url);
             logger.Debug(file);
             if (url.IndexOf("BuyDecisionExcel") != -1)
             {
+                logger.Info("2-1.매출내역 ( 주문관리 > 구매결정완료 ) Excel");
                 logger.Debug("BuyDecisionExcel");
                 ThreadPool.QueueUserWorkItem((c) =>
                 {
@@ -235,55 +249,19 @@ namespace WebScraping.Scraper.Flow.Auction
                     BuilderExcelEntity<BuyDecisionExcel> builder = new BuilderExcelEntity<BuyDecisionExcel>();
                     List<BuyDecisionExcel> list = builder.Builder(file);
                     logger.Debug("It complete to build excel ");
-                    StringBuilder buffer = new StringBuilder();
                     int index = 0;
                     foreach (var item in list)
                     {
-                        buffer.Clear();
-                        buffer.Append("{");
-                        foreach (var data in buyDescisionExcelReflect)
-                        {
-                            buffer.Append("\"");
-                            buffer.Append(data.Name);
-                            buffer.Append("\":\"");
-                            buffer.Append(data.GetValue(item));
-                            buffer.Append("\",");
-                        }
-                        buffer.Remove(buffer.Length - 1, 1);
-                        buffer.Append("}");
-                        SetPackageData(0, index++, buffer.ToString());
+                        SetPackageData(0, index++, ToJson(buyDescisionExcelReflect, item));
                     }
-                    //String data = JsonConvert.SerializeObject(list);
-                    //logger.Debug("BuyDecisionExcel size = " + data.Length.ToString());
-                    //수정 필요
-                    //SetPackageData(0, 0, data);
                     list.Clear();
                     base.Navigate("http://www.esmplus.com/Member/Settle/IacSettleDetail?menuCode=TDM298");
-                    /*foreach (var item in list)
-                    {
-                        try
-                        {
-                            BuyDescisionNode node = GetBuyDescisionNode(item.BuyDate);
-                            node.DeliveryFee += item.DeliveryPrice;
-                            node.OrderAmnt += item.ProductQuanity;
-                            node.SellPrice += item.SellPrice;
-                            node.SttlExpectedAmnt += item.ExpectPrice;
-                        }
-                        catch (Exception e)
-                        {
-                            logger.Error(item.OrderNumber);
-                            logger.Error(e.ToString());
-                        }
-                    }
-                    foreach (var item in buyNodeList)
-                    {
-                        logger.Debug(item.ToString());
-                    }*/
                     return;
                 });
             }
             if (url.IndexOf("IacRemitListExcelDownload") != -1)
             {
+                logger.Info("3-1.정산내역 ( 정산관리 > 정산내역 조회 > 옥션 정산내역 관리 ) Excel");
                 logger.Debug("IacRemitListExcelDownload");
                 ThreadPool.QueueUserWorkItem((c) =>
                 {
@@ -298,29 +276,13 @@ namespace WebScraping.Scraper.Flow.Auction
                     logger.Debug("IacRemitListExcelDownload Excel analysis");
                     BuilderExcelEntity<LacRemitListExcel> builder = new BuilderExcelEntity<LacRemitListExcel>();
                     List<LacRemitListExcel> list = builder.Builder(file);
-                    //String data = JsonConvert.SerializeObject(list);
-                    //logger.Debug("IacRemitListExcelDownload size = " + data.Length.ToString());
-                    //수정필요
-                    //SetPackageData(0, 1, data);
-                    StringBuilder buffer = new StringBuilder();
                     int index = 0;
                     foreach (var item in list)
                     {
-                        buffer.Clear();
-                        buffer.Append("{");
-                        foreach (var data in lacRemitListExcelReflect)
-                        {
-                            buffer.Append("\"");
-                            buffer.Append(data.Name);
-                            buffer.Append("\":\"");
-                            buffer.Append(data.GetValue(item));
-                            buffer.Append("\",");
-                        }
-                        buffer.Remove(buffer.Length - 1, 1);
-                        buffer.Append("}");
-                        SetPackageData(1, index++, buffer.ToString());
+                        SetPackageData(1, index++, ToJson(lacRemitListExcelReflect, item));
                     }
                     list.Clear();
+                    //base.Navigate("https://www.esmplus.com/Escrow/Delivery/GeneralDelivery?gbn=0&status=0&type=&searchAccount=10757^1&searchDateType=&searchSDT=&searchEDT=&searchKey=&searchKeyword=&searchDeliveryType=nomal&searchOrderType=&searchPacking=&totalAccumulate=-&searchTransPolicyType=");
                     base.Navigate("http://www.esmplus.com/Areas/Manual/SellerGuide/main.html");
                     return;
                 });

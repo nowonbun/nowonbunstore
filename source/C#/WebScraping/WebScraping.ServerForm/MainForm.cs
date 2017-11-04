@@ -1,16 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Gecko;
-using Gecko.DOM;
 using System.IO;
-using WebScraping.WebServer;
 using WebScraping.Library.Log;
 using WebScraping.Library.Config;
 
@@ -26,10 +18,7 @@ namespace WebScraping.ServerForm
             var app_dir = Path.GetDirectoryName(Application.ExecutablePath);
             Xpcom.Initialize(Path.Combine(app_dir, "Firefox"));
             logger.Info("FireFox Dll Initialize");
-            WebScraping.WebServer.WebServer.Start(ServerInfo.GetPort(), Path.Combine(app_dir, "WebServer"), e =>
-            {
-
-            });
+            WebServer.WebServer.Start(ServerInfo.GetPort(), Path.Combine(app_dir, "WebServer"));
             InitializeComponent();
         }
         protected override void OnLoad(EventArgs e)
@@ -39,7 +28,7 @@ namespace WebScraping.ServerForm
         }
         protected override void OnClosing(CancelEventArgs e)
         {
-            WebScraping.WebServer.WebServer.End();
+            WebServer.WebServer.End();
             base.OnClosing(e);
         }
     }

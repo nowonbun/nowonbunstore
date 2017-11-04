@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using System.Diagnostics;
-using System.IO;
 using WebScraping.Library.Log;
 
 namespace WebScraping.WebServer.Impl
@@ -15,15 +11,40 @@ namespace WebScraping.WebServer.Impl
     class ServerSocket : Socket, IServerSocket, IDisposable
     {
         private int port;
-        private event Action<IClientSocket> acceptEvent;
         private Dictionary<String, Scraper> scraperlist = new Dictionary<string, Scraper>();
         private Thread _thread;
         private bool live = true;
         private String path;
         private Logger logger;
 
+        public ServerSocket(int port, String path)
+            : base(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP)
+        {
+            this.logger = logger = LoggerBuilder.Init().Set(this.GetType()); ;
+            this.port = port;
+            this.path = path;
+            base.Bind(new IPEndPoint(IPAddress.Any, port));
+            base.Listen(100);
+            this._thread = new Thread(() =>
+            {
+                while (live)
+                {
+                    try
+                    {
+                        ClientSocket client = new ClientSocket(this, Accept(), path);
+                        client.Run();
+                    }
+                    catch (Exception e)
+                    {
+                        logger.Error(e.ToString());
+                    }
+                }
+            });
+        }
+
         public String StartScraper(String param)
         {
+            this.logger.Info("Start scraper param : " + param);
             Scraper scraper = new Scraper(param, path);
             String key = scraper.Run();
             AddScraper(key, scraper);
@@ -31,6 +52,7 @@ namespace WebScraping.WebServer.Impl
         }
         public Scraper AddScraper(String key, Scraper scraper)
         {
+            this.logger.Info("Add scraper key : " + key);
             scraperlist.Add(key, scraper);
             return scraper;
         }
@@ -38,12 +60,15 @@ namespace WebScraping.WebServer.Impl
         {
             if (scraperlist.ContainsKey(key))
             {
+                this.logger.Info("Check_OK scraper key : " + key);
                 return scraperlist[key];
             }
+            this.logger.Info("Check_NG scraper key : " + key);
             return null;
         }
         public Scraper RemoveScraper(String key)
         {
+            this.logger.Info("Remove scraper key : " + key);
             if (scraperlist.ContainsKey(key))
             {
                 Scraper ret = scraperlist[key];
@@ -56,45 +81,17 @@ namespace WebScraping.WebServer.Impl
         {
             return scraperlist.Select(node => { return node.Value; }).ToList();
         }
-
-        public ServerSocket(int port, String path)
-            : base(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP)
-        {
-            this.logger = logger = LoggerBuilder.Init().Set(this.GetType()); ;
-            this.port = port;
-            this.path = path;
-            base.Bind(new IPEndPoint(IPAddress.Any, port));
-            base.Listen(100);
-            acceptEvent += (c) => { };
-            this._thread = new Thread(() =>
-            {
-                while (live)
-                {
-                    try
-                    {
-                        ClientSocket client = new ClientSocket(this, Accept(), path);
-                        client.Run();
-                        acceptEvent(client);
-                    }
-                    catch (Exception e)
-                    {
-                        logger.Error(e.ToString());
-                    }
-                }
-            });
-        }
-        public void SetAcceptEvent(Action<IClientSocket> e)
-        {
-            acceptEvent += e;
-        }
         public void Run()
         {
+            this.logger.Info("Server start...");
             this._thread.Start();
         }
         public new void Dispose()
         {
+            this.logger.Info("Server dispose...");
             live = false;
             SendPingPong();
+            this._thread.Abort();
             base.Dispose();
         }
         private void SendPingPong()
