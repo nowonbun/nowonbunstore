@@ -8,6 +8,7 @@ namespace WebScraping.Scraper.Interface
     {
         String StartPage();
         Func<GeckoDocument, Uri, Boolean> Procedure(Uri uri);
+        Action<String, String> DownloadProcedure(String url);
         void End();
     }
 }

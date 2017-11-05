@@ -13,6 +13,7 @@ using WebScraping.Scraper.Other;
 using WebScraping.Library.Log;
 using WebScraping.Library.Config;
 using System.IO;
+using System.Threading;
 
 namespace WebScraping.Scraper.Impl
 {
@@ -23,17 +24,14 @@ namespace WebScraping.Scraper.Impl
         //HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
         public ScrapBrowser()
         {
-
-        }
-        public void InitializeDownLoad(Action<String, String> download)
-        {
             Gecko.LauncherDialog.Download += (sender, e) =>
             {
                 String tempPath = ConfigSystem.ReadConfig("Config", "Temp", "Path");
                 String file = Path.Combine(tempPath, DateTime.Now.ToString("yyyyMMddHHmmss") + e.Filename);
                 nsILocalFile objTarget = (nsILocalFile)Xpcom.NewNativeLocalFile(file);
                 e.HelperAppLauncher.SaveToDisk(objTarget, false);
-                download(e.Url, file);
+                Action<String, String> action = flow.DownloadProcedure(e.Url);
+                action(e.Url, file);
             };
         }
 

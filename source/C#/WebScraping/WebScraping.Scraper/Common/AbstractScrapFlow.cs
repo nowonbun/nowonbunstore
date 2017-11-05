@@ -16,6 +16,7 @@ using System.Net;
 using System.IO;
 using WebScraping.Library.Config;
 using System.Reflection;
+using System.Threading;
 
 namespace WebScraping.Scraper.Common
 {
@@ -27,7 +28,16 @@ namespace WebScraping.Scraper.Common
     {
         protected ScrapParameter Parameter { get; private set; }
         protected String StartPageUrl { get; set; }
-        protected Dictionary<String, Func<GeckoDocument, Uri, Boolean>> FlowMap = new Dictionary<string, Func<GeckoDocument, Uri, Boolean>>();
+        protected Dictionary<String, Func<GeckoDocument, Uri, Boolean>> FlowMap
+        {
+            get { return flowMap; }
+        }
+        protected Dictionary<String, Action<String, String>> DownloadMap
+        {
+            get { return downloadMap; }
+        }
+        private Dictionary<String, Func<GeckoDocument, Uri, Boolean>> flowMap = new Dictionary<string, Func<GeckoDocument, Uri, Boolean>>();
+        private Dictionary<String, Action<String, String>> downloadMap = new Dictionary<String, Action<String, String>>();
         private ScrapBrowser browser;
         private IList<ScrapingCommonData> common_data_list = new List<ScrapingCommonData>();
         private IList<ScrapingPackageData> package_data_list = new List<ScrapingPackageData>();
@@ -53,11 +63,20 @@ namespace WebScraping.Scraper.Common
             this.packagedao = FactoryDao.GetInstance().GetDao<IScrapingPackageDataDao>();
 
             logger = LoggerBuilder.Init().Set(this.GetType());
+            //this.browser.InitializeDownLoad(ExcelDownload);
+            this.browser.ProgressChanged += (s, e) =>
+            {
+                logger.Debug("CurrentProgress/MaximumProgress : " + e.CurrentProgress + "/" + e.MaximumProgress);
+            };
         }
         protected virtual Boolean NotAction(GeckoDocument document, Uri uri)
         {
             logger.Info("NotAction uri : " + uri);
             return true;
+        }
+        protected virtual void NotAction(String url, String filename)
+        {
+            logger.Info("NotAction uri : " + filename);
         }
         public String StartPage()
         {
@@ -99,6 +118,22 @@ namespace WebScraping.Scraper.Common
 
             return FlowMap[key];
         }
+        public Action<String, String> DownloadProcedure(String url)
+        {
+            logger.Info("Download uri : " + url);
+            String key = "";
+            IList<String> temp = DownloadMap.Keys.Where(k => { return url.IndexOf(k) != -1; }).ToList();
+            if (temp.Count < 1)
+            {
+                return NotAction;
+            }
+            else
+            {
+                key = temp[0];
+            }
+
+            return DownloadMap[key];
+        }
         protected void Navigate(String url)
         {
             this.browser.Navigate(url);
@@ -135,7 +170,7 @@ namespace WebScraping.Scraper.Common
                         this.buffer.Append(item.Data).Append("||");
                         this.buffer.Append(item.CreateDate).AppendLine();
                     }
-                    String filepath = Path.Combine(ConfigSystem.ReadConfig("Config", "Temp", "Path"), DateTime.Now.ToString("yyyyMMddHHmmssSSS") + ".csv");
+                    String filepath = Path.Combine(ConfigSystem.ReadConfig("Config", "Temp", "Path"), DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".csv");
                     using (FileStream stream = new FileStream(filepath, FileMode.Create, FileAccess.Write))
                     {
                         byte[] buffer = Encoding.UTF8.GetBytes(this.buffer.ToString());
@@ -329,6 +364,21 @@ namespace WebScraping.Scraper.Common
             {
                 this.buffer.Clear();
             }
+        }
+        protected void WaitFile(String file, Action action)
+        {
+            ThreadPool.QueueUserWorkItem(c =>
+            {
+                while (true)
+                {
+                    if (File.Exists(file))
+                    {
+                        break;
+                    }
+                    Thread.Sleep(1000);
+                }
+                action();
+            });
         }
         protected abstract void Finally();
     }

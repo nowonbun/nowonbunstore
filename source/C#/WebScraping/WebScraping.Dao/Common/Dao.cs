@@ -563,7 +563,7 @@ namespace WebScraping.Dao.Common
         }
         protected String CreateCsv(String data)
         {
-            String filepath = Path.Combine(tmpPath, DateTime.Now.ToString("yyyyMMddHHmmssSSS") + ".csv");
+            String filepath = Path.Combine(tmpPath, DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".csv");
             using (FileStream stream = new FileStream(filepath, FileMode.Create, FileAccess.Write))
             {
                 byte[] buffer = Encoding.UTF8.GetBytes(data);

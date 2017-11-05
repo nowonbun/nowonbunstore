@@ -12,6 +12,7 @@ namespace WebScraping.Library.Excel
 {
     public class BuilderExcelEntity<T> where T : class
     {
+        //TODO : filesize - 0?
         private Dictionary<int, FieldInfo> flyweight = new Dictionary<int, FieldInfo>();
         public BuilderExcelEntity() { }
         public List<T> Builder(String filepath, bool header = true, bool delete = false)

@@ -17,16 +17,10 @@ namespace WebScraping.Scraper.Flow.Auction
 {
     class AuctionFlow : AbstractScrapFlow
     {
-        private class State
-        {
-            public int StateIndex { get; set; }
-            public int Page { get; set; }
-            public DateTime sdt;
-            public DateTime edt;
-        }
         private String idkey;
         private String idcode;
-        private State state = new State();
+        public DateTime startdate;
+        public DateTime enddate;
         private IDictionary<String, BuyDescisionNode> buyNodeList = new Dictionary<String, BuyDescisionNode>();
         private StringBuilder buffer = new StringBuilder();
         private IList<FieldInfo> buyDescisionExcelReflect = null;
@@ -39,6 +33,10 @@ namespace WebScraping.Scraper.Flow.Auction
             buyDescisionExcelReflect = new List<FieldInfo>(typeof(BuyDecisionExcel).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance));
             lacRemitListExcelReflect = new List<FieldInfo>(typeof(LacRemitListExcel).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance));
 
+            DateTime now = DateTime.Now;
+            //startdate = now.AddYears(-1).AddDays(1);
+            startdate = now.AddMonths(-1);
+            enddate = now;
 
             StartPageUrl = "https://www.esmplus.com/Member/SignIn/LogOn";
             FlowMap.Add("Member/SignIn/LogOn", Login);
@@ -47,7 +45,10 @@ namespace WebScraping.Scraper.Flow.Auction
             FlowMap.Add("Escrow/Delivery/BuyDecision", BuyDecision);
             FlowMap.Add("Member/Settle/IacSettleDetail", LacSettleDetail);
             FlowMap.Add("Areas/Manual/SellerGuide", ScrapEnd);
-            browser.InitializeDownLoad(ExcelDownload);
+            FlowMap.Add("Escrow/Delivery/GeneralDelivery", GeneralDelivery);
+            DownloadMap.Add("BuyDecisionExcel", BuyDecisionExcel);
+            DownloadMap.Add("IacRemitListExcelDownload", LacRemitListExcelDownload);
+            DownloadMap.Add("GeneralDeliveryExcel", GeneralDeliveryExcel);
         }
         protected override void Finally()
         {
@@ -126,8 +127,8 @@ namespace WebScraping.Scraper.Flow.Auction
                         {"siteGbn","0"},
                         {"searchAccount",idkey},
                         {"searchDateType","TRD"},
-                        {"searchSDT", state.sdt.ToString("yyyy-MM-dd")},
-                        {"searchEDT", state.edt.ToString("yyyy-MM-dd")},
+                        {"searchSDT", startdate.ToString("yyyy-MM-dd")},
+                        {"searchEDT", enddate.ToString("yyyy-MM-dd")},
                         {"searchKey","ON" },
                         {"searchKeyword","" },
                         {"searchStatus","5010" },
@@ -159,11 +160,6 @@ namespace WebScraping.Scraper.Flow.Auction
                     idcode = idkey.Split('^')[0];
                     this.logger.Info("idkey - " + idkey);
                     this.logger.Info("idcode - " + idcode);
-                    state.StateIndex = 0;
-                    state.Page = 1;
-                    DateTime now = DateTime.Now;
-                    state.sdt = now.AddYears(-1).AddDays(1);
-                    state.edt = now;
                     try
                     {
                         this.buffer.Append("https://www.esmplus.com/Escrow/Delivery/BuyDecision?");
@@ -175,8 +171,8 @@ namespace WebScraping.Scraper.Flow.Auction
                             {"searchTotal","-" },
                             {"searchAccount",idkey},
                             {"searchDateType","TRD"},
-                            {"searchSDT", state.sdt.ToString("yyyy-MM-dd")},
-                            {"searchEDT", state.edt.ToString("yyyy-MM-dd")},
+                            {"searchSDT", startdate.ToString("yyyy-MM-dd")},
+                            {"searchEDT", enddate.ToString("yyyy-MM-dd")},
                             {"searchKey","ON" },
                             {"searchKeyword","" },
                             {"searchStatus","5010" },
@@ -207,8 +203,8 @@ namespace WebScraping.Scraper.Flow.Auction
                 BuyerId = "",
                 OrderNo = 0,
                 DateType = "R",
-                DateFrom = state.sdt.ToString("yyyy-MM-dd"),
-                DateTo = state.edt.ToString("yyyy-MM-dd"),
+                DateFrom = startdate.ToString("yyyy-MM-dd"),
+                DateTo = enddate.ToString("yyyy-MM-dd"),
                 CategoryId = "",
                 RemittanceType = "0",
                 GroupOrderSeqNo = "0",
@@ -223,70 +219,122 @@ namespace WebScraping.Scraper.Flow.Auction
             });
             return true;
         }
+        private bool GeneralDelivery(GeckoDocument document, Uri uri)
+        {
+            logger.Info("4-1.정산예정금 - ( 주문관리 > 발송처리 )");
+            try
+            {
+                //https://www.esmplus.com/Escrow/Delivery/GeneralDeliveryExcel?
+                //siteGbn=0&searchAccount=10757^1&searchDateType=ODD&searchSDT=2017-08-05&searchEDT=2017-11-05&searchKey=ON&searchKeyword=&searchStatus=0&
+                //searchAllYn =Y&splitYn=no&searchDeliveryType=&searchOrderType=&searchPaking=false&searchDistrType=AL&searchTransPolicyType=
+                this.buffer.Append("https://www.esmplus.com/Escrow/Delivery/GeneralDeliveryExcel?");
+                this.buffer.Append(CreateGetParameter(new Dictionary<String, String>()
+                {
+                    {"siteGbn","0"},
+                    {"searchAccount",idcode+"^1" },
+                    {"searchDateType","0DD"},
+                    {"searchSDT", startdate.ToString("yyyy-MM-dd")},
+                    {"searchEDT", enddate.ToString("yyyy-MM-dd") },
+                    {"searchKey","ON" },
+                    {"searchKeyword","" },
+                    {"searchStatus","0" },
+                    {"searchAllYn","Y" },
+                    {"splitYn","no" },
+                    {"searchDeliveryType","nomal" },
+                    {"searchOrderType","" },
+                    {"searchPaking","false" },
+                    {"searchDistrType","AL" },
+                    {"searchTransPolicyType","" }
+                }));
+                PostAjaxJson(document, this.buffer.ToString(), new Dictionary<String, Object>()
+                {
+                    {"eSortType","" },
+                });
+            }
+            finally
+            {
+                this.buffer.Clear();
+            }
+            return true;
+        }
         private bool ScrapEnd(GeckoDocument document, Uri uri)
         {
             return false;
         }
-        private void ExcelDownload(String url, String file)
+
+        private void BuyDecisionExcel(String url, String file)
         {
-            logger.Debug(url);
-            logger.Debug(file);
-            if (url.IndexOf("BuyDecisionExcel") != -1)
+            WaitFile(file, () =>
             {
-                logger.Info("2-1.매출내역 ( 주문관리 > 구매결정완료 ) Excel");
+                logger.Info("2-2.매출내역 ( 주문관리 > 구매결정완료 ) Excel");
                 logger.Debug("BuyDecisionExcel");
-                ThreadPool.QueueUserWorkItem((c) =>
+                logger.Debug("BuyDecisionExcel Excel analysis");
+                BuilderExcelEntity<BuyDecisionExcel> builder = new BuilderExcelEntity<BuyDecisionExcel>();
+                List<BuyDecisionExcel> list = builder.Builder(file);
+                logger.Debug("It complete to build excel ");
+                int index = 0;
+                foreach (var item in list)
                 {
-                    while (true)
-                    {
-                        if (File.Exists(file))
-                        {
-                            break;
-                        }
-                        Thread.Sleep(1000);
-                    }
-                    logger.Debug("BuyDecisionExcel Excel analysis");
-                    BuilderExcelEntity<BuyDecisionExcel> builder = new BuilderExcelEntity<BuyDecisionExcel>();
-                    List<BuyDecisionExcel> list = builder.Builder(file);
-                    logger.Debug("It complete to build excel ");
-                    int index = 0;
-                    foreach (var item in list)
-                    {
-                        SetPackageData(0, index++, ToJson(buyDescisionExcelReflect, item));
-                    }
-                    list.Clear();
-                    base.Navigate("http://www.esmplus.com/Member/Settle/IacSettleDetail?menuCode=TDM298");
-                    return;
-                });
-            }
-            if (url.IndexOf("IacRemitListExcelDownload") != -1)
+                    SetPackageData(0, index++, ToJson(buyDescisionExcelReflect, item));
+                }
+                list.Clear();
+                base.Navigate("http://www.esmplus.com/Member/Settle/IacSettleDetail?menuCode=TDM298");
+            });
+        }
+        private void LacRemitListExcelDownload(String url, String file)
+        {
+            WaitFile(file, () =>
             {
-                logger.Info("3-1.정산내역 ( 정산관리 > 정산내역 조회 > 옥션 정산내역 관리 ) Excel");
+                logger.Info("3-2.정산내역 ( 정산관리 > 정산내역 조회 > 옥션 정산내역 관리 ) Excel");
                 logger.Debug("IacRemitListExcelDownload");
-                ThreadPool.QueueUserWorkItem((c) =>
+                logger.Debug("IacRemitListExcelDownload Excel analysis");
+                BuilderExcelEntity<LacRemitListExcel> builder = new BuilderExcelEntity<LacRemitListExcel>();
+                List<LacRemitListExcel> list = builder.Builder(file);
+                int index = 0;
+                foreach (var item in list)
                 {
-                    while (true)
-                    {
-                        if (File.Exists(file))
+                    SetPackageData(1, index++, ToJson(lacRemitListExcelReflect, item));
+                }
+                list.Clear();
+
+                try
+                {
+                    this.buffer.Append("https://www.esmplus.com/Escrow/Delivery/GeneralDelivery?");
+                    this.buffer.Append(CreateGetParameter(new Dictionary<String, String>()
                         {
-                            break;
-                        }
-                        Thread.Sleep(1000);
-                    }
-                    logger.Debug("IacRemitListExcelDownload Excel analysis");
-                    BuilderExcelEntity<LacRemitListExcel> builder = new BuilderExcelEntity<LacRemitListExcel>();
-                    List<LacRemitListExcel> list = builder.Builder(file);
-                    int index = 0;
-                    foreach (var item in list)
-                    {
-                        SetPackageData(1, index++, ToJson(lacRemitListExcelReflect, item));
-                    }
-                    list.Clear();
-                    //base.Navigate("https://www.esmplus.com/Escrow/Delivery/GeneralDelivery?gbn=0&status=0&type=&searchAccount=10757^1&searchDateType=&searchSDT=&searchEDT=&searchKey=&searchKeyword=&searchDeliveryType=nomal&searchOrderType=&searchPacking=&totalAccumulate=-&searchTransPolicyType=");
-                    base.Navigate("http://www.esmplus.com/Areas/Manual/SellerGuide/main.html");
-                    return;
-                });
-            }
+                            {"gbn","0"},
+                            {"status","0"},
+                            {"type","" },
+                            {"searchAccount",idcode+"^1" },
+                            {"searchDateType","" },
+                            {"searchSDT", startdate.ToString("yyyy-MM-dd")},
+                            {"searchEDT", enddate.ToString("yyyy-MM-dd") },
+                            {"searchKey","" },
+                            {"searchKeyword","" },
+                            {"searchDeliveryType","nomal" },
+                            {"searchOrderType","" },
+                            {"searchPacking","" },
+                            {"totalAccumulate","-" },
+                            {"searchTransPolicyType","" }
+                        }));
+                    base.Navigate(this.buffer.ToString());
+                }
+                finally
+                {
+                    this.buffer.Clear();
+                }
+            });
+        }
+        private void GeneralDeliveryExcel(String url, String file)
+        {
+            WaitFile(file, () =>
+            {
+                logger.Info("4-2.정산예정금 - ( 주문관리 > 발송처리 ) Excel");
+                logger.Debug("GeneralDeliveryExcel");
+                logger.Debug("GeneralDeliveryExcel Excel analysis");
+
+                base.Navigate("http://www.esmplus.com/Areas/Manual/SellerGuide/main.html");
+            });
         }
 
         private BuyDescisionNode GetBuyDescisionNode(String date)
