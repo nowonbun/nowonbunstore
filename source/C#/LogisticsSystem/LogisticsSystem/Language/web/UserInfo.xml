@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<language>
+  <column key="UserInfo">
+    <korea>회원정보</korea>
+    <japan>会員情報</japan>
+  </column>
+  <column key="Userid">
+    <korea>아이디</korea>
+    <japan>ユーザID</japan>
+  </column>
+  <column key="password">
+    <korea>패스워드</korea>
+    <japan>パスワード</japan>
+  </column>
+  <column key="passwordCheck">
+    <korea>패스워드확인</korea>
+    <japan>パスワード確認</japan>
+  </column>
+  <column key="Name">
+    <korea>이름</korea>
+    <japan>名前</japan>
+  </column>
+  <column key="PhoneNumber">
+    <korea>전화번호</korea>
+    <japan>電話番号</japan>
+  </column>
+  <column key="Email">
+    <korea>이메일</korea>
+    <japan>EMail</japan>
+  </column>
+  <column key="usermodify">
+    <korea>수정</korea>
+    <japan>修正</japan>
+  </column>
+  <column key="usercancel">
+    <korea>취소</korea>
+    <japan>取消</japan>
+  </column>
+  <column key="japanname">
+    <korea>(일)</korea>
+    <japan>(日)</japan>
+  </column>
+  <column key="englishname">
+    <korea>(영)</korea>
+    <japan>(英)</japan>
+  </column>
+  <column key="japan">
+    <korea>일본</korea>
+    <japan>日本</japan>
+  </column>
+  <column key="korea">
+    <korea>한국</korea>
+    <japan>韓国</japan>
+  </column>
+</language>

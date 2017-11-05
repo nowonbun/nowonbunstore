@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<language>
+  <column key="SearchProductName">
+    <korea>상품이름</korea>
+    <japan>商品名</japan>
+  </column>
+  <column key="SearchProductInput">
+    <korea>입고수량</korea>
+    <japan>入庫量</japan>
+  </column>
+  <column key="SearchProductOutput">
+    <korea>출고수량</korea>
+    <japan>出庫量</japan>
+  </column>
+  <column key="SearchProductMoney">
+    <korea>상품가격</korea>
+    <japan>商品価格</japan>
+  </column>
+  <column key="SearchProductDate">
+    <korea>등록일</korea>
+    <japan>登録日</japan>
+  </column>
+  <column key="SearchStoreOrderTitle">
+    <korea>입출고수불장</korea>
+    <japan>入出庫受払書</japan>
+  </column>
+  <column key="SearchBtn">
+    <korea>검색</korea>
+    <japan>検索</japan>
+  </column>
+  <column key="SearchProductType">
+    <korea>구분</korea>
+    <japan>タイプ</japan>
+  </column>
+  <column key="NotSearch">
+    <korea>검색결과가 없습니다.</korea>
+    <japan>検索結果がありません。</japan>
+  </column>
+</language>

@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<language>
+  <column key="ReleaseAdd">
+    <korea>출고등록</korea>
+    <japan>出庫登録</japan>
+  </column>
+  <column key="ReleaseAddCheck">
+    <korea>출고등록확인</korea>
+    <japan>出庫登録確認</japan>
+  </column>
+  <column key="ReleaseAddCommit">
+    <korea>출고등록완료</korea>
+    <japan>出庫登録完了</japan>
+  </column>
+  <column key="title">
+    <korea>출고신청서</korea>
+    <japan>出庫申請書</japan>
+  </column>
+  <column key="productName">
+    <korea>상품명</korea>
+    <japan>商品名</japan>
+  </column>
+  <column key="productAmount">
+    <korea>상품수량</korea>
+    <japan>商品数量</japan>
+  </column>
+  <column key="productPrice">
+    <korea>상품가격</korea>
+    <japan>商品価格</japan>
+  </column>
+  <column key="creater">
+    <korea>작성자</korea>
+    <japan>作成者</japan>
+  </column>
+  <column key="createdate">
+    <korea>작성일</korea>
+    <japan>作成日</japan>
+  </column>
+  <column key="ETC">
+    <korea>사유</korea>
+    <japan>事由</japan>
+  </column>
+  <column key="applyBtn">
+    <korea>등록</korea>
+    <japan>登録</japan>
+  </column>
+  <column key="totalPrice">
+    <korea>전체가격</korea>
+    <japan>総価格</japan>
+  </column>
+  <column key="Apply">
+    <korea>출고신청</korea>
+    <japan>出庫申請</japan>
+  </column>
+  <column key="Cancel">
+    <korea>취소</korea>
+    <japan>取消</japan>
+  </column>
+</language>

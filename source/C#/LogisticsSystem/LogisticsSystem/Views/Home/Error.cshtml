@@ -1,0 +1,48 @@
+﻿<html>
+<head>
+    <title>Error</title>
+    <script src="@Url.Content("~/js/jquery-1.10.2.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/js/Error.js")"></script>
+    <link href="@Url.Content("~/css/Error.css")" type="text/css" rel="stylesheet" />
+</head>
+<body>
+    <div id="main">
+        <div id="Errer" class="Errerbox" align="center">
+            <br /><br /><br /><br /><br /><br /><br /><br />
+            <br /><br /><br /><br /><br /><br />
+            <table style="width:400px;">
+                <thead>
+                    <tr>
+                        <td height="50px">@ViewBag.Disp["Title"]</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td height="10px"><hr /></td></tr>
+                    <tr>
+                        <td align="center" height="80px">
+                            <font style="font-size: 0.9em;">@ViewBag.Disp["Error"]</font>
+                            <br /><br />
+                            <font style="font-size: 0.8em;">@ViewBag.Disp["GoMessage"] - <span id="secView"></span></font>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center"><a href="./">@ViewBag.Disp["Link"]</a></td>
+                    </tr>
+                    <tr><td height="10px"><hr /></td></tr>
+                    <tr>
+                        <td align="center">
+                            <a href="/Web/Lang/j">Japanese</a>&nbsp;&nbsp;&nbsp;<a href="/Web/Lang/k">Korean</a>
+                        </td>
+                    </tr>
+                    <tr><td height="10px"><hr /></td></tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td height="20px">@ViewBag.Disp["Company"]</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

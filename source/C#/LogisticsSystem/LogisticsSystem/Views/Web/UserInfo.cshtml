@@ -1,0 +1,92 @@
+﻿@using LogisticsSystem.Models;
+@{
+    UserInfo user = @ViewBag.UserInfo;
+}
+<script src="@Url.Content("~/js/Userinfo.js")"></script>
+<link href="@Url.Content("~/css/Userinfo.css")" type="text/css" rel="stylesheet" />
+<div class="main" align="center">
+    <form method="post" action="/Web/UserInsert">
+        <table style="width: 70%; box-shadow: 5px 5px 5px 5px; border-style: solid; border-color: #000; " cellpadding="0" cellspacing="1">
+            <thead>
+                <tr>
+                    <td colspan="2">
+                        <div class="ErrMsg" align="left">
+                            @*SE가 설정한 데이터 이기에 문제없음*@
+                            @Html.Raw(ViewBag.ErrMsg)
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center" class="title">@RazorApi.Instance().DisplayView(ViewBag, "UserInfo")</td>
+                </tr>
+            </thead>
+            <tr><td height="10px" /></tr>
+            <tbody>
+                <tr>
+                    <td class="tabletitle" align="center">@RazorApi.Instance().DisplayView(ViewBag, "Userid")</td>
+                    <td class="tableInput" align="left">
+                        <input class="infoInputText" style="width:200px;" id="userid" name="userid" value="@user.UserId" readonly />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tabletitle" align="center">@RazorApi.Instance().DisplayView(ViewBag, "password")</td>
+                    <td align="left">
+                        <input class="infoInputText" style="width:200px;" type="password" id="password" name="password" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tabletitle" align="center">@RazorApi.Instance().DisplayView(ViewBag, "passwordCheck")</td>
+                    <td align="left">
+                        <input class="infoInputText" style="width:200px;" type="password" id="passwordCheck" name="passwordCheck" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tabletitle" align="center" rowspan="2">@RazorApi.Instance().DisplayView(ViewBag, "Name")</td>
+                    <td class="tableInput" align="left" style="font-size:0.8em;">
+                        @RazorApi.Instance().DisplayView(ViewBag, "japanname", "일문")
+                        <input class="infoInputText" id="username" name="username" value="@user.UserName" />
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" style="font-size:0.8em;">
+                        @RazorApi.Instance().DisplayView(ViewBag, "englishname", "영문")
+                        <input class="infoInputText" id="username_en" name="username_en" value="@user.UserName_En" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tabletitle" align="center">@RazorApi.Instance().DisplayView(ViewBag, "PhoneNumber")</td>
+                    <td class="tableInput" align="left">
+                        <select name="usernumbertype" id="usernumbertype">
+                            <option value="0" @if (!"1".Equals(user.UsernumberType)){var buf = "checked"; @buf   ; }>@RazorApi.Instance().DisplayView(ViewBag, "japan", "일본")</option>
+                            <option value="1" @if ("1".Equals(user.UsernumberType)){var buf = "checked"; @buf   ; }>@RazorApi.Instance().DisplayView(ViewBag, "korea", "한국")</option>
+                        </select>
+                        <input type="text" name="usernumber1" id="usernumber1" maxlength="3" style="width:40px;"
+                               onkeyup="keyupNumberOnly(this); this.value.length == 3 ? $('#usernumber2').focus() : null;"
+                               onkeydown="return numOnly(event);"
+                               value="@user.UserNumber1"> -
+                        <input type="text" name="usernumber2" id="usernumber2" maxlength="4" style="width:40px;"
+                               onkeyup="keyupNumberOnly(this); this.value.length == 4 ? $('#usernumber3').focus() : null;"
+                               onkeydown="return numOnly(event);"
+                               value="@user.UserNumber2"> -
+                        <input type="text" name="usernumber3" id="usernumber3" maxlength="4" style="width:40px;"
+                               onkeyup="keyupNumberOnly(this);"
+                               onkeydown="return numOnly(event);"
+                               value="@user.UserNumber3">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tabletitle" align="center">@RazorApi.Instance().DisplayView(ViewBag, "Email")</td>
+                    <td class="tableInput" align="left">
+                        <input class="infoInputText" id="useremail" name="useremail" value="@user.UserEmail" />
+                    </td>
+                </tr>
+            <tfoot>
+                <tr>
+                    <td colspan="2" align="center" style="height:60px;" valign="bottom">
+                        <input type="submit" value="@RazorApi.Instance().DisplayView(ViewBag, "usermodify")" class="btn" />
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+</div>

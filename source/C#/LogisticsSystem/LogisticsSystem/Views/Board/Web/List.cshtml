@@ -1,0 +1,92 @@
+﻿<script src="@Url.Content("~/js/Board.js")"></script>
+<link href="@Url.Content("~/css/Board.css")" type="text/css" rel="stylesheet" />
+<script>
+    function createBoard() {
+        document.forms["submitForm"].action = "/Board/Create";
+        document.forms["submitForm"].submit();
+    }
+    function viewBoard(idx) {
+        $("#idx").val(idx);
+        document.forms["submitForm"].action = "/Board/View";
+        document.forms["submitForm"].submit();
+    }
+</script>
+<div id="contents">
+    <div id="listSearch">
+        <table align="center">
+            <tr>
+                <td colspan="4" style="height: 30px; background-color: #5976D4; text-align: center; font-size: 1.2em; color: white;">
+                    @RazorApi.Instance().DisplayView(ViewBag, "BoardTitle")
+                </td>
+            </tr>
+        </table>
+    </div>
+    <hr />
+    <div id="list" class="list">
+        <table align="center" style="border-color:#000;">
+            <thead>
+                <tr style="height:30px;" class="nList">
+                    <th style="width: 30px; text-align: center;">No</th>
+                    <th style="width: 770px; text-align: center;">@RazorApi.Instance().DisplayView(ViewBag, "Title")</th>
+                    <th style="width: 100px; text-align: center;">@RazorApi.Instance().DisplayView(ViewBag, "Creater")</th>
+                    <th style="width: 100px; text-align: center;">@RazorApi.Instance().DisplayView(ViewBag, "CreatDate")</th>
+                </tr>
+            </thead>
+            <tbody id="listData">
+                @foreach (var pBuffer in ViewBag.list)
+                {
+                    <tr class="mList" onclick="viewBoard('@pBuffer.idx');">
+                        <td>@pBuffer.num</td>
+                        <td>@pBuffer.title</td>
+                        <td>@pBuffer.creater</td>
+                        <td>@pBuffer.createdateString</td>
+                    </tr>
+                }
+                @if (ViewBag.listcount == 0)
+                {
+                    <tr>
+                        <td colspan="4" height="100px" align="center" style="font-size:0.9em;height:200px;">@RazorApi.Instance().DisplayView(ViewBag, "NotSearch", "검색없음")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <br />
+        <!--
+        <div align="center" style="margin-top:2px;">
+            <span id="paging">
+                @if (ViewBag.listcount > 0)
+                {
+                    @:<a href='#' style='text-decoration: none; color: blue;' onclick="orderSearchList(1); return false;">◀</a>
+                    for (var i = 1; i <= ViewBag.listcount; i++)
+                    {
+                        var color = "";
+                        if (i == 1)
+                        {
+                            color = "black";
+                            @:&nbsp;<font style='text-decoration:none;color:@color'>@i</font>&nbsp;
+                        }
+                        else
+                        {
+                            color = "blue";
+                            @:&nbsp;<a href='#' style='text-decoration:none;color:@color' onclick='orderSearchList(@i);return false;'>@i</a>&nbsp;
+                        }
+                    }
+                    @:<a href='#' style='text-decoration: none; color: blue;' onclick='orderSearchList(" + nextpage + "); return false;'>▶</a>
+                }
+            </span>
+        </div>-->
+        <div>
+            <table align="center" style="border-style:none;">
+                <tr>
+                    <td align="right">
+                        <input type="button" class="btn" style="width:200px;height:20px;" value="@RazorApi.Instance().DisplayView(ViewBag, "Create")" onclick="createBoard()" />
+                    </td>
+                </tr>
+            </table>
+            
+        </div>
+    </div>
+</div>
+<form method="post" id="submitForm">
+    <input type="hidden" name="idx" id="idx" value="" />
+</form>

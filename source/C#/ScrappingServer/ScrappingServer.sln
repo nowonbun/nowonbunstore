@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrappingCore", "ScrappingCore\ScrappingCore.csproj", "{5E6C330E-E495-4782-9634-C281714017D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrappingMapParser", "ScrappingMapParser\ScrappingMapParser.csproj", "{E6CB38DE-9375-4B16-89FD-AA7D50CD5131}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrappingServer", "ScrappingServer2\ScrappingServer.csproj", "{2EF5DDCF-1982-4994-8BD8-639582FC32CB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrappingHttpCore", "HttpCore\ScrappingHttpCore.csproj", "{5A9FC41A-BF99-4B7D-B2FE-8B6366D8EE4B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScrappingORMCore", "ScrappingORMCore\ScrappingORMCore.csproj", "{2D46B78A-530B-4B3F-9FE4-78C265E6B8D3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5E6C330E-E495-4782-9634-C281714017D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E6C330E-E495-4782-9634-C281714017D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E6C330E-E495-4782-9634-C281714017D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E6C330E-E495-4782-9634-C281714017D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6CB38DE-9375-4B16-89FD-AA7D50CD5131}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6CB38DE-9375-4B16-89FD-AA7D50CD5131}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6CB38DE-9375-4B16-89FD-AA7D50CD5131}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6CB38DE-9375-4B16-89FD-AA7D50CD5131}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EF5DDCF-1982-4994-8BD8-639582FC32CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EF5DDCF-1982-4994-8BD8-639582FC32CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EF5DDCF-1982-4994-8BD8-639582FC32CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EF5DDCF-1982-4994-8BD8-639582FC32CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A9FC41A-BF99-4B7D-B2FE-8B6366D8EE4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A9FC41A-BF99-4B7D-B2FE-8B6366D8EE4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A9FC41A-BF99-4B7D-B2FE-8B6366D8EE4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A9FC41A-BF99-4B7D-B2FE-8B6366D8EE4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D46B78A-530B-4B3F-9FE4-78C265E6B8D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D46B78A-530B-4B3F-9FE4-78C265E6B8D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D46B78A-530B-4B3F-9FE4-78C265E6B8D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D46B78A-530B-4B3F-9FE4-78C265E6B8D3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

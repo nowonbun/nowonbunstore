@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <script type="text/javascript" src="@Url.Content("~/js/jquery-1.10.2.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/js/jquery-ui-1.10.4.custom.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/js/jquery-ui-1.10.4.custom.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/js/jquery.cookie.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/js/commander.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/js/common.js")"></script>
+    <link rel="stylesheet" href="@Url.Content("~/css/ui-lightness/jquery-ui-1.10.4.custom.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/css/ui-lightness/jquery-ui-1.10.4.custom.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/css/common.css")">
+    <link rel="stylesheet" type="text/css" media="all" href="@Url.Content("~/css/style.css")" />
+    <link rel="stylesheet" type="text/css" media="all" id="style_skin_link" href="@Url.Content("~/css/style_skin.css")" />
+    <style type="text/css">
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu {
+        }
+
+        div.navigation a {
+            text-decoration: none;
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div align=center style="margin:10px;">
+        @RenderBody()
+    </div>
+</body>
+</html>

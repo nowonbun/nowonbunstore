@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<language>
+  <column key="ListproductCode">
+    <korea>상품코드</korea>
+    <japan>商品コード</japan>
+  </column>
+  <column key="ListproductName">
+    <korea>상품명</korea>
+    <japan>商品名</japan>
+  </column>
+  <column key="ListproductType">
+    <korea>상품분류</korea>
+    <japan>商品タイプ</japan>
+  </column>
+  <column key="ListAcquirer">
+    <korea>매입사</korea>
+    <japan>買入社</japan>
+  </column>
+  <column key="ListManufacturer">
+    <korea>제조사</korea>
+    <japan>製造社</japan>
+  </column>
+  <column key="ListProductCost">
+    <korea>매입가</korea>
+    <japan>買値</japan>
+  </column>
+  <column key="ListProductPrice">
+    <korea>판매가</korea>
+    <japan>販売価</japan>
+  </column>
+  <column key="TabProductInfo">
+    <korea>상품정보</korea>
+    <japan>商品情報</japan>
+  </column>
+  <column key="TabProductlist">
+    <korea>이력관리</korea>
+    <japan>履歴管理</japan>
+  </column>
+  <column key="InfoProductCode">
+    <korea>상품코드</korea>
+    <japan>商品コード</japan>
+  </column>
+  <column key="InfoProductCodeBtn">
+    <korea>생성</korea>
+    <japan>生成</japan>
+  </column>
+  <column key="InfoProductName">
+    <korea>상품명</korea>
+    <japan>商品名</japan>
+  </column>
+  <column key="InfoProductType">
+    <korea>구분</korea>
+    <japan>区分</japan>
+  </column>
+  <column key="InfoProductSpec">
+    <korea>규격</korea>
+    <japan>規格</japan>
+  </column>
+  <column key="InfoProductTax">
+    <korea>과/면세</korea>
+    <japan>税金</japan>
+  </column>
+  <column key="InfoProductAcquirer">
+    <korea>매입사</korea>
+    <japan>買入社</japan>
+  </column>
+  <column key="InfoProductManufacturer">
+    <korea>제조사</korea>
+    <japan>製造社</japan>
+  </column>
+  <column key="InfoProductCostTitle">
+    <korea>매입가</korea>
+    <japan>買値</japan>
+  </column>
+  <column key="InfoPriceTotal">
+    <korea>총액</korea>
+    <japan>総額</japan>
+  </column>
+  <column key="InfoPriceNotTax">
+    <korea>VAT비포함</korea>
+    <japan>VAT非含め</japan>
+  </column>
+  <column key="InfoPriceTax">
+    <korea>Vat</korea>
+    <japan>Vat</japan>
+  </column>
+  <column key="InfoProductRetailTitle">
+    <korea>판매가</korea>
+    <japan>販売価</japan>
+  </column>
+  <column key="InfoProductFacoryTitle">
+    <korea>공장도가격</korea>
+    <japan>工場価格</japan>
+  </column>
+  <column key="InfoProductPriceTitle">
+    <korea>권장소비자가격</korea>
+    <japan>消費者価格</japan>
+  </column>
+  <column key="InfoCodeAdmin">
+    <korea>코드관리</korea>
+    <japan>コード管理</japan>
+  </column>
+  <column key="InfoBarcode">
+    <korea>바코드등록</korea>
+    <japan>バーコード</japan>
+  </column>
+  <column key="InfoQRCode">
+    <korea>QR등록</korea>
+    <japan>QRコード</japan>
+  </column>
+  <column key="InfoCreateTitle">
+    <korea>등록자</korea>
+    <japan>登録者</japan>
+  </column>
+  <column key="InfoCreater">
+    <korea>등록자</korea>
+    <japan>登録者</japan>
+  </column>
+  <column key="InfoCreatedate">
+    <korea>등록일</korea>
+    <japan>登録日</japan>
+  </column>
+  <column key="InfoOther">
+    <korea>비고</korea>
+    <japan>備考</japan>
+  </column>
+  <column key="ApplyBtn">
+    <korea>등록</korea>
+    <japan>登録</japan>
+  </column>
+  <column key="ApplyCancel">
+    <korea>취소</korea>
+    <japan>取消</japan>
+  </column>
+  <column key="ListTitle">
+    <korea>상품리스트</korea>
+    <japan>商品リスト</japan>
+  </column>
+  <column key="ModifyCancel">
+    <korea>수정</korea>
+    <japan>修正</japan>
+  </column>
+  <column key="DeleteCancel">
+    <korea>삭제</korea>
+    <japan>削除</japan>
+  </column>
+  <column key="Modifier">
+    <korea>수정자</korea>
+    <japan>修正者</japan>
+  </column>
+  <column key="ModifyDate">
+    <korea>수정일시</korea>
+    <japan>修正日時</japan>
+  </column>
+  <column key="HistoryMsg">
+    <korea>이력모드에서는 수정 또는 삭제가 되지 않습니다.</korea>
+    <japan>履歴モードでは修正または削除がされません。</japan>
+  </column>
+  <column key="NotSearch">
+    <korea>검색결과가 없습니다.</korea>
+    <japan>検索結果がありません。</japan>
+  </column>
+  <column key="DeleteText">
+    <korea>삭제하시겠습니까?</korea>
+    <japan>削除しますか？</japan>
+  </column>
+  <column key="ModifyText">
+    <korea>수정하시겠습니까?</korea>
+    <japan>修正しますか？</japan>
+  </column>
+</language>

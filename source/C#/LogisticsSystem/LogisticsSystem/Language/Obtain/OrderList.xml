@@ -1,0 +1,312 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<language>
+  <column key="SearchOrderNumber">
+    <korea>발주번호</korea>
+    <japan>発注番号</japan>
+  </column>
+  <column key="SearchOrderDate">
+    <korea>발주일자</korea>
+    <japan>発注日付</japan>
+  </column>
+  <column key="SearchOrderComp">
+    <korea>수주사</korea>
+    <japan>受注社</japan>
+  </column>
+  <column key="SearchOrderDeliveryDate">
+    <korea>납기일자</korea>
+    <japan>納期日</japan>
+  </column>
+  <column key="SearchOrderCreater">
+    <korea>작성자</korea>
+    <japan>作成者</japan>
+  </column>
+  <column key="SearchOrderState">
+    <korea>상태</korea>
+    <japan>状態</japan>
+  </column>
+  <column key="SearchBtn">
+    <korea>검색</korea>
+    <japan>検索</japan>
+  </column>
+  <column key="SearchOrderTitle">
+    <korea>발주서검색조건</korea>
+    <japan>発注書検索条件</japan>
+  </column>
+  <column key="SearchOrderCreateDate">
+    <korea>작성일시</korea>
+    <japan>作成日付</japan>
+  </column>
+  <column key="SearchOrderPdf">
+    <korea>PDF출력</korea>
+    <japan>PDF出力</japan>
+  </column>
+  <column key="SearchOrderPrint">
+    <korea>인쇄</korea>
+    <japan>印刷</japan>
+  </column>
+  <column key="SubProductName">
+    <korea>상품명</korea>
+    <japan>商品名</japan>
+  </column>
+  <column key="SubProductSpec">
+    <korea>규격</korea>
+    <japan>規格</japan>
+  </column>
+  <column key="SubProductMount">
+    <korea>수량</korea>
+    <japan>数量</japan>
+  </column>
+  <column key="SubProductPrice">
+    <korea>단가</korea>
+    <japan>単価</japan>
+  </column>
+  <column key="SubProductTotal">
+    <korea>금액</korea>
+    <japan>金額</japan>
+  </column>
+  <column key="OrderView">
+    <korea>발주서보기</korea>
+    <japan>発注書閲覧</japan>
+  </column>
+  <column key="OrderAppove">
+    <korea>발주서승인</korea>
+    <japan>発注書承認</japan>
+  </column>
+  <column key="OrderCancel">
+    <korea>발주서취소</korea>
+    <japan>発注書取消</japan>
+  </column>
+  <column key="SearchOrderCreateDate">
+    <korea>작성일시</korea>
+    <japan>作成日付</japan>
+  </column>
+  <column key="SearchOrderPdf">
+    <korea>PDF출력</korea>
+    <japan>PDF出力</japan>
+  </column>
+  <column key="SearchOrderMail">
+    <korea>메일발송</korea>
+    <japan>メール発送</japan>
+  </column>
+  <column key="SubProductName">
+    <korea>상품명</korea>
+    <japan>商品名</japan>
+  </column>
+  <column key="SubProductSpec">
+    <korea>규격</korea>
+    <japan>規格</japan>
+  </column>
+  <column key="SubProductMount">
+    <korea>수량</korea>
+    <japan>数量</japan>
+  </column>
+  <column key="SubProductPrice">
+    <korea>단가</korea>
+    <japan>単価</japan>
+  </column>
+  <column key="SubProductTotal">
+    <korea>금액</korea>
+    <japan>金額</japan>
+  </column>
+  <column key="OrderView">
+    <korea>발주서보기</korea>
+    <japan>発注書閲覧</japan>
+  </column>
+  <column key="OrderAppove">
+    <korea>발주서승인</korea>
+    <japan>発注書承認</japan>
+  </column>
+  <column key="OrderCancel">
+    <korea>발주서취소</korea>
+    <japan>発注書取消</japan>
+  </column>
+  <column key="NotSearch">
+    <korea>검색결과가 없습니다.</korea>
+    <japan>検索結果がありません。</japan>
+  </column>
+  <column key="OrderTitle">
+    <korea>발주서</korea>
+    <japan>発注書</japan>
+  </column>
+  <column key="DocumentNumber">
+    <korea>문서번호</korea>
+    <japan>文書番号</japan>
+  </column>
+  <column key="CreateDate">
+    <korea>작성일</korea>
+    <japan>作成日</japan>
+  </column>
+  <column key="Creater">
+    <korea>작성자</korea>
+    <japan>作成者</japan>
+  </column>
+  <column key="OrderNumber">
+    <korea>발주번호</korea>
+    <japan>発注番号</japan>
+  </column>
+  <column key="DeliveryComp">
+    <korea>수주처</korea>
+    <japan>受注社</japan>
+  </column>
+  <column key="Totalmoney">
+    <korea>총발주금액</korea>
+    <japan>総発注金額</japan>
+  </column>
+  <column key="PeriodDate">
+    <korea>납기일자</korea>
+    <japan>納期日</japan>
+  </column>
+  <column key="PeriodPlace">
+    <korea>납기장소</korea>
+    <japan>納期場所</japan>
+  </column>
+  <column key="CompsSecuriNum">
+    <korea>사업자번호</korea>
+    <japan>事業者番号</japan>
+  </column>
+  <column key="CompAddress">
+    <korea>사업장주소</korea>
+    <japan>事務所住所</japan>
+  </column>
+  <column key="CompNumber">
+    <korea>전화번호</korea>
+    <japan>電話番号</japan>
+  </column>
+  <column key="CompFax">
+    <korea>팩스번호</korea>
+    <japan>ファックス</japan>
+  </column>
+
+  <column key="MoneyDate">
+    <korea>지불예정일</korea>
+    <japan>支払予定日</japan>
+  </column>
+  <column key="Money">
+    <korea>금액</korea>
+    <japan>金額</japan>
+  </column>
+  <column key="Moneycheck">
+    <korea>결제조건</korea>
+    <japan>決済条件</japan>
+  </column>
+  <column key="MoneyOrderDate">
+    <korea>발주일자</korea>
+    <japan>発注日</japan>
+  </column>
+  <column key="ListNumber">
+    <korea>번호</korea>
+    <japan>No</japan>
+  </column>
+  <column key="ListProductName">
+    <korea>품명</korea>
+    <japan>商品名</japan>
+  </column>
+  <column key="ListProductSpec">
+    <korea>규격</korea>
+    <japan>規格</japan>
+  </column>
+  <column key="ListProductSet">
+    <korea>단위</korea>
+    <japan>単位</japan>
+  </column>
+  <column key="ListMount">
+    <korea>수량</korea>
+    <japan>数量</japan>
+  </column>
+  <column key="ListMoney">
+    <korea>단가</korea>
+    <japan>単価</japan>
+  </column>
+  <column key="ListTotalMoney">
+    <korea>금액</korea>
+    <japan>金額</japan>
+  </column>
+  <column key="ListTotalSumMoney">
+    <korea>총금액</korea>
+    <japan>総金額</japan>
+  </column>
+  <column key="Apply">
+    <korea>발주신청</korea>
+    <japan>発注申請</japan>
+  </column>
+  <column key="ApplyCheck">
+    <korea>발주신청확인</korea>
+    <japan>発注申請確認</japan>
+  </column>
+  <column key="Cancel">
+    <korea>취소</korea>
+    <japan>取消</japan>
+  </column>
+  <column key="TitleApply">
+    <korea>발주서등록</korea>
+    <japan>発注書登録</japan>
+  </column>
+  <column key="TitleCheck">
+    <korea>발주서확인</korea>
+    <japan>発注書確認</japan>
+  </column>
+  <column key="TitleCommit">
+    <korea>발주서완료</korea>
+    <japan>発注書完了</japan>
+  </column>
+  <column key="Titleapprove">
+    <korea>발주서승인</korea>
+    <japan>発注書承認</japan>
+  </column>
+  <column key="Approve">
+    <korea>승인</korea>
+    <japan>承認</japan>
+  </column>
+  <column key="Return">
+    <korea>돌아가기</korea>
+    <japan>戻る</japan>
+  </column>
+  <column key="PrintPdf">
+    <korea>PDF출력</korea>
+    <japan>PDF出力</japan>
+  </column>
+  <column key="PrintMail">
+    <korea>메일발송</korea>
+    <japan>メール発送</japan>
+  </column>
+  <column key="japanname">
+    <korea>(일)</korea>
+    <japan>(日)</japan>
+  </column>
+  <column key="englishname">
+    <korea>(영)</korea>
+    <japan>(英)</japan>
+  </column>
+  <column key="japan">
+    <korea>일본</korea>
+    <japan>日本</japan>
+  </column>
+  <column key="korea">
+    <korea>한국</korea>
+    <japan>韓国</japan>
+  </column>
+  <column key="EnglishCheck">
+    <korea>영문표기형식을 입력확인</korea>
+    <japan>英文表記形式を入力確認</japan>
+  </column>
+<column key="japanLanguage">
+    <korea>일본어</korea>
+    <japan>日本語</japan>
+  </column>
+  <column key="koreanLanuage">
+    <korea>한국어</korea>
+    <japan>韓国語</japan>
+  </column>
+  <column key="inorderaddress">
+    <korea>수주처주소</korea>
+    <japan>受注社住所</japan>
+  </column>
+  <column key="Memo">
+    <korea>메모</korea>
+    <japan>メモ</japan>
+  </column>
+  <column key="DocumentType">
+    <korea>문서타입</korea>
+    <japan>文書タイプ</japan>
+  </column>
+</language>

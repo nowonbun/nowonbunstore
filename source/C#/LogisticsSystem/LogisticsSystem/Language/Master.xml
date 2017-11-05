@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<language>
+  <column key="Title">
+    <korea>물류관리시스템</korea>
+    <japan>物流管理システム</japan>
+  </column>
+  <column key="Home">
+    <korea>홈</korea>
+    <japan>ホーム</japan>
+  </column>
+  <column key="ProductApply">
+    <korea>상품등록</korea>
+    <japan>商品登録</japan>
+  </column>
+  <column key="CompanyApply">
+    <korea>업체등록</korea>
+    <japan>顧客登録</japan>
+  </column>
+  <column key="CompanyInfo">
+    <korea>회사정보</korea>
+    <japan>会社情報</japan>
+  </column>
+  <column key="CategoryAdmin">
+    <korea>카테고리관리</korea>
+    <japan>カテゴリ管理</japan>
+  </column>
+  <column key="Logout">
+    <korea>로그아웃</korea>
+    <japan>ログアウト</japan>
+  </column>
+  <column key="Obtain">
+    <korea>조달</korea>
+    <japan>調達</japan>
+  </column>
+  <column key="ObtainOrder">
+    <korea>발주신청</korea>
+    <japan>発注申請</japan>
+  </column>
+  <column key="ObtainCheck">
+    <korea>발주승인</korea>
+    <japan>発注承認</japan>
+  </column>
+  <column key="ObtainList">
+    <korea>발주리스트</korea>
+    <japan>発注リスト</japan>
+  </column>
+  <column key="ObtainDeliveryCheck">
+    <korea>납품확인서</korea>
+    <japan>納品確認書</japan>
+  </column>
+  <column key="ObtainTaxCheck">
+    <korea>세금계산서</korea>
+    <japan>精勤計算書</japan>
+  </column>
+  <column key="Store">
+    <korea>입고</korea>
+    <japan>入庫</japan>
+  </column>
+  <column key="StoreApply">
+    <korea>입고승인</korea>
+    <japan>入庫承認</japan>
+  </column>
+  <column key="StoreCheck">
+    <korea>입고등록</korea>
+    <japan>入庫登録</japan>
+  </column>
+  <column key="StoreApplyList">
+    <korea>입고리스트</korea>
+    <japan>入庫リスト</japan>
+  </column>
+  <column key="Delivery">
+    <korea>납품</korea>
+    <japan>納品</japan>
+  </column>
+  <column key="DeliveryOrder">
+    <korea>수주신청</korea>
+    <japan>受注申請</japan>
+  </column>
+  <column key="DeliveryCheck">
+    <korea>납품확인서</korea>
+    <japan>納品確認書</japan>
+  </column>
+  <column key="DeliveryTaxCheck">
+    <korea>청구서</korea>
+    <japan>請求書</japan>
+  </column>
+  <column key="Release">
+    <korea>출고</korea>
+    <japan>出庫</japan>
+  </column>
+  <column key="ReleaseOrder">
+    <korea>출고승인</korea>
+    <japan>出庫承認</japan>
+  </column>
+  <column key="ReleaseAdd">
+    <korea>출고등록</korea>
+    <japan>出庫登録</japan>
+  </column>
+  <column key="ReleaseOrderList">
+    <korea>출고리스트</korea>
+    <japan>出庫リスト</japan>
+  </column>
+  <column key="Stock">
+    <korea>재고</korea>
+    <japan>在庫</japan>
+  </column>
+  <column key="StockCheck">
+    <korea>재고현황</korea>
+    <japan>在庫状況</japan>
+  </column>
+  <column key="StockOrder">
+    <korea>입출고수불장</korea>
+    <japan>入出庫受払書</japan>
+  </column>
+  <column key="SalesAdmin">
+    <korea>영업관리</korea>
+    <japan>営業管理</japan>
+  </column>
+  <column key="Help">
+    <korea>도움말</korea>
+    <japan>その他</japan>
+  </column>
+  <column key="Company">
+    <korea>Copyright © Soonyub. All Rights Reserved.</korea>
+    <japan>Copyright © Soonyub. All Rights Reserved.</japan>
+  </column>
+  <column key="DeliveryOrderCheck">
+    <korea>수주승인</korea>
+    <japan>受注承認</japan>
+  </column>
+  <column key="DelivertOrderList">
+    <korea>수주리스트</korea>
+    <japan>受注リスト</japan>
+  </column>
+  <column key="UserInfo">
+    <korea>회원정보</korea>
+    <japan>会員情報</japan>
+  </column>
+  <column key="Board">
+    <korea>게시판</korea>
+    <japan>掲示板</japan>
+  </column>
+<column key="ConnectLog">
+    <korea>접속로그</korea>
+    <japan>接続ログ</japan>
+  </column>
+</language>

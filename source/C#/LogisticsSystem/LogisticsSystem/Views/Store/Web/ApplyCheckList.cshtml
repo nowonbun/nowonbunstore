@@ -1,0 +1,93 @@
+﻿<script src="@Url.Content("~/js/Store.js")"></script>
+<link href="@Url.Content("~/css/Store.css")" type="text/css" rel="stylesheet" />
+<div id="contents">
+    <div id="listSearch">
+        <table align="center">
+            <tr>
+                <td colspan="4" style="height: 30px; background-color: #5976D4; text-align: center; font-size: 1.2em; color: white;">
+                    @RazorApi.Instance().DisplayView(ViewBag, "SearchApplyTitle")
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <input type="button" class="btn" style="width:95%;height:20px;" value="@RazorApi.Instance().DisplayView(ViewBag, "SearchBtn")" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <hr />
+    <div id="list" class="list">
+        <table align="center" style="border-color:#000;">
+            <thead>
+                <tr style="height:30px;" class="nList">
+                    <th style="width: 20px; text-align: center;">No</th>
+                    <th style="width: 280px;text-align:center;">@RazorApi.Instance().DisplayView(ViewBag, "SearchProductName")</th>
+                    <th style="width: 100px; text-align: center;">@RazorApi.Instance().DisplayView(ViewBag, "SearchProductAmount")</th>
+                    <th style="width: 100px; text-align: center;">@RazorApi.Instance().DisplayView(ViewBag, "SearchProductPrice")</th>
+                    <th style="width: 100px; text-align: center;">@RazorApi.Instance().DisplayView(ViewBag, "SearchProductMoney")</th>
+                    <th style="width: 100px; text-align: center;">@RazorApi.Instance().DisplayView(ViewBag, "SearchView")</th>
+                </tr>
+            </thead>
+            <tbody id="listData">
+                @foreach (var pBuffer in ViewBag.list)
+                {
+                    <tr class="mList">
+                        <td>@pBuffer.idx</td>
+                        <td>@pBuffer.productname</td>
+                        <td>@pBuffer.productAmount.ToString("###,##0")</td>
+                        <td>@pBuffer.productbuyPrice.ToString("###,##0")</td>
+                        <td>@{Decimal buf=0; buf = pBuffer.productAmount * pBuffer.productbuyPrice; @buf.ToString("###,##0")}</td>
+                        <td><input type="button" class="btn" style="width:95%;height:20px;" value="@RazorApi.Instance().DisplayView(ViewBag, "SearchView")" onclick="applyApprove('@pBuffer.idx')" /></td>
+                    </tr>
+                }
+                @if (ViewBag.listcount == 0)
+                {
+                    <tr>
+                        <td colspan="7" height="100px" align="center" style="font-size:0.9em;height:200px;">@RazorApi.Instance().DisplayView(ViewBag, "NotSearch", "검색없음")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <br />
+        <div align="center" style="margin-top:2px;">
+            <span id="paging">
+                @if (ViewBag.listcount > 0)
+                {
+                    @:<a href='#' style='text-decoration: none; color: blue;' onclick="ApplyCheckList(1); return false;">◀</a>
+                        for (var i = 1; i <= ViewBag.listcount; i++)
+                        {
+                            var color = "";
+                            if (i == 1)
+                            {
+                                color = "black";
+                                @:&nbsp;<font style='text-decoration:none;color:@color'>@i</font>&nbsp;
+                            }
+                            else
+                            {
+                                color = "blue";
+                                @:&nbsp;<a href='#' style='text-decoration:none;color:@color' onclick='ApplyCheckList(@i);return false;'>@i</a>&nbsp;
+                            }
+                        }
+                    @:<a href='#' style='text-decoration: none; color: blue;' onclick='ApplyCheckList(" + nextpage + "); return false;'>▶</a>
+                }
+            </span>
+        </div>
+    </div>
+</div>
+<div style="display:none">
+    <table>
+        <tbody id="template">
+            <tr class="mList">
+                <td>##idx##</td>
+                <td>##ProductName##</td>
+                <td>##ProductAmount##</td>
+                <td>##ProductPrice##</td>
+                <td>##ProductMoney##</td>
+                <td><input type="button" class="btn" style="width:95%;height:20px;" value="@RazorApi.Instance().DisplayView(ViewBag, "SearchView")" onclick="applyApprove('##idx##')" /></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<form method="post" id="submitForm">
+    <input type="hidden" id="idxForm" name="idx" />
+</form>

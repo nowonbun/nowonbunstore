@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<language>
+  <column key="Title">
+    <korea>물류관리시스템</korea>
+    <japan>物流管理システム</japan>
+  </column>
+  <column key="Company">
+    <korea>Copyright © Soonyub. All Rights Reserved.</korea>
+    <japan>Copyright © Soonyub. All Rights Reserved.</japan>
+  </column>
+  <column key="Error">
+    <korea>에러가 발생 했습니다. 관리자에게 문의해 주십시오</korea>
+    <japan>エラーが発生しました。管理者にお問い合わせください。</japan>
+  </column>
+  <column key="GoMessage">
+    <korea>잠시 후 메인 페이지로 이동합니다.</korea>
+    <japan>すぐメインページに移動します。</japan>
+  </column>
+  <column key="Link">
+    <korea>메인페이지 이동</korea>
+    <japan>メインページ 移動</japan>
+  </column>
+</language>

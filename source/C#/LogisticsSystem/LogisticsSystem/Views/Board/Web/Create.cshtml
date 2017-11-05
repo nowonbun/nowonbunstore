@@ -1,0 +1,142 @@
+﻿<script src="@Url.Content("~/js/Board.js")"></script>
+<script type="text/javascript" src="@Url.Content("~/Editor/js/HuskyEZCreator.js")" charset="utf-8"></script>
+<link href="@Url.Content("~/css/Board.css")" type="text/css" rel="stylesheet" />
+<script>
+    var oEditors = [];
+    function insertBoard() {
+        if ($.trim($("#title").val()) == "") {
+            alert('@RazorApi.Instance().DisplayView(ViewBag, "TitleError")');
+            return;
+        }
+        if (confirm('@RazorApi.Instance().DisplayView(ViewBag, "insertCheck")')) {
+            oEditors.getById["context"].exec("UPDATE_CONTENTS_FIELD", []);
+            document.forms["boardForm"].action = "Insert";
+            document.forms["boardForm"].submit();
+        }
+    }
+    function modifyBoard() {
+        if ($.trim($("#title").val()) == "") {
+            alert('@RazorApi.Instance().DisplayView(ViewBag, "TitleError")');
+            return;
+        }
+        if (confirm('@RazorApi.Instance().DisplayView(ViewBag, "insertCheck")')) {
+            oEditors.getById["context"].exec("UPDATE_CONTENTS_FIELD", []);
+            document.forms["boardForm"].action = "Modify";
+            document.forms["boardForm"].submit();
+        }
+    }
+    function deleteBoard() {
+        if (confirm('@RazorApi.Instance().DisplayView(ViewBag, "deleteCheck")')) {
+            document.forms["boardForm"].action = "Delete";
+            document.forms["boardForm"].submit();
+        }
+    }
+    function commnetApply() {
+        if ($.trim($("#comment").val()) == "") {
+            alert('@RazorApi.Instance().DisplayView(ViewBag, "commnetError")');
+            return;
+        }
+        if (confirm('@RazorApi.Instance().DisplayView(ViewBag, "insertCheck")')) {
+            document.forms["commnetForm"].action = "CommentApply";
+            document.forms["commnetForm"].submit();
+        }
+    }
+    function commnetDelete(idx) {
+        if (confirm('@RazorApi.Instance().DisplayView(ViewBag, "deleteCheck")')) {
+            document.forms["commnetForm"].action = "CommentDelete?idx="+idx;
+            document.forms["commnetForm"].submit();
+        }
+    }
+    function menu() {
+        location.href = "/Board/List";
+    }
+    $(document).ready(function () {
+        nhn.husky.EZCreator.createInIFrame({
+            oAppRef: oEditors,
+            elPlaceHolder: "context",
+            sSkinURI: "@Url.Content("~/Editor/SmartEditor2Skin.html")",
+            htParams: {
+                bUseToolbar: true,				
+                bUseVerticalResizer: false,		
+                bUseModeChanger: true,			
+            }, 
+            fOnAppLoad: function () {
+                oEditors.getById["context"].setDefaultFont('', 9);
+                oEditors.getById["context"].exec("PASTE_HTML", [$("#TextBuffer").val()]);
+            },
+            fCreator: "createSEditor2"
+        });
+    });
+</script>
+<div id="Apply" class="Apply">
+    <form method="post" name="boardForm">
+        <table style="width:90%;" align="center">
+            <tr>
+                <td colspan="2" style="height: 30px; background-color: #5976D4; text-align: center; font-size: 1.2em; color: white; ">
+                    @RazorApi.Instance().DisplayView(ViewBag, "BoardTitle")
+                </td>
+            </tr>
+        </table>
+        <p></p>
+        <p></p>
+        <table style="width:90%;" align="center" cellpadding="0" cellspacing="0">
+            <tr height="30px">
+                <td align="right" colspan="2">
+                    <input type="button" class="btn" style="width:50px;height:20px;" value="@RazorApi.Instance().DisplayView(ViewBag, "return")" onclick="menu()" />
+                    @if (ViewBag.board != null)
+                    {
+                        <input type="button" class="btn" style="width:50px;height:20px;" value="@RazorApi.Instance().DisplayView(ViewBag, "Modify")" onclick="modifyBoard()" />
+                        <input type="button" class="btn" style="width:50px;height:20px;" value="@RazorApi.Instance().DisplayView(ViewBag, "Delete")" onclick="deleteBoard()" />
+                    }
+                    else
+                    {
+                        <input type="button" class="btn" style="width:50px;height:20px;" value="@RazorApi.Instance().DisplayView(ViewBag, "Create")" onclick="insertBoard()" />
+                    }
+                </td>
+            </tr>
+            <tr height="30px">
+                <td width="15%" align="center" style="font-size: 0.8em; border-bottom-style: solid; border-bottom-width: thin; border-top-style: solid; border-top-width: thin;">@RazorApi.Instance().DisplayView(ViewBag, "Title")</td>
+                <td style="font-size: 0.8em; border-bottom-style: solid; border-bottom-width: thin; border-top-style: solid; border-top-width: thin;"><input type="text" style="width:95%;" name="title" id="title" value="@if(ViewBag.board!=null){@ViewBag.board.title}"></td>
+            </tr>
+            <tr height="500px">
+                <td width="15%" align="center" style="font-size:0.8em;border-bottom-style:solid; border-bottom-width:thin;">@RazorApi.Instance().DisplayView(ViewBag, "Context")</td>
+                <td style="font-size: 0.8em; border-bottom-style: solid; border-bottom-width: thin;" valign="middle">
+                    <textarea style="display:none;" id="TextBuffer">@if (ViewBag.board != null){@ViewBag.board.context}</textarea>
+                    <textarea name="context" id="context" rows="10" cols="100" style="width:95%; height:480px; display:none;"></textarea>
+                </td>
+            </tr>
+            <tr height="30px">
+                <td width="15%" align="center" style="font-size:0.8em;border-bottom-style:solid; border-bottom-width:thin;">@RazorApi.Instance().DisplayView(ViewBag, "Creater")</td>
+                <td style="font-size: 0.8em; border-bottom-style: solid; border-bottom-width: thin;" valign="middle">
+                    @if (ViewBag.board != null)
+                    {@ViewBag.board.creater}
+                    else
+                    {@ViewBag.user}
+                </td>
+            </tr>
+            <tr height="30px">
+                <td width="15%" align="center" style="font-size:0.8em;border-bottom-style:solid; border-bottom-width:thin;">@RazorApi.Instance().DisplayView(ViewBag, "CreatDate")</td>
+                <td style="font-size: 0.8em; border-bottom-style: solid; border-bottom-width: thin;" valign="middle">
+                    @if (ViewBag.board != null)
+                    {@ViewBag.board.createdateString}
+                    else
+                    {@DateTime.Now.ToString("yyyy-MM-dd")}
+                </td>
+            </tr>
+        </table>
+        <input type="hidden" name="idx" value="@if(ViewBag.board != null){@ViewBag.board.idx}" />
+        <input type="hidden" name="num" value="@if(ViewBag.board != null){@ViewBag.board.num}" />
+    </form>
+    <br />
+    @if (ViewBag.board != null)
+    {
+        <table style="width:80%;" align="center" cellpadding="0" cellspacing="0">
+            @foreach (var record in ViewBag.comment) { 
+                <tr height="30px">
+                    <td style="font-size:0.8em" align="center" width="15%">@record.creater</td>
+                    <td width="80%" style="border-bottom-style: dotted; border-bottom-width: thin;"><span style=" white-space pre-line;font-size:0.8em;">@record.context</span></td>
+                </tr>
+            }
+        </table>
+    }
+</div>

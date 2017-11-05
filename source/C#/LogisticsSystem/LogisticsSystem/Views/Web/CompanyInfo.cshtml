@@ -1,0 +1,229 @@
+﻿@using LogisticsSystem.Models;
+@{  
+    CompanyInfo comp = @ViewBag.companyInfo;
+}
+<script src="@Url.Content("~/js/companyinfo.js")"></script>
+<link href="@Url.Content("~/css/companyinfo.css")" type="text/css" rel="stylesheet" />
+<div class="main" align="center">
+    
+    <form id="compInsert" method="post" action="/Web/CompanyInsert">
+        <table style="width: 70%; box-shadow: 5px 5px 5px 5px; border-color: #000; border-style: solid; " cellpadding="0" cellspacing="1">
+            <thead>
+                <tr>
+                    <td colspan="2">
+                        <div class="ErrMsg" align="left">
+                            @*SE가 설정한 데이터 이기에 문제없음*@
+                            @Html.Raw(ViewBag.ErrMsg)
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center" class="title">@RazorApi.Instance().DisplayView(ViewBag, "companyInfo")</td>
+                </tr>
+            </thead>
+            <tr><td height="10px" /></tr>
+            <tbody>
+                <tr>
+                    <td class="tabletitle" align="center" rowspan="2">@RazorApi.Instance().DisplayView(ViewBag, "companyname", "회사이름")</td>
+                    <td class="tableInput" align="left" style="font-size:0.8em;">
+                        @RazorApi.Instance().DisplayView(ViewBag, "japanname", "일문")
+                        <input class="infoInputText" style="width:200px;" id="companyName" name="companyName" value="@comp.CompanyName" />
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" style="font-size:0.8em;">
+                        @RazorApi.Instance().DisplayView(ViewBag, "englishname", "영문") 
+                        <input class="infoInputText" style="width:200px;" id="companyName_en" name="companyName_en" value="@comp.CompanyName_En" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tabletitle" align="center" rowspan="3" style="height:60px;">@RazorApi.Instance().DisplayView(ViewBag, "companyaddress","회사주소")</td>
+                    
+                    <td align="left" >
+                        
+                        <input class="infoInputText" style="width:40px" id="companyPostnumber1" name="companyPostnumber1" maxlength="4"
+                               onkeyup="keyupNumberOnly(this); this.value.length == 4 ? $('#companyPostnumber2').focus() : null;"
+                               onkeydown="return numOnly(event);"
+                               value="@comp.CompanyPostNumber1" />
+                        -
+                        <input class="infoInputText" style="width:40px" id="companyPostnumber2" name="companyPostnumber2"
+                               maxlength="4"
+                               onkeyup="keyupNumberOnly(this);"
+                               onkeydown="return numOnly(event);"
+                               value="@comp.CompanyPostNumber2" />
+                    </td>
+                    
+                </tr>
+                <tr>
+                    <td align="left" style="font-size:0.8em;">
+                        @RazorApi.Instance().DisplayView(ViewBag, "japanname", "일문")    
+                        <input class="infoInputText" style="width:280px;" id="companyAddress" name="companyAddress" value="@comp.CompanyAddress" />
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" style="font-size:0.8em;">
+                        @RazorApi.Instance().DisplayView(ViewBag, "englishname", "영문") 
+                        <input class="infoInputText" style="width:280px;" id="companyAddress_en" name="companyAddress_en" value="@comp.CompanyAddress_En" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tabletitle" align="center">@RazorApi.Instance().DisplayView(ViewBag, "companysecurinum", "회사사업자번호")</td>
+                    <td class="tableInput" align="left">
+                        <input class="infoInputText" id="companySecurityNumber" name="companySecurityNumber" value="@comp.CompanySecurityNumber" onkeydown="return PhonenumOnly(event);" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tabletitle" align="center">@RazorApi.Instance().DisplayView(ViewBag, "companynumber", "회사전화번호")</td>
+                    <td class="tableInput" align="left">
+                        <select name="companynumbertype" id="companynumbertype">
+                            <option value="0" @if (!"1".Equals(comp.CompanyNumberType)) { var buf="checked"; @buf; }>@RazorApi.Instance().DisplayView(ViewBag, "japan", "일본")</option>
+                            <option value="1" @if ("1".Equals(comp.CompanyNumberType)) { var buf="checked"; @buf;  }>@RazorApi.Instance().DisplayView(ViewBag, "korea", "한국")</option>
+                        </select>
+                        <input type="text" name="companynumber1" id="companynumber1" maxlength="3" style="width:40px;"
+                               onkeyup="keyupNumberOnly(this); this.value.length == 3 ? $('#companynumber2').focus() : null;"
+                               onkeydown="return numOnly(event);"
+                               value="@comp.CompanyNumber1"> -
+                        <input type="text" name="companynumber2" id="companynumber2" maxlength="4" style="width:40px;"
+                               onkeyup="keyupNumberOnly(this); this.value.length == 4 ? $('#companynumber3').focus() : null;"
+                               onkeydown="return numOnly(event);"
+                               value="@comp.CompanyNumber2"> -
+                        <input type="text" name="companynumber3" id="companynumber3" maxlength="4" style="width:40px;"
+                               onkeyup="keyupNumberOnly(this);"
+                               onkeydown="return numOnly(event);"
+                               value="@comp.CompanyNumber3">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tabletitle" align="center">@RazorApi.Instance().DisplayView(ViewBag, "companyFax", "회사팩스")</td>
+                    <td class="tableInput" align="left">
+                        <select name="companyFaxtype" id="companyFaxtype">
+                            <option value="0" @if (!"1".Equals(comp.CompanyFaxType)) { var buf="checked"; @buf;  }>@RazorApi.Instance().DisplayView(ViewBag, "japan", "일본")</option>
+                            <option value="1" @if ("1".Equals(comp.CompanyFaxType)) { var buf="checked"; @buf;  }>@RazorApi.Instance().DisplayView(ViewBag, "korea", "한국")</option>
+                        </select>
+                        <input type="text" name="companyFax1" id="companyFax1" maxlength="3" style="width:40px;"
+                               onkeyup="keyupNumberOnly(this); this.value.length == 3 ? $('#companyFax2').focus() : null;"
+                               onkeydown="return numOnly(event);"
+                               value="@comp.CompanyFax1"> -
+                        <input type="text" name="companyFax2" id="companyFax2" maxlength="4" style="width:40px;"
+                               onkeyup="keyupNumberOnly(this); this.value.length == 4 ? $('#companyFax3').focus() : null;"
+                               onkeydown="return numOnly(event);"
+                               value="@comp.CompanyFax2"> -
+                        <input type="text" name="companyFax3" id="companyFax3" maxlength="4" style="width:40px;"
+                               onkeyup="keyupNumberOnly(this);"
+                               onkeydown="return numOnly(event);"
+                               value="@comp.CompanyFax3">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tabletitle" align="center">@RazorApi.Instance().DisplayView(ViewBag, "companyEmail", "회사이메일")</td>
+                    <td class="tableInput" align="left">
+                        <input class="infoInputText" id="companyEmail" name="companyEmail" value="@comp.CompanyEmail" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tabletitle" align="center" rowspan="2">@RazorApi.Instance().DisplayView(ViewBag, "companyrepresentative", "대표자")</td>
+                    <td class="tableInput" align="left" style="font-size:0.8em;">
+                        @RazorApi.Instance().DisplayView(ViewBag, "japanname", "일문")
+                        <input class="infoInputText" id="representative" name="representative" value="@comp.Representative" />
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" style="font-size:0.8em;">
+                        @RazorApi.Instance().DisplayView(ViewBag, "englishname", "영문") &nbsp;
+                        <input class="infoInputText" id="representative_en" name="representative_en" value="@comp.Representative_En" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tabletitle" align="center">@RazorApi.Instance().DisplayView(ViewBag, "companyrepresentativenumber", "대표자전화번호")</td>
+                    <td class="tableInput" align="left">
+                        <select id="companyrepresentativenumbertype" name="companyrepresentativenumber">
+                            <option value="0" @if (!"1".Equals(comp.CompanyRepresentativeNumber)) { var buf="checked"; @buf;   }>@RazorApi.Instance().DisplayView(ViewBag, "japan", "일본")</option>
+                            <option value="1" @if ("1".Equals(comp.CompanyRepresentativeNumber)) { var buf="checked"; @buf;   }>@RazorApi.Instance().DisplayView(ViewBag, "korea", "한국")</option>
+                        </select>
+                        <input type="text" name="representativeNumber1" id="representativeNumber1" maxlength="3" style="width:40px;"
+                               onkeyup="keyupNumberOnly(this); this.value.length == 3 ? $('#representativeNumber2').focus() : null;"
+                               onkeydown="return numOnly(event);"
+                               value="@comp.RepresentativeNumber1"> -
+                        <input type="text" name="representativeNumber2" id="representativeNumber2" maxlength="4" style="width:40px;"
+                               onkeyup="keyupNumberOnly(this); this.value.length == 4 ? $('#representativeNumber3').focus() : null;"
+                               onkeydown="return numOnly(event);"
+                               value="@comp.RepresentativeNumber2"> -
+                        <input type="text" name="representativeNumber3" id="representativeNumber3" maxlength="4" style="width:40px;"
+                               onkeyup="keyupNumberOnly(this);"
+                               onkeydown="return numOnly(event);"
+                               value="@comp.RepresentativeNumber3">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tabletitle" align="center">@RazorApi.Instance().DisplayView(ViewBag, "companyrepresentativeEmail", "대표자이메일")</td>
+                    <td class="tableInput" align="left">
+                        <input class="infoInputText" id="representativeEmail" name="representativeEmail" value="@comp.RepresentativeEmail" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tabletitle" align="center">@RazorApi.Instance().DisplayView(ViewBag, "companyEste", "설립일")</td>
+                    <td class="tableInput" align="left">
+                        <input class="infoInputText" id="companyEstablishmenidate" name="companyEstablishmenidate" value="@comp.CompanyEstablishmeniDateString" readonly />
+                    </td>
+                </tr>
+                <tr><td height="20px" /></tr>
+                <tr>
+                    <td class="tabletitle tabletitle2" colspan="2" align="center" style="">@RazorApi.Instance().DisplayView(ViewBag, "companyAccountInfo","통장정보타이틀")</td>
+                </tr>
+                <tr>
+                    <td class="tabletitle" align="center" style="width:275px;">@RazorApi.Instance().DisplayView(ViewBag, "companyAccountName", "계좌은행")</td>
+                    <td class="tableInput" align="left">
+                        <input class="infoInputText" id="companyAccountBank" name="companyAccountBank" value="@comp.CompanyAccountBank" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tabletitle" align="center" style="width:275px;">@RazorApi.Instance().DisplayView(ViewBag, "companyAccountBank", "지점명")</td>
+                    <td class="tableInput" align="left">
+                        <input class="infoInputText" id="companyAccountBankCodeName" name="companyAccountBankCodeName" value="@comp.CompanyAccountBankCodeName" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tabletitle" align="center" style="width:275px;">@RazorApi.Instance().DisplayView(ViewBag, "companyAccountBankcode", "지점코드")</td>
+                    <td class="tableInput" align="left">
+                        <input class="infoInputText" id="companyAccountBankCode" name="companyAccountBankCode" value="@comp.CompanyAccountBankCode" onkeydown="return PhonenumOnly(event);" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tabletitle" align="center" style="width:275px;">@RazorApi.Instance().DisplayView(ViewBag, "companyAccountOwnerName", "계좌예금주")</td>
+                    <td class="tableInput" align="left">
+                        <input class="infoInputText" id="companyAccountOwnerName" name="companyAccountOwnerName" value="@comp.CompanyAccountOwnerName" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tabletitle" align="center" style="width:275px;">@RazorApi.Instance().DisplayView(ViewBag, "companyAccountNumber", "통장번호")</td>
+                    <td class="tableInput" align="left">
+                        <input class="infoInputText" id="companyAccountnumber" name="companyAccountnumber" value="@comp.CompanyAccountNumber" onkeydown="return PhonenumOnly(event);" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tabletitle tabletitle2" colspan="2" align="center" style="">@RazorApi.Instance().DisplayView(ViewBag, "orderInfo", "발주기본정보")</td>
+                </tr>
+                <tr>
+                    <td class="tabletitle" align="center" style="width:275px;" rowspan="2">@RazorApi.Instance().DisplayView(ViewBag, "orderAddress", "납기장소")</td>
+                    <td class="tableInput" align="left" style="font-size:0.8em;">
+                        @RazorApi.Instance().DisplayView(ViewBag, "japanname", "일문")
+                        <input class="infoInputText" id="orderAddress" name="orderAddress" style="width:280px;" value="@comp.OrderAddress" />
+                    </td>
+                </tr>
+                <tr>
+                    <td align="left" style="font-size:0.8em;">
+                        @RazorApi.Instance().DisplayView(ViewBag, "englishname", "영문") 
+                        <input class="infoInputText" style="width:280px;" id="orderAddress_en" name="orderAddress_en" value="@comp.OrderAddress_En" />
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2" align="center" style="height:60px;" valign="bottom">
+                        <input type="submit" value="@RazorApi.Instance().DisplayView(ViewBag, "companymodify")" class="btn" />
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+</div>

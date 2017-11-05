@@ -1,0 +1,332 @@
+﻿@using LogisticsSystem.Models;
+@{
+    UserInfo user = @ViewBag.userinfo;
+    CompanyInfo comp = @ViewBag.compinfo;
+    OrderTable order = @ViewBag.order;
+}
+<script src="@Url.Content("~/js/obtain.js")"></script>
+<link href="@Url.Content("~/css/obtain.css")" type="text/css" rel="stylesheet" />
+<div id="Apply" class="Apply">
+    <form method="post" action="/obtain/inputcheck">
+        <table style="width:70%;" align="center">
+            <tr>
+                <td colspan="2" style="height: 30px; background-color: #5976D4; text-align: center; font-size: 1.2em; color: white; ">
+                    @RazorApi.Instance().DisplayView(ViewBag, "TitleApply")
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="ErrMsg" align="left">
+                        @*SE가 설정한 데이터 이기에 문제없음*@
+                        @Html.Raw(ViewBag.ErrMsg)
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <table style="border-style:solid;width:70%;box-shadow: 5px 5px 5px 5px;border-color:#000;" align="center">
+            <thead>
+                <tr style="margin-top:5px;">
+                    <td colspan="2" align="center" style="font-size:1.5em;height:50px;">
+                        <div style="margin-top:30px;">
+                            @RazorApi.Instance().DisplayView(ViewBag, "OrderTitle")
+                        </div>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="width:50%"></td>
+                    <td style="width:50%" align="right">
+                        <table style="margin-right:20px;">
+                            <tr style="height:30px;">
+                                <td style="font-size:0.8em;width:70px;text-align:center;" valign="middle">@RazorApi.Instance().DisplayView(ViewBag, "DocumentType")</td>
+                                <td align="right">
+                                    <select name="printSetting" style="width:150px;">
+                                        <option value="0" @{ if (order != null) { if ("0".Equals(order.PrintSetting)) { var buf = "selected"; @buf  ; } } }>
+                                            日本語
+                                        </option>
+                                        <option value="1" @{ if (order != null) { if ("1".Equals(order.PrintSetting)) { var buf = "selected"; @buf ; } } }>
+                                            한국어
+                                        </option>
+
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr style="height:30px;">
+                                <td style="font-size:0.8em;width:70px;text-align:center;" valign="middle">@RazorApi.Instance().DisplayView(ViewBag, "DocumentNumber")</td>
+                                <td align="right"><input type="text" class="inputtextNoFocus" style="text-align:right;width:150px;" readonly name="documentCode" value="@ViewBag.MunCode" /></td>
+                            </tr>
+                            <tr style="height:30px;">
+                                <td style="font-size: 0.8em; width: 70px; text-align: center;" valign="middle">
+                                    @RazorApi.Instance().DisplayView(ViewBag, "CreateDate")
+                                </td>
+                                <td align="right">
+                                    <input type="text" class="inputtext" id="createdate" name="createdate" style="text-align: right; width: 150px;" readonly value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                </td>
+                            </tr>
+                            <tr style="height:30px;">
+                                <td style="font-size: 0.8em; width: 70px; text-align: center;" valign="middle" rowspan="2">
+                                    @RazorApi.Instance().DisplayView(ViewBag, "Creater")
+                                </td>
+                                <td align="right" >
+                                    <div style="font-size:0.6em;text-align:left;">@RazorApi.Instance().DisplayView(ViewBag, "japanname", "일문")</div>
+                                    <input type="text" class="inputtextNoFocus" style="text-align:right;width:150px;" readonly id="creater" name="creater" value="@user.UserName" />
+                                </td>
+                            </tr>
+                            <tr style="height:30px;">
+                                <td align="right">
+                                    <div style="font-size:0.6em;text-align:left;">@RazorApi.Instance().DisplayView(ViewBag, "englishname", "영문") </div>
+                                    <input type="text" class="inputtextNoFocus" style="text-align: right; width: 150px;" readonly id="creater_en" name="creater_en" value="@user.UserName_En" />
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr><td colspan="2">&nbsp;</td></tr>
+                <tr>
+                    <td style="width:50%">
+                        <table style="margin-left:20px;">
+                            <tr style="height:30px;">
+                                <td style="font-size:0.8em;width:80px;text-align:center;" valign="middle">@RazorApi.Instance().DisplayView(ViewBag, "OrderNumber")</td>
+                                <td><input type="text" class="inputtextNoFocus" readonly value="@ViewBag.BalCode" name="ordernumber" style="width:200px;" /></td>
+                            </tr>
+                            <tr style="height:30px;">
+                                <td style="font-size:0.8em;width:80px;text-align:center;" valign="middle">
+                                    @RazorApi.Instance().DisplayView(ViewBag, "DeliveryComp","수주사")
+                                </td>
+                                <td>
+                                    <select id="deliverycomp" name="inordernameIdx" style="width:100%" onchange="getCompany()">
+                                        <option></option>
+                                        @foreach (CustomerInfo pData in @ViewBag.ordercomplist)
+                                        {
+                                            <option value="@pData.Idx" @{if (order != null && @order.InorderName == pData.CustomerName) { string buf = "selected"; @buf  }}>
+                                                @pData.CustomerName
+                                            </option>
+                                        }
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr style="height:30px;">
+                                <td style="font-size:0.8em;width:80px;text-align:center;" valign="middle">@RazorApi.Instance().DisplayView(ViewBag, "inorderaddress", "수주사주소")</td>
+                                <td>
+                                    <input type="text" class="inputtextNoFocus" style="width:200px;font-size:0.6em;" id="inorderaddress" name="inorderaddress" value="@{if(order !=null){ @order.InOrderAddress }}" readonly />
+                                </td>
+                            </tr>
+                            <tr style="height:30px;">
+                                <td style="font-size:0.8em;width:80px;text-align:center;" valign="middle">@RazorApi.Instance().DisplayView(ViewBag, "Totalmoney")</td>
+                                <td>
+                                    <input type="text" class="inputtextNoFocus" readonly id="obtainprice" name="ordermoney" value="@{if(order !=null){ @order.OrderMoney.ToString("###,##0")}}" style="width: 200px; " />
+                                </td>
+                            </tr>
+                            <tr style="height:30px;">
+                                <td style="font-size:0.8em;width:80px;text-align:center;" valign="middle">
+                                    @RazorApi.Instance().DisplayView(ViewBag, "PeriodDate")
+                                </td>
+                                <td>
+                                    <input type="text" class="inputtext" id="perioddate" name="ordersavedate" value="@{if (order != null) { @order.OrderSaveDate.ToString("yyyy-MM-dd") }}" readonly style="width: 200px; " />
+                                </td>
+                            </tr>
+                            <tr style="height:30px;">
+                                <td style="font-size:0.8em;width:80px;text-align:center;" valign="middle" rowspan="2">@RazorApi.Instance().DisplayView(ViewBag, "PeriodPlace","납기장소")</td>
+                                <td>
+                                    <div style="font-size:0.6em;text-align:left;">@RazorApi.Instance().DisplayView(ViewBag, "japanname", "일문")</div>
+                                    <input type="text" class="inputtext" style="width:200px;font-size:0.6em;" name="ordersaveplace" value="@comp.OrderAddress" readonly />
+                                </td>
+                            </tr>
+                            <tr style="height:30px;">
+                                <td>
+                                    <div style="font-size:0.6em;text-align:left;">@RazorApi.Instance().DisplayView(ViewBag, "englishname", "영문") </div>
+                                    <input type="text" class="inputtext" style="width: 200px; font-size: 0.6em; " name="ordersaveplace_en" value="@comp.OrderAddress_En" readonly />
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td style="width:50%" align="right">
+                        <table style="margin-right:40px;">
+                            <tr style="height:30px;">
+                                <td align="center" colspan="2">
+                                    <div style="font-size:1.2em;">@comp.CompanyName (@comp.CompanyName_En)</div>
+                                    <input type="hidden" class="noLineInput" id="companyName" name="ordername" style="text-align:center;" readonly value="@comp.CompanyName">
+                                    <input type="hidden" class="noLineInput" id="companyName_en" name="ordername_en" style="text-align:center;" readonly value="@comp.CompanyName_En">
+                                </td>
+                            </tr>
+                            <tr style="height:30px;">
+                                <td style="font-size: 0.8em; width: 100px; text-align: center;" valign="middle" rowspan="2">
+                                    @RazorApi.Instance().DisplayView(ViewBag, "CompAddress")
+                                </td>
+                                <td>
+                                    <div style="font-size:0.6em;text-align:left;">@RazorApi.Instance().DisplayView(ViewBag, "japanname", "일문")</div>
+                                    <input type="text" class="noLineInput" style="width: 200px; font-size: 0.6em;" name="orderAddress" readonly value="@comp.CompanyAddress" />
+                                </td>
+                            </tr>
+                            <tr style="height:30px;">
+                                <td>
+                                    <div style="font-size:0.6em;text-align:left;">@RazorApi.Instance().DisplayView(ViewBag, "englishname", "영문") </div>
+                                    <input type="text" class="noLineInput" style="width: 200px; font-size: 0.6em; " name="orderAddress_en" value="@comp.CompanyAddress_En" readonly />
+                                </td>
+                            </tr>
+                            <tr style="height:30px;">
+                                <td style="font-size: 0.8em; width: 100px; text-align: center;" valign="middle">
+                                    @RazorApi.Instance().DisplayView(ViewBag, "CompNumber")
+                                </td>
+                                <td style="font-size:0.8em;">
+                                        @if (!"1".Equals(comp.CompanyNumberType))
+                                        {
+                                            @RazorApi.Instance().DisplayView(ViewBag, "japan", "일본");
+                                        }
+                                        @if ("1".Equals(comp.CompanyNumberType))
+                                        {
+                                            @RazorApi.Instance().DisplayView(ViewBag, "korea", "한국");
+                                        }
+                                        <input type="hidden" name="orderPhoneNumbertype" readonly value="@comp.CompanyNumberType" />
+                                        <input type="text" class="noLineInput" name="orderPhoneNumber" readonly value="@comp.CompanyNumber" style="width:150px" />
+                                </td>
+                            </tr>
+                            <tr style="height:30px;">
+                                <td style="font-size:0.8em;width:100px;text-align:center;" valign="middle">
+                                    @RazorApi.Instance().DisplayView(ViewBag, "CompFax")
+                                </td>
+                                <td style="font-size:0.8em;">
+                                    @if (!"1".Equals(comp.CompanyFaxType))
+                                    {
+                                        @RazorApi.Instance().DisplayView(ViewBag, "japan", "일본");
+                                    }
+                                    @if ("1".Equals(comp.CompanyFaxType))
+                                    {
+                                        @RazorApi.Instance().DisplayView(ViewBag, "korea", "한국");
+                                    }
+                                    <input type="hidden" name="orderFaxtype" readonly value="@comp.CompanyFaxType" />
+                                    <input type="text" class="noLineInput" name="orderFax" readonly value="@comp.CompanyFax" style="width:150px" />
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <table style="border-style:dotted;border-color:#000; margin-top:20px;margin-bottom:10px;width:95%;">
+                            <tr style="height:30px;">
+                                <td align="center" style="font-size: 0.8em; width: 100px">@RazorApi.Instance().DisplayView(ViewBag, "MoneyDate")</td>
+                                <td align="center" style="font-size: 0.8em; width: 100px">@RazorApi.Instance().DisplayView(ViewBag, "Money")</td>
+                                <td align="center" style="font-size: 0.8em; width: 100px">@RazorApi.Instance().DisplayView(ViewBag, "Moneycheck")</td>
+                                <td align="center" style="font-size: 0.8em; width: 100px">@RazorApi.Instance().DisplayView(ViewBag, "MoneyOrderDate")</td>
+                            </tr>
+                            <tr style="height:30px;">
+                                <td align="center">
+                                    <input type="text" id="moneydate" name="paydate" style="width:90%" readonly value="@{if (order != null) { @order.PayDate.ToString("yyyy-MM-dd") }}" />
+                                </td>
+                                <td align="center">
+                                    <input type="text" id="money" name="paymoney" onkeyup="keyup(this);" onkeydown="return numOnly(event);" style="width:90%" value="@{if (order != null) { @order.PayMoney.ToString("###,##0") }}" />
+                                </td>
+                                <td align="center">
+                                    <select style="width:90%;height:21px;" id="PaymentMethod" name="paycondition" >
+                                        @for (var i = 0; i < ViewBag.moneySendType.Count; i++)
+                                        {
+                                            LogisticsSystem.Models.CodeMaster pData = ViewBag.moneySendType.Get(i);
+                                            <option value="@pData.CodeKey" @{if (order != null && order.PayCondition == pData.CodeKey) {string buf = "selected"; @buf}}>
+                                                @pData.CodeName
+                                            </option>
+                                        }
+                                    </select>
+
+                                </td>
+                                <td align="center">
+                                    <input type="text" id="moneyorderdate" name="orderdate" style="width:90%" readonly value="@{if (order != null) { @order.OrderDate.ToString("yyyy-MM-dd") }}" />
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2"><hr /></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <table style="padding:0px;border-spacing:0px;width:95%;margin-top:5px;margin-bottom:10px">
+                            <thead>
+                                <tr style="height:40px;">
+                                    <th style="border-style: solid; border-width: thin; width: 30px;">@RazorApi.Instance().DisplayView(ViewBag, "ListNumber")</th>
+                                    <th style="border-style: solid; border-width: thin; ">@RazorApi.Instance().DisplayView(ViewBag, "ListProductName")</th>
+                                    <th style="border-style: solid; border-width: thin; width: 100px;">@RazorApi.Instance().DisplayView(ViewBag, "ListProductSpec")</th>
+                                    <th style="border-style: solid; border-width: thin; width: 80px;">@RazorApi.Instance().DisplayView(ViewBag, "ListMount")</th>
+                                    <th style="border-style: solid; border-width: thin; width: 120px;">@RazorApi.Instance().DisplayView(ViewBag, "ListMoney")</th>
+                                    <th style="border-style: solid; border-width: thin; width: 140px;">@RazorApi.Instance().DisplayView(ViewBag, "ListTotalMoney")</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (var i = 0; i < 10; i++)
+                                {
+                                    var orderSub = @ViewBag.orderSub;
+                                    <tr style="height:30px;">
+                                        <td style="border-style:solid;border-width:thin;" align="center">
+                                            <span id="subNumber_@i">@{if (orderSub != null && orderSub.Count > i) {@(i+1)}}</span>
+                                        </td>
+                                        <td style="border-style:solid;border-width:thin;" align="center">
+                                            <select id="productType_@i" name="productIndex[@i]" onchange="getProduct(@i)" style="width:90%">
+                                                <option value=""></option>
+                                                @foreach (LogisticsSystem.Models.ProductInfo pData in ViewBag.productlist)
+                                                {
+                                                    <option value="@pData.Idx" @{if (orderSub != null && orderSub.Count > i && orderSub[i].productIndex == pData.Idx) { string buf = "selected"; @buf }}>
+                                                        @pData.ProductName
+                                                    </option>
+                                                }
+                                            </select>
+                                        </td>
+                                        <td style="border-style:solid;border-width:thin;" align="center">
+                                            <input type="text" class ="noLineInput" style="width:90%;" readonly id="productspec_@i" name="productspec[@i]" value="@{if (orderSub != null && orderSub.Count > i) {@orderSub[i].productSpec}}" />
+                                        </td>
+                                        <td style="border-style:solid;border-width:thin;" align="center">
+                                            <input type="text" onkeyup="keyup(this);priceCalcul(@i);" onkeydown="return numOnly(event);" maxlength="4" style="width:90%;" id="productmount_@i" name="productAmount[@i]" value="@{if (orderSub != null && orderSub.Count > i) {@orderSub[i].productAmount.ToString("###,##0")}}"
+                                                   @{if (!(orderSub != null && orderSub.Count > i)) { string buf = "readonly"; @buf  }} />
+                                        </td>
+                                        <td style="border-style:solid;border-width:thin;" align="center">
+                                            <input class="noLineInput" style="width:90%;text-align:right;" readonly id="productprice_@i" name="productprice[@i]" value="@{if (orderSub != null && orderSub.Count > i) {@orderSub[i].productPrice.ToString("###,##0")}}" />
+                                        </td>
+                                        <td style="border-style:solid;border-width:thin;" align="center">
+                                            <input class="noLineInput" style="width: 90%; text-align: right;" readonly id="producttotal_@i" name="producttotal[@i]" value="@{if (orderSub != null && orderSub.Count > i) {@(orderSub[i].productMoney.ToString("###,##0"))}}" />
+                                        </td>
+                                    </tr>
+                                }
+                                <tr style="height:30px;background-color:#cecece;">
+                                    <td style="border-style:solid;border-width:thin;" colspan="5" align="center">@RazorApi.Instance().DisplayView(ViewBag, "ListTotalSumMoney")</td>
+                                    <td style="border-style:solid;border-width:thin;" align="center">
+                                        <input class="noLineInput" style="width: 90%; text-align: right; background-color: #cecece; " readonly id="totalamount" value="@ViewBag.totalMoney.ToString("###,##0")" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <table style="padding:0px;border-spacing:0px;width:95%;margin-top:5px;margin-bottom:10px">
+                            <thead>                              
+                                <tr>
+                                    <th style="font-size: 0.8em; width: 100px; text-align: center; border-style: solid; border-width: thin;" valign="middle">
+                                        @RazorApi.Instance().DisplayView(ViewBag, "Memo")
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="border-style: solid; border-width:thin;">
+                                        <textarea style="width:99%;height:80px; resize:none;border-color:#000;" name="other" id="other">@{if (order != null)
+                                        { @order.PayOther }}</textarea>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2" align="center" style="height:30px;" valign="bottom">
+                        <hr />
+                        <input type="submit" value="@RazorApi.Instance().DisplayView(ViewBag, "ApplyCheck")" class="btn" />
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+</div>

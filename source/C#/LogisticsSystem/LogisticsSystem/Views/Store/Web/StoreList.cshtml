@@ -1,0 +1,32 @@
+﻿<script src="@Url.Content("~/js/Store.js")"></script>
+<link href="@Url.Content("~/css/Store.css")" type="text/css" rel="stylesheet" />
+<div id="contents">
+    <div id="list" class="list">
+        <table align="center">
+            <thead>
+                <tr style="height:30px;" class="nList">
+                    <th style="width: 500px;text-align:center;">@RazorApi.Instance().DisplayView(ViewBag, "SearchProductName")</th>
+                    <th style="width: 250px; text-align: center;">@RazorApi.Instance().DisplayView(ViewBag, "SearchProductAmount")</th>
+                </tr>
+            </thead>
+            <tbody id="listData">
+                @if (ViewBag.listcount == 0)
+                {
+                    <tr>
+                        <td colspan="7" height="100px" align="center" style="font-size:0.9em;height:200px;">@RazorApi.Instance().DisplayView(ViewBag, "NotSearch", "검색없음")</td>
+                    </tr>
+                }
+                else
+                {
+                    for (int i = 0; i < 20 || i < ViewBag.listcount; i++)
+                    {
+                        <tr class="mList2">
+                            <td>@if(ViewBag.listcount > i ){ @ViewBag.list[i].productname }</td>
+                            <td>@if (ViewBag.listcount > i){ @ViewBag.list[i].ProductAmount }</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,30 @@
+﻿div.Errerbox table {
+    border-style: solid;
+    border-width: thin;
+    width: 300px;
+    border-spacing: 0px;
+    padding: 0px;
+}
+
+div.Errerbox thead {
+    background: #9FD6DF;
+    height: 50px;
+    color: #808080;
+    font-weight: 800;
+    text-align: center;
+    font-size: 1.2em;
+}
+
+div.Errerbox tfoot {
+    background: #9FD6DF;
+    height: 20px;
+    color: #808080;
+    text-align: right;
+    font-size: 0.6em;
+}
+
+div.Errerbox a {
+    text-decoration: none;
+    color: #0000FF;
+    font-size: 0.8em;
+}

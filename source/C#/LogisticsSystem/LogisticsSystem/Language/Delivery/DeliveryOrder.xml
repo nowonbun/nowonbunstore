@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<language>
+  <column key="DeliveryTitle">
+    <korea>수주서</korea>
+    <japan>受注書</japan>
+  </column>
+  <column key="DocumentNumber">
+    <korea>문서번호</korea>
+    <japan>文書番号</japan>
+  </column>
+  <column key="CreateDate">
+    <korea>작성일</korea>
+    <japan>作成日</japan>
+  </column>
+  <column key="Creater">
+    <korea>작성자</korea>
+    <japan>作成者</japan>
+  </column>
+  <column key="DeliveryNumber">
+    <korea>수주번호</korea>
+    <japan>受注番号</japan>
+  </column>
+  <column key="DeliveryComp">
+    <korea>수주처</korea>
+    <japan>受注社</japan>
+  </column>
+  <column key="Totalmoney">
+    <korea>총발주금액</korea>
+    <japan>総発注金額</japan>
+  </column>
+  <column key="PeriodDate">
+    <korea>납기일자</korea>
+    <japan>納期日</japan>
+  </column>
+  <column key="PeriodPlace">
+    <korea>납기장소</korea>
+    <japan>納期場所</japan>
+  </column>
+  <column key="CompsSecuriNum">
+    <korea>사업자번호</korea>
+    <japan>事業者番号</japan>
+  </column>
+  <column key="CompAddress">
+    <korea>사업장주소</korea>
+    <japan>事務所住所</japan>
+  </column>
+  <column key="CompNumber">
+    <korea>전화번호</korea>
+    <japan>電話番号</japan>
+  </column>
+  <column key="CompFax">
+    <korea>팩스번호</korea>
+    <japan>ファックス</japan>
+  </column>
+  
+<column key="MoneyDate">
+    <korea>지불예정일</korea>
+    <japan>支払予定日</japan>
+  </column>
+<column key="Money">
+    <korea>금액</korea>
+    <japan>金額</japan>
+  </column>
+<column key="Moneycheck">
+    <korea>결제조건</korea>
+    <japan>決済条件</japan>
+  </column>
+<column key="MoneyOrderDate">
+    <korea>발주일자</korea>
+    <japan>発注日</japan>
+  </column>
+  <column key="ListNumber">
+    <korea>번호</korea>
+    <japan>No</japan>
+  </column>
+  <column key="ListProductName">
+    <korea>품명</korea>
+    <japan>商品名</japan>
+  </column>
+  <column key="ListProductSpec">
+    <korea>규격</korea>
+    <japan>規格</japan>
+  </column>
+  <column key="ListProductSet">
+    <korea>단위</korea>
+    <japan>単位</japan>
+  </column>
+  <column key="ListMount">
+    <korea>수량</korea>
+    <japan>数量</japan>
+  </column>
+  <column key="ListMoney">
+    <korea>단가</korea>
+    <japan>単価</japan>
+  </column>
+  <column key="ListTotalMoney">
+    <korea>금액</korea>
+    <japan>金額</japan>
+  </column>
+  <column key="ListTotalSumMoney">
+    <korea>총금액</korea>
+    <japan>総金額</japan>
+  </column>
+  <column key="Apply">
+    <korea>수주신청</korea>
+    <japan>受注申請</japan>
+  </column>
+  <column key="OrderComp">
+    <korea>발주사</korea>
+    <japan>発注社</japan>
+  </column>
+  <column key="TitleApply">
+    <korea>수주서등록</korea>
+    <japan>受注書登録</japan>
+  </column>
+  <column key="TitleCheck">
+    <korea>수주서확인</korea>
+    <japan>受注書確認</japan>
+  </column>
+  <column key="Cancel">
+    <korea>취소</korea>
+    <japan>取消</japan>
+  </column>
+  <column key="TitleCommit">
+    <korea>수주서완료</korea>
+    <japan>受注書確認</japan>
+  </column>
+</language>

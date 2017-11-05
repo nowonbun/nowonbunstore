@@ -1,0 +1,151 @@
+﻿<script src="@Url.Content("~/js/delivery.js")"></script>
+<link href="@Url.Content("~/css/delivery.css")" type="text/css" rel="stylesheet" />
+<div id="contents">
+    <div id="listSearch">
+        <table align="center">
+            <tr>
+                <td colspan="4" style="height: 30px; background-color: #5976D4; text-align: center; font-size: 1.2em; color: white;">
+                    @RazorApi.Instance().DisplayView(ViewBag, "SearchOrderTitle")
+                </td>
+            </tr>
+            <tr>
+                <td style="width:15%">@RazorApi.Instance().DisplayView(ViewBag, "SearchOrderDate")</td>
+                <td style="width:35%;text-align:left;"><input style="width:100px;" /> ~ <input style="width:100px;" /></td>
+                <td style="width:15%">@RazorApi.Instance().DisplayView(ViewBag, "SearchOrderDeliveryDate")</td>
+                <td style="width: 35%; text-align: left;"><input style="width:100px;" /> ~ <input style="width:100px;" /></td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <input type="button" class="btn" style="width:95%;height:20px;" value="@RazorApi.Instance().DisplayView(ViewBag, "SearchBtn")" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <hr />
+    <div id="list" class="list">
+        <table align="center" style="border-color:#000;">
+            <thead>
+                <tr style="height:30px;" class="nList">
+                    <th style="width: 20px; text-align: center;">No</th>
+                    <th style="width: 100px; text-align: center;">@RazorApi.Instance().DisplayView(ViewBag, "SearchOrderNumber")</th>
+                    <th style="width: 300px; text-align: center;">@RazorApi.Instance().DisplayView(ViewBag, "SearchOrderComp")</th>
+                    <th style="width: 100px; text-align: center;">@RazorApi.Instance().DisplayView(ViewBag, "SearchOrderDate")</th>
+                    <th style="width: 100px; text-align: center;">@RazorApi.Instance().DisplayView(ViewBag, "SearchOrderDeliveryDate")</th>
+                    <th style="width: 100px; text-align: center;">@RazorApi.Instance().DisplayView(ViewBag, "SearchOrderCreater")</th>
+                    <th style="width: 100px; text-align: center;">@RazorApi.Instance().DisplayView(ViewBag, "SearchOrderCreateDate")</th>
+                    <th style="width: 60px; text-align: center;">@RazorApi.Instance().DisplayView(ViewBag, "SearchOrderState")</th>
+                </tr>
+            </thead>
+            <tbody id="listData">
+                @foreach (var pBuffer in ViewBag.list)
+                {
+                    var color = "";
+                    if ("0".Equals(pBuffer.state)) { color = "yellow"; }
+                    else if ("1".Equals(pBuffer.state)) { color = "red"; }
+                    else if ("2".Equals(pBuffer.state)) { color = "#00ffc9"; }
+                    <tr class="mList" onclick="subSearchView('@pBuffer.idx');">
+                        <td>@pBuffer.idx</td>
+                        <td>@pBuffer.ordernumber</td>
+                        <td>@pBuffer.ordername</td>
+                        <td>@pBuffer.orderdateString</td>
+                        <td>@pBuffer.ordersavedateString</td>
+                        <td>@pBuffer.creater</td>
+                        <td>@pBuffer.createdateString</td>
+                        <td style="background-color:@color">@pBuffer.stateDisp</td>
+                    </tr>
+                    <tr id="line_@pBuffer.idx" class="sublist"></tr>
+                }
+            </tbody>
+        </table>
+        <br />
+        <div align="center" style="margin-top:2px;">
+            <span id="paging">
+                @if (ViewBag.listcount > 0)
+                {
+                    @:<a href='#' style='text-decoration: none; color: blue;' onclick="orderSearchList(1); return false;">◀</a>
+                    for (var i = 1; i <= ViewBag.listcount; i++)
+                    {
+                        var color = "";
+                        if (i == 1)
+                        {
+                            color = "black";
+                            @:&nbsp;<font style='text-decoration:none;color:@color'>@i</font>&nbsp;
+                        }
+                        else
+                        {
+                            color = "blue";
+                            @:&nbsp;<a href='#' style='text-decoration:none;color:@color' onclick='orderSearchList(@i);return false;'>@i</a>&nbsp;
+                        }
+                    }
+                    @:<a href='#' style='text-decoration: none; color: blue;' onclick='orderSearchList(" + nextpage + "); return false;'>▶</a>
+                }
+            </span>
+        </div>
+        <input type="hidden" id="idxCollection" value="@ViewBag.idxCollection" />
+    </div>
+</div>
+<div style="display:none">
+    <table>
+        <tbody id="template">
+            <tr class="mList" onclick="subSearchView('##idx##');">
+                <td>##idx##</td>
+                <td>##OrderNumber##</td>
+                <td>##OrderComp##</td>
+                <td>##OrderDate##</td>
+                <td>##OrderDeliveryDate##</td>
+                <td>##OrderCreater##</td>
+                <td>##OrderCreateDate##</td>
+                <td style="background-color:##statecolor##">##OrderState##</td>
+            </tr>
+            <tr id="line_##idx##" class="sublist"></tr>
+        </tbody>
+        <tbody>
+            <tr id="templateSub">
+                <td colspan="8">
+                    <br />
+                    <table style="width:98%;margin:5px;" align="center">
+                        <thead>
+                            <tr class="subList">
+                                <th>No</th>
+                                <th align="center">@RazorApi.Instance().DisplayView(ViewBag, "SubProductName")</th>
+                                <th align="center">@RazorApi.Instance().DisplayView(ViewBag, "SubProductSpec")</th>
+                                <th align="center">@RazorApi.Instance().DisplayView(ViewBag, "SubProductMount")</th>
+                                <th align="center">@RazorApi.Instance().DisplayView(ViewBag, "SubProductPrice")</th>
+                                <th align="center">@RazorApi.Instance().DisplayView(ViewBag, "SubProductTotal")</th>
+                            </tr>
+                        </thead>
+                        <tbody id="templateSubcontents"></tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="6" style="text-align:right;">
+                                    <input type="button" class="btn" style="width:95%;height:20px;" value="@RazorApi.Instance().DisplayView(ViewBag, "OrderView")" onclick="orderview('##idx##');" />&nbsp;&nbsp;
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <br />
+                </td>
+            </tr>
+        </tbody>
+        <tbody id="templatecontents">
+            <tr class="subList">
+                <td>##number##</td>
+                <td>##productName##</td>
+                <td>##productSpec##</td>
+                <td>##productAmount##</td>
+                <td>##productPrice##</td>
+                <td>##productTotal##</td>
+            </tr>
+        </tbody>
+        <tbody>
+            <tr id="loadingImage">
+                <td colspan="8" style="width:100%;height:30px;" align="center">
+                    <img src="@Url.Content("~/Image/loading2.gif")" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<form method="post" id="submitForm">
+    <input type="hidden" id="idxForm" name="idx" />
+</form>

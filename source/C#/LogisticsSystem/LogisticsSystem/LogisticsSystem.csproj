@@ -1,0 +1,601 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{1B4DE7DC-AA0C-49E7-BBCC-933BA7921331}</ProjectGuid>
+    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LogisticsSystem</RootNamespace>
+    <AssemblyName>LogisticsSystem</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <TargetFrameworkProfile />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="itextsharp, Version=5.5.3.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\bin\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Drawing">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.DynamicData">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Entity">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.ApplicationServices">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Abstractions">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Extensions">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Routing">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Configuration">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Services">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.EnterpriseServices">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Mvc.FixedDisplayModes, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.FixedDisplayModes.1.0.0\lib\net40\Microsoft.Web.Mvc.FixedDisplayModes.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Net.Http.2.0.30506.0\lib\net40\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.4.0.30506.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Net.Http.2.0.30506.0\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.4.0.30506.0\lib\net40\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.4.0.30506.0\lib\net40\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.4.0.30506.0\lib\net40\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.2.0.30506.0\lib\net40\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.30506.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Code\AbstractDao.cs" />
+    <Compile Include="App_Code\AjaxFilterAttribute.cs" />
+    <Compile Include="App_Code\AuthorizeFilterAttribute.cs" />
+    <Compile Include="App_Code\Define.cs" />
+    <Compile Include="App_Code\ErrorPack.cs" />
+    <Compile Include="App_Code\LanguagePack.cs" />
+    <Compile Include="App_Code\LogWrite.cs" />
+    <Compile Include="App_Code\NagationPack.cs" />
+    <Compile Include="App_Code\PDFCreate.cs" />
+    <Compile Include="App_Code\PipelineFilterAttribute.cs" />
+    <Compile Include="App_Code\StaticUtil.cs" />
+    <Compile Include="App_Code\AbstractController.cs" />
+    <Compile Include="App_Code\AbstractModel.cs" />
+    <Compile Include="App_Data_Razor\RazorApi.cs" />
+    <Compile Include="Controllers\AJAXController.cs" />
+    <Compile Include="Controllers\BoardController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
+    <Compile Include="Controllers\DeliveryController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ObtainController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\StoreController.cs" />
+    <Compile Include="Controllers\WebController.cs" />
+    <Compile Include="Dao\BillDao.cs" />
+    <Compile Include="Dao\BoardDao.cs" />
+    <Compile Include="Dao\CargoDao.cs" />
+    <Compile Include="Dao\CodeMasterDao.cs" />
+    <Compile Include="Dao\CommentDao.cs" />
+    <Compile Include="Dao\CompanyInfoDao.cs" />
+    <Compile Include="Dao\ConnectDao.cs" />
+    <Compile Include="Dao\CustomerInfoDao.cs" />
+    <Compile Include="Dao\DeliveryTableDao.cs" />
+    <Compile Include="Dao\DeliveryTableSubDao.cs" />
+    <Compile Include="Dao\DocumentDao.cs" />
+    <Compile Include="Dao\FactoryDao.cs" />
+    <Compile Include="Dao\OrderTableDao.cs" />
+    <Compile Include="Dao\OrderTableSubDao.cs" />
+    <Compile Include="Dao\ProductFlowDao.cs" />
+    <Compile Include="Dao\ProductInfoDao.cs" />
+    <Compile Include="Dao\UserInfoDao.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Master\CodeMasterMap.cs" />
+    <Compile Include="Master\LanguageMap.cs" />
+    <Compile Include="Master\NavigationMap.cs" />
+    <Compile Include="Models\Bill.cs" />
+    <Compile Include="Models\Board.cs" />
+    <Compile Include="Models\Cargo.cs" />
+    <Compile Include="Models\CodeMaster.cs" />
+    <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\CompanyInfo.cs" />
+    <Compile Include="Models\Connect.cs" />
+    <Compile Include="Models\CustomerInfo.cs" />
+    <Compile Include="Models\DeliveryTable.cs" />
+    <Compile Include="Models\DeliveryTableSub.cs" />
+    <Compile Include="Models\Document.cs" />
+    <Compile Include="Models\OrderTable.cs" />
+    <Compile Include="Models\OrderTableSub.cs" />
+    <Compile Include="Models\OrderTable_SubAddList.cs" />
+    <Compile Include="Models\ProductFlow.cs" />
+    <Compile Include="Models\ProductInfo.cs" />
+    <Compile Include="Models\UserInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validate\CompanyInfoValidate.cs" />
+    <Compile Include="Validate\CustomerInfoValidate.cs" />
+    <Compile Include="Validate\DocumentValidate.cs" />
+    <Compile Include="Validate\OrderTableSubValidate.cs" />
+    <Compile Include="Validate\OrderTableValidate.cs" />
+    <Compile Include="Validate\ProductFlowValidate.cs" />
+    <Compile Include="Validate\ProductInfoValidate.cs" />
+    <Compile Include="Validate\UserInfoValidate.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="css\Board.css" />
+    <Content Include="css\check.css" />
+    <Content Include="css\companyinfo.css" />
+    <Content Include="css\customerinfo.css" />
+    <Content Include="css\error.css" />
+    <Content Include="css\index.css" />
+    <Content Include="css\obtain.css" />
+    <Content Include="css\productInfo.css" />
+    <Content Include="css\store.css" />
+    <Content Include="css\userinfo.css" />
+    <Content Include="css\delivery.css" />
+    <Content Include="Editor\css\smart_editor2.css" />
+    <Content Include="Editor\css\smart_editor2_in.css" />
+    <Content Include="Editor\css\smart_editor2_items.css" />
+    <Content Include="Editor\css\smart_editor2_out.css" />
+    <Content Include="Editor\img\bg_b1.png" />
+    <Content Include="Editor\img\bg_button.gif" />
+    <Content Include="Editor\img\bg_button_left.gif" />
+    <Content Include="Editor\img\bg_button_right.gif" />
+    <Content Include="Editor\img\bg_find_h3.gif" />
+    <Content Include="Editor\img\bg_help.gif" />
+    <Content Include="Editor\img\bg_icon_tool.gif" />
+    <Content Include="Editor\img\bg_line1.gif" />
+    <Content Include="Editor\img\bg_quote2.gif" />
+    <Content Include="Editor\img\bg_set.gif" />
+    <Content Include="Editor\img\bg_text_tool.gif" />
+    <Content Include="Editor\img\bg_tool2.gif" />
+    <Content Include="Editor\img\editor_guideline_698.gif" />
+    <Content Include="Editor\img\editor_guideline_890.gif" />
+    <Content Include="Editor\img\icon_set.gif" />
+    <Content Include="Editor\img\ico_extend.png" />
+    <Content Include="Editor\img\ko_KR\btn_set.png" />
+    <Content Include="Editor\img\ko_KR\bx_set_110302.gif" />
+    <Content Include="Editor\img\ko_KR\text_tool_set.png" />
+    <Content Include="Editor\img\photoQuickPopup\bg_drag_image.png" />
+    <Content Include="Editor\img\photoQuickPopup\btn_cancel.png" />
+    <Content Include="Editor\img\photoQuickPopup\btn_confirm.png" />
+    <Content Include="Editor\img\photoQuickPopup\btn_confirm2.png" />
+    <Content Include="Editor\img\photoQuickPopup\btn_del.png" />
+    <Content Include="Editor\img\photoQuickPopup\btn_find.png" />
+    <Content Include="Editor\img\text_tool_set2.png" />
+    <Content Include="Editor\js\HuskyEZCreator.js" />
+    <Content Include="Editor\js\jindo.min.js" />
+    <Content Include="Editor\js\jindo_component.js" />
+    <Content Include="Editor\js\SE2BasicCreator.js" />
+    <Content Include="Editor\js\SE2B_Configuration_General.js" />
+    <Content Include="Editor\js\SE2B_Configuration_Service.js" />
+    <Content Include="Editor\js\smarteditor2.js" />
+    <Content Include="Editor\js\smarteditor2.min.js" />
+    <Content Include="Editor\photo_uploader\plugin\hp_SE2M_AttachQuickPhoto.js" />
+    <Content Include="Editor\photo_uploader\popup\attach_photo.js" />
+    <Content Include="Editor\photo_uploader\popup\callback.html" />
+    <Content Include="Editor\photo_uploader\popup\jindo.fileuploader.js" />
+    <Content Include="Editor\photo_uploader\popup\jindo.min.js" />
+    <Content Include="Editor\photo_uploader\popup\photo_uploader.html" />
+    <Content Include="Editor\readme.txt" />
+    <Content Include="Editor\release_notes.txt" />
+    <Content Include="Editor\SmartEditor2.html" />
+    <Content Include="Editor\SmartEditor2Skin.html" />
+    <Content Include="Editor\smart_editor2_inputarea.html" />
+    <Content Include="Editor\smart_editor2_inputarea_ie8.html" />
+    <Content Include="Editor\src_include.txt" />
+    <Content Include="ErrorCode\ErrorCode.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Image\Loading.gif" />
+    <Content Include="Image\loading2.gif" />
+    <Content Include="Image\no_image.jpg" />
+    <Content Include="css\common.css" />
+    <Content Include="css\style.css" />
+    <Content Include="css\style2.css" />
+    <Content Include="css\style_skin.css" />
+    <Content Include="css\ui-lightness\images\animated-overlay.gif" />
+    <Content Include="css\ui-lightness\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
+    <Content Include="css\ui-lightness\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
+    <Content Include="css\ui-lightness\images\ui-bg_flat_10_000000_40x100.png" />
+    <Content Include="css\ui-lightness\images\ui-bg_glass_100_f6f6f6_1x400.png" />
+    <Content Include="css\ui-lightness\images\ui-bg_glass_100_fdf5ce_1x400.png" />
+    <Content Include="css\ui-lightness\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="css\ui-lightness\images\ui-bg_gloss-wave_35_f6a828_500x100.png" />
+    <Content Include="css\ui-lightness\images\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
+    <Content Include="css\ui-lightness\images\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
+    <Content Include="css\ui-lightness\images\ui-icons_222222_256x240.png" />
+    <Content Include="css\ui-lightness\images\ui-icons_228ef1_256x240.png" />
+    <Content Include="css\ui-lightness\images\ui-icons_ef8c08_256x240.png" />
+    <Content Include="css\ui-lightness\images\ui-icons_ffd27a_256x240.png" />
+    <Content Include="css\ui-lightness\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="css\ui-lightness\jquery-ui-1.10.4.custom.css" />
+    <Content Include="css\ui-lightness\jquery-ui-1.10.4.custom.min.css" />
+    <Content Include="Global.asax" />
+    <Content Include="js\Board.js" />
+    <Content Include="js\commander.js" />
+    <Content Include="js\common.js" />
+    <Content Include="js\customerinfo.js" />
+    <Content Include="js\delivery.js" />
+    <Content Include="js\error.js" />
+    <Content Include="js\index.js" />
+    <Content Include="js\jquery-1.10.2.min.js" />
+    <Content Include="js\jquery-ui-1.10.4.custom.js" />
+    <Content Include="js\jquery-ui-1.10.4.custom.min.js" />
+    <Content Include="js\jquery.cookie.js" />
+    <Content Include="js\obtain.js" />
+    <Content Include="js\productinfo.js" />
+    <Content Include="js\store.js" />
+    <Content Include="js\userinfo.js" />
+    <Content Include="Language\Board\List.xml" />
+    <Content Include="Language\customer\main.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Language\Delivery\DeliveryOrderList.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Language\Delivery\DeliveryBillList.xml" />
+    <Content Include="Language\Delivery\DeliveryCheckList.xml" />
+    <Content Include="Language\Delivery\DeliveryOrder.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Language\Delivery\DeliveryApproveList.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Language\home\BrowserError.xml" />
+    <Content Include="Language\home\Error.xml" />
+    <Content Include="Language\Obtain\OrderList.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Language\Obtain\OrderApproveList.xml" />
+    <Content Include="Language\Obtain\Order.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Language\PDF\Order.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Language\product\main.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Language\store\ReleaseAdd.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Language\store\ApplyCheckList.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Language\store\ApplyList.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Language\store\ApplyAdd.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Language\store\StoreList.xml" />
+    <Content Include="Language\store\ReleaseList.xml" />
+    <Content Include="Language\store\ReleaseCheckList.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Language\store\StoreOrder.xml" />
+    <Content Include="Language\web\CompanyInfo.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Language\web\index.xml" />
+    <Content Include="Language\Master.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Language\web\UserInfo.xml" />
+    <Content Include="Navigation\Navigation.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="PDF\OrderForm.html" />
+    <Content Include="PDF\SampleForm.html" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Web\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Web\Main.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Master.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\Error.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Obtain\Web\Order.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Product\Web\Main.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Customer\Web\Main.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Obtain\Web\OrderApproveList.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Store\Web\StoreList.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Delivery\Web\DeliveryCheckList.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Home\BrowserError.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Web\CompanyInfo.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="js\companyinfo.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Store\Web\ApplyCheckList.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Delivery\Web\DeliveryApproveList.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Delivery\Web\DeliveryBillList.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Delivery\Web\DeliveryOrder.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Store\Web\ReleaseCheckList.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Delivery\Web\DeliveryView.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\PopupMaster.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Delivery\Web\BillView.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Obtain\Web\OrderList.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Store\Web\ApplyList.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Delivery\Web\DeliveryOrderList.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Store\Web\ReleaseList.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Store\Web\ApplyAdd.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Store\Web\ReleaseAdd.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Store\Web\StoreOrder.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Web\UserInfo.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Obtain\Web\OrderCheck.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Obtain\Web\OrderApproveCheck.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Obtain\Web\OrderView.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Store\Web\ApplyAddCheck.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Store\Web\ApplyCheckPage.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Store\Web\ApplyView.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Delivery\Web\DeliveryOrderCheck.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Delivery\Web\DeliveryApproveCheck.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Delivery\Web\DeliveryOrderView.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Store\Web\ReleaseAddCheck.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Store\Web\ReleaseCheckPage.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Store\Web\ReleaseView.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Web\LanguageSelectView.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Board\Web\List.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Board\Web\Create.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Board\Web\view.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Web\ConnectLog.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Editor\photo_uploader\popup\file_uploader.php" />
+    <Content Include="Editor\photo_uploader\popup\file_uploader_html5.php" />
+    <Content Include="Editor\sample.php" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>58402</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:58402/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

@@ -1,0 +1,93 @@
+﻿<script src="@Url.Content("~/js/Store.js")"></script>
+<link href="@Url.Content("~/css/Store.css")" type="text/css" rel="stylesheet" />
+<div id="contents">
+    <div id="listSearch">
+        <table align="center">
+            <tr>
+                <td colspan="4" style="height: 30px; background-color: #5976D4; text-align: center; font-size: 1.2em; color: white;">
+                    @RazorApi.Instance().DisplayView(ViewBag, "SearchStoreOrderTitle")
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <input type="button" class="btn" style="width:95%;height:20px;" value="@RazorApi.Instance().DisplayView(ViewBag, "SearchBtn")" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <hr />
+    <div id="list" class="list">
+        <table align="center">
+            <thead>
+                <tr style="height:30px;" class="nList">
+                    <th style="width: 20px; text-align: center;">No</th>
+                    <th style="width: 280px;text-align:center;">@RazorApi.Instance().DisplayView(ViewBag, "SearchProductName", "상품이름")</th>
+                    <th style="width: 100px; text-align: center;">@RazorApi.Instance().DisplayView(ViewBag, "SearchProductType", "구분")</th>
+                    <th style="width: 100px; text-align: center;">@RazorApi.Instance().DisplayView(ViewBag, "SearchProductInput", "입고")</th>
+                    <th style="width: 100px; text-align: center;">@RazorApi.Instance().DisplayView(ViewBag, "SearchProductOutput", "출고")</th>
+                    <th style="width: 100px; text-align: center;">@RazorApi.Instance().DisplayView(ViewBag, "SearchProductMoney", "가격")</th>
+                    <th style="width: 100px; text-align: center;">@RazorApi.Instance().DisplayView(ViewBag, "SearchProductDate", "등록일")</th>
+                </tr>
+            </thead>
+            <tbody id="listData">
+                @foreach (var pBuffer in ViewBag.list)
+                {
+                    <tr class="mList2">
+                        <td>@pBuffer.idx</td>
+                        <td>@pBuffer.productname</td>
+                        <td>@pBuffer.producttype</td>
+                        <td>@pBuffer.productInput.ToString("###,##0")</td>
+                        <td>@pBuffer.productOutput.ToString("###,##0")</td>
+                        <td>@pBuffer.productmoney.ToString("###,##0")</td>
+                        <td>@pBuffer.createdateString</td>
+                    </tr>
+                }
+                @if (ViewBag.listcount == 0)
+                {
+                    <tr>
+                        <td colspan="7" height="100px" align="center" style="font-size:0.9em;height:200px;">@RazorApi.Instance().DisplayView(ViewBag, "NotSearch", "검색없음")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <br />
+        <div align="center" style="margin-top:2px;">
+            <span id="paging">
+                @if (ViewBag.listcount > 0)
+                {
+                    @:<a href='#' style='text-decoration: none; color: blue;' onclick="StoreList(1); return false;">◀</a>
+                        for (var i = 1; i <= ViewBag.listcount; i++)
+                        {
+                            var color = "";
+                            if (i == 1)
+                            {
+                                color = "black";
+                                @:&nbsp;<font style='text-decoration:none;color:@color'>@i</font>&nbsp;
+                            }
+                            else
+                            {
+                                color = "blue";
+                                @:&nbsp;<a href='#' style='text-decoration:none;color:@color' onclick='StoreList(@i);return false;'>@i</a>&nbsp;
+                            }
+                        }
+                        @:<a href='#' style='text-decoration: none; color: blue;' onclick='StoreList(" + nextpage + "); return false;'>▶</a>
+                }
+            </span>
+        </div>
+    </div>
+</div>
+<div style="display:none">
+    <table>
+        <tbody id="template">
+            <tr class="mList2">
+                <td>##idx##</td>
+                <td>##ProductName##</td>
+                <td>##ProductType##</td>
+                <td>##ProductInput##</td>
+                <td>##ProductOutput##</td>
+                <td>##ProductMoney##</td>
+                <td>##ProductDate##</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

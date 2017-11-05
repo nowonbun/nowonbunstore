@@ -1,0 +1,149 @@
+
+/**************************
+*   Horizontal Submenus   *
+***************************/
+
+	/* Add some top margin to the subheader */
+.horiz_submenus_page #subheader_wrapper_margin {
+	margin-top: 40px;
+}
+
+/*     ------------ Primary Navigation ------------ */
+
+	/* full width horizontal submenus */
+.horiz_submenus_page #nav .menu_normal li {
+	position: static !Important;
+}
+
+.horiz_submenus_page #nav .menu_normal .sub-menu  {
+	left: 0 !Important;
+	right: 0 !Important;
+}
+
+.horiz_submenus_page #nav .menu_normal .sub-menu > li {
+	float: left !Important;
+}
+
+.horiz_submenus_page #nav .menu_normal .label_holder {
+	width: auto !Important;
+}
+	/* increase the font size of submenus (it can be done in the theme editor) */
+.horiz_submenus_page #nav .menu_normal .sub-menu > li {
+	font-size: 15px !Important;
+}
+	/* remove the horizontal separator between submenu items (it can be done in the theme editor) */
+.horiz_submenus_page #nav .menu_normal .sub-menu > li {
+	border-top: 0 !Important;
+}
+	/* add vertical separators between submenu items */
+.horiz_submenus_page #nav .menu_normal .sub-menu > li {
+	border-left: 1px solid #4f4d49;
+}
+.horiz_submenus_page #nav .menu_normal .sub-menu > li:first-child {
+	border-left: 0;
+}
+
+
+/*     ------------ First menu in the content ------------ */
+
+	/* do not highlight the current main menu item */
+.horizontal_submenus .menu > li.current-menu-ancestor > a, .horizontal_submenus .menu > li.current-menu-item > a {
+	background: none;
+}
+
+	/* full width horizontal submenus */
+.horizontal_submenus .menu_normal li {
+	position: static !Important;
+}
+
+.horizontal_submenus .menu_normal .sub-menu  {
+	left: 0 !Important;
+	right: 0 !Important;
+}
+
+.horizontal_submenus .menu_normal .sub-menu > li {
+	float: left !Important;
+}
+
+.horizontal_submenus .menu_normal .label_holder {
+	width: auto !Important;
+}
+	/* increase the font size of submenus (it can be done in the theme editor) */
+.horizontal_submenus .menu_normal .sub-menu > li {
+	font-size: 15px !Important;
+}
+	/* remove the horizontal separator between submenu items (it can be done in the theme editor) */
+.horizontal_submenus .menu_normal .sub-menu > li {
+	border-top: 0 !Important;
+}
+	/* add vertical separators between submenu items */
+.horizontal_submenus .menu_normal .sub-menu > li {
+	border-left: 1px solid #4f4d49;
+}
+.horizontal_submenus .menu_normal .sub-menu > li:first-child {
+	border-left: 0;
+}
+	/* decrease the right padding of submenu folder labels (submenu items that has a submenu) */
+.horizontal_submenus .menu_normal .sub-menu .label_holder {
+	padding-right: 6px !Important;
+}
+
+	/* remove the left and right border of submenus */
+.horizontal_submenus .menu_normal .sub-menu {
+	border-left: 0;
+	border-right: 0;
+}
+
+/*     ------------ Second menu in the content (first level submenus are horizontal, the others are vertical) ------------ */
+
+	/* do not highlight the current main menu item */
+.horizontal_submenus2 .menu > li.current-menu-ancestor > a, .horizontal_submenus2 .menu > li.current-menu-item > a {
+	background-color: transparent;
+}
+
+	/* full width horizontal first-level submenus */
+.horizontal_submenus2 .menu_normal > li {
+	position: static !Important;
+}
+
+.horizontal_submenus2 .menu_normal > li > .sub-menu  {
+	left: 0 !Important;
+	right: 0 !Important;
+}
+
+.horizontal_submenus2 .menu_normal > li > .sub-menu > li {
+	float: left !Important;
+}
+
+.horizontal_submenus2 .menu_normal > li > .sub-menu > li > a > .label_holder {
+	width: auto !Important;
+}
+	/* increase the font size of first-level submenus */
+.horizontal_submenus2 .menu_normal > li > .sub-menu > li {
+	font-size: 15px !Important;
+}
+	/* remove the horizontal separator between first-level submenu items (it can be done in the theme editor) */
+.horizontal_submenus2 .menu_normal > li > .sub-menu > li {
+	border-top: 0 !Important;
+}
+	/* add vertical separators between first-level submenu items */
+.horizontal_submenus2 .menu_normal > li > .sub-menu > li {
+	border-left: 1px solid #4f4d49;
+}
+.horizontal_submenus2 .menu_normal > li > .sub-menu > li:first-child {
+	border-left: 0;
+}
+	/* decrease the right padding of first-level submenu folder labels (submenu items that has a submenu) */
+.horizontal_submenus2 .menu_normal > li > .sub-menu > li > a > .label_holder {
+	padding-right: 6px !Important;
+}
+	/* Change the opening direction of the second level submenus to downward */
+.horizontal_submenus2 .menu_normal > li > .sub-menu > li > .sub-menu {
+	left:0; right:auto; top:100%; bottom:auto;
+}
+
+	/* remove the left and right border of submenus */
+.horizontal_submenus2 .menu_normal .sub-menu {
+	border-left: 0;
+	border-right: 0;
+}

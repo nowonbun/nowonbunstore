@@ -1,0 +1,38 @@
+﻿div.loginbox table {
+    border-style: solid;
+    border-width: thin;
+    border-spacing: 0px;
+    padding: 0px;
+}
+div.loginbox thead{
+    background:#9FD6DF;
+    height:50px;
+    color:#808080;
+    font-weight:800;
+    text-align:center;
+    font-size:1.2em;
+}
+div.loginbox input.textbox{
+    width:90%;
+    color:#B0B0B0;
+    font-weight:100;
+    height:30px;
+}
+div.loginbox input.button {
+    width: 90%;
+    height: 30px;
+    background-color: #9FD6DF;
+    cursor:pointer;
+}
+div.loginbox tfoot {
+    background: #9FD6DF;
+    color: #808080;
+    text-align: right;
+    font-size: 0.6em;
+}
+div.loginbox a
+{
+    text-decoration : none;
+    color : #0000FF;
+    font-size:0.8em;
+}

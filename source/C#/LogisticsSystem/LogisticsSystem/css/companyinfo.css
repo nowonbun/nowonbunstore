@@ -1,0 +1,50 @@
+﻿.title {
+    background-color: #f0f0f0;
+    border-bottom: solid;
+    border-bottom-width: thin;
+    border-top:solid;
+    border-top-width:thin;
+    height: 40px;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+}
+.tabletitle {
+    border-bottom:solid;
+    border-bottom-width:thin;
+    border-bottom-color:#f0f0f0;
+    width: 300px;
+    height:30px;
+    font-size:0.8em;
+}
+.tableInput {
+    border-bottom: solid;
+    border-bottom-width: thin;
+    border-bottom-color: #f0f0f0;
+}
+.infoInputText {
+        
+        
+}
+.tabletitle2{
+    font-size:0.8em;
+    border-top:solid;
+    border-bottom:solid;
+    border-top-width:thin;
+    border-bottom-width:thin;
+    background-color: #f0f0f0;
+}
+.ui-datepicker{ font-size: 12px; width: 160px; }
+.ui-datepicker select.ui-datepicker-month{ width:30%; font-size: 11px; }
+.ui-datepicker select.ui-datepicker-year{ width:40%; font-size: 11px; }
+input.btn{
+    width:100%;
+    height:30px;
+    border-style:solid;
+    border-color:#000;
+    cursor:pointer;
+    background-color:#d4d560;
+}
+.ErrMsg{
+    color:red;
+    font-size:0.8em;
+}

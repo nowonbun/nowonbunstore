@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<language>
+  <column key="companyInfo">
+    <korea>회사정보</korea>
+    <japan>会社情報</japan>
+  </column>
+  <column key="companyname">
+    <korea>회사이름</korea>
+    <japan>会社名</japan>
+  </column>
+  <column key="companyaddress">
+    <korea>회사주소</korea>
+    <japan>会社住所</japan>
+  </column>
+  <column key="companysecurinum">
+    <korea>사업자번호</korea>
+    <japan>事業者番号</japan>
+  </column>
+  <column key="companynumber">
+    <korea>회사전화번호</korea>
+    <japan>会社電話番号</japan>
+  </column>
+  <column key="companyFax">
+    <korea>회사팩스번호</korea>
+    <japan>会社ファックス</japan>
+  </column>
+  <column key="companyEmail">
+    <korea>회사이메일</korea>
+    <japan>会社Eメール</japan>
+  </column>
+  <column key="companyrepresentative">
+    <korea>대표자명</korea>
+    <japan>代表者名</japan>
+  </column>
+  <column key="companyrepresentativenumber">
+    <korea>대표자전화번호</korea>
+    <japan>代表者電話番号</japan>
+  </column>
+  <column key="companyrepresentativeEmail">
+    <korea>대표자이메일</korea>
+    <japan>代表者Eメール</japan>
+  </column>
+  <column key="companyAccountInfo">
+    <korea>통장정보</korea>
+    <japan>通帳情報</japan>
+  </column>
+  <column key="companyAccountName">
+    <korea>통장은행명</korea>
+    <japan>通帳銀行名</japan>
+  </column>
+  <column key="companyAccountBank">
+    <korea>통장지점명</korea>
+    <japan>通帳支店名</japan>
+  </column>
+  <column key="companyAccountBankcode">
+    <korea>통장지점코드</korea>
+    <japan>通帳支店コード</japan>
+  </column>
+  <column key="companyAccountOwnerName">
+    <korea>통장예금주</korea>
+    <japan>通帳取付</japan>
+  </column>
+  <column key="companyAccountNumber">
+    <korea>통장번호</korea>
+    <japan>通帳番号</japan>
+  </column>
+  <column key="companyEste">
+    <korea>설립일</korea>
+    <japan>設立日</japan>
+  </column>
+  <column key="companymodify">
+    <korea>수정</korea>
+    <japan>修正</japan>
+  </column>
+  <column key="companycancel">
+    <korea>취소</korea>
+    <japan>取消</japan>
+  </column>
+  <column key="orderInfo">
+    <korea>발주기본정보</korea>
+    <japan>発注基本情報</japan>
+  </column>
+  <column key="orderAddress">
+    <korea>납기장소</korea>
+    <japan>納期場所</japan>
+  </column>
+  <column key="japanname">
+    <korea>(일)</korea>
+    <japan>(日)</japan>
+  </column>
+  <column key="englishname">
+    <korea>(영)</korea>
+    <japan>(英)</japan>
+  </column>
+<column key="japan">
+    <korea>일본</korea>
+    <japan>日本</japan>
+  </column>
+  <column key="korea">
+    <korea>한국</korea>
+    <japan>韓国</japan>
+  </column>
+</language>

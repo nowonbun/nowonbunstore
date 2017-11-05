@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<display>
+  <ErrorCode key="ERR0000">
+    <korea>아이디를 입력해 주십시오.</korea>
+    <japan>IDを入力してください。</japan>
+  </ErrorCode>
+  <ErrorCode key="ERR0001">
+    <korea>패스워드를 입력해 주십시오.</korea>
+    <japan>パスワードを入力してください。</japan>
+  </ErrorCode>
+  <ErrorCode key="ERR0002">
+    <korea>이 브라우져에서는 이미지 업로드를 사용할 수 없습니다.</korea>
+    <japan>このブラウザではイメージアップロードができません。</japan>
+  </ErrorCode>
+  <ErrorCode key="ERR0003">
+    <korea>코드생성이 불가능 합니다.</korea>
+    <japan>コード生成が不可です。</japan>
+  </ErrorCode>
+  <ErrorCode key="ERR1000">
+    <korea>코드생성을 실시하십시오</korea>
+    <japan>コード生成をしてください。</japan>
+  </ErrorCode>
+  <ErrorCode key="ERR1001">
+    <korea>상품이름을 입력해 주십시오.</korea>
+    <japan>商品名を入力してください。</japan>
+  </ErrorCode>
+  <ErrorCode key="ERR1002">
+    <korea>삭제하시겠습니까?</korea>
+    <japan>削除しますか？</japan>
+  </ErrorCode>
+  <ErrorCode key="ERR1003">
+    <korea>수정하시겠습니까?</korea>
+    <japan>修正しますか？</japan>
+  </ErrorCode>
+  <ErrorCode key="ERR1001">
+    <korea>회사명을 입력해 주십시오.</korea>
+    <japan>会社名を入力してください。</japan>
+  </ErrorCode>
+</display>

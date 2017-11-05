@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<language>
+  <column key="SearchComp">
+    <korea>고객사</korea>
+    <japan>顧客社</japan>
+  </column>
+  <column key="SearchOrderDate">
+    <korea>납품일자</korea>
+    <japan>納品日付</japan>
+  </column>
+  <column key="SearchBtn">
+    <korea>검색</korea>
+    <japan>検索</japan>
+  </column>
+  <column key="SearchOrderTitle">
+    <korea>납품확인서검색</korea>
+    <japan>納品確認書検索</japan>
+  </column>
+  <column key="SearchCreateDate">
+    <korea>작성일</korea>
+    <japan>作成日</japan>
+  </column>
+  <column key="SearchCreater">
+    <korea>작성자</korea>
+    <japan>作成者</japan>
+  </column>
+  <column key="SearchView">
+    <korea>보기</korea>
+    <japan>閲覧</japan>
+  </column>
+  <column key="NotSearch">
+    <korea>검색결과가 없습니다.</korea>
+    <japan>検索結果がありません。</japan>
+  </column>
+  <column key="DeliveryTitle">
+    <korea>납품확인서</korea>
+    <japan>納品確認書</japan>
+  </column>
+  <column key="DocumentNumber">
+    <korea>문서번호</korea>
+    <japan>文書番号</japan>
+  </column>
+  <column key="CreateDate">
+    <korea>작성일</korea>
+    <japan>作成日</japan>
+  </column>
+  <column key="Creater">
+    <korea>작성자</korea>
+    <japan>作成者</japan>
+  </column>
+  <column key="OrderCompany">
+    <korea>고객사</korea>
+    <japan>顧客社</japan>
+  </column>
+  <column key="OrderAddress">
+    <korea>주소</korea>
+    <japan>住所</japan>
+  </column>
+  <column key="OrderDate">
+    <korea>납품일</korea>
+    <japan>納品日</japan>
+  </column>
+  <column key="DeliveryCompany">
+    <korea>납품사</korea>
+    <japan>納品社</japan>
+  </column>
+  <column key="DeliveryRepresentative">
+    <korea>대표자</korea>
+    <japan>代表者</japan>
+  </column>
+  <column key="SubNumber">
+    <korea>번호</korea>
+    <japan>番号</japan>
+  </column>
+  <column key="SubProductName">
+    <korea>상품명</korea>
+    <japan>商品名</japan>
+  </column>
+  <column key="SubProductSpec">
+    <korea>규격</korea>
+    <japan>規格</japan>
+  </column>
+  <column key="SubAmount">
+    <korea>수량</korea>
+    <japan>数量</japan>
+  </column>
+  <column key="SubMoney">
+    <korea>공급가액</korea>
+    <japan>金額</japan>
+  </column>
+  <column key="SubVat">
+    <korea>Vat</korea>
+    <japan>税金</japan>
+  </column>
+  <column key="SubOther">
+    <korea>비고</korea>
+    <japan>備考</japan>
+  </column>
+  <column key="DeliveryView">
+    <korea>납품확인서열람</korea>
+    <japan>納品確認書閲覧</japan>
+  </column>
+  <column key="PrintPdf">
+    <korea>PDF출력</korea>
+    <japan>PDF出力</japan>
+  </column>
+  <column key="PrintMail">
+    <korea>메일발송</korea>
+    <japan>メール発送</japan>
+  </column>
+  <column key="Return">
+    <korea>돌아가기</korea>
+    <japan>戻る</japan>
+  </column>
+  <column key="ListTotalSumMoney">
+    <korea>총금액</korea>
+    <japan>総金額</japan>
+  </column>
+</language>

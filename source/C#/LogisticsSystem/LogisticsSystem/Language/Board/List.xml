@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<language>
+  <column key="BoardTitle">
+    <korea>게시판</korea>
+    <japan>掲示板</japan>
+  </column>
+  <column key="NotSearch">
+    <korea>검색결과가 없습니다.</korea>
+    <japan>検索結果がありません。</japan>
+  </column>
+  <column key="Context">
+    <korea>내용</korea>
+    <japan>内容</japan>
+  </column>
+  <column key="Creater">
+    <korea>작성자</korea>
+    <japan>作成者</japan>
+  </column>
+  <column key="CreatDate">
+    <korea>작성일시</korea>
+    <japan>作成日時</japan>
+  </column>
+  <column key="Create">
+    <korea>작성</korea>
+    <japan>作成</japan>
+  </column>
+  <column key="return">
+    <korea>메뉴로</korea>
+    <japan>戻る</japan>
+  </column>
+  <column key="Modify">
+    <korea>수정</korea>
+    <japan>修正</japan>
+  </column>
+  <column key="Delete">
+    <korea>삭제</korea>
+    <japan>削除</japan>
+  </column>
+  <column key="Title">
+    <korea>제목</korea>
+    <japan>タイトル</japan>
+  </column>
+  <column key="TitleError">
+    <korea>제목을 입력해 주십시오.</korea>
+    <japan>タイトルを入力してください。</japan>
+  </column>
+  <column key="insertCheck">
+    <korea>등록하시겠습니까?</korea>
+    <japan>登録しますか？</japan>
+  </column>
+  <column key="deleteCheck">
+    <korea>삭제하시겠습니까?</korea>
+    <japan>削除しますか？</japan>
+  </column>
+  <column key="apply">
+    <korea>등록</korea>
+    <japan>登録</japan>
+  </column>
+  <column key="commnetError">
+    <korea>글이 없습니다.</korea>
+    <japan>コメントが空白です。</japan>
+  </column>
+</language>

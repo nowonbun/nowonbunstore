@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<language>
+  <column key="SearchProductName">
+    <korea>상품이름</korea>
+    <japan>商品名</japan>
+  </column>
+  <column key="SearchProductAmount">
+    <korea>상품개수</korea>
+    <japan>商品個数</japan>
+  </column>
+  <column key="SearchProductAvgPrice">
+    <korea>상품평균단가</korea>
+    <japan>商品平均単価</japan>
+  </column>
+  <column key="NotSearch">
+    <korea>검색결과가 없습니다.</korea>
+    <japan>検索結果がありません。</japan>
+  </column>
+</language>

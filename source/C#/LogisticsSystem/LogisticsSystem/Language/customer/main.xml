@@ -1,0 +1,199 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<language>
+  <column key="CustomerCode">
+    <korea>업체코드</korea>
+    <japan>会社コード</japan>
+  </column>
+  <column key="CustomerName">
+    <korea>업체명</korea>
+    <japan>会社名</japan>
+  </column>
+  <column key="representative">
+    <korea>대표자명</korea>
+    <japan>代表者名</japan>
+  </column>
+  <column key="CustomerSecurityNumber">
+    <korea>사업자번호</korea>
+    <japan>事業者番号</japan>
+  </column>
+  <column key="CustomerNumber">
+    <korea>전화번호</korea>
+    <japan>電話番号</japan>
+  </column>
+  <column key="CustomerFax">
+    <korea>팩스번호</korea>
+    <japan>FAX番号</japan>
+  </column>
+  <column key="CustomerEmail">
+    <korea>이메일</korea>
+    <japan>Eメール</japan>
+  </column>
+  <column key="TabCustomerInfo">
+    <korea>업체정보</korea>
+    <japan>会社情報</japan>
+  </column>
+  <column key="TabCustomerHistory">
+    <korea>이력관리</korea>
+    <japan>履歴管理</japan>
+  </column>
+  <column key="InfoCustomerCode">
+    <korea>업체코드</korea>
+    <japan>会社コード</japan>
+  </column>
+  <column key="InfoCustomerName">
+    <korea>상호명</korea>
+    <japan>会社名</japan>
+  </column>
+  <column key="InfoCustomerType">
+    <korea>거래처구분</korea>
+    <japan>取引先区分</japan>
+  </column>
+  <column key="Intorepresentative">
+    <korea>대표자명</korea>
+    <japan>代表者名</japan>
+  </column>
+  <column key="InfoCustomerSecurityNumber">
+    <korea>사업자번호</korea>
+    <japan>事業者番号</japan>
+  </column>
+  <column key="InfoNumber">
+    <korea>전화번호</korea>
+    <japan>電話番号</japan>
+  </column>
+  <column key="InfoFax">
+    <korea>팩스번호</korea>
+    <japan>ファックス番号</japan>
+  </column>
+  <column key="InfoAddress">
+    <korea>주소</korea>
+    <japan>住所</japan>
+  </column>
+  <column key="InfoEmail">
+    <korea>이메일</korea>
+    <japan>Eメール</japan>
+  </column>
+  <column key="Taxlist">
+    <korea>세금명세서</korea>
+    <japan>税金明細書</japan>
+  </column>
+  <column key="Taxrepresentative">
+    <korea>대표자명</korea>
+    <japan>代表者名</japan>
+  </column>
+  <column key="TaxAddress">
+    <korea>주소</korea>
+    <japan>住所</japan>
+  </column>
+  <column key="MoneySendType">
+    <korea>대금지불방법</korea>
+    <japan>代金支払方法</japan>
+  </column>
+  <column key="SendType">
+    <korea>지불방법</korea>
+    <japan>支払方法</japan>
+  </column>
+  <column key="BankName">
+    <korea>은행명</korea>
+    <japan>銀行名</japan>
+  </column>
+  <column key="BankOwner">
+    <korea>예금주</korea>
+    <japan>取付</japan>
+  </column>
+  <column key="BankNumber">
+    <korea>통장번호</korea>
+    <japan>通帳番号</japan>
+  </column>
+  <column key="VAT">
+    <korea>VAT</korea>
+    <japan>VAT</japan>
+  </column>
+  <column key="Taxrate">
+    <korea>세율</korea>
+    <japan>税率</japan>
+  </column>
+  <column key="CustomerGrade">
+    <korea>업체등급</korea>
+    <japan>会社等級</japan>
+  </column>
+  <column key="CustomerRepressent">
+    <korea>담당자</korea>
+    <japan>担当者</japan>
+  </column>
+  <column key="CustomerRepressentNumber">
+    <korea>전화번호</korea>
+    <japan>電話番号</japan>
+  </column>
+  <column key="InfoCreateTitle">
+    <korea>등록자</korea>
+    <japan>登録者</japan>
+  </column>
+  <column key="InfoCreater">
+    <korea>등록자</korea>
+    <japan>登録者</japan>
+  </column>
+  <column key="InfoCreatedate">
+    <korea>등록일</korea>
+    <japan>登録日</japan>
+  </column>
+  <column key="InfoOther">
+    <korea>비고</korea>
+    <japan>備考</japan>
+  </column>
+  <column key="ApplyBtn">
+    <korea>등록</korea>
+    <japan>登録</japan>
+  </column>
+  <column key="ApplyCancel">
+    <korea>취소</korea>
+    <japan>取消</japan>
+  </column>
+  <column key="ModifyCancel">
+    <korea>수정</korea>
+    <japan>修正</japan>
+  </column>
+  <column key="DeleteCancel">
+    <korea>삭제</korea>
+    <japan>削除</japan>
+  </column>
+  <column key="Modifier">
+    <korea>수정자</korea>
+    <japan>修正者</japan>
+  </column>
+  <column key="ModifyDate">
+    <korea>수정일시</korea>
+    <japan>修正日時</japan>
+  </column>
+  <column key="HistoryMsg">
+    <korea>이력모드에서는 수정 또는 삭제가 되지 않습니다.</korea>
+    <japan>履歴モードでは修正または削除がされません。</japan>
+  </column>
+  <column key="ListTitle">
+    <korea>회사리스트</korea>
+    <japan>会社リスト</japan>
+  </column>
+  <column key="BankCodeName">
+    <korea>지점명</korea>
+    <japan>支店名</japan>
+  </column>
+  <column key="BankCode">
+    <korea>지점번호</korea>
+    <japan>支店番号</japan>
+  </column>
+  <column key="InfoCustomerCodeBtn">
+    <korea>생성</korea>
+    <japan>生成</japan>
+  </column>
+  <column key="NotSearch">
+    <korea>검색결과가 없습니다.</korea>
+    <japan>検索結果がありません。</japan>
+  </column>
+  <column key="DeleteText">
+    <korea>삭제하시겠습니까?</korea>
+    <japan>削除しますか？</japan>
+  </column>
+  <column key="ModifyText">
+    <korea>수정하시겠습니까?</korea>
+    <japan>修正しますか？</japan>
+  </column>
+</language>

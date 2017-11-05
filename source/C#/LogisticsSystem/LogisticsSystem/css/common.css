@@ -1,0 +1,147 @@
+﻿div.navigation
+{
+    font-size: 0.7em; 
+    text-align: left; 
+    margin-left:10px;
+}
+div.mainList table.skintable {
+    width:99%;
+    border-style:solid;
+    margin:0px;
+}
+div.ListTitle table {
+    margin:0px;
+    border-spacing : 0px;
+}
+div.ListTitle table tr td{
+    border-style : none;
+    border-left-style:solid;
+    border-left-color:#fff;
+    border-left-width:thin;
+    border-right-style:solid;
+    border-right-color:#fff;
+    border-right-width:thin;
+    font-size:0.8em;
+    width:100px;
+    height:20px;
+    text-align:center;
+    background-color: #6fBBD4;
+    border-bottom-style:solid;
+    border-bottom-width:thin;
+    border-bottom-color : rgba(0,0,0,.6);
+    border-top-left-radius : 8px;
+    border-top-right-radius : 8px;
+    color : #f3f3f3;
+    text-shadow: 1px 1px 1px rgba(0,0,0,.6);
+}
+/*
+div.list table {
+    padding:0px;
+    border-spacing:0px;
+    border-style:solid;
+    border-width:thin; 
+    border-color: #ccc;
+    width:95%;
+}
+
+div.list table thead tr th {
+    font-size:0.9em;
+    background-color: #ddd;
+    border-style:solid;
+    border-width:thin;
+    border-color: #ccc;
+}
+div.list table tbody tr td {
+    font-size:0.8em;
+    text-align:center;
+    height:20px;
+    border-style:solid;
+    border-width:thin;
+    border-color: #ccc;
+}
+div.list table tbody tr:hover {
+    background-color:#eee;
+    cursor:pointer;
+}
+*/
+div.tab table {
+    margin:0px;
+    border-spacing : 0px;
+}
+div.tab table tr td{
+    border-style : none;
+    border-left-style:solid;
+    border-left-color:#fff;
+    border-left-width:thin;
+    border-right-style:solid;
+    border-right-color:#fff;
+    border-right-width:thin;
+    font-size:0.8em;
+    width:100px;
+    height:20px;
+    text-align:center;
+    background-color: #6fBBD4;
+    border-bottom-style:solid;
+    border-bottom-width:thin;
+    border-bottom-color : rgba(0,0,0,.6);
+    border-top-left-radius : 8px;
+    border-top-right-radius : 8px;
+    color : #f3f3f3;
+    text-shadow: 1px 1px 1px rgba(0,0,0,.6);
+}
+div.tab table tr td:hover {
+    cursor:pointer;
+}
+div.tab table tr td:active {
+    background-color: #9a9a9a;
+}
+div.content table.skintable {
+    width:100%;
+    border-style:solid;
+    margin:0px;
+}
+div.content table.inputTable {
+    width:100%;
+    border-style:solid;
+    border-width:thin;
+    margin:0px;
+    border-spacing:0px;
+}
+div.content table.inputTable td {
+    font-size:0.7em;
+}
+div.content table.inputTable td.title {
+    width:100px;
+    text-align:center;
+}
+div.content table.inputTable td.inputColumn {
+}
+div.content table.inputTable td.inputColumn input{
+    width:95%;
+}
+div.content table.inputTable th {
+    font-weight:bold;
+    font-size:0.9em;
+    text-align:center;
+}
+div.content table.inputTable input{
+    border-color:#ccc;
+    border-style:solid;
+    border-width:thin;
+}
+div.content table.inputTable select{
+    border-color:#ccc;
+    border-style:solid;
+    border-width:thin;
+}
+div.content table.inputTable textarea{
+    border-color:#ccc;
+    border-style:solid;
+    border-width:thin;
+}
+div.inputForm div {
+    margin:0px;
+}
+input.NoEnble{
+    background-color: #f0f0f0;
+}

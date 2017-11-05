@@ -1,0 +1,73 @@
+﻿<html>
+<head>
+    <title>  </title>
+    <script src="@Url.Content("~/js/jquery-1.10.2.min.js")" type="text/javascript"></script>
+    <style type="text/css">
+        div.Errerbox table {
+            border-style: solid;
+            border-width: thin;
+            width: 300px;
+            border-spacing: 0px;
+            padding: 0px;
+        }
+
+        div.Errerbox thead {
+            background: #9FD6DF;
+            height: 50px;
+            color: #808080;
+            font-weight: 800;
+            text-align: center;
+            font-size: 1.2em;
+        }
+
+        div.Errerbox tfoot {
+            background: #9FD6DF;
+            height: 20px;
+            color: #808080;
+            text-align: right;
+            font-size: 0.6em;
+        }
+
+        div.Errerbox a {
+            text-decoration: none;
+            color: #0000FF;
+            font-size: 0.8em;
+        }
+    </style>
+</head>
+<body>
+    <div id="main">
+        <div id="Errer" class="Errerbox" align="center">
+            <br /><br /><br /><br /><br /><br /><br /><br />
+            <br /><br /><br /><br /><br /><br />
+            <table style="width:400px;">
+                <thead>
+                    <tr>
+                        <td>@RazorApi.Instance().DisplayView(ViewBag, "Title")</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td style="height:10px;"><hr /></td></tr>
+                    <tr>
+                        <td align="center" style="height:80px;">
+                            <font style="font-size: 0.9em;">@RazorApi.Instance().DisplayView(ViewBag, "Error")</font>
+                        </td>
+                    </tr>
+                    <tr><td style="height:10px;"><hr /></td></tr>
+                    <tr>
+                        <td align="center">
+                            <a href="/Web/Lang/j">Japanese</a>&nbsp;&nbsp;&nbsp;<a href="/Web/Lang/k">Korean</a>
+                        </td>
+                    </tr>
+                    <tr><td style="height:10px;"><hr /></td></tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>@RazorApi.Instance().DisplayView(ViewBag, "Company")</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

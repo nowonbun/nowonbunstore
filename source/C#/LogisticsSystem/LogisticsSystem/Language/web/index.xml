@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<language>
+  <column key="ID">
+    <korea>아이디</korea>
+    <japan>ID</japan>
+  </column>
+  <column key="PW">
+    <korea>패스워드</korea>
+    <japan>パスワード</japan>
+  </column>
+  <column key="Title">
+    <korea>물류관리시스템</korea>
+    <japan>物流管理システム</japan>
+  </column>
+  <column key="Button">
+    <korea>로그인</korea>
+    <japan>ログイン</japan>
+  </column>
+  <column key="Company">
+    <korea>Copyright © Soonyub. All Rights Reserved.</korea>
+    <japan>Copyright © Soonyub. All Rights Reserved.</japan>
+  </column>
+</language>

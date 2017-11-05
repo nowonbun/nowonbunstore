@@ -1,0 +1,75 @@
+﻿<script>
+$(document).ready(function () {
+    $("#mainLanguageSelect").height($(window).height()-300);
+});
+function pdfPrint(type) {
+    $("#engcheckVal").val($("#engCheck").val());
+    $("#language").val(type);
+    $("#postsubmit").attr('action', $("#printUrl").val());
+    $("#postsubmit").submit();
+}
+function returnPage() {
+    $("#postsubmit").attr('action', $("#returnUrl").val());
+    $("#postsubmit").submit();
+}
+</script>
+<style>
+    input.languageBtn {
+        width: 100%;
+        height: 50px;
+        border-style: solid;
+        border-color: #000;
+        cursor: pointer;
+        background-color: #00ffff;
+    }
+    input.languageBtn:hover {
+        background-color: #339f9f;
+        cursor: pointer;
+    }
+    input.btn {
+        width: 100%;
+        height: 30px;
+        border-style: solid;
+        border-color: #000;
+        cursor: pointer;
+        background-color: #d4d560;
+    }
+    input.btn:hover {
+        background-color: #7affc6;
+    }
+</style>
+<input type="hidden" id="returnUrl" value="@ViewBag.returnUrl" />
+<input type="hidden" id="printUrl" value="@ViewBag.printUrl" />
+<table id="mainLanguageSelect" width="100%" height="100%">
+    <tr>
+        <td align="center" valign="middle">
+            <table style="width:300px;border-style:solid;">
+                <!--<tr >
+                    <td align="center" style="font-size: 0.9em; height: 50px;">
+                        <input type="checkbox" id="engCheck" />
+                        @RazorApi.Instance().DisplayView(ViewBag, "EnglishCheck", "영어확인")
+                    </td>
+                </tr>-->
+                <tr style="height:50px;">
+                    <td align="center">
+                        <input type="button" value="@RazorApi.Instance().DisplayView(ViewBag, "japanLanguage", "일본어")" class="languageBtn" onclick="pdfPrint('japan')" />
+                    </td>
+                </tr>
+                <tr  style="height: 50px; ">
+                    <td align="center">
+                        <input type="button" value="@RazorApi.Instance().DisplayView(ViewBag, "koreanLanuage", "한국어")" class="languageBtn" onclick="pdfPrint('korean')" />
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center">
+                        <input type="button" value="@RazorApi.Instance().DisplayView(ViewBag, "Return")" class="btn" style="width:30%" onclick="returnPage()" />
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<form method="POST" action="@ViewBag.printUrl" id="postsubmit">
+    <input type="hidden" id="engcheckVal" name="engcheck"/>
+    <input type="hidden" id="language" name="language" />
+</form>

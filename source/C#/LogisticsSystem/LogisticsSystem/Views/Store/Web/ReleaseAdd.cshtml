@@ -1,0 +1,92 @@
+﻿<script src="@Url.Content("~/js/store.js")"></script>
+<link href="@Url.Content("~/css/store.css")" type="text/css" rel="stylesheet" />
+<div class="main" align="center">
+    <form method="POST" action="/Store/ReleaseAddCheck">
+        <table style="width:70%;" align="center">
+            <tr>
+                <td style="height: 30px; background-color: #5976D4; text-align: center; font-size: 1.2em; color: white; ">
+                    @RazorApi.Instance().DisplayView(ViewBag, "ReleaseAdd")
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="ErrMsg" align="left">
+                        @*SE가 설정한 데이터 이기에 문제없음*@
+                        @Html.Raw(ViewBag.ErrMsg)
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <table style="border-style:solid;width:70%;box-shadow: 5px 5px 5px 5px;border-color:#000;" align="center">
+            <thead>
+                <tr>
+                    <td colspan="2" align="center" class="title">@RazorApi.Instance().DisplayView(ViewBag, "title", "출고신청서")</td>
+                </tr>
+            </thead>
+            <tr><td height="10px" /></tr>
+            <tbody>
+                <tr>
+                    <td class="tabletitle" align="center" style="width:300px;">@RazorApi.Instance().DisplayView(ViewBag, "productName", "상품명")</td>
+                    <td class="tableInput" style="width:400px;">
+                        <select id="productType" name="productIndex" onchange="getProduct()" style="width:200px">
+                            <option value=""></option>
+                            @foreach (LogisticsSystem.Models.ProductInfo pData in ViewBag.productlist)
+                            {
+                                <option value="@pData.idx" @{if (ViewBag.Flow != null && @ViewBag.Flow.productIndex == pData.idx) { string buf = "selected"; @buf      }}>
+                                    @pData.productname
+                                </option>
+                            }
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tabletitle" align="center" style="width:300px;">@RazorApi.Instance().DisplayView(ViewBag, "productAmount", "상품수량")</td>
+                    <td class="tableInput" style="width:400px;">
+                        <input class="infoInputText" style="width:200px" onkeyup="keyup(this); totalcalcul();" onkeydown="return numOnly(event);" id="productAmount" name="productAmount" autocomplete=off
+                               value="@if(ViewBag.Flow != null){ @ViewBag.Flow.productAmount.ToString("###,##0") }" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tabletitle" align="center" style="width:300px;">@RazorApi.Instance().DisplayView(ViewBag, "productPrice", "상품가격")</td>
+                    <td class="tableInput" style="width:400px;">
+                        <input class="infoInputText" style="width:200px" readonly id="productprice" name="productSellPrice"
+                               value="@if(ViewBag.Flow != null){ @ViewBag.Flow.productSellPrice.ToString("###,##0") }" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tabletitle" align="center" style="width:300px;">@RazorApi.Instance().DisplayView(ViewBag, "totalPrice", "총가격")</td>
+                    <td class="tableInput" style="width:400px;">
+                        <input class="infoInputText" style="width:200px" readonly id="totalprice"
+                               value="@if (ViewBag.totalprice != null){ @ViewBag.totalprice.ToString("###,##0") }" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tabletitle" align="center" style="width:300px;">@RazorApi.Instance().DisplayView(ViewBag, "creater", "작성자")</td>
+                    <td class="tableInput" style="width:400px;">
+                        <input class="infoInputText" style="width:200px" readonly value="@ViewBag.userInfo.username" name="creater"
+                               value="@if (ViewBag.totalprice != null){ @ViewBag.totalprice.ToString("###,##0") }" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tabletitle" align="center" style="width:300px;">@RazorApi.Instance().DisplayView(ViewBag, "createdate", "작성일")</td>
+                    <td class="tableInput" style="width:400px;">
+                        <input class="infoInputText" style="width:200px" readonly value="@DateTime.Now.ToString("yyyy-MM-dd")" name="cretedate" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="tabletitle" align="center" style="width:300px;">@RazorApi.Instance().DisplayView(ViewBag, "ETC", "사유")</td>
+                    <td class="tableInput" style="width:400px;">
+                        <textarea style="width: 200px; height: 100px; resize: none;" name="ETC">@if (ViewBag.Flow != null){ @ViewBag.Flow.ETC }</textarea>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2" align="center" style="height:30px;">
+                        <input type="submit" class="btn" value="@RazorApi.Instance().DisplayView(ViewBag, "applyBtn")" />
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </form>
+</div>

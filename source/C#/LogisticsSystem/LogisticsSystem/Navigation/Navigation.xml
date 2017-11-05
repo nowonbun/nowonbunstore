@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<display>
+  <navi level="1" controllkey="Web" actionkey="Main">
+    <url>/Web/Main</url>
+    <korea>메인</korea>
+    <japan>メイン</japan>
+  </navi>
+  <navi level="2" controllkey="Web" actionkey="Home" parentKey="/Web/Main">
+    <url></url>
+    <korea>홈</korea>
+    <japan>ホーム</japan>
+  </navi>
+  <navi level="3" controllkey="Product" actionkey="Main" parentKey="/Web/Home">
+    <url>/Web/ProductApply</url>
+    <korea>상품등록</korea>
+    <japan>商品登録</japan>
+  </navi>
+  <navi level="3" controllkey="Customer" actionkey="Main" parentKey="/Web/Home">
+    <url>/Web/CompanyApply</url>
+    <korea>업체등록</korea>
+    <japan>顧客登録</japan>
+  </navi>
+  <navi level="3" controllkey="Web" actionkey="CompanyInfo" parentKey="/Web/Home">
+    <url>/Web/CompanyInfo</url>
+    <korea>회사정보</korea>
+    <japan>会社情報</japan>
+  </navi>
+  <navi level="3" controllkey="Web" actionkey="UserInfo" parentKey="/Web/Home">
+    <url>/Web/UserInfo</url>
+    <korea>회원정보</korea>
+    <japan>会員情報</japan>
+  </navi>
+  <navi level="3" controllkey="Web" actionkey="Logout" parentKey="/Web/Home">
+    <url>/Web/Logout</url>
+    <korea>로그아웃</korea>
+    <japan>ログアウト</japan>
+  </navi>
+  <navi level="2" controllkey="Web" actionkey="Obtain" parentKey="/Web/Main">
+    <url></url>
+    <korea>조달</korea>
+    <japan>調達</japan>
+  </navi>
+  <navi level="3" controllkey="Obtain" actionkey="Order" parentKey="/Web/Obtain">
+    <url>/Obtain/Order</url>
+    <korea>발주신청</korea>
+    <japan>発注申請</japan>
+  </navi>
+  <navi level="3" controllkey="Obtain" actionkey="OrderApproveList" parentKey="/Web/Obtain">
+    <url>/Obtain/OrderApproveList</url>
+    <korea>발주승인</korea>
+    <japan>発注承認</japan>
+  </navi>
+  <navi level="3" controllkey="Obtain" actionkey="OrderList" parentKey="/Web/Obtain">
+    <url>/Obtain/OrderList</url>
+    <korea>발주리스트</korea>
+    <japan>発注リスト</japan>
+  </navi>
+  <navi level="3" controllkey="Delivery" actionkey="DeliveryCheckList" parentKey="/Web/Obtain">
+    <url>/Delivery/DeliveryCheckList</url>
+    <korea>납품확인서</korea>
+    <japan>納品確認書</japan>
+  </navi>
+  <navi level="3" controllkey="Web" actionkey="ObtainTaxCheck" parentKey="/Web/Obtain">
+    <url>/Web/ObtainTaxCheck</url>
+    <korea>세금계산서</korea>
+    <japan>精勤計算書</japan>
+  </navi>
+  <navi level="2" controllkey="Web" actionkey="Store" parentKey="/Web/Main">
+    <url></url>
+    <korea>입고</korea>
+    <japan>入庫</japan>
+  </navi>
+  <navi level="3" controllkey="Store" actionkey="ApplyCheckList" parentKey="/Web/Store">
+    <url>/Store/ApplyCheckList</url>
+    <korea>입고승인</korea>
+    <japan>入庫承認</japan>
+  </navi>
+  <navi level="3" controllkey="Store" actionkey="ApplyAdd" parentKey="/Web/Store">
+    <url>/Store/ApplyAdd</url>
+    <korea>입고등록</korea>
+    <japan>入庫登録</japan>
+  </navi>
+  <navi level="3" controllkey="Store" actionkey="ApplyList" parentKey="/Web/Store">
+    <url>/Store/ApplyList</url>
+    <korea>입고리스트</korea>
+    <japan>入庫リスト</japan>
+  </navi>
+  <navi level="2" controllkey="Web" actionkey="Delivery" parentKey="/Web/Main">
+    <url></url>
+    <korea>납품</korea>
+    <japan>納品</japan>
+  </navi>
+  <navi level="3" controllkey="Delivery" actionkey="DeliveryOrder" parentKey="/Web/Delivery">
+    <url>/Delivery/DeliveryOrder</url>
+    <korea>수주신청</korea>
+    <japan>受注申請</japan>
+  </navi>
+  <navi level="3" controllkey="Delivery" actionkey="DeliveryApproveList" parentKey="/Web/Delivery">
+    <url>/Delivery/DeliveryApproveList</url>
+    <korea>수주승인</korea>
+    <japan>受注承認</japan>
+  </navi>
+  <navi level="3" controllkey="Delivery" actionkey="DeliveryOrderList" parentKey="/Web/Delivery">
+    <url>/Delivery/DeliveryOrderList</url>
+    <korea>수주리스트</korea>
+    <japan>受注リスト</japan>
+  </navi>
+  <navi level="3" controllkey="Delivery" actionkey="Check" parentKey="/Web/Delivery">
+    <url>/Web/DeliveryCheck</url>
+    <korea>납품확인서</korea>
+    <japan>納品確認書</japan>
+  </navi>
+  <navi level="3" controllkey="Delivery" actionkey="DeliveryBillList" parentKey="/Web/Delivery">
+    <url>/Delivery/DeliveryBillList</url>
+    <korea>청구서</korea>
+    <japan>請求書</japan>
+  </navi>
+  <navi level="2" controllkey="Web" actionkey="Release" parentKey="/Web/Main">
+    <url></url>
+    <korea>출고</korea>
+    <japan>出庫</japan>
+  </navi>
+  <navi level="3" controllkey="Store" actionkey="ReleaseCheckList" parentKey="/Web/Release">
+    <url>/Store/ReleaseCheckList</url>
+    <korea>출고승인</korea>
+    <japan>出庫承認</japan>
+  </navi>
+  <navi level="3" controllkey="Store" actionkey="ReleaseAdd" parentKey="/Web/Release">
+    <url>/Store/ReleaseAdd</url>
+    <korea>출고등록</korea>
+    <japan>出庫登録</japan>
+  </navi>
+  <navi level="3" controllkey="Store" actionkey="ReleaseList" parentKey="/Web/Release">
+    <url>/Store/ReleaseList</url>
+    <korea>출고리스트</korea>
+    <japan>出庫リスト</japan>
+  </navi>
+  <navi level="2" controllkey="Web" actionkey="Stroe" parentKey="/Web/Main">
+    <url></url>
+    <korea>재고</korea>
+    <japan>在庫</japan>
+  </navi>
+  <navi level="3" controllkey="Store" actionkey="StoreList" parentKey="/Web/Stroe">
+    <url>/Web/StoreList</url>
+    <korea>재고현황</korea>
+    <japan>在庫状況</japan>
+  </navi>
+  <navi level="3" controllkey="Web" actionkey="StockOrder" parentKey="/Web/Store">
+    <url>/Web/StockOrder</url>
+    <korea>입출고수불장</korea>
+    <japan>入出庫受払書</japan>
+  </navi>
+  <navi level="2" controllkey="Web" actionkey="SalesAdmin" parentKey="/Web/Main">
+    <url></url>
+    <korea>영업관리</korea>
+    <japan>営業管理</japan>
+  </navi>
+  <navi level="2" controllkey="Web" actionkey="Help" parentKey="/Web/Main">
+    <url></url>
+    <korea>도움말</korea>
+    <japan>その他</japan>
+  </navi>
+  <navi level="3" controllkey="Board" actionkey="List" parentKey="/Web/Help">
+    <url>/Board/List</url>
+    <korea>게시판</korea>
+    <japan>掲示板</japan>
+  </navi>
+</display>

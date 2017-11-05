@@ -1,0 +1,356 @@
+﻿@using LogisticsSystem.Models;
+<script src="@Url.Content("~/js/productinfo.js")"></script>
+<link href="@Url.Content("~/css/productinfo.css")" type="text/css" rel="stylesheet" />
+<div class="mainList" align="center">
+    <div class="ListTitle" align="left" style="margin-left:5px;">
+        <table>
+            <tr>
+                <td>@RazorApi.Instance().DisplayView(ViewBag, "ListTitle")</td>
+            </tr>
+        </table>
+    </div>
+    <table class="skintable1" style="height:320px;border-color:#000;">
+        <tbody>
+            <tr>
+                <td align="center" valign="top">
+                    <div id="list" class="list1">
+                        <table>
+                            <thead>
+                                <tr style="height:30px;">
+                                    <th style="width:100px;">@RazorApi.Instance().DisplayView(ViewBag, "ListproductCode", "상품코드")</th>
+                                    <th>@RazorApi.Instance().DisplayView(ViewBag, "ListproductName", "상품이름")</th>
+                                    <th style="width:100px;">@RazorApi.Instance().DisplayView(ViewBag, "ListAcquirer", "매입사")</th>
+                                    <th style="width:100px;">@RazorApi.Instance().DisplayView(ViewBag, "ListManufacturer", "재고사")</th>
+                                    <th style="width:100px;">@RazorApi.Instance().DisplayView(ViewBag, "ListProductCost", "매입가")</th>
+                                    <th style="width:100px;">@RazorApi.Instance().DisplayView(ViewBag, "ListProductPrice", "판매가")</th>
+                                </tr>
+                            </thead>
+                            <tbody id="listData">
+                                @foreach (ProductInfo l in ViewBag.list)
+                                {
+                                    <tr onclick="ProductSearch('@l.ProductCode'); return false;" class="hovertr">
+                                        <td height="20px">@l.ProductCode</td>
+                                        <td height="20px">@l.ProductName</td>
+                                        <td height="20px">@l.ProductAcquirer</td>
+                                        <td height="20px">@l.ProductManufacturer</td>
+                                        <td height="20px">@l.ProductCost.ToString("###,###")</td>
+                                        <td height="20px">@l.ProductPrice.ToString("###,###")</td>
+                                    </tr>
+                                }
+                                @if (ViewBag.listcount == 0)
+                                {
+                                    <tr>
+                                        <td colspan="6" height="100px" align="center" style="font-size:0.9em">@RazorApi.Instance().DisplayView(ViewBag, "NotSearch", "검색없음")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <div align="center" style="margin-top:2px;">
+                            <span id="paging">
+                                @if (ViewBag.listcount > 0)
+                                {
+                                    @:<a href='#' style='text-decoration: none; color: blue;' onclick="ProductList(1);return false;">◀</a>
+                                    for (var i = 1; i <= ViewBag.listcount; i++)
+                                    {
+                                        var color = "";
+                                        if (i == 1)
+                                        {
+                                            color = "black";
+                                            @:&nbsp;<font style='text-decoration:none;color:@color'>@i</font>&nbsp;
+                                        }
+                                        else
+                                        {
+                                            color = "blue";
+                                            @:&nbsp;<a href='#' style='text-decoration:none;color:@color' onclick='ProductList(@i);return false;'>@i</a>&nbsp;
+                                        }
+
+                                    }
+                                    @:<a href='#' style='text-decoration: none; color: blue;' onclick='ProductList(" + nextpage + ");return false;'>▶</a>
+                                }
+                            </span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<!--입력화면부분-->
+<div id="inputForm" class="inputForm" style="margin:5px;">
+    <div id="tab" class="tab" align="left">
+        <table>
+            <tr>
+                <td onclick="tabMenu(this);" id="tab1">@RazorApi.Instance().DisplayView(ViewBag, "TabProductInfo")</td>
+                <td onclick="tabMenu(this);" id="tab2" style="display:none;">@RazorApi.Instance().DisplayView(ViewBag, "TabProductlist")</td>
+            </tr>
+        </table>
+    </div>
+    <div id="tab1content" class="content">
+        <form id="productInsertForm">
+            <table class="skintable" style="border-color:#000;">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div style="font-size:0.8em;color:red;">
+                                <span id="Errormsg"></span>
+                            </div>
+                            <table class="inputTable">
+                                <tbody>
+                                    <tr>
+                                        <td rowspan="3" style="width:80px;" align="center">
+                                            <img id="dispImage" src="@Url.Content("~/image/no_image.jpg")" style="border-style: solid; border-width: thin; width: 70px; height: 70px; cursor: pointer;" onclick="ImageFile();" />
+                                            <input type="file" id="productImage" name="productImage" style="display:none;" accept="image/jpeg" onchange="return Imageupload();" />
+                                        </td>
+                                        <td class="title">@RazorApi.Instance().DisplayView(ViewBag, "InfoProductCode")</td>
+                                        <td class="inputColumn">
+                                            GC-<input style="width: 50%; background-color: #f0f0f0;border-style:solid;" id="productcode" name="productcode" readonly tabindex="-1">
+                                            <input type="button" id="codeBtn" value="@RazorApi.Instance().DisplayView(ViewBag, "InfoProductCodeBtn")" style="width: 50px; cursor: pointer;" onclick="return CodeCreate();" />
+                                        </td>
+                                        <td class="title">@RazorApi.Instance().DisplayView(ViewBag, "InfoProductName")</td>
+                                        <td class="inputColumn">
+                                            <input id="productname" name="productname" />
+                                        </td>
+                                        <td class="title">@RazorApi.Instance().DisplayView(ViewBag, "InfoProductSpec")</td>
+                                        <td class="inputColumn">
+                                            <input id="productSpec" name="productSpec" />
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="title">@RazorApi.Instance().DisplayView(ViewBag, "InfoProductType")</td>
+                                        <td class="inputColumn">
+                                            <select style="width:180px" id="productType" name="productType">
+                                                @for (var i = 0; i < ViewBag.productType.Count; i++)
+                                                {
+                                                    LogisticsSystem.Models.CodeMaster pData = ViewBag.productType.Get(i);
+                                                    <option value="@pData.CodeKey">
+                                                        @pData.CodeName
+                                                    </option>
+                                                }
+                                            </select>
+                                        </td>
+                                        
+                                        <td class="title">@RazorApi.Instance().DisplayView(ViewBag, "InfoProductTax")</td>
+                                        <td class="inputColumn">
+                                            <select style="width: 180px; " id="productTax" name="productTax">
+                                                @for (var i = 0; i <= 100; i += 10)
+                                                {
+                                                    <option value="@i">
+                                                        @i %
+                                                    </option>
+                                                }
+                                            </select>
+                                        </td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="title">@RazorApi.Instance().DisplayView(ViewBag, "InfoProductAcquirer")</td>
+                                        <td class="inputColumn">
+                                            <input id="productAcquirer" name="productAcquirer" />
+                                        </td>
+                                        <td class="title">@RazorApi.Instance().DisplayView(ViewBag, "InfoProductManufacturer")</td>
+                                        <td class="inputColumn">
+                                            <input id="productManufacturer" name="productManufacturer" />
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table style="width:100%">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <table class="inputTable">
+                                                <thead>
+                                                    <tr><th colspan="2">@RazorApi.Instance().DisplayView(ViewBag, "InfoProductCostTitle")</th></tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="title" style="width: 60px;">@RazorApi.Instance().DisplayView(ViewBag, "InfoPriceTotal")</td>
+                                                        <td class="inputColumn">
+                                                            <input id="productCost" name="productCost" readonly tabindex="-1" style="background-color: #f0f0f0;border-style:solid;" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="title" style="width: 60px;">@RazorApi.Instance().DisplayView(ViewBag, "InfoPriceNotTax")</td>
+                                                        <td class="inputColumn">
+                                                            <input id="productCostNotTax" name="productCostNotTax" onkeyup="sumNumber('productCost'); keyup(this);" onkeydown="return numOnly(event);" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="title" style="width: 60px;">@RazorApi.Instance().DisplayView(ViewBag, "InfoPriceTax")</td>
+                                                        <td class="inputColumn">
+                                                            <input id="productCostTax" name="productCostTax" onkeyup="sumNumber('productCost'); keyup(this);" onkeydown="return numOnly(event);" />
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td>
+                                            <table class="inputTable">
+                                                <thead>
+                                                    <tr><th colspan="2">@RazorApi.Instance().DisplayView(ViewBag, "InfoProductRetailTitle")</th></tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="title" style="width: 60px;">@RazorApi.Instance().DisplayView(ViewBag, "InfoPriceTotal")</td>
+                                                        <td class="inputColumn">
+                                                            <input id="productRetailPrice" name="productRetailPrice" readonly tabindex="-1" style="background-color: #f0f0f0;border-style:solid;">
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="title" style="width: 60px;">@RazorApi.Instance().DisplayView(ViewBag, "InfoPriceNotTax")</td>
+                                                        <td class="inputColumn">
+                                                            <input id="productRetailPriceNotTax" name="productRetailPriceNotTax" onkeyup="sumNumber('productRetailPrice'); keyup(this);" onkeydown="return numOnly(event);" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="title" style="width: 60px;">@RazorApi.Instance().DisplayView(ViewBag, "InfoPriceTax")</td>
+                                                        <td class="inputColumn">
+                                                            <input id="productRetailPriceTax" name="productRetailPriceTax" onkeyup="sumNumber('productRetailPrice'); keyup(this);" onkeydown="return numOnly(event);" />
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td >
+                                            <table class="inputTable" style="height:85px;padding:0px;border-spacing:0px;">
+                                                <tr><th colspan="2">@RazorApi.Instance().DisplayView(ViewBag, "InfoCodeAdmin")</th></tr>
+                                                <tr>
+                                                    <td class="title" style="width:55px;">@RazorApi.Instance().DisplayView(ViewBag, "InfoBarcode")</td>
+                                                    <td class="inputColumn">
+                                                        <input id="barcode" name="barcode">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="title" style="width:55px;">@RazorApi.Instance().DisplayView(ViewBag, "InfoQRCode")</td>
+                                                    <td class="inputColumn">
+                                                        <input id="QRcode" name="QRcode">
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td >
+                                            <table class="inputTable" style="height:85px;padding:0px;border-spacing:0px;">
+                                                <tr><th colspan="2">@RazorApi.Instance().DisplayView(ViewBag, "InfoCreateTitle")</th></tr>
+                                                <tr>
+                                                    <td class="title" style="width:55px;">@RazorApi.Instance().DisplayView(ViewBag, "InfoCreater")</td>
+                                                    <td class="inputColumn">
+                                                        <input id="creater" name="creater" value="" readonly tabindex="-1" style="background-color: #f0f0f0;border-style:solid;">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="title" style="width:55px;">@RazorApi.Instance().DisplayView(ViewBag, "InfoCreatedate")</td>
+                                                    <td class="inputColumn">
+                                                        <input id="createdate" name="createdate" readonly tabindex="-1" style="background-color: #f0f0f0;border-style:solid;">
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table style="width:100%">
+                                <tbody>
+                                    <tr>
+                                        <td style="height: 80px; width: 100%">
+                                            <table class="inputTable" style="height:80px;padding:0px;border-spacing:0px;">
+                                                <tr>
+                                                    <td class="title" style="width:55px;">@RazorApi.Instance().DisplayView(ViewBag, "InfoOther")</td>
+                                                    <td class="inputColumn">
+                                                        <textarea style="width:95%;height:95%;resize:none;" id="other" name="other"></textarea>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td align="center">
+                            <div id="ApplySet">
+                                <input type="button" value="@RazorApi.Instance().DisplayView(ViewBag, "ApplyBtn")" onclick="ProductInsert(); return false;" class="btn" />
+                                <input type="button" value="@RazorApi.Instance().DisplayView(ViewBag, "ApplyCancel")" onclick="ProductClear(); return false;" class="btn" />
+                            </div>
+                            <div id="ModifySet" style="display:none;">
+                                <input type="button" value="@RazorApi.Instance().DisplayView(ViewBag, "ModifyCancel")" onclick="ProductModify(); return false;" class="btn" />
+                                <input type="button" value="@RazorApi.Instance().DisplayView(ViewBag, "DeleteCancel")" onclick="ProductDelete(); return false;" class="btn" />
+                                <input type="button" value="@RazorApi.Instance().DisplayView(ViewBag, "ApplyCancel")" onclick="ProductClear(); return false;" class="btn" />
+                            </div>
+                            <div id="HistorySet" style="display:none;color:red;font-size:0.8em;">
+                                @RazorApi.Instance().DisplayView(ViewBag, "HistoryMsg")
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+    <div id="tab2content" class="content" style="display:none;">
+        <table class="skintable1">
+            <tbody>
+                <tr>
+                    <td>
+                        <div id="list" class="list1">
+                            <table>
+                                <thead>
+                                    <tr style="height:30px;">
+                                        <th style="width: 90px;">No</th>
+                                        <th>@RazorApi.Instance().DisplayView(ViewBag, "Modifier")</th>
+                                        <th>@RazorApi.Instance().DisplayView(ViewBag, "ModifyDate")</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="historylist"></tbody>
+                            </table>
+                            <br />
+                            <div align="center">
+                                <span id="historypaging"></span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div style="display:none">
+    <table>
+        <tbody id="template">
+            <tr onclick="ProductSearch('##productcode##'); return false;" class="hovertr">
+                <td height="20px">##productcode##</td>
+                <td height="20px">##productname##</td>
+                <td height="20px">##productacquirer##</td>
+                <td height="20px">##productmanufacturer##</td>
+                <td height="20px">##productcost##</td>
+                <td height="20px">##productprice##</td>
+            </tr>
+        </tbody>
+        <tbody id="historytemplate">
+            <tr onclick="ProductHistorySearch('##idx##'); return false;" class="hovertr">
+                <td>##idx##</td>
+                <td>##modifier##</td>
+                <td>##modifyData##</td>
+            </tr>
+        </tbody>
+        <tbody id="noSearch">
+            <tr>
+                <td colspan="6" height="100px" align="center" style="font-size:0.9em">@RazorApi.Instance().DisplayView(ViewBag, "NotSearch", "검색없음")</td>
+            </tr>
+        </tbody>
+    </table>
+    <span id="modifyText">@RazorApi.Instance().DisplayView(ViewBag, "ModifyText","수정시 문구")</span>
+    <span id="deleteText">@RazorApi.Instance().DisplayView(ViewBag, "DeleteText", "삭제시 문구")</span>
+</div>

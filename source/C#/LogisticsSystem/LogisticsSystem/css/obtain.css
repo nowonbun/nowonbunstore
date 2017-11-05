@@ -1,0 +1,106 @@
+﻿body {
+    word-break:break-all
+}
+
+.inputtext{
+    border-top:none;
+    border-left : none;
+    border-right:none;
+    border-bottom:solid;
+    border-bottom-width:thin;
+}
+.inputtextNoFocus{
+    border-top:none;
+    border-left : none;
+    border-right:none;
+    border-bottom:solid;
+    border-bottom-width:thin;
+}
+.inputtext:focus{
+    border-style:solid;
+    border-width:thin;
+    border-color:blue;
+}
+.noLineInput{
+    border : none;
+}
+input.btn{
+    width:100%;
+    height:30px;
+    border-style:solid;
+    border-color:#000;
+    cursor:pointer;
+    background-color: #d4d560;
+}
+input.btn:hover{
+    background-color : #7affc6;
+}
+.ui-datepicker {
+    font-size: 12px;
+    width: 160px;
+}
+.ErrMsg{
+    color:red;
+    font-size:0.8em;
+}
+#listSearch table {
+    width: 95%;
+    border-style: solid;
+    border-width: thin;
+    border-color: #ccc;
+    border-spacing: 0px;
+    padding: 0px;
+}
+
+#listSearch table td {
+    border-style: solid;
+    border-width: thin;
+    border-color: #ccc;
+    font-size: 0.8em;
+    text-align: center;
+}
+
+div.list table {
+    padding:0px;
+    border-spacing:0px;
+    border-style:solid;
+    border-width:thin; 
+    border-color: #ccc;
+    width:95%;
+}
+
+tr.nList th {
+    font-size:0.9em;
+    background-color: #ddd;
+    border-style:solid;
+    border-width:thin;
+    border-color: #444;
+    height:40px;
+}
+tr.mList td {
+    font-size:0.8em;
+    text-align:center;
+    height:30px;
+    border-style:solid;
+    border-width:thin;
+    border-color: #444;
+}
+tr.subList th{
+    font-size:0.9em;
+    background-color: #00efff;
+    border-style:solid;
+    border-width:thin;
+    border-color: #005bff;
+    height:20px;
+}
+tr.subList td {
+    font-size:0.8em;
+    text-align:center;
+    border-style:solid;
+    border-width:thin;
+    border-color: #005bff;
+}
+.mList:hover {
+    background-color:#eee;
+    cursor:pointer;
+}

@@ -1,0 +1,29 @@
+﻿body {
+}
+
+.inputtext{
+    border-top:none;
+    border-left : none;
+    border-right:none;
+    border-bottom:solid;
+    border-bottom-width:thin;
+}
+.inputtextNoFocus{
+    border-top:none;
+    border-left : none;
+    border-right:none;
+    border-bottom:solid;
+    border-bottom-width:thin;
+}
+.inputtext:focus{
+    border-style:solid;
+    border-width:thin;
+    border-color:blue;
+}
+.noLineInput{
+    border : none;
+}
+.ui-datepicker {
+        font-size: 12px;
+        width: 160px;
+    }
