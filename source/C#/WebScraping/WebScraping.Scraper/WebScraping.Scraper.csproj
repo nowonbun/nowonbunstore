@@ -57,10 +57,13 @@
   <ItemGroup>
     <Compile Include="Common\AbstractScrapFlow.cs" />
     <Compile Include="Common\GeckoDocumentEx.cs" />
+    <Compile Include="Flow\Auction\ActionExcel.cs" />
+    <Compile Include="Flow\Auction\ActionProcedure.cs" />
     <Compile Include="Flow\Auction\AuctionFlow.cs" />
-    <Compile Include="Flow\Auction\BuyDescisionNode.cs" />
     <Compile Include="Flow\Auction\BuyDecisionExcel.cs" />
+    <Compile Include="Flow\Auction\GeneralDeliveryExcel.cs" />
     <Compile Include="Flow\Auction\LacRemitListExcel.cs" />
+    <Compile Include="Flow\Auction\SendingExcel.cs" />
     <Compile Include="Flow\Gmarket\GMarketFlow.cs" />
     <Compile Include="Impl\ScrapBrowser.cs">
       <SubType>Component</SubType>

@@ -1,0 +1,121 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using WebScraping.Scraper.Common;
+using Gecko;
+using Gecko.DOM;
+using WebScraping.Scraper.Impl;
+using WebScraping.Scraper.Node;
+using WebScraping.Scraper.Other;
+using Newtonsoft.Json;
+using System.Threading;
+using System.IO;
+using WebScraping.Library.Excel;
+using System.Reflection;
+
+namespace WebScraping.Scraper.Flow.Auction
+{
+    partial class AuctionFlow : AbstractScrapFlow
+    {
+        private void BuyDecisionExcel(String url, String file)
+        {
+            WaitFile(file, () =>
+            {
+                logger.Info("2-2.매출내역 ( 주문관리 > 구매결정완료 ) Excel");
+                logger.Debug("BuyDecisionExcel");
+                logger.Debug("BuyDecisionExcel Excel analysis");
+                BuilderExcelEntity<BuyDecisionExcel> builder = new BuilderExcelEntity<BuyDecisionExcel>();
+                List<BuyDecisionExcel> list = builder.Builder(file);
+                logger.Debug("It complete to build excel ");
+                int index = 0;
+                foreach (var item in list)
+                {
+                    SetPackageData(0, index++, ToJson(reflectFlyweight[typeof(BuyDecisionExcel)], item));
+                }
+                list.Clear();
+                base.Navigate("http://www.esmplus.com/Member/Settle/IacSettleDetail?menuCode=TDM298");
+            });
+        }
+        private void LacRemitListExcelDownload(String url, String file)
+        {
+            WaitFile(file, () =>
+            {
+                logger.Info("3-2.정산내역 ( 정산관리 > 정산내역 조회 > 옥션 정산내역 관리 ) Excel");
+                logger.Debug("IacRemitListExcelDownload");
+                logger.Debug("IacRemitListExcelDownload Excel analysis");
+                BuilderExcelEntity<LacRemitListExcel> builder = new BuilderExcelEntity<LacRemitListExcel>();
+                List<LacRemitListExcel> list = builder.Builder(file);
+                int index = 0;
+                foreach (var item in list)
+                {
+                    SetPackageData(1, index++, ToJson(reflectFlyweight[typeof(LacRemitListExcel)], item));
+                }
+                list.Clear();
+
+                try
+                {
+                    this.buffer.Append("https://www.esmplus.com/Escrow/Delivery/GeneralDelivery?");
+                    this.buffer.Append(CreateGetParameter(new Dictionary<String, String>()
+                        {
+                            {"gbn","0"},
+                            {"status","0"},
+                            {"type","" },
+                            {"searchAccount",idcode+"^1" },
+                            {"searchDateType","" },
+                            {"searchSDT", startdate.ToString("yyyy-MM-dd")},
+                            {"searchEDT", enddate.ToString("yyyy-MM-dd") },
+                            {"searchKey","" },
+                            {"searchKeyword","" },
+                            {"searchDeliveryType","nomal" },
+                            {"searchOrderType","" },
+                            {"searchPacking","" },
+                            {"totalAccumulate","-" },
+                            {"searchTransPolicyType","" }
+                        }));
+                    base.Navigate(this.buffer.ToString());
+                }
+                finally
+                {
+                    this.buffer.Clear();
+                }
+            });
+        }
+        private void GeneralDeliveryExcel(String url, String file)
+        {
+            WaitFile(file, () =>
+            {
+                logger.Info("4-2.정산예정금 - ( 주문관리 > 발송처리 ) Excel");
+                logger.Debug("GeneralDeliveryExcel");
+                logger.Debug("GeneralDeliveryExcel Excel analysis");
+
+                BuilderExcelEntity<GeneralDeliveryExcel> builder = new BuilderExcelEntity<GeneralDeliveryExcel>();
+                List<GeneralDeliveryExcel> list = builder.Builder(file);
+                int index = 0;
+                foreach (var item in list)
+                {
+                    SetPackageData(2, index++, ToJson(reflectFlyweight[typeof(GeneralDeliveryExcel)], item));
+                }
+                list.Clear();
+                base.Navigate("https://www.esmplus.com/Escrow/Delivery/Sending?menuCode=TDM111");
+            });
+        }
+        private void SendingExcel(String url, String file)
+        {
+            WaitFile(file, () =>
+            {
+                logger.Info("4-4.정산예정금 ( 주문관리 > 배송중/배송완료 )");
+                logger.Debug("SendingExcel");
+                logger.Debug("SendingExcel Excel analysis");
+                BuilderExcelEntity<SendingExcel> builder = new BuilderExcelEntity<SendingExcel>();
+                List<SendingExcel> list = builder.Builder(file);
+                int index = 0;
+                foreach (var item in list)
+                {
+                    SetPackageData(3, index++, ToJson(reflectFlyweight[typeof(SendingExcel)], item));
+                }
+                list.Clear();
+                base.Navigate("http://www.esmplus.com/Areas/Manual/SellerGuide/main.html");
+            });
+        }
+    }
+}

@@ -191,7 +191,7 @@ namespace WebScraping.Scraper.Common
                         this.buffer.Append(item.Data).Append("||");
                         this.buffer.Append(item.CreateDate).AppendLine();
                     }
-                    String filepath = Path.Combine(ConfigSystem.ReadConfig("Config", "Temp", "Path"), DateTime.Now.ToString("yyyyMMddHHmmssSSS") + ".csv");
+                    String filepath = Path.Combine(ConfigSystem.ReadConfig("Config", "Temp", "Path"), DateTime.Now.ToString("yyyyMMddHHmmssfff") + ".csv");
                     using (FileStream stream = new FileStream(filepath, FileMode.Create, FileAccess.Write))
                     {
                         byte[] buffer = Encoding.UTF8.GetBytes(this.buffer.ToString());
