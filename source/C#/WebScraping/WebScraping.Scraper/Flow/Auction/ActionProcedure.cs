@@ -253,6 +253,78 @@ namespace WebScraping.Scraper.Flow.Auction
             }
             return true;
         }
+        private Boolean BuyDecision2(GeckoDocument document, Uri uri)
+        {
+            logger.Info("4-5.정산예정금 ( 주문관리 > 구매결정완료 )");
+            try
+            {
+                //https://www.esmplus.com/Escrow/Delivery/BuyDecisionExcel?
+                //siteGbn =0&searchAccount=10757^isorikids^1&searchDateType=TRD&searchSDT=2017-10-08&searchEDT=2017-11-08&searchKey=ON&searchKeyword=&searchStatus=1060&searchAllYn=N&searchDistrType=AL&searchGlobalShopType=&searchOverseaDeliveryYn=
+                this.buffer.Append("https://www.esmplus.com/Escrow/Delivery/BuyDecisionExcel?");
+                this.buffer.Append(CreateGetParameter(new Dictionary<String, String>()
+                    {
+                        {"siteGbn","0"},
+                        {"searchAccount",idkey},
+                        {"searchDateType","TRD"},
+                        {"searchSDT", startdate.ToString("yyyy-MM-dd")},
+                        {"searchEDT", enddate.ToString("yyyy-MM-dd")},
+                        {"searchKey","ON" },
+                        {"searchKeyword","" },
+                        {"searchStatus","1060" },
+                        {"searchAllYn","N" },
+                        {"searchDistrType","AL" },
+                        {"searchGlobalShopType","" },
+                        {"searchOverseaDeliveryYn","" }
+                    }));
+                logger.Debug(this.buffer.ToString());
+                PostAjaxJson(document, this.buffer.ToString(), new Dictionary<String, Object>()
+                    {
+                        {"eSortType","" },
+                    });
+            }
+            finally
+            {
+                this.buffer.Clear();
+            }
+            return true;
+        }
+        private Boolean ReturnRequestManagement(GeckoDocument document, Uri uri)
+        {
+            logger.Info("5-1.반품율 (클레임관리 > 반품관리 )");
+            try
+            {
+                //https://www.esmplus.com/Escrow/Claim/ExcelDownload?
+                //searchAccount=A1^isorikids
+                this.buffer.Append("https://www.esmplus.com/Escrow/Claim/ExcelDownload?");
+                logger.Debug("idkey="+idkey);
+                this.buffer.Append(CreateGetParameter(new Dictionary<String, String>()
+                    {
+                        {"from","ReturnRequest" },
+                        {"gridID","GEC012" },
+                        {"type","A" },
+                        {"searchAccount",idkey},
+                        {"searchDateType","ODD"},
+                        {"searchSDT", startdate.ToString("yyyy-MM-dd")},
+                        {"searchEDT", enddate.ToString("yyyy-MM-dd")},
+                        {"searchType","RR"},
+                        {"searchKey","ON" },
+                        {"searchKeyword","" },
+                        {"searchStatus","RR" },
+                        {"searchAllYn","N" },
+                        {"searchFastRefundYn","" },
+                    }));
+                logger.Debug(this.buffer.ToString());
+                PostAjaxJson(document, this.buffer.ToString(), new Dictionary<String, Object>()
+                    {
+                        {"eSortType","" },
+                    });
+            }
+            finally
+            {
+                this.buffer.Clear();
+            }
+            return true;
+        }
         private bool ScrapEnd(GeckoDocument document, Uri uri)
         {
             return false;

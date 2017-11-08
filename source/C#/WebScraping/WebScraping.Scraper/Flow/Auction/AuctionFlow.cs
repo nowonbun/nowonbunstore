@@ -47,10 +47,19 @@ namespace WebScraping.Scraper.Flow.Auction
             FlowMap.Add("Escrow/Delivery/GeneralDelivery", GeneralDelivery);
             FlowMap.Add("Escrow/Delivery/Sending", Sending);
             FlowMap.Add("Areas/Manual/SellerGuide", ScrapEnd);
+            FlowMap.Add("Escrow/Claim/ReturnRequestManagement", ReturnRequestManagement);
             DownloadMap.Add("BuyDecisionExcel", BuyDecisionExcel);
             DownloadMap.Add("IacRemitListExcelDownload", LacRemitListExcelDownload);
             DownloadMap.Add("GeneralDeliveryExcel", GeneralDeliveryExcel);
             DownloadMap.Add("SendingExcel", SendingExcel);
+            DownloadMap.Add("ExcelDownload", ExcelDownload);
+        }
+
+        private void SetModifyBuyDecision()
+        {
+            //4-5.정산예정금 ( 주문관리 > 구매결정완료 )
+            FlowMap["Escrow/Delivery/BuyDecision"] = BuyDecision2;
+            DownloadMap["BuyDecisionExcel"] = BuyDecisionExcel2;
         }
         protected override void Finally()
         {

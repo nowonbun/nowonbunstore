@@ -17,6 +17,7 @@ using System.IO;
 using WebScraping.Library.Config;
 using System.Reflection;
 using System.Threading;
+using WebScraping.Library.Excel;
 
 namespace WebScraping.Scraper.Common
 {
@@ -352,6 +353,39 @@ namespace WebScraping.Scraper.Common
                 {
                     this.buffer.Append("\"");
                     this.buffer.Append(field.Name);
+                    this.buffer.Append("\":\"");
+                    this.buffer.Append(field.GetValue(data));
+                    this.buffer.Append("\",");
+                }
+                this.buffer.Remove(buffer.Length - 1, 1);
+                this.buffer.Append("}");
+                return this.buffer.ToString();
+            }
+            finally
+            {
+                this.buffer.Clear();
+            }
+        }
+        protected String ToExcelJson(IList<FieldInfo> fields, Object data)
+        {
+            try
+            {
+                var sortedFields = fields
+                    .Where(field =>
+                    {
+                        return field.GetCustomAttribute(typeof(ExcelHeader)) as ExcelHeader != null;
+                    })
+                    .OrderBy(field =>
+                    {
+                        ExcelHeader header = field.GetCustomAttribute(typeof(ExcelHeader)) as ExcelHeader;
+                        return header.ColumnIndex;
+                    });
+                this.buffer.Append("{");
+                foreach (var field in sortedFields)
+                {
+                    ExcelHeader header = field.GetCustomAttribute(typeof(ExcelHeader)) as ExcelHeader;
+                    this.buffer.Append("\"");
+                    this.buffer.Append(header.HeaderName);
                     this.buffer.Append("\":\"");
                     this.buffer.Append(field.GetValue(data));
                     this.buffer.Append("\",");
