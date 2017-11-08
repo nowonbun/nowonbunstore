@@ -6,7 +6,7 @@ namespace WebScraping.Scraper.Common
 {
     public static class GeckoDocumentEx
     {
-        public static T GetElementByName<T>(this GeckoDocument document, String name, int index) where T : GeckoElement
+        public static T GetElementByName<T>(this GeckoDocument document, String name, int index = 0) where T : GeckoElement
         {
             return document.GetElementsByName(name)[index] as T;
         }
@@ -14,11 +14,11 @@ namespace WebScraping.Scraper.Common
         {
             return document.GetElementById(id) as T;
         }
-        public static T GetElementByClassName<T>(this GeckoDocument document, String classname, int index) where T : GeckoElement
+        public static T GetElementByClassName<T>(this GeckoDocument document, String classname, int index = 0) where T : GeckoElement
         {
             return document.GetElementsByClassName(classname)[index] as T;
         }
-        public static T GetElementByTagName<T>(this GeckoElement element, String tag, int index) where T : GeckoElement
+        public static T GetElementByTagName<T>(this GeckoElement element, String tag, int index = 0) where T : GeckoElement
         {
             return element.GetElementsByTagName(tag)[index] as T;
         }
@@ -26,7 +26,7 @@ namespace WebScraping.Scraper.Common
         {
             return document.GetElementById(id).FirstChild.NodeValue;
         }
-        public static String GetElementByTagNameToNodeValue(this GeckoElement element, String tag, int index)
+        public static String GetElementByTagNameToNodeValue(this GeckoElement element, String tag, int index = 0)
         {
             return element.GetElementsByTagName(tag)[index].FirstChild.NodeValue;
         }

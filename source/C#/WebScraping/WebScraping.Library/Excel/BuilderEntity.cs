@@ -18,10 +18,14 @@ namespace WebScraping.Library.Excel
         public BuilderExcelEntity() { }
         public List<T> Builder(String filepath, bool header = true, bool delete = false)
         {
+            List<T> ret = new List<T>();
+            FileInfo info = new FileInfo(filepath);
+            if (info.Length == 0)
+            {
+                return ret;
+            }
             using (FileStream file = new FileStream(filepath, FileMode.Open, FileAccess.Read))
             {
-                List<T> ret = new List<T>();
-
                 var wb1 = new HSSFWorkbook(file);
                 ISheet sheet = wb1.GetSheetAt(0);
 
@@ -71,7 +75,7 @@ namespace WebScraping.Library.Excel
             }
             field.SetValue(entity, data);
         }
-        
+
         private FieldInfo GetFieldInfo(int index)
         {
             if (flyweight.ContainsKey(index))

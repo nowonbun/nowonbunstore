@@ -22,16 +22,12 @@ namespace WebScraping.Scraper.Flow.Auction
         public DateTime startdate;
         public DateTime enddate;
         private StringBuilder buffer = new StringBuilder();
-        private IDictionary<Type, IList<FieldInfo>> reflectFlyweight = new Dictionary<Type, IList<FieldInfo>>();
+        
 
         public AuctionFlow(ScrapBrowser browser, ScrapParameter param, bool login_mode)
             : base(browser, param, login_mode)
         {
             logger.Info("Action initialize");
-            reflectFlyweight.Add(typeof(BuyDecisionExcel), new List<FieldInfo>(typeof(BuyDecisionExcel).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)));
-            reflectFlyweight.Add(typeof(LacRemitListExcel), new List<FieldInfo>(typeof(LacRemitListExcel).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)));
-            reflectFlyweight.Add(typeof(GeneralDeliveryExcel), new List<FieldInfo>(typeof(GeneralDeliveryExcel).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)));
-            reflectFlyweight.Add(typeof(SendingExcel), new List<FieldInfo>(typeof(SendingExcel).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)));
 
             DateTime now = DateTime.Now;
             //startdate = now.AddYears(-1).AddDays(1);
@@ -47,10 +43,32 @@ namespace WebScraping.Scraper.Flow.Auction
             FlowMap.Add("Escrow/Delivery/GeneralDelivery", GeneralDelivery);
             FlowMap.Add("Escrow/Delivery/Sending", Sending);
             FlowMap.Add("Areas/Manual/SellerGuide", ScrapEnd);
+            FlowMap.Add("Escrow/Claim/ReturnRequestManagement", ReturnRequestManagement);
+            FlowMap.Add("Sell/Items/ItemsMng", ItemsMng);
+            FlowMap.Add("Sell/Items/GetItemMngList", GetItemMngList);
+
             DownloadMap.Add("BuyDecisionExcel", BuyDecisionExcel);
             DownloadMap.Add("IacRemitListExcelDownload", LacRemitListExcelDownload);
             DownloadMap.Add("GeneralDeliveryExcel", GeneralDeliveryExcel);
             DownloadMap.Add("SendingExcel", SendingExcel);
+            DownloadMap.Add("ExcelDownload", ExcelDownload);
+
+            base.ReflectFlyweightKeys.Add(typeof(BuyDecisionExcel));
+            base.ReflectFlyweightKeys.Add(typeof(LacRemitListExcel));
+            base.ReflectFlyweightKeys.Add(typeof(GeneralDeliveryExcel));
+            base.ReflectFlyweightKeys.Add(typeof(SendingExcel));
+            base.ReflectFlyweightKeys.Add(typeof(ReturnRequest));
+            base.ReflectFlyweightKeys.ForEach(type =>
+            {
+                ReflectFlyweight.Add(type, new List<FieldInfo>(type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)));
+            });
+        }
+
+        private void SetModifyBuyDecision()
+        {
+            //4-5.정산예정금 ( 주문관리 > 구매결정완료 )
+            FlowMap["Escrow/Delivery/BuyDecision"] = BuyDecision2;
+            DownloadMap["BuyDecisionExcel"] = BuyDecisionExcel2;
         }
         protected override void Finally()
         {

@@ -1,17 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using WebScraping.Scraper.Common;
-using Gecko;
-using Gecko.DOM;
-using WebScraping.Scraper.Impl;
-using WebScraping.Scraper.Node;
-using WebScraping.Scraper.Other;
-using Newtonsoft.Json;
-using System.Threading;
-using System.IO;
 using WebScraping.Library.Excel;
-using System.Reflection;
 
 namespace WebScraping.Scraper.Flow.Auction
 {
@@ -30,7 +20,7 @@ namespace WebScraping.Scraper.Flow.Auction
                 int index = 0;
                 foreach (var item in list)
                 {
-                    SetPackageData(0, index++, ToJson(reflectFlyweight[typeof(BuyDecisionExcel)], item));
+                    SetPackageData(0, index++, ToExcelJson(ReflectFlyweight[typeof(BuyDecisionExcel)], item));
                 }
                 list.Clear();
                 base.Navigate("http://www.esmplus.com/Member/Settle/IacSettleDetail?menuCode=TDM298");
@@ -48,7 +38,7 @@ namespace WebScraping.Scraper.Flow.Auction
                 int index = 0;
                 foreach (var item in list)
                 {
-                    SetPackageData(1, index++, ToJson(reflectFlyweight[typeof(LacRemitListExcel)], item));
+                    SetPackageData(1, index++, ToExcelJson(ReflectFlyweight[typeof(LacRemitListExcel)], item));
                 }
                 list.Clear();
 
@@ -93,7 +83,7 @@ namespace WebScraping.Scraper.Flow.Auction
                 int index = 0;
                 foreach (var item in list)
                 {
-                    SetPackageData(2, index++, ToJson(reflectFlyweight[typeof(GeneralDeliveryExcel)], item));
+                    SetPackageData(2, index++, ToExcelJson(ReflectFlyweight[typeof(GeneralDeliveryExcel)], item));
                 }
                 list.Clear();
                 base.Navigate("https://www.esmplus.com/Escrow/Delivery/Sending?menuCode=TDM111");
@@ -111,10 +101,53 @@ namespace WebScraping.Scraper.Flow.Auction
                 int index = 0;
                 foreach (var item in list)
                 {
-                    SetPackageData(3, index++, ToJson(reflectFlyweight[typeof(SendingExcel)], item));
+                    SetPackageData(3, index++, ToExcelJson(ReflectFlyweight[typeof(SendingExcel)], item));
                 }
                 list.Clear();
-                base.Navigate("http://www.esmplus.com/Areas/Manual/SellerGuide/main.html");
+
+                //중복플로우 처리변경
+                SetModifyBuyDecision();
+                base.Navigate("https://www.esmplus.com/Escrow/Delivery/BuyDecision?menuCode=TDM112");
+            });
+        }
+        private void BuyDecisionExcel2(String url, String file)
+        {
+            WaitFile(file, () =>
+            {
+                logger.Info("4-5.정산예정금 ( 주문관리 > 구매결정완료 ) Excel");
+                logger.Debug("BuyDecisionExcel2");
+                logger.Debug("BuyDecisionExcel2 Excel analysis");
+                BuilderExcelEntity<BuyDecisionExcel> builder = new BuilderExcelEntity<BuyDecisionExcel>();
+                List<BuyDecisionExcel> list = builder.Builder(file);
+                logger.Debug("It complete to build excel ");
+                int index = 0;
+                foreach (var item in list)
+                {
+                    SetPackageData(4, index++, ToExcelJson(ReflectFlyweight[typeof(BuyDecisionExcel)], item));
+                }
+                list.Clear();
+                base.Navigate("https://www.esmplus.com/Escrow/Claim/ReturnRequestManagement?menuCode=TDM118");
+            });
+        }
+        private void ExcelDownload(String url, String file)
+        {
+            WaitFile(file, () =>
+            {
+                logger.Info("5-2.반품율 (클레임관리 > 반품관리 ) Excel");
+                logger.Debug("ExcelDownload");
+                logger.Debug("ExcelDownload Excel analysis");
+                BuilderExcelEntity<ReturnRequest> builder = new BuilderExcelEntity<ReturnRequest>();
+                List<ReturnRequest> list = builder.Builder(file);
+                logger.Debug("It complete to build excel ");
+                int index = 0;
+                foreach (var item in list)
+                {
+                    SetPackageData(5, index++, ToExcelJson(ReflectFlyweight[typeof(ReturnRequest)], item));
+                }
+                list.Clear();
+
+                base.Navigate("http://www.esmplus.com/Sell/Items/ItemsMng?menuCode=TDM100");
+                //base.Navigate("http://www.esmplus.com/Areas/Manual/SellerGuide/main.html");
             });
         }
     }

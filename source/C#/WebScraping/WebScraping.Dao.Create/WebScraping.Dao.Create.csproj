@@ -49,6 +49,7 @@
     <Compile Include="CreateDaoByDataBase.cs" />
     <Compile Include="CreateDatabaseByEntity.cs" />
     <Compile Include="CreateEntityByDatabase.cs" />
+    <Compile Include="CreateEntityByExcel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TableInfo.cs" />

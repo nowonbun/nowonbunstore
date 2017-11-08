@@ -17,6 +17,7 @@ using System.IO;
 using WebScraping.Library.Config;
 using System.Reflection;
 using System.Threading;
+using WebScraping.Library.Excel;
 
 namespace WebScraping.Scraper.Common
 {
@@ -36,8 +37,18 @@ namespace WebScraping.Scraper.Common
         {
             get { return downloadMap; }
         }
+        protected Dictionary<Type, IList<FieldInfo>> ReflectFlyweight
+        {
+            get { return reflectFlyweight; }
+        }
+        protected List<Type> ReflectFlyweightKeys
+        {
+            get { return flyweightKeys; }
+        }
         private Dictionary<String, Func<GeckoDocument, Uri, Boolean>> flowMap = new Dictionary<string, Func<GeckoDocument, Uri, Boolean>>();
         private Dictionary<String, Action<String, String>> downloadMap = new Dictionary<String, Action<String, String>>();
+        private Dictionary<Type, IList<FieldInfo>> reflectFlyweight = new Dictionary<Type, IList<FieldInfo>>();
+        private List<Type> flyweightKeys = new List<Type>();
         private ScrapBrowser browser;
         private IList<ScrapingCommonData> common_data_list = new List<ScrapingCommonData>();
         private IList<ScrapingPackageData> package_data_list = new List<ScrapingPackageData>();
@@ -309,8 +320,14 @@ namespace WebScraping.Scraper.Common
                 this.buffer.Append("</FORM>");
                 this.buffer.Append("</BODY>");
                 this.buffer.Append("</HTML>");
+                if(browser.Document != document)
+                {
+                    logger.Debug("Browser!!!!!!!!!");
+                    document = browser.Document;
+                }
                 document.Body.InnerHtml = this.buffer.ToString();
                 document.GetElementById<GeckoInputElement>("trigger").Click();
+
             }
             finally
             {
@@ -352,6 +369,39 @@ namespace WebScraping.Scraper.Common
                 {
                     this.buffer.Append("\"");
                     this.buffer.Append(field.Name);
+                    this.buffer.Append("\":\"");
+                    this.buffer.Append(field.GetValue(data));
+                    this.buffer.Append("\",");
+                }
+                this.buffer.Remove(buffer.Length - 1, 1);
+                this.buffer.Append("}");
+                return this.buffer.ToString();
+            }
+            finally
+            {
+                this.buffer.Clear();
+            }
+        }
+        protected String ToExcelJson(IList<FieldInfo> fields, Object data)
+        {
+            try
+            {
+                var sortedFields = fields
+                    .Where(field =>
+                    {
+                        return field.GetCustomAttribute(typeof(ExcelHeader)) as ExcelHeader != null;
+                    })
+                    .OrderBy(field =>
+                    {
+                        ExcelHeader header = field.GetCustomAttribute(typeof(ExcelHeader)) as ExcelHeader;
+                        return header.ColumnIndex;
+                    });
+                this.buffer.Append("{");
+                foreach (var field in sortedFields)
+                {
+                    ExcelHeader header = field.GetCustomAttribute(typeof(ExcelHeader)) as ExcelHeader;
+                    this.buffer.Append("\"");
+                    this.buffer.Append(header.HeaderName);
                     this.buffer.Append("\":\"");
                     this.buffer.Append(field.GetValue(data));
                     this.buffer.Append("\",");

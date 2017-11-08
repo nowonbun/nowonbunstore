@@ -253,6 +253,142 @@ namespace WebScraping.Scraper.Flow.Auction
             }
             return true;
         }
+        private Boolean BuyDecision2(GeckoDocument document, Uri uri)
+        {
+            logger.Info("4-5.정산예정금 ( 주문관리 > 구매결정완료 )");
+            try
+            {
+                //https://www.esmplus.com/Escrow/Delivery/BuyDecisionExcel?
+                //siteGbn =0&searchAccount=10757^isorikids^1&searchDateType=TRD&searchSDT=2017-10-08&searchEDT=2017-11-08&searchKey=ON&searchKeyword=&searchStatus=1060&searchAllYn=N&searchDistrType=AL&searchGlobalShopType=&searchOverseaDeliveryYn=
+                this.buffer.Append("https://www.esmplus.com/Escrow/Delivery/BuyDecisionExcel?");
+                this.buffer.Append(CreateGetParameter(new Dictionary<String, String>()
+                    {
+                        {"siteGbn","0"},
+                        {"searchAccount",idkey},
+                        {"searchDateType","TRD"},
+                        {"searchSDT", startdate.ToString("yyyy-MM-dd")},
+                        {"searchEDT", enddate.ToString("yyyy-MM-dd")},
+                        {"searchKey","ON" },
+                        {"searchKeyword","" },
+                        {"searchStatus","1060" },
+                        {"searchAllYn","N" },
+                        {"searchDistrType","AL" },
+                        {"searchGlobalShopType","" },
+                        {"searchOverseaDeliveryYn","" }
+                    }));
+                logger.Debug(this.buffer.ToString());
+                PostAjaxJson(document, this.buffer.ToString(), new Dictionary<String, Object>()
+                {
+                    {"eSortType","" },
+                });
+            }
+            finally
+            {
+                this.buffer.Clear();
+            }
+            return true;
+        }
+        private Boolean ReturnRequestManagement(GeckoDocument document, Uri uri)
+        {
+            logger.Info("5-1.반품율 (클레임관리 > 반품관리 )");
+            try
+            {
+                //https://www.esmplus.com/Escrow/Claim/ExcelDownload?
+                //searchAccount=A1^isorikids
+                this.buffer.Append("https://www.esmplus.com/Escrow/Claim/ExcelDownload?");
+                logger.Debug("idkey=" + idkey);
+                this.buffer.Append(CreateGetParameter(new Dictionary<String, String>()
+                    {
+                        {"from","ReturnRequest" },
+                        {"gridID","GEC012" },
+                        {"type","A" },
+                        {"searchAccount",idkey},
+                        {"searchDateType","ODD"},
+                        {"searchSDT", startdate.ToString("yyyy-MM-dd")},
+                        {"searchEDT", enddate.ToString("yyyy-MM-dd")},
+                        {"searchType","RR"},
+                        {"searchKey","ON" },
+                        {"searchKeyword","" },
+                        {"searchStatus","RR" },
+                        {"searchAllYn","N" },
+                        {"searchFastRefundYn","" },
+                    }));
+                logger.Debug(this.buffer.ToString());
+                PostAjaxJson(document, this.buffer.ToString(), new Dictionary<String, Object>()
+                {
+                    {"eSortType","" },
+                });
+            }
+            finally
+            {
+                this.buffer.Clear();
+            }
+            return true;
+        }
+        private bool ItemsMng(GeckoDocument document, Uri uri)
+        {
+            /*document.GetElementByName<GeckoInputElement>("chkStatus", 1).Checked = true;
+            document.GetElementByName<GeckoInputElement>("chkSiteId", 1).Checked = true;
+            document.GetElementByName<GeckoInputElement>("chkSiteA", 0).Checked = true;
+            document.GetElementById<GeckoImageElement>("imgItemsSearch").Click();*/
+            this.buffer.Append("http://www.esmplus.com/Sell/Items/GetItemMngList");
+
+            var SearchParam = new
+            {
+                Keyword = "",
+                SiteId = "1",
+                SellType = 0,
+                CategoryCode = "",
+                CustCategoryCode = 0,
+                TransPolicyNo = 0,
+                StatusCode = "11",
+                SearchDateType = 0,
+                StartDate = "",
+                EndDate = "",
+                SellerId = "",
+                StockQty = -1,
+                SellPeriod = 0,
+                DeliveryFeeApplyType = 0,
+                OptAddDeliveryType = 0,
+                SellMinPrice = 0,
+                SellMaxPrice = 0,
+                OptSelUseIs = -1,
+                PremiumEnd = 0,
+                PremiumPlusEnd = 0,
+                FocusEnd = 0,
+                FocusPlusEnd = 0,
+                CatalogGroup = 0,
+                GoodsIds = "",
+                SellMngCode = "",
+                OrderByType = 11,
+                NotiItemReg = -1,
+                UserEvaluate = "",
+                SearchClause = "",
+                ScoreRange = 0,
+                ShopCateReg = -1,
+                IsTPLUse = "",
+                GoodsName = "",
+                SdBrandId = 0,
+                SdBrandName = ""
+            };
+            String json = JsonConvert.SerializeObject(SearchParam);
+            logger.Debug(this.buffer.ToString());
+            PostAjaxJson(document, this.buffer.ToString(),new Dictionary<String, Object>()
+            {
+                {"paramsData",json },
+                {"page","1" },
+                {"start","0" },
+                {"limit","500"},
+                {"group","[{\"property\":\"GoodsMasterNo\",\"direction\":\"ASC\"}]"}
+            });
+            return true;
+        }
+        private bool GetItemMngList(GeckoDocument document, Uri uri)
+        {
+            String data = document.Body.GetElementsByTagName("PRE")[0].FirstChild.NodeValue;
+            logger.Debug(data);
+            return false;
+        }
         private bool ScrapEnd(GeckoDocument document, Uri uri)
         {
             return false;
