@@ -278,9 +278,15 @@ namespace WebScraping.Scraper.Flow.Auction
                     }));
                 logger.Debug(this.buffer.ToString());
                 PostAjaxJson(document, this.buffer.ToString(), new Dictionary<String, Object>()
+<<<<<<< HEAD
                 {
                     {"eSortType","" },
                 });
+=======
+                    {
+                        {"eSortType","" },
+                    });
+>>>>>>> bdb554f7c080ce3d52802bd2f47abc5527557fcb
             }
             finally
             {
@@ -296,7 +302,11 @@ namespace WebScraping.Scraper.Flow.Auction
                 //https://www.esmplus.com/Escrow/Claim/ExcelDownload?
                 //searchAccount=A1^isorikids
                 this.buffer.Append("https://www.esmplus.com/Escrow/Claim/ExcelDownload?");
+<<<<<<< HEAD
                 logger.Debug("idkey=" + idkey);
+=======
+                logger.Debug("idkey="+idkey);
+>>>>>>> bdb554f7c080ce3d52802bd2f47abc5527557fcb
                 this.buffer.Append(CreateGetParameter(new Dictionary<String, String>()
                     {
                         {"from","ReturnRequest" },
@@ -315,9 +325,15 @@ namespace WebScraping.Scraper.Flow.Auction
                     }));
                 logger.Debug(this.buffer.ToString());
                 PostAjaxJson(document, this.buffer.ToString(), new Dictionary<String, Object>()
+<<<<<<< HEAD
                 {
                     {"eSortType","" },
                 });
+=======
+                    {
+                        {"eSortType","" },
+                    });
+>>>>>>> bdb554f7c080ce3d52802bd2f47abc5527557fcb
             }
             finally
             {
@@ -325,6 +341,7 @@ namespace WebScraping.Scraper.Flow.Auction
             }
             return true;
         }
+<<<<<<< HEAD
         private bool ItemsMng(GeckoDocument document, Uri uri)
         {
             /*document.GetElementByName<GeckoInputElement>("chkStatus", 1).Checked = true;
@@ -389,6 +406,8 @@ namespace WebScraping.Scraper.Flow.Auction
             logger.Debug(data);
             return false;
         }
+=======
+>>>>>>> bdb554f7c080ce3d52802bd2f47abc5527557fcb
         private bool ScrapEnd(GeckoDocument document, Uri uri)
         {
             return false;
