@@ -44,18 +44,14 @@ namespace WebScraping.Scraper.Flow.Auction
             FlowMap.Add("Escrow/Delivery/Sending", Sending);
             FlowMap.Add("Areas/Manual/SellerGuide", ScrapEnd);
             FlowMap.Add("Escrow/Claim/ReturnRequestManagement", ReturnRequestManagement);
-<<<<<<< HEAD
             FlowMap.Add("Sell/Items/ItemsMng", ItemsMng);
             FlowMap.Add("Sell/Items/GetItemMngList", GetItemMngList);
 
-=======
->>>>>>> bdb554f7c080ce3d52802bd2f47abc5527557fcb
             DownloadMap.Add("BuyDecisionExcel", BuyDecisionExcel);
             DownloadMap.Add("IacRemitListExcelDownload", LacRemitListExcelDownload);
             DownloadMap.Add("GeneralDeliveryExcel", GeneralDeliveryExcel);
             DownloadMap.Add("SendingExcel", SendingExcel);
             DownloadMap.Add("ExcelDownload", ExcelDownload);
-<<<<<<< HEAD
 
             base.ReflectFlyweightKeys.Add(typeof(BuyDecisionExcel));
             base.ReflectFlyweightKeys.Add(typeof(LacRemitListExcel));
@@ -66,8 +62,6 @@ namespace WebScraping.Scraper.Flow.Auction
             {
                 ReflectFlyweight.Add(type, new List<FieldInfo>(type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)));
             });
-=======
->>>>>>> bdb554f7c080ce3d52802bd2f47abc5527557fcb
         }
 
         private void SetModifyBuyDecision()
