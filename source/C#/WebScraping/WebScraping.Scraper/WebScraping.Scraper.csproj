@@ -62,6 +62,7 @@
     <Compile Include="Flow\Auction\AuctionFlow.cs" />
     <Compile Include="Flow\Auction\BuyDecisionExcel.cs" />
     <Compile Include="Flow\Auction\GeneralDeliveryExcel.cs" />
+    <Compile Include="Flow\Auction\GetItemMngListJson.cs" />
     <Compile Include="Flow\Auction\LacRemitListExcel.cs" />
     <Compile Include="Flow\Auction\ReturnRequest.cs" />
     <Compile Include="Flow\Auction\SendingExcel.cs" />

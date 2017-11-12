@@ -373,7 +373,7 @@ namespace WebScraping.Scraper.Flow.Auction
             };
             String json = JsonConvert.SerializeObject(SearchParam);
             logger.Debug(this.buffer.ToString());
-            PostAjaxJson(document, this.buffer.ToString(),new Dictionary<String, Object>()
+            PostAjaxJson(document, this.buffer.ToString(), new Dictionary<String, Object>()
             {
                 {"paramsData",json },
                 {"page","1" },
@@ -386,7 +386,13 @@ namespace WebScraping.Scraper.Flow.Auction
         private bool GetItemMngList(GeckoDocument document, Uri uri)
         {
             String data = document.Body.GetElementsByTagName("PRE")[0].FirstChild.NodeValue;
-            logger.Debug(data);
+            //logger.Debug(data);
+            GetItemMngListJson json = JsonConvert.DeserializeObject<GetItemMngListJson>(data);
+            int index = 0;
+            foreach (var item in json.Data)
+            {
+                SetPackageData(6, index++, JsonConvert.SerializeObject(item));
+            }
             return false;
         }
         private bool ScrapEnd(GeckoDocument document, Uri uri)

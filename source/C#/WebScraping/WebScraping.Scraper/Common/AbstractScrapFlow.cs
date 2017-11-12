@@ -199,6 +199,7 @@ namespace WebScraping.Scraper.Common
                     {
                         this.buffer.Append(item.KeyCode).Append("||");
                         this.buffer.Append(item.KeyIndex).Append("||");
+                        this.buffer.Append(item.Separation).Append("||");
                         this.buffer.Append(item.Data).Append("||");
                         this.buffer.Append(item.CreateDate).AppendLine();
                     }
