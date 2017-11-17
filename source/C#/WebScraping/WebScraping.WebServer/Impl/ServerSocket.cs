@@ -81,6 +81,15 @@ namespace WebScraping.WebServer.Impl
         {
             return scraperlist.Select(node => { return node.Value; }).ToList();
         }
+        public void PingScraper(String key)
+        {
+            this.logger.Info("Ping scraper key : " + key);
+            if (scraperlist.ContainsKey(key))
+            {
+                Scraper ret = scraperlist[key];
+                ret.Parameter.Pingtime = DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss");
+            }
+        }
         public void Run()
         {
             this.logger.Info("Server start...");

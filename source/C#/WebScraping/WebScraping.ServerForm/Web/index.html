@@ -9,33 +9,30 @@
             $(function () {
                 f.init();
             });
-            return {
-                receive: f.receive,
-                refresh: f.refresh
-            }
+            return f;
         })(
             {
                 init: function () {
-                    $("#refresh_btn").on("click", function () {
+                    $("body").on("click", "#refresh_btn", function () {
                         $("#reflesh_view").html($("#reflesh_init").val());
                         ins.receive();
                     });
-                    $("#manual").on("click", function () {
+                    $("body").on("click", "#manual", function () {
                         $("#manual").toggleClass("hide");
                         $("#manual_panel").toggleClass("hide");
                     })
-                    $("#manual_close").on("click", function () {
+                    $("body").on("click", "#manual_close", function () {
                         $("#manual").toggleClass("hide");
                         $("#manual_panel").toggleClass("hide");
                     });
-                    $("#manual_scraping").on("click", function () {
+                    $("body").on("click", "#manual_scraping", function () {
                         var url = "./Scrap?Code=" + $("#manual_code").val() + "&Id=" + $("#manual_id").val() + "&Pw=" + $("#manual_pwd").val();
-                        this.logger(url);
+                        ins.logger(url);
                         $.ajax({
                             url: url,
                             type: "GET",
                             success: function (data, textStatus, jqXHR) {
-                                ins.refresh();
+                                ins.receive();
                             }
                         });
                         $("#manual").toggleClass("hide");
@@ -99,13 +96,13 @@
                         }
                     });
                 },
-                tick: function (obj) {
+                tick: function () {
                     var temp = Number($("#reflesh_view").html()) - 1;
                     if (temp < 0) {
-                        obj.refresh();
+                        ins.refresh();
                     } else {
                         $("#reflesh_view").html(temp);
-                        setTimeout(obj.tick, 1000, obj);
+                        setTimeout(ins.tick, 1000);
                     }
                 },
                 logger: function (str) {
@@ -136,62 +133,62 @@
             border-collapse: collapse;
         }
 
-        table th, td {
-            border: 1px solid #000;
-            height: 35px;
-        }
+            table th, td {
+                border: 1px solid #000;
+                height: 35px;
+            }
 
-        table th {
-            background-color: #555;
-            color: #FFF;
-        }
+            table th {
+                background-color: #555;
+                color: #FFF;
+            }
 
-        table td {
-            font-size: 10pt;
-        }
+            table td {
+                font-size: 10pt;
+            }
 
-        table tbody > tr > td:nth-child(1) {
-            width: 30%;
-            table-layout: fixed;
-            word-break: break-all;
-        }
+            table tbody > tr > td:nth-child(1) {
+                width: 30%;
+                table-layout: fixed;
+                word-break: break-all;
+            }
 
-        table tbody > tr > td:nth-child(2) {
-            width: 15%;
-            text-align: center;
-            table-layout: fixed;
-            word-break: break-all;
-        }
+            table tbody > tr > td:nth-child(2) {
+                width: 15%;
+                text-align: center;
+                table-layout: fixed;
+                word-break: break-all;
+            }
 
-        table tbody > tr > td:nth-child(3) {
-            width: 15%;
-            text-align: center;
-            table-layout: fixed;
-            word-break: break-all;
-        }
+            table tbody > tr > td:nth-child(3) {
+                width: 15%;
+                text-align: center;
+                table-layout: fixed;
+                word-break: break-all;
+            }
 
-        table tbody > tr > td:nth-child(4) {
-            width: 15%;
-            text-align: right;
-            padding-right: 5px;
-            table-layout: fixed;
-            word-break: break-all;
-        }
+            table tbody > tr > td:nth-child(4) {
+                width: 15%;
+                text-align: right;
+                padding-right: 5px;
+                table-layout: fixed;
+                word-break: break-all;
+            }
 
-        table tbody > tr > td:nth-child(5) {
-            width: 15%;
-            text-align: right;
-            padding-right: 5px;
-            table-layout: fixed;
-            word-break: break-all;
-        }
+            table tbody > tr > td:nth-child(5) {
+                width: 15%;
+                text-align: right;
+                padding-right: 5px;
+                table-layout: fixed;
+                word-break: break-all;
+            }
 
-        table tbody > tr > td:nth-child(6) {
-            width: 10%;
-            text-align: center;
-            table-layout: fixed;
-            word-break: break-all;
-        }
+            table tbody > tr > td:nth-child(6) {
+                width: 10%;
+                text-align: center;
+                table-layout: fixed;
+                word-break: break-all;
+            }
 
         div.refresh > div {
             display: inline-block;
@@ -234,6 +231,7 @@
             <select id="manual_code">
                 <option value="001">001</option>
                 <option value="002">002</option>
+                <option value="999">999</option>
             </select>
             Id : <input type="text" id="manual_id">
             Pw : <input type="text" id="manual_pwd">

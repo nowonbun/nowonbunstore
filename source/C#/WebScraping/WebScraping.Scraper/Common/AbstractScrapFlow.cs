@@ -28,7 +28,7 @@ namespace WebScraping.Scraper.Common
     abstract class AbstractScrapFlow : Allocation, IScrapFlow
     {
         protected ScrapParameter Parameter { get; private set; }
-        protected String StartPageUrl { get; set; }
+        //protected String StartPageUrl { get; set; }
         protected Dictionary<String, Func<GeckoDocument, Uri, Boolean>> FlowMap
         {
             get { return flowMap; }
@@ -77,7 +77,7 @@ namespace WebScraping.Scraper.Common
             //this.browser.InitializeDownLoad(ExcelDownload);
             this.browser.ProgressChanged += (s, e) =>
             {
-                logger.Debug("CurrentProgress/MaximumProgress : " + e.CurrentProgress + "/" + e.MaximumProgress);
+                //logger.Debug("CurrentProgress/MaximumProgress : " + e.CurrentProgress + "/" + e.MaximumProgress);
             };
         }
         protected virtual Boolean NotAction(GeckoDocument document, Uri uri)
@@ -89,10 +89,7 @@ namespace WebScraping.Scraper.Common
         {
             logger.Info("NotAction uri : " + filename);
         }
-        public String StartPage()
-        {
-            return StartPageUrl;
-        }
+
         public Func<GeckoDocument, Uri, Boolean> Procedure(Uri uri)
         {
             logger.Info("Procedure uri : " + uri);
@@ -227,6 +224,7 @@ namespace WebScraping.Scraper.Common
         {
             UpdateData();
             Finally();
+            this.browser.NotifyEnd(Parameter.Keycode);
         }
         public string GetRequest(String url, GeckoDocument document, HttpMethod method, IDictionary<String, Object> param = null)
         {
@@ -321,7 +319,7 @@ namespace WebScraping.Scraper.Common
                 this.buffer.Append("</FORM>");
                 this.buffer.Append("</BODY>");
                 this.buffer.Append("</HTML>");
-                if(browser.Document != document)
+                if (browser.Document != document)
                 {
                     logger.Debug("Browser!!!!!!!!!");
                     document = browser.Document;
@@ -431,6 +429,8 @@ namespace WebScraping.Scraper.Common
                 action();
             });
         }
+
+        public abstract String StartPage();
         protected abstract void Finally();
     }
 }

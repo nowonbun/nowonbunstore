@@ -17,7 +17,6 @@ namespace WebScraping.Scraper.Flow.Gmarket
             : base(browser, param, login_mode)
         {
             logger.Info("Gmarket initialize");
-            StartPageUrl = "https://www.esmplus.com/Member/SignIn/LogOn";
             FlowMap.Add("Member/SignIn/LogOn", Login);
             FlowMap.Add("Home/Home", Home);
         }
@@ -50,6 +49,11 @@ namespace WebScraping.Scraper.Flow.Gmarket
             Console.WriteLine(value);
             return false;
 
+        }
+
+        public override string StartPage()
+        {
+            return "https://www.esmplus.com/Member/SignIn/LogOn";
         }
     }
 }

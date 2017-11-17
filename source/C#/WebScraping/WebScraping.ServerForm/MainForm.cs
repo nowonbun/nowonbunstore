@@ -11,6 +11,7 @@ namespace WebScraping.ServerForm
     public partial class MainForm : Form
     {
         private Logger logger;
+        private ScriptHook hook;
         public MainForm()
         {
             logger = LoggerBuilder.Init().Set(this.GetType());
@@ -24,10 +25,12 @@ namespace WebScraping.ServerForm
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
+            hook = new ScriptHook();
             webBrowser1.Navigate("http://localhost:" + ServerInfo.GetPort() + "/ControllView");
         }
         protected override void OnClosing(CancelEventArgs e)
         {
+            hook.Dispose();
             WebServer.WebServer.End();
             base.OnClosing(e);
         }

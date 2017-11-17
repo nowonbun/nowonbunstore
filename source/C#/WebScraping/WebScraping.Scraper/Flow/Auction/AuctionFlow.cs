@@ -2,15 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using WebScraping.Scraper.Common;
-using Gecko;
-using Gecko.DOM;
 using WebScraping.Scraper.Impl;
 using WebScraping.Scraper.Node;
-using WebScraping.Scraper.Other;
-using Newtonsoft.Json;
-using System.Threading;
-using System.IO;
-using WebScraping.Library.Excel;
 using System.Reflection;
 
 namespace WebScraping.Scraper.Flow.Auction
@@ -22,7 +15,7 @@ namespace WebScraping.Scraper.Flow.Auction
         public DateTime startdate;
         public DateTime enddate;
         private StringBuilder buffer = new StringBuilder();
-        
+
 
         public AuctionFlow(ScrapBrowser browser, ScrapParameter param, bool login_mode)
             : base(browser, param, login_mode)
@@ -34,7 +27,6 @@ namespace WebScraping.Scraper.Flow.Auction
             startdate = now.AddMonths(-1);
             enddate = now;
 
-            StartPageUrl = "https://www.esmplus.com/Member/SignIn/LogOn";
             FlowMap.Add("Member/SignIn/LogOn", Login);
             FlowMap.Add("Home/Home", Home);
             FlowMap.Add("membership/MyInfo/MyInfoComp", Profile);
@@ -73,6 +65,10 @@ namespace WebScraping.Scraper.Flow.Auction
         protected override void Finally()
         {
             logger.Info("Action scraping is exit");
+        }
+        public override string StartPage()
+        {
+            return "https://www.esmplus.com/Member/SignIn/LogOn";
         }
     }
 }

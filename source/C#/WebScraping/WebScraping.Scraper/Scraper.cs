@@ -18,8 +18,7 @@ namespace WebScraping.Scraper
             Logger logger = null;
             try
             {
-                logger = LoggerBuilder.Init(ConfigSystem.ReadConfig("Config", "Log", "Path")).Set("Server").Info("Client Program Start");
-
+                logger = LoggerBuilder.Init(ConfigSystem.ReadConfig("Config", "Log", "Path2")).Set("Server").Info("Client Program Start");
 
                 if (Debug.IsDebug())
                 {
