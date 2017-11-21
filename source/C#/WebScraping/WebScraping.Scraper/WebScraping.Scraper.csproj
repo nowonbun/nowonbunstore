@@ -57,8 +57,8 @@
   <ItemGroup>
     <Compile Include="Common\AbstractScrapFlow.cs" />
     <Compile Include="Common\GeckoDocumentEx.cs" />
-    <Compile Include="Flow\Auction\ActionExcel.cs" />
-    <Compile Include="Flow\Auction\ActionProcedure.cs" />
+    <Compile Include="Flow\Auction\ActionFlow.Excel.cs" />
+    <Compile Include="Flow\Auction\ActionFlow.Procedure.cs" />
     <Compile Include="Flow\Auction\AuctionFlow.cs" />
     <Compile Include="Flow\Auction\BuyDecisionExcel.cs" />
     <Compile Include="Flow\Auction\GeneralDeliveryExcel.cs" />

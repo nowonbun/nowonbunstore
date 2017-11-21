@@ -6,9 +6,9 @@ using WebScraping.Dao.Dao;
 using WebScraping.Dao.Entity;
 using WebScraping.Library.Log;
 
-namespace WebScraping.WebServer.Impl
+namespace WebScraping.ServerForm
 {
-    class Scraper : Process
+    public class Scraper : Process
     {
         private Logger logger;
         private Parameter parameter;

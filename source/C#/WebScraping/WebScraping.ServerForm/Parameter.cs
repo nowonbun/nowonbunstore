@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace WebScraping.WebServer.Impl
+namespace WebScraping.ServerForm
 {
-    class Parameter
+    public class Parameter
     {
         public String Key { get; set; }
         public String Code { get; set; }

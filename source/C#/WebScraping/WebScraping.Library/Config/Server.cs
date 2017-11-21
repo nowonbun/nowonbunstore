@@ -20,5 +20,21 @@ namespace WebScraping.Library.Config
                 return 19999;
             }
         }
+        public static int GetWebsocketPort()
+        {
+            String temp = ConfigSystem.ReadConfig("Config", "Server", "WebSocketPort");
+            try
+            {
+                return Int32.Parse(temp);
+            }
+            catch
+            {
+                return 19999;
+            }
+        }
+        public static String GetWebRoot()
+        {
+            return ConfigSystem.ReadConfig("Config", "Server", "Root");
+        }
     }
 }

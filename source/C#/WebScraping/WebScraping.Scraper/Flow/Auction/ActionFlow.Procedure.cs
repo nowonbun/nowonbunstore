@@ -1,17 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using WebScraping.Scraper.Common;
 using Gecko;
 using Gecko.DOM;
-using WebScraping.Scraper.Impl;
-using WebScraping.Scraper.Node;
 using WebScraping.Scraper.Other;
 using Newtonsoft.Json;
-using System.Threading;
-using System.IO;
-using WebScraping.Library.Excel;
-using System.Reflection;
 
 namespace WebScraping.Scraper.Flow.Auction
 {
