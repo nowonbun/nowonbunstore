@@ -12,7 +12,7 @@ namespace pgsqlExample
         static void Main(string[] args)
         {
             string connect = String.Format("Server={0};Port={1};User Id={2};Password={3};Database={4};",
-                    "192.168.0.2", "5432", "postgres", "ghkdtnsduq1", "postgres");
+                    "192.168.0.2", "5432", "postgres", "", "postgres");
             NpgsqlConnection conn = new NpgsqlConnection(connect);
             NpgsqlCommand cmd = new NpgsqlCommand();
             cmd.Connection = conn;
