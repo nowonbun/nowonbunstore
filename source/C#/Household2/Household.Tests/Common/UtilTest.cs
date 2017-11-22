@@ -17,7 +17,7 @@ namespace Household.Tests.Common
         [TestMethod]
         public void MD5HashCrypt()
         {
-            String val = Util.MD5HashCrypt("ghkdtnsduq1");
+            String val = Util.MD5HashCrypt("");
             Assert.AreEqual("718d81708bbc1d59dd4148189602e3b2", val);
         }
     }
