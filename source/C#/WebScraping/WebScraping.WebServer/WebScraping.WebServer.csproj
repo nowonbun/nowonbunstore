@@ -42,13 +42,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HttpFactory.cs" />
-    <Compile Include="Impl\WebHttpServer.cs" />
-    <Compile Include="Impl\WebSocketServer.cs" />
-    <Compile Include="IWebHttpServer.cs" />
-    <Compile Include="IWebSocketServer.cs" />
-    <Compile Include="Opcode.cs" />
+    <Compile Include="Impl\Server.cs" />
+    <Compile Include="Impl\WebSocket.cs" />
+    <Compile Include="IServer.cs" />
+    <Compile Include="OPCode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Request.cs" />
+    <Compile Include="Response.cs" />
+    <Compile Include="ServerFactory.cs" />
+    <Compile Include="Util\Define.cs" />
+    <Compile Include="Util\String2.cs" />
     <Compile Include="WebSocketNode.cs" />
   </ItemGroup>
   <ItemGroup>

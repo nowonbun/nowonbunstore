@@ -1,5 +1,4 @@
-﻿
-namespace WebScraping.WebServer
+﻿namespace WebScraping.WebServer
 {
     public enum Opcode : int
     {

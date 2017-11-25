@@ -10,7 +10,7 @@ var ins = (function (f) {
 	},
 	ws : null,
 	init: function () {
-		this.ws = new WebSocket("ws://127.0.0.1:19998/");
+		this.ws = new WebSocket("ws://127.0.0.1:19999/");
         this.ws.onopen = function(message){
 			console.log("Server Connection");
 			var message = JSON.stringify({key:"init", data:null});
