@@ -7,5 +7,6 @@ namespace WebScraping.WebServer
         void Set(String2 key, Action<Request, Response> method);
         void SetRootPath(String path);
         void SetWebSocket(Func<String2, Opcode, WebSocketNode> method);
+        void SendWebSocket(WebSocketNode node);
     }
 }

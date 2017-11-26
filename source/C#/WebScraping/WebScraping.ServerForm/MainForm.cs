@@ -15,7 +15,6 @@ namespace WebScraping.ServerForm
         private Logger logger;
         private ScriptHook hook;
         private String path;
-        private Dictionary<String, Scraper> scraperlist = new Dictionary<string, Scraper>();
 
         public MainForm()
         {

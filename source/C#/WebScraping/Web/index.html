@@ -11,38 +11,25 @@
     <div class="title">
         Administrator of scraping machine.
     </div>
-    <div>
+    <div class="inputForm">
         <input type="button" class="manualBtn" id="manual" value="Manual Scraping">
         <div class="hide" id="manual_panel">
-            Code :
+            <span>Code :</span>
             <select id="manual_code">
+				<option value=""></option>
                 <option value="001">001</option>
                 <option value="002">002</option>
                 <option value="999">999</option>
             </select>
-            Id : <input type="text" id="manual_id">
-            Pw : <input type="text" id="manual_pwd">
+            <span>Id :</span> <input type="text" id="manual_id">
+            <span>Pw :</span> <input type="text" id="manual_pwd">
             <input type="button" id="manual_scraping" value="scraping">
             <input type="button" id="manual_close" value="close">
         </div>
     </div>
-    <!--div class="refresh">
-        <div>Refresh time : <span id="reflesh_view">0</span></div>
-        <div>
-            Refresh time setting(second) : <select id="reflesh_init">
-                <option value=10>10</option>
-                <option value=20>20</option>
-                <option value=30>30</option>
-                <option value=60>60</option>
-                <option value=120>120</option>
-                <option value=600>600</option>
-                <option value=3600>3600</option>
-            </select>
-        </div>
-        <div>Refresh button: <input type=button id="refresh_btn" value='Refresh'></div>
-    </div-->
+	<div class="message">
+	</div>
     <div>
-        <!--div class="rightalign">Recently refresh time : <span id="refreshTime">0000/00/00 00:00:00.0000</span></div-->
         <table id="status_table">
             <thead>
                 <tr>
@@ -54,7 +41,11 @@
                     <!--th>Status</th-->
                 </tr>
             </thead>
-            <tbody></tbody>
+            <tbody>
+				<tr>
+					<td colspan='5' class='noData'>Not excuted</td>
+				</tr>
+			</tbody>
         </table>
     </div>
 </body>

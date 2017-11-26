@@ -4,42 +4,52 @@ var ins = (function (f) {
 	});
 	return f;
 })({
-	test: function() {
-		var message = JSON.stringify({key:"testremove", data:null});
-		ins.ws.send(message);
-	},
 	ws : null,
 	init: function () {
 		this.ws = new WebSocket("ws://127.0.0.1:19999/");
-        this.ws.onopen = function(message){
+        this.ws.onopen = function(message) {
 			console.log("Server Connection");
 			var message = JSON.stringify({key:"init", data:null});
 			ins.ws.send(message);
         };
-        this.ws.onclose = function(message){
+        this.ws.onclose = function(message) {
 			console.log("Server Disconnect");
         };
-        this.ws.onerror = function(message){
+        this.ws.onerror = function(message) {
 			console.log("Server Error");
         };
-        this.ws.onmessage = function(message){
+        this.ws.onmessage = function(message) {
+			function template(item) {
+				return "<tr id='Key"+ item.Key +"' class='datalist'>"
+						+ "<td>" + item.Key + "</td>"
+						+ "<td>" + item.Code + "</td>"
+						+ "<td>" + item.Id + "</td>"
+						+ "<td>" + item.Starttime + "</td>"
+						+ "<td>" + item.Pingtime + "</td>"
+						//+ "<td>"+item.Status+"</td>"
+						+ "</tr>";
+			}
+			if(message.data === "") {
+				return;
+			}
 			var node = JSON.parse(message.data);
 			if(node.key === "init") {
 				var list = JSON.parse(node.data);
+				if (list.length === 0) {
+					$(".noData").show();
+				} else {
+					$(".noData").hide();
+				}
 				for (var i in list) {
-					var temp = "<tr id='Key"+ list[i].Key +"'>"
-						+ "<td>" + list[i].Key + "</td>"
-						+ "<td>" + list[i].Code + "</td>"
-						+ "<td>" + list[i].Id + "</td>"
-						+ "<td>" + list[i].Starttime + "</td>"
-						+ "<td>" + list[i].Pingtime + "</td>"
-						//+ "<td>"+list[i].Status+"</td>"
-						+ "</tr>";
+					var temp = template(list[i]);
 					$("#status_table > tbody").append(temp);
 				}
 			} else if(node.key === "remove"){
 				$("#Key"+node.data).remove();
-			} else {
+			} else  if(node.key === "insert") {
+				$(".noData").hide();
+				$("#status_table > tbody").append(template(JSON.parse(node.data)));
+			}else {
 				console.log(message);
 			}
         };
@@ -54,11 +64,11 @@ var ins = (function (f) {
             webSocket.close();
         }*/
 
-		$(document).on("click", "#refresh_btn", function () {
-			/*$("#reflesh_view").html($("#reflesh_init").val());
+		/*$(document).on("click", "#refresh_btn", function () {
+			$("#reflesh_view").html($("#reflesh_init").val());
 			ins.receive();
-			*/
-		});
+			
+		});*/
 		$(document).on("click", "#manual", function () {
 			$("#manual").toggleClass("hide");
 			$("#manual_panel").toggleClass("hide");
@@ -68,22 +78,34 @@ var ins = (function (f) {
 			$("#manual_panel").toggleClass("hide");
 		});
 		$(document).on("click", "#manual_scraping", function () {
-			/*
-			var url = "./Scrap?Code=" + $("#manual_code").val() + "&Id=" + $("#manual_id").val() + "&Pw=" + $("#manual_pwd").val();
-			ins.logger(url);
-			$.ajax({
-				url: url,
-				type: "GET",
-				success: function (data, textStatus, jqXHR) {
-					ins.receive();
-				}
-			});
+			if($("#manual_code").val().trim() === "") {
+				ins.message("스크래핑 사이트를 선택하여 주십시오.");
+				return;
+			}
+			if($("#manual_id").val().trim() === "") {
+				ins.message("아이디가 없습니다.");
+				return;
+			}
+			if($("#manual_pwd").val().trim() === "") {
+				ins.message("패스워드가 없습니다.");
+				return;
+			}
+			ins.send("start", "Code=" + $("#manual_code").val() + "&Id=" + $("#manual_id").val() + "&Pw=" + $("#manual_pwd").val());
 			$("#manual").toggleClass("hide");
 			$("#manual_panel").toggleClass("hide");
-		});*/
 		});
-		/*this.restart();
-		this.refresh();*/
+	},
+	logger: function (value) {
+		ins.send("log",value);
+	},
+	send: function(nkey, ndata) {
+		ins.ws.send(JSON.stringify({key:nkey, data:ndata}));
+	},
+	message: function(value) {
+		$(".message").html(value);
+		if(value !== "") {
+			setTimeout(ins.message, 5000, "");
+		}
 	}
 	/*
 	,

@@ -8,6 +8,9 @@ namespace WebScraping.ServerForm
 {
     partial class MainForm
     {
+        private Dictionary<String, Scraper> scraperlist = new Dictionary<string, Scraper>();
+        private IServer server;
+
         public class SocketNode
         {
             public String key { get; set; }
@@ -15,7 +18,7 @@ namespace WebScraping.ServerForm
         }
         public void InitializeFlow()
         {
-            IServer server = ServerFactory.NewInstance(ServerInfo.GetPort());
+            server = ServerFactory.NewInstance(ServerInfo.GetPort());
             server.SetRootPath(ServerInfo.GetWebRoot());
             /*IWebHttpServer http = factory.WebServer;
             IWebSocketServer socket = factory.WebSocketServer;*/
@@ -41,29 +44,42 @@ namespace WebScraping.ServerForm
                 res.ReadFile(ServerInfo.GetWebRoot() + "\\common.js");
             });
 
-            IDictionary<String, Action<WebSocketNode>> socketmethod = new Dictionary<String, Action<WebSocketNode>>();
-            socketmethod.Add("init", (node) =>
+            IDictionary<String, Action<String, WebSocketNode>> socketmethod = new Dictionary<String, Action<String, WebSocketNode>>();
+            socketmethod.Add("init", (data, node) =>
             {
-                Console.WriteLine("init");
+                logger.Debug("init");
+                //scraperlist;
+                List<Object> ret = new List<object>();
+                foreach (var s in scraperlist)
+                {
+                    ret.Add(s.Value.Parameter);
+                }
                 SocketNode message = new SocketNode()
                 {
                     key = "init",
-                    data = JsonConvert.SerializeObject(new List<Object>() {
-                    new { Key = "test1", Code = "code1", Id = "id1", Starttime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"), Pingtime = ""},
-                    new { Key = "test2", Code = "code2", Id = "id2", Starttime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"), Pingtime = "" } })
+                    data = JsonConvert.SerializeObject(ret)
                 };
                 node.OPCode = Opcode.MESSAGE;
                 node.Message = JsonConvert.SerializeObject(message);
                 node.Broadcast = false;
             });
-
-            socketmethod.Add("testremove", (node) =>
+            socketmethod.Add("log", (data, node) =>
+            {
+                logger.Debug("log");
+                node.OPCode = Opcode.MESSAGE;
+                logger.Info(data);
+            });
+            socketmethod.Add("start", (data, node) =>
+            {
+                StartScraper(data);
+            });
+            /*socketmethod.Add("testremove", (node) =>
             {
                 Console.WriteLine("testremove");
                 node.OPCode = Opcode.MESSAGE;
                 node.Message = JsonConvert.SerializeObject(new SocketNode() { key = "remove", data = "test1" });
                 node.Broadcast = true;
-            });
+            });*/
 
             server.SetWebSocket((data, opcode) =>
             {
@@ -76,7 +92,7 @@ namespace WebScraping.ServerForm
                     {
                         throw new Exception("not method");
                     }
-                    socketmethod[node.key](ret);
+                    socketmethod[node.key](node.data, ret);
                 }
                 catch (Exception e)
                 {
@@ -86,6 +102,21 @@ namespace WebScraping.ServerForm
                 }
                 return ret;
             });
+        }
+
+        private String StartScraper(String param)
+        {
+            this.logger.Info("Start scraper param : " + param);
+            Scraper scraper = new Scraper(param, path);
+            String key = scraper.Run();
+            scraperlist.Add(key, scraper);
+            server.SendWebSocket(new WebSocketNode()
+            {
+                OPCode = Opcode.MESSAGE,
+                Broadcast = true,
+                Message = JsonConvert.SerializeObject(new SocketNode() { key = "insert", data = JsonConvert.SerializeObject(scraper.Parameter) })
+            });
+            return key;
         }
     }
 }

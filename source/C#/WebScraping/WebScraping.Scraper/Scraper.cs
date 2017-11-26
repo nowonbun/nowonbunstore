@@ -18,8 +18,6 @@ namespace WebScraping.Scraper
             Logger logger = null;
             try
             {
-                logger = LoggerBuilder.Init(ConfigSystem.ReadConfig("Config", "Log", "Path2")).Set("Server").Info("Client Program Start");
-
                 if (Debug.IsDebug())
                 {
                     args = new String[] { Debug.GetDebugKey(), Debug.GetDebugParam() };
@@ -28,6 +26,9 @@ namespace WebScraping.Scraper
                 {
                     throw new ScraperException("Parameter Length Error " + args.Length);
                 }
+                logger = LoggerBuilder.Init(LogTemplate.GetLogTemp(ConfigSystem.ReadConfig("Config", "Log", "WritePath") + "\\" + args[0] + ".log")).Set("Server").Info("Client Program Start");
+                logger.Debug("arg[0] : " + args[0]);
+                logger.Debug("arg[1] : " + args[1]);
                 FactoryDao.CreateInstance(ConfigSystem.ReadConfig("Config", "DB", "Connection"), ConfigSystem.ReadConfig("Config", "Temp", "Path"));
                 IScrapingStatusDao dao = FactoryDao.GetInstance().GetDao<IScrapingStatusDao>();
                 if (!Debug.IsDebug())

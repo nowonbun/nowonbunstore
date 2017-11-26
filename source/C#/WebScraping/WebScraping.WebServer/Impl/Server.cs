@@ -121,5 +121,9 @@ namespace WebScraping.WebServer.Impl
         {
             socketlist.Remove(socket);
         }
+        public void SendWebSocket(WebSocketNode node)
+        {
+            Send(node);
+        }
     }
 }
