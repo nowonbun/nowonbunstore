@@ -13,19 +13,22 @@ namespace WebScraping.ServerForm
         private Logger logger;
         private Parameter parameter;
         private String parameterStr;
-        public Scraper(String parameter, String path)
+        public Scraper(String parameter)
         {
             this.logger = LoggerBuilder.Init().Set(this.GetType());
             base.StartInfo = new ProcessStartInfo();
             base.StartInfo.FileName = "WebScraping.Scraper.exe";
             this.parameter = SetParamter(parameter);
             this.parameterStr = parameter;
-            base.StartInfo.WorkingDirectory = Path.GetDirectoryName(path);
             this.logger.Info("Scraper process initialize Parameter : " + parameterStr);
         }
         public String Run()
         {
-            parameter.Key = System.Guid.NewGuid().ToString();
+            return Run(System.Guid.NewGuid().ToString());
+        }
+        public String Run(string key, bool insert = true)
+        {
+            parameter.Key = key;
             base.StartInfo.Arguments = parameter.Key + " " + this.parameterStr;
 
             IScrapingStatusDao dao = FactoryDao.GetInstance().GetDao<IScrapingStatusDao>();
@@ -35,8 +38,15 @@ namespace WebScraping.ServerForm
             entity.Sid = parameter.Id;
             entity.StartTime = DateTime.Now;
             entity.Status = "0";
-            dao.Insert(entity);
-            parameter.Starttime = DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss");
+            if (insert)
+            {
+                dao.Insert(entity);
+            }
+            else
+            {
+                dao.Update(entity);
+            }
+            parameter.Starttime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
             base.Start();
             this.logger.Info("Scraper process Start " + this.parameter.ToString());
             return parameter.Key;
@@ -55,6 +65,10 @@ namespace WebScraping.ServerForm
                 else if ("ID".Equals(t[0].ToUpper()))
                 {
                     ret.Id = t[1];
+                }
+                else if ("PW".Equals(t[0].ToUpper()))
+                {
+                    ret.Pw = t[1];
                 }
             }
             return ret;

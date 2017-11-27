@@ -20,9 +20,6 @@ namespace WebScraping.ServerForm
         {
             server = ServerFactory.NewInstance(ServerInfo.GetPort());
             server.SetRootPath(ServerInfo.GetWebRoot());
-            /*IWebHttpServer http = factory.WebServer;
-            IWebSocketServer socket = factory.WebSocketServer;*/
-
             server.Set("/ControllView", (req, res) =>
             {
                 res.SetHeader("Content-Type", "text/html; charset=utf-8");
@@ -42,6 +39,130 @@ namespace WebScraping.ServerForm
             {
                 res.SetHeader("Content-Type", "text/css;");
                 res.ReadFile(ServerInfo.GetWebRoot() + "\\common.js");
+            });
+            server.Set("/Ping", (req, res) =>
+            {
+                if (req.QueryString.ContainsKey("Code"))
+                {
+                    String code = req.QueryString["Code"].ToString();
+                    if (scraperlist.ContainsKey(code))
+                    {
+                        scraperlist[code].Parameter.Pingtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff");
+                        server.SendWebSocket(new WebSocketNode()
+                        {
+                            OPCode = Opcode.MESSAGE,
+                            Broadcast = true,
+                            Message = JsonConvert.SerializeObject(new SocketNode() { key = "ping", data = JsonConvert.SerializeObject(scraperlist[code].Parameter) })
+                        });
+                    }
+                }
+            });
+            server.Set("/Scrap", (req, res) =>
+            {
+                if (!req.QueryString.ContainsKey("Code"))
+                {
+                    res.SetResponseCode(400, "Bad Request");
+                    return;
+                }
+                if (!req.QueryString.ContainsKey("Id"))
+                {
+                    res.SetResponseCode(400, "Bad Request");
+                    return;
+                }
+                if (!req.QueryString.ContainsKey("Pw"))
+                {
+                    res.SetResponseCode(400, "Bad Request");
+                    return;
+                }
+                String param = "Code=" + req.QueryString["Code"].ToString() + "&Id=" + req.QueryString["Id"].ToString() + "&Pw=" + req.QueryString["Pw"].ToString();
+                this.logger.Info("Start scraper param : " + param);
+                Scraper scraper = new Scraper(param);
+                String key = scraper.Run();
+                scraperlist.Add(key, scraper);
+                server.SendWebSocket(new WebSocketNode()
+                {
+                    OPCode = Opcode.MESSAGE,
+                    Broadcast = true,
+                    Message = JsonConvert.SerializeObject(new SocketNode() { key = "insert", data = JsonConvert.SerializeObject(scraper.Parameter) })
+                });
+                res.StateOK();
+            });
+            server.Set("/EndScrap", (req, res) =>
+            {
+                if (!req.QueryString.ContainsKey("Code"))
+                {
+                    res.SetResponseCode(400, "Bad Request");
+                    return;
+                }
+                this.logger.Info("EndScrap");
+                String code = req.QueryString["Code"].ToString();
+                if (!scraperlist.ContainsKey(code))
+                {
+                    res.SetResponseCode(400, "Bad Request");
+                    return;
+                }
+                this.logger.Debug("Exit Code = " + code);
+                server.SendWebSocket(new WebSocketNode()
+                {
+                    OPCode = Opcode.MESSAGE,
+                    Broadcast = true,
+                    Message = JsonConvert.SerializeObject(new SocketNode() { key = "remove", data = JsonConvert.SerializeObject(scraperlist[code].Parameter) })
+                });
+                scraperlist.Remove(code);
+                res.StateOK();
+                return;
+            });
+            server.Set("/AbortScrap", (req, res) =>
+            {
+                if (!req.QueryString.ContainsKey("Code"))
+                {
+                    res.SetResponseCode(400, "Bad Request");
+                    return;
+                }
+                this.logger.Info("EndScrap");
+                String code = req.QueryString["Code"].ToString();
+                if (!scraperlist.ContainsKey(code))
+                {
+                    res.SetResponseCode(400, "Bad Request");
+                    return;
+                }
+                this.logger.Debug("Exit Code = " + code);
+                scraperlist[code].Kill();
+                server.SendWebSocket(new WebSocketNode()
+                {
+                    OPCode = Opcode.MESSAGE,
+                    Broadcast = true,
+                    Message = JsonConvert.SerializeObject(new SocketNode() { key = "remove", data = JsonConvert.SerializeObject(scraperlist[code].Parameter) })
+                });
+                scraperlist.Remove(code);
+                res.StateOK();
+            });
+            server.Set("/RestartScrap", (req, res) =>
+            {
+                if (!req.QueryString.ContainsKey("Code"))
+                {
+                    res.SetResponseCode(400, "Bad Request");
+                    return;
+                }
+                this.logger.Info("RestartScrap");
+                String code = req.QueryString["Code"].ToString();
+                if (!scraperlist.ContainsKey(code))
+                {
+                    res.SetResponseCode(400, "Bad Request");
+                    return;
+                }
+                scraperlist[code].Kill();
+                String param = "Code=" + scraperlist[code].Parameter.Code + "&Id=" + scraperlist[code].Parameter.Id + "&Pw=" + scraperlist[code].Parameter.Pw;
+                Scraper scraper = new Scraper(param);
+                scraperlist[code] = scraper;
+                scraper.Run(code, false);
+                server.SendWebSocket(new WebSocketNode()
+                {
+                    OPCode = Opcode.MESSAGE,
+                    Broadcast = true,
+                    Message = JsonConvert.SerializeObject(new SocketNode() { key = "restart", data = JsonConvert.SerializeObject(scraperlist[code].Parameter) })
+                });
+                res.StateOK();
             });
 
             IDictionary<String, Action<String, WebSocketNode>> socketmethod = new Dictionary<String, Action<String, WebSocketNode>>();
@@ -73,14 +194,6 @@ namespace WebScraping.ServerForm
             {
                 StartScraper(data);
             });
-            /*socketmethod.Add("testremove", (node) =>
-            {
-                Console.WriteLine("testremove");
-                node.OPCode = Opcode.MESSAGE;
-                node.Message = JsonConvert.SerializeObject(new SocketNode() { key = "remove", data = "test1" });
-                node.Broadcast = true;
-            });*/
-
             server.SetWebSocket((data, opcode) =>
             {
                 WebSocketNode ret = new WebSocketNode() { OPCode = Opcode.MESSAGE };
@@ -107,7 +220,7 @@ namespace WebScraping.ServerForm
         private String StartScraper(String param)
         {
             this.logger.Info("Start scraper param : " + param);
-            Scraper scraper = new Scraper(param, path);
+            Scraper scraper = new Scraper(param);
             String key = scraper.Run();
             scraperlist.Add(key, scraper);
             server.SendWebSocket(new WebSocketNode()

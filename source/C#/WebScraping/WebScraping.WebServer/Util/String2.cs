@@ -246,15 +246,35 @@ namespace WebScraping.WebServer
                     break;
                 }
             }
-            if (spos == -1)
+            if (spos == -1 && epos == -1)
+            {
+                return new String2(0);
+            }
+            /*if (spos == -1)
             {
                 spos = 0;
             }
             if (epos == -1)
             {
                 epos = Length - 1;
-            }
+            }*/
             return SubString(spos, epos - spos);
+        }
+
+        public bool IsEmpty()
+        {
+            if (Length == 0)
+            {
+                return true;
+            }
+            for (int i = 0; i < Length; i++)
+            {
+                if (this[i] != 0x00 && this[i] != 0x20)
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         public int IndexOf(string source)

@@ -104,8 +104,8 @@ namespace WebScraping.Scraper.Impl
         }
         private void Ping(String code)
         {
-            this.logger.Debug("PING : http://localhost:" + ServerInfo.GetPort() + "/PING?CODE=" + parameter.Keycode);
-            HttpWebRequest req = WebRequest.CreateHttp("http://localhost:" + ServerInfo.GetPort() + "/PING?CODE=" + parameter.Keycode);
+            this.logger.Debug("PING : http://localhost:" + ServerInfo.GetPort() + "/Ping?Code=" + parameter.Keycode);
+            HttpWebRequest req = WebRequest.CreateHttp("http://localhost:" + ServerInfo.GetPort() + "/Ping?Code=" + parameter.Keycode);
             req.Method = "GET";
             using (HttpWebResponse response = (HttpWebResponse)req.GetResponse())
             {
@@ -118,8 +118,8 @@ namespace WebScraping.Scraper.Impl
         }
         public void NotifyEnd(String code)
         {
-            this.logger.Debug("EndScrap : http://localhost:" + ServerInfo.GetPort() + "/EndScrap?CODE=" + parameter.Keycode);
-            HttpWebRequest req = WebRequest.CreateHttp("http://localhost:" + ServerInfo.GetPort() + "/EndScrap?CODE=" + parameter.Keycode);
+            this.logger.Debug("EndScrap : http://localhost:" + ServerInfo.GetPort() + "/EndScrap?Code=" + parameter.Keycode);
+            HttpWebRequest req = WebRequest.CreateHttp("http://localhost:" + ServerInfo.GetPort() + "/EndScrap?Code=" + parameter.Keycode);
             req.Method = "GET";
             using (HttpWebResponse response = (HttpWebResponse)req.GetResponse())
             {

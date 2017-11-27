@@ -37,7 +37,7 @@ namespace WebScraping.WebServer.Impl
                             var _client = temp_client as Socket;
                             String2 buffer = new String2(Define.BUFFER_SIZE);
                             _client.Receive(buffer.ToBytes(), buffer.Length, SocketFlags.None);
-                            if (buffer.ToBytes()[0] == 0)
+                            if (buffer.IsEmpty())
                             {
                                 logger.Debug("not Byte data..");
                                 //TODO : Bug??

@@ -8,7 +8,7 @@ namespace WebScraping.WebServer
         private static ServerFactory singleton = null;
         public static IServer NewInstance(int port)
         {
-            if(singleton != null)
+            if (singleton != null)
             {
                 throw new Exception("already allocation!!");
             }

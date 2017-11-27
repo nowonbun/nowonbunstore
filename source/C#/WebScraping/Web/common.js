@@ -25,7 +25,7 @@ var ins = (function (f) {
 						+ "<td>" + item.Code + "</td>"
 						+ "<td>" + item.Id + "</td>"
 						+ "<td>" + item.Starttime + "</td>"
-						+ "<td>" + item.Pingtime + "</td>"
+						+ "<td class='ping'>" + item.Pingtime + "</td>"
 						//+ "<td>"+item.Status+"</td>"
 						+ "</tr>";
 			}
@@ -44,31 +44,26 @@ var ins = (function (f) {
 					var temp = template(list[i]);
 					$("#status_table > tbody").append(temp);
 				}
-			} else if(node.key === "remove"){
-				$("#Key"+node.data).remove();
-			} else  if(node.key === "insert") {
+			} else if (node.key === "insert") {
 				$(".noData").hide();
 				$("#status_table > tbody").append(template(JSON.parse(node.data)));
-			}else {
+			} else if (node.key === "ping") {
+				var temp = JSON.parse(node.data);
+				$('#Key'+temp.Key+" .ping").text(temp.Pingtime);
+			} else if (node.key === "remove") {
+				var temp = JSON.parse(node.data);
+				$('#Key'+temp.Key).remove();
+				if($(".datalist").length == 0) {
+					$(".noData").show();
+				}
+			} else if (node.key === "restart") {
+				var temp = JSON.parse(node.data);
+				$('#Key'+temp.Key).remove();
+				$("#status_table > tbody").append(template(temp));
+			} else {
 				console.log(message);
 			}
         };
-		/*
-        function sendMessage(){
-            var message = document.getElementById("textMessage");
-            messageTextArea.value += "Send to Server => "+message.value+"\n";
-            webSocket.send(message.value);
-            message.value = "";
-        }
-        function disconnect(){
-            webSocket.close();
-        }*/
-
-		/*$(document).on("click", "#refresh_btn", function () {
-			$("#reflesh_view").html($("#reflesh_init").val());
-			ins.receive();
-			
-		});*/
 		$(document).on("click", "#manual", function () {
 			$("#manual").toggleClass("hide");
 			$("#manual_panel").toggleClass("hide");
@@ -107,76 +102,4 @@ var ins = (function (f) {
 			setTimeout(ins.message, 5000, "");
 		}
 	}
-	/*
-	,
-	restart: function () {
-		$.ajax({
-			url: "./Restart",
-			type: "GET"
-		});
-	},
-	refresh: function () {
-		this.receive();
-		$("#reflesh_view").html($("#reflesh_init").val());
-		setTimeout(this.tick, 1000, this);
-	},
-	receive: function () {
-		function now() {
-			function format(time) {
-				var temp = time + "";
-				if (temp.length == 1) {
-					return "0" + temp;
-				}
-				return temp;
-			}
-			var dt = new Date();
-			return dt.getFullYear() + "/" +
-				format((dt.getMonth() + 1)) + "/" +
-				format(dt.getDate()) + " " +
-				format(dt.getHours()) + ":" +
-				format(dt.getMinutes()) + ":" +
-				format(dt.getSeconds());
-		}
-		function initTable() {
-			$("#status_table > tbody").html("");
-		}
-		initTable();
-		$.ajax({
-			url: "./List",
-			type: "GET",
-			dataType: "json",
-			success: function (data, textStatus, jqXHR) {
-				if (data.length === 0) {
-					$("#status_table > tbody").append("<tr><td colspan='5' class='noData'>Not excuted</td></tr>");
-				}
-				for (var i in data) {
-					var temp = "<tr>"
-						+ "<td>" + data[i].Key + "</td>"
-						+ "<td>" + data[i].Code + "</td>"
-						+ "<td>" + data[i].Id + "</td>"
-						+ "<td>" + data[i].Starttime + "</td>"
-						+ "<td>" + data[i].Pingtime + "</td>"
-						//+ "<td>"+data[i].Status+"</td>"
-						+ "</tr>";
-					$("#status_table > tbody").append(temp);
-				}
-				$("#refreshTime").html(now());
-			}
-		});
-	},
-	tick: function () {
-		var temp = Number($("#reflesh_view").html()) - 1;
-		if (temp < 0) {
-			ins.refresh();
-		} else {
-			$("#reflesh_view").html(temp);
-			setTimeout(ins.tick, 1000);
-		}
-	},
-	logger: function (str) {
-		$.ajax({
-			url: ".Log?" + str,
-			type: "GET"
-		});
-	}*/
 });
