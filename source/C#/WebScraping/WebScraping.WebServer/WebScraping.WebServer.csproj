@@ -45,7 +45,7 @@
     <Compile Include="Impl\Server.cs" />
     <Compile Include="Impl\WebSocket.cs" />
     <Compile Include="IServer.cs" />
-    <Compile Include="OPCode.cs" />
+    <Compile Include="Opcode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Request.cs" />
     <Compile Include="Response.cs" />

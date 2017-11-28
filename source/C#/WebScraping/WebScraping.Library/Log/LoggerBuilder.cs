@@ -38,7 +38,7 @@ namespace WebScraping.Library.Log
                 }
             }
             catch { }*/
-            XmlConfigurator.Configure();
+            //XmlConfigurator.Configure();
             return new Logger();
         }
         public static Logger Init(String logPath)

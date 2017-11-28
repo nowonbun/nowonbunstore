@@ -44,6 +44,8 @@ namespace WebScraping.Scraper.Flow.Auction
 
                 try
                 {
+                    DateTime enddate = DateTime.Now;
+                    DateTime startdate = enddate.AddYears(-1).AddDays(1);
                     this.buffer.Append("https://www.esmplus.com/Escrow/Delivery/GeneralDelivery?");
                     this.buffer.Append(CreateGetParameter(new Dictionary<String, String>()
                         {

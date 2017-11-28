@@ -14,8 +14,6 @@ namespace WebScraping.Scraper.Flow.Auction
         {
             if (uri.ToString().IndexOf("ReturnValue") != -1)
             {
-                //String label = document.GetElementByClassName<GeckoHtmlElement>("login_text", 0).TextContent;
-                //Console.WriteLine(label);
                 SetCommonData(0, "FALSE");
                 return false;
             }
@@ -23,19 +21,22 @@ namespace WebScraping.Scraper.Flow.Auction
             document.GetElementById<GeckoInputElement>("SiteId").Value = Parameter.Id;
             document.GetElementById<GeckoInputElement>("SitePassword").Value = Parameter.Pw;
             document.GetElementById<GeckoAnchorElement>("btnSiteLogOn").Click();
-            SetCommonData(0, "TRUE");
             return true;
         }
         private Boolean Home(GeckoDocument document, Uri uri)
         {
-            /*String value = document.GetElementById<GeckoHtmlElement>("header")
-                                      .GetElementByTagName<GeckoHtmlElement>("DIV", 0)
-                                          .GetElementByTagName<GeckoHtmlElement>("SPAN", 0)
-                                              .GetElementByTagName<GeckoHtmlElement>("STRONG", 0).FirstChild.NodeValue;
-            Console.WriteLine(value);*/
-            base.Navigate("http://www.esmplus.com/Home/SSO?code=TDM155&id=" + Parameter.Id);
+            SetCommonData(0, "TRUE");
+            base.Navigate("https://www.esmplus.com/Member/CustomerService/CSManagement?menuCode=TDM140");
             return true;
         }
+        private  Boolean CSManagement(GeckoDocument document, Uri uri)
+        {
+            var data = document.GetElementById<GeckoElement>("msg_auction").GetElementsByTagName("A")[0].FirstChild.NodeValue;
+            SetCommonData(20, data);
+            base.Navigate("http://www.esmplus.com/Home/SSO?code=TDM155&id=" + Parameter.Id);
+            return false;
+        }
+
         private Boolean Profile(GeckoDocument document, Uri uri)
         {
             SetCommonData(1, document.GetElementByIdToNodeValue("lblCustName"));
@@ -77,6 +78,8 @@ namespace WebScraping.Scraper.Flow.Auction
             {
                 try
                 {
+                    DateTime enddate = DateTime.Now;
+                    DateTime startdate = enddate.AddYears(-1).AddDays(1);
                     this.buffer.Append("https://www.esmplus.com/Escrow/Delivery/BuyDecisionExcel?");
                     this.buffer.Append(CreateGetParameter(new Dictionary<String, String>()
                     {
@@ -112,6 +115,8 @@ namespace WebScraping.Scraper.Flow.Auction
                 if (String.Equals(option.Label, "A_" + Parameter.Id))
                 {
                     //10757^id^_1
+                    DateTime enddate = DateTime.Now;
+                    DateTime startdate = enddate.AddYears(-1).AddDays(1);
                     idkey = option.Value;
                     idcode = idkey.Split('^')[0];
                     this.logger.Info("idkey - " + idkey);
@@ -151,6 +156,8 @@ namespace WebScraping.Scraper.Flow.Auction
         private bool LacSettleDetail(GeckoDocument document, Uri uri)
         {
             logger.Info("3-1.정산내역 ( 정산관리 > 정산내역 조회 > 옥션 정산내역 관리 )");
+            DateTime enddate = DateTime.Now;
+            DateTime startdate = enddate.AddYears(-1).AddDays(1);
             var SearchParam = new
             {
                 MemberID = Parameter.Id,
@@ -183,6 +190,8 @@ namespace WebScraping.Scraper.Flow.Auction
                 //https://www.esmplus.com/Escrow/Delivery/GeneralDeliveryExcel?
                 //siteGbn=0&searchAccount=10757^1&searchDateType=ODD&searchSDT=2017-08-05&searchEDT=2017-11-05&searchKey=ON&searchKeyword=&searchStatus=0&
                 //searchAllYn =Y&splitYn=no&searchDeliveryType=&searchOrderType=&searchPaking=false&searchDistrType=AL&searchTransPolicyType=
+                DateTime enddate = DateTime.Now;
+                DateTime startdate = enddate.AddMonths(-3);
                 this.buffer.Append("https://www.esmplus.com/Escrow/Delivery/GeneralDeliveryExcel?");
                 this.buffer.Append(CreateGetParameter(new Dictionary<String, String>()
                 {
@@ -220,6 +229,8 @@ namespace WebScraping.Scraper.Flow.Auction
             logger.Info("4-3.정산예정금 - ( 주문관리 > 배송중/배송완료 )");
             try
             {
+                DateTime enddate = DateTime.Now;
+                DateTime startdate = enddate.AddMonths(-1);
                 this.buffer.Append("https://www.esmplus.com/Escrow/Delivery/SendingExcel?");
                 this.buffer.Append(CreateGetParameter(new Dictionary<String, String>()
                 {
@@ -251,6 +262,8 @@ namespace WebScraping.Scraper.Flow.Auction
             logger.Info("4-5.정산예정금 ( 주문관리 > 구매결정완료 )");
             try
             {
+                DateTime enddate = DateTime.Now;
+                DateTime startdate = enddate.AddMonths(-1);
                 //https://www.esmplus.com/Escrow/Delivery/BuyDecisionExcel?
                 //siteGbn =0&searchAccount=10757^isorikids^1&searchDateType=TRD&searchSDT=2017-10-08&searchEDT=2017-11-08&searchKey=ON&searchKeyword=&searchStatus=1060&searchAllYn=N&searchDistrType=AL&searchGlobalShopType=&searchOverseaDeliveryYn=
                 this.buffer.Append("https://www.esmplus.com/Escrow/Delivery/BuyDecisionExcel?");
@@ -288,6 +301,8 @@ namespace WebScraping.Scraper.Flow.Auction
             {
                 //https://www.esmplus.com/Escrow/Claim/ExcelDownload?
                 //searchAccount=A1^isorikids
+                DateTime enddate = DateTime.Now;
+                DateTime startdate = enddate.AddYears(-1).AddDays(1);
                 this.buffer.Append("https://www.esmplus.com/Escrow/Claim/ExcelDownload?");
                 logger.Debug("idkey=" + idkey);
                 this.buffer.Append(CreateGetParameter(new Dictionary<String, String>()

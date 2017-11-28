@@ -57,8 +57,10 @@
   <ItemGroup>
     <Compile Include="Common\AbstractScrapFlow.cs" />
     <Compile Include="Common\GeckoDocumentEx.cs" />
-    <Compile Include="Flow\Auction\ActionFlow.Excel.cs" />
-    <Compile Include="Flow\Auction\ActionFlow.Procedure.cs" />
+    <Compile Include="Flow\11thStreet\StreetFlow.cs" />
+    <Compile Include="Flow\11thStreet\StreetFlow.Procedure.cs" />
+    <Compile Include="Flow\Auction\AuctionFlow.Excel.cs" />
+    <Compile Include="Flow\Auction\AuctionFlow.Procedure.cs" />
     <Compile Include="Flow\Auction\AuctionFlow.cs" />
     <Compile Include="Flow\Auction\BuyDecisionExcel.cs" />
     <Compile Include="Flow\Auction\GeneralDeliveryExcel.cs" />
@@ -67,6 +69,8 @@
     <Compile Include="Flow\Auction\ReturnRequest.cs" />
     <Compile Include="Flow\Auction\SendingExcel.cs" />
     <Compile Include="Flow\Gmarket\GMarketFlow.cs" />
+    <Compile Include="Flow\Gmarket\GMarketFlow.Excel.cs" />
+    <Compile Include="Flow\Gmarket\GMarketFlow.Procedure.cs" />
     <Compile Include="Flow\Test\TestFlow.cs" />
     <Compile Include="Impl\ScrapBrowser.cs">
       <SubType>Component</SubType>
@@ -114,6 +118,7 @@
     <Content Include="Firefox\softokn3.dll" />
     <Content Include="Firefox\xul.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Geckofx45.45.0.32\build\Geckofx45.targets" Condition="Exists('..\packages\Geckofx45.45.0.32\build\Geckofx45.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

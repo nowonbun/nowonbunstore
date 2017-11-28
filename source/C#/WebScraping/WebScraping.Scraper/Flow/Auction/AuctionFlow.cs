@@ -12,8 +12,6 @@ namespace WebScraping.Scraper.Flow.Auction
     {
         private String idkey;
         private String idcode;
-        public DateTime startdate;
-        public DateTime enddate;
         private StringBuilder buffer = new StringBuilder();
 
 
@@ -21,11 +19,6 @@ namespace WebScraping.Scraper.Flow.Auction
             : base(browser, param, login_mode)
         {
             logger.Info("Action initialize");
-
-            DateTime now = DateTime.Now;
-            //startdate = now.AddYears(-1).AddDays(1);
-            startdate = now.AddMonths(-1);
-            enddate = now;
 
             FlowMap.Add("Member/SignIn/LogOn", Login);
             FlowMap.Add("Home/Home", Home);
@@ -38,6 +31,7 @@ namespace WebScraping.Scraper.Flow.Auction
             FlowMap.Add("Escrow/Claim/ReturnRequestManagement", ReturnRequestManagement);
             FlowMap.Add("Sell/Items/ItemsMng", ItemsMng);
             FlowMap.Add("Sell/Items/GetItemMngList", GetItemMngList);
+            FlowMap.Add("Member/CustomerService/CSManagement", CSManagement);
 
             DownloadMap.Add("BuyDecisionExcel", BuyDecisionExcel);
             DownloadMap.Add("IacRemitListExcelDownload", LacRemitListExcelDownload);
