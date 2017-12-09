@@ -1,4 +1,5 @@
-﻿using System;
+﻿#region package declare
+using System;
 using System.Collections.Generic;
 using Gecko;
 using WebScraping.Scraper.Node;
@@ -7,11 +8,13 @@ using WebScraping.Scraper.Flow.Gmarket;
 using WebScraping.Scraper.Flow.Auction;
 using WebScraping.Scraper.Flow._11thStreet;
 using WebScraping.Scraper.Flow.Test;
+using WebScraping.Scraper.Flow.Interpark;
 using WebScraping.Scraper.Other;
 using WebScraping.Library.Log;
 using WebScraping.Library.Config;
 using System.IO;
 using System.Net;
+#endregion
 
 namespace WebScraping.Scraper.Impl
 {
@@ -33,10 +36,12 @@ namespace WebScraping.Scraper.Impl
             FlowMap.Add("001", new FlowType() { Flow = typeof(GMarketFlow), LoginMode = false });
             FlowMap.Add("002", new FlowType() { Flow = typeof(AuctionFlow), LoginMode = false });
             FlowMap.Add("003", new FlowType() { Flow = typeof(StreetFlow), LoginMode = false });
+            FlowMap.Add("004", new FlowType() { Flow = typeof(InterparkFlow), LoginMode = false});
 
             FlowMap.Add("501", new FlowType() { Flow = typeof(GMarketFlow), LoginMode = true });
             FlowMap.Add("502", new FlowType() { Flow = typeof(AuctionFlow), LoginMode = true });
             FlowMap.Add("503", new FlowType() { Flow = typeof(StreetFlow), LoginMode = true });
+            FlowMap.Add("504", new FlowType() { Flow = typeof(InterparkFlow), LoginMode = true });
 
             FlowMap.Add("999", new FlowType() { Flow = typeof(TestFlow), LoginMode = false });
         }

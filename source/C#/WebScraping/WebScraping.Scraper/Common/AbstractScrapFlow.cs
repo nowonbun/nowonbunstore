@@ -430,6 +430,34 @@ namespace WebScraping.Scraper.Common
             });
         }
 
+        protected Dictionary<String, String> Param(Uri uri)
+        {
+            Dictionary<String, String> ret = new Dictionary<string, string>();
+            String temp = uri.ToString();
+            int pos = uri.ToString().IndexOf("?");
+            if (pos < 0)
+            {
+                return ret;
+            }
+            temp = temp.Substring(pos + 1, temp.Length - (pos + 1));
+            String[] buffer = temp.Split('&');
+            foreach (var b in buffer)
+            {
+                pos = b.IndexOf("=");
+                if (pos < 0)
+                {
+                    continue;
+                }
+                var k = b.Substring(0, pos);
+                var v = b.Substring(pos + 1, b.Length - (pos + 1));
+                if (ret.ContainsKey(k))
+                {
+                    ret.Remove(k);
+                }
+                ret.Add(k, v);
+            }
+            return ret;
+        }
         public abstract String StartPage();
         protected abstract void Finally();
     }

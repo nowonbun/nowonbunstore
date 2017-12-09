@@ -57,6 +57,10 @@
   <ItemGroup>
     <Compile Include="Common\AbstractScrapFlow.cs" />
     <Compile Include="Common\GeckoDocumentEx.cs" />
+    <Compile Include="Common\ScrapTable.cs" />
+    <Compile Include="Flow\11thStreet\OrderingLogisticsActionJson.cs" />
+    <Compile Include="Flow\11thStreet\SellerRemittanceActionJson.cs" />
+    <Compile Include="Flow\11thStreet\StatsPeriodProdSelJson.cs" />
     <Compile Include="Flow\11thStreet\StreetFlow.cs" />
     <Compile Include="Flow\11thStreet\StreetFlow.Procedure.cs" />
     <Compile Include="Flow\Auction\AuctionFlow.Excel.cs" />

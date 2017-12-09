@@ -11,7 +11,7 @@ namespace WebScraping.ServerForm
         [STAThread]
         static void Main()
         {
-            LoggerBuilder.Init(ConfigSystem.ReadConfig("Config", "Log", "Path")).Set("Server").Info("Server Program Start");
+            LoggerBuilder.Init(LogTemplate.GetLogTemp(ConfigSystem.ReadConfig("Config", "Log", "Path"))).Set("Server").Info("Server Program Start");
             FactoryDao.CreateInstance(ConfigSystem.ReadConfig("Config", "DB", "Connection"), ConfigSystem.ReadConfig("Config", "Log", "Path"));
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

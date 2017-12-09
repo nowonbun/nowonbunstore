@@ -30,6 +30,7 @@ namespace WebScraping.Scraper.Common
         {
             return element.GetElementsByTagName(tag)[index].FirstChild.NodeValue;
         }
+        /*
         public static void SelectElementById<T>(this GeckoDocument document, String id, String value) where T : GeckoSelectElement
         {
             var options = document.GetElementById<T>(id).Options;
@@ -42,6 +43,55 @@ namespace WebScraping.Scraper.Common
                     return;
                 }
             }
+        }*/
+        public static ScrapTable SelectTableById(this GeckoDocument document, String id)
+        {
+            ScrapTable ret = new ScrapTable();
+            GeckoElement element = document.GetElementById(id);
+            var collection = element.GetElementsByTagName("TR");
+            foreach (var row in collection)
+            {
+                foreach (var col in row.ChildNodes)
+                {
+                    if (!(col is GeckoHtmlElement))
+                    {
+                        continue;
+                    }
+                    var buffer = col as GeckoHtmlElement;
+                    if ("TD".Equals(buffer.TagName) || "TH".Equals(buffer.TagName))
+                    {
+                        //ret.Set(col.TextContent);
+                        ret.Set(col as GeckoHtmlElement);
+                    }
+                }
+                ret.Next();
+            }
+            return ret;
+        }
+        public static ScrapTable SelectTableByClass(this GeckoDocument document, String classname, int index = 0)
+        {
+            ScrapTable ret = new ScrapTable();
+            GeckoElement element = document.GetElementsByClassName(classname)[index] as GeckoElement;
+            var collection = element.GetElementsByTagName("TR");
+            foreach (var row in collection)
+            {
+                foreach (var col in row.ChildNodes)
+                {
+                    if (!(col is GeckoHtmlElement))
+                    {
+                        continue;
+                    }
+                    var buffer = col as GeckoHtmlElement;
+                    if ("TD".Equals(buffer.TagName) || "TH".Equals(buffer.TagName))
+                    {
+                        //ret.Set(col.TextContent);
+                        //ret.Set((col as GeckoHtmlElement).OuterHtml);
+                        ret.Set(col as GeckoHtmlElement);
+                    }
+                }
+                ret.Next();
+            }
+            return ret;
         }
     }
 }

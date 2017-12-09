@@ -16,6 +16,11 @@ namespace WebScraping.Scraper.Flow._11thStreet
             logger.Info("StreetFlow initialize");
             FlowMap.Add("login/Login.page", Login);
             FlowMap.Add("Index.tmall", Index);
+            FlowMap.Add("marketing/SellerMenuAction.tmall", SellerMenuAction);
+            FlowMap.Add("register/SellerInfoEdit.tmall", SellerInfoEdit);
+            FlowMap.Add("stats/StatsPeriodProdSel.tmall", StatsPeriodProdSel);
+            FlowMap.Add("remittance/SellerRemittanceAction.tmall", SellerRemittanceAction);
+            FlowMap.Add("escrow/OrderingLogisticsAction.tmall", OrderingLogisticsAction);
         }
         public override string StartPage()
         {
