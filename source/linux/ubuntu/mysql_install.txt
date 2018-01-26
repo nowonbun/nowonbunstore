@@ -1,0 +1,97 @@
+install procedure
+
+mysql program is download at follow site:
+https://downloads.mariadb.org/
+
+install libaio1
+----------------------------------------
+sudo apt-get install libaio1 libaio-dev 
+or
+yum install libaio libaio-devel
+----------------------------------------
+
+group and user of mysql is added.
+----------------------------------------
+groupadd mysql
+useradd -g mysql mysql
+----------------------------------------
+
+Unpack the compression program.
+-----------------------------------------
+tar -zxvf xxx.tar.gz
+-----------------------------------------
+
+Copy my.cnf
+-----------------------------------------
+cp mariadb/support-files/my-large.cnf /etc/my.cnf
+-----------------------------------------
+
+vim my.cnf
+-----------------------------------------
+[mysqld]
+init_connect=SET collation_connection = utf8_general_ci
+init_connect=SET NAMES utf8
+character-set-server=utf8
+collation-server=utf8_general_ci
+#wait_timeout = 600
+#interactive_timeout = 1000
+
+[client]
+default-character-set=utf8
+-----------------------------------------
+
+copy service
+-----------------------------------------
+cp mariadb/support-files/mysql.server etc/init.d/mysql.service
+-----------------------------------------
+
+vim mysql.service
+-----------------------------------------
+basedir=/home/sy/Program/mariadb
+datadir=/home/sy/Program/mdata
+-----------------------------------------
+
+vim .bashrc
+-----------------------------------------
+#mariadb
+export PATH=$PATH:/home/sy/Program/mariadb/bin
+export PATH=$PATH:/home/sy/Program/mariadb/scripts
+-----------------------------------------
+
+initialize
+-----------------------------------------
+mariadb/scripts/mysql_install_db --basedir=/home/sy/Program/mariadb --datadir=/home/sy/Program/mdata --defaults-file=/etc/my.cnf
+-----------------------------------------
+
+mdata change owner.
+-----------------------------------------
+chown -R mysql mdata
+-----------------------------------------
+
+process start
+-----------------------------------------
+systemctl start mysql
+-----------------------------------------
+
+mysql connection
+-----------------------------------------
+mysql -u root
+-----------------------------------------
+
+password is changed
+-----------------------------------------
+use mysql
+select host,user,password from user;
+
+update user set password=password('***') from user where user='root';
+flush privileges;
+-----------------------------------------
+
+add user
+-----------------------------------------
+create user 'nowonbun'@'%' identified by '***';
+update user set password=password('***') where user='nowonbun';
+grant all privileges on *.* to 'nowonbun'@'%';
+$ grant all privileges on database.* to 'nowonbun'@'%';
+flush privileges;
+-----------------------------------------
