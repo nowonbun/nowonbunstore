@@ -1,0 +1,12 @@
+
+java download site is following next:
+----------------------------------------
+http://www.oracle.com/technetwork/java/javase/downloads/index.html
+----------------------------------------
+
+----------------------------------------
+vim .bashrc
+#javapath
+export JAVA_HOME=/home/sy/Program/jdk1.8.0_151
+export PATH=$PATH:$JAVA_HOME/bin
+----------------------------------------
