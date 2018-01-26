@@ -1,0 +1,9 @@
+install library
+----------------------------------
+apt-get install libcurl4-gnutls-dev libexpat1-dev gettext libz-dev libssl-dev
+----------------------------------
+
+download site
+----------------------------------
+https://git-scm.com/download/linux
+----------------------------------
