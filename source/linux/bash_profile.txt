@@ -1,0 +1,26 @@
+export HOST=`hostname`
+if [ "`echo $HOSTNAME|cut -c1-4`" == 'step' ]; then
+  export PS1="\[\033[32m\A $HOST:\w\$\033[0m\] "
+else
+  export PS1="\[\033[36m\A $HOST:\w\$\033[0m\] "
+fi
+umask 022
+
+alias ls='ls -FC'
+alias la='ls -a'
+alias ll='ls -FCal'
+alias cl='clear'
+alias cls='clear;ls'
+alias du='du -h --max-depth=1'
+#alias cp='cp -i'
+alias vb='vi ~/.bash_profile;source ~/.bash_profile'
+alias vm='vi Makefile'
+alias  h='history | tail -50'
+alias  screen='screen -U'
+
+alias mo='multiscreen open'
+alias me='multiscreen exec'
+alias mp='multiscreen password'
+alias mn='multiscreen enter'
+alias mc='multiscreen close'
+alias ms='multiscreen split'
