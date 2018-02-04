@@ -1,0 +1,13 @@
+~/.local/share/applications
+
+# Eclipse Shortcut
+# https://gist.github.com/2922285
+[Desktop Entry]
+Type=Application
+Name=Eclipse
+Comment=Eclipse Integrated Development Environment
+Icon=/home/sy/Program/eclipse/icon.xpm
+Exec=/home/sy/Program/eclipse/eclipse
+Terminal=false
+Categories=Development;IDE;Java;
+StartupWMClass=Eclips
