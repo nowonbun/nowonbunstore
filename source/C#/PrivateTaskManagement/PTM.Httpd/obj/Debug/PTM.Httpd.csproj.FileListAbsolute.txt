@@ -1,0 +1,10 @@
+C:\Users\sy\source\repos\PrivateTaskManagement\bin\Debug\Httpd.dll
+C:\Users\sy\source\repos\PrivateTaskManagement\bin\Debug\Httpd.pdb
+C:\Users\sy\source\repos\PrivateTaskManagement\PTM.Httpd\obj\Debug\PTM.Httpd.csproj.CoreCompileInputs.cache
+C:\Users\sy\source\repos\PrivateTaskManagement\PTM.Httpd\obj\Debug\Httpd.dll
+C:\Users\sy\source\repos\PrivateTaskManagement\PTM.Httpd\obj\Debug\Httpd.pdb
+C:\Users\sy\Documents\git\PrivateTaskManagement\PTM.Httpd\obj\Debug\PTM.Httpd.csproj.CoreCompileInputs.cache
+C:\Users\sy\Documents\git\PrivateTaskManagement\bin\Debug\PTM.Httpd.dll
+C:\Users\sy\Documents\git\PrivateTaskManagement\bin\Debug\PTM.Httpd.pdb
+C:\Users\sy\Documents\git\PrivateTaskManagement\PTM.Httpd\obj\Debug\PTM.Httpd.dll
+C:\Users\sy\Documents\git\PrivateTaskManagement\PTM.Httpd\obj\Debug\PTM.Httpd.pdb

@@ -1,0 +1,200 @@
+.row.row-panel {
+    margin-top: 30px;
+}
+
+.contents-text {
+    margin-top: 40px;
+    font-size: 15pt;
+}
+
+.panel > .panel-heading {
+    border: 0px;
+}
+
+.panel-info > .panel-heading:hover {
+    color: #fff;
+    background-color: #9db8c5;
+}
+
+.panel-success > .panel-heading:hover {
+    color: #fff;
+    background-color: #61c338;
+}
+
+.panel-warning > .panel-heading:hover {
+    color: #fff;
+    background-color: #e6c519;
+}
+
+.panel-danger > .panel-heading:hover {
+    color: #fff;
+    background-color: #a94442;
+}
+
+.panel-primary > .panel-heading:hover {
+    background-color: #23527c;
+    border-color: #23527c;
+}
+
+.menu-tile.panel-heading:hover {
+    cursor: pointer;
+}
+
+ul.nav > li > a {
+    cursor: pointer;
+}
+
+div.row-space {
+    margin-bottom: 10px;
+}
+
+div.message-zone {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    z-index: 1001;
+    width: 300px;
+    word-break: break-all;
+}
+
+/*loading*/
+.spinner {
+    margin: 100px auto;
+    width: 40px;
+    height: 40px;
+    position: relative;
+    text-align: center;
+    -webkit-animation: sk-rotate 2.0s infinite linear;
+    animation: sk-rotate 2.0s infinite linear;
+}
+
+.dot1, .dot2 {
+    width: 60%;
+    height: 60%;
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    /*background-color: #333;*/
+    background-color: blue;
+    border-radius: 100%;
+    -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+    animation: sk-bounce 2.0s infinite ease-in-out;
+}
+
+.dot2 {
+    top: auto;
+    bottom: 0;
+    -webkit-animation-delay: -1.0s;
+    animation-delay: -1.0s;
+}
+
+@-webkit-keyframes sk-rotate {
+    100% {
+        -webkit-transform: rotate(360deg)
+    }
+}
+
+@keyframes sk-rotate {
+    100% {
+        transform: rotate(360deg);
+        -webkit-transform: rotate(360deg)
+    }
+}
+
+@-webkit-keyframes sk-bounce {
+    0%, 100% {
+        -webkit-transform: scale(0.0)
+    }
+
+    50% {
+        -webkit-transform: scale(1.0)
+    }
+}
+
+@keyframes sk-bounce {
+    0%, 100% {
+        transform: scale(0.0);
+        -webkit-transform: scale(0.0);
+    }
+
+    50% {
+        transform: scale(1.0);
+        -webkit-transform: scale(1.0);
+    }
+}
+/*loading*/
+
+.loading {
+    /*position: absolute;*/
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.task-step {
+    display: inline-block;
+    padding: 0px;
+    width: 19%;
+    float: left;
+    margin-left: 1%;
+}
+
+.task-list {
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+    margin: 0px;
+    border: 1px solid rgb(221, 221, 221);
+    border-radius: 3px;
+    min-height: 250px;
+}
+
+.task-item {
+    padding: 5px;
+    margin: 0px;
+    cursor: pointer;
+}
+
+.task-item-panel {
+    border: 1px solid rgb(221, 221, 221);
+    min-height: 100px;
+    padding: 10px;
+    background: white;
+    word-break: break-all;
+}
+
+.task-item.task-active {
+    background-color: #00ff00;
+}
+
+.panel-tag {
+    padding: 1px;
+    display: inline-block;
+    width: 100px;
+    text-align: center;
+}
+
+.task-item-panel.task-high {
+    border-color: #FF0000;
+}
+
+.task-item-panel.task-middle {
+    border-color: #FF8800;
+}
+
+.task-item-panel.task-low {
+    border-color: #FFFF00;
+}
+
+#pre_date, #next_date {
+    cursor: pointer;
+}
+
+.no-drop {
+    cursor: no-drop;
+}

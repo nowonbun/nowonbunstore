@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>63ff2f8d-07b1-43fc-9fac-cc34ba245819</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>PTM.Web</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)css\common.css" />
+    <Content Include="$(MSBuildThisFileDirectory)css\sb-admin-2.css" />
+    <Content Include="$(MSBuildThisFileDirectory)flow\cardmenu.html" />
+    <Content Include="$(MSBuildThisFileDirectory)flow\memoinsert.html" />
+    <Content Include="$(MSBuildThisFileDirectory)flow\memolist.html" />
+    <Content Include="$(MSBuildThisFileDirectory)flow\setting.html" />
+    <Content Include="$(MSBuildThisFileDirectory)flow\task.html" />
+    <Content Include="$(MSBuildThisFileDirectory)index.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)Build.bat" />
+    <None Include="$(MSBuildThisFileDirectory)js\common.js" />
+    <None Include="$(MSBuildThisFileDirectory)js\sb-admin-2.js" />
+  </ItemGroup>
+</Project>
