@@ -138,3 +138,5 @@ console.log(BubbleSort(AA.slice()));
 console.log(SelectionSort(AA.slice()));
 console.log(MergeSort(AA.slice()));
 console.log(InsertionSort(AA.slice()));
+
+reference - http://boycoding.tistory.com/74
