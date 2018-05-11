@@ -1,0 +1,14 @@
+update
+suto apt update
+sudo apt-get update
+sudo apt upgrade
+
+gnome tweak
+sudo apt-get install gnome-tweak-tool
+
+media library
+sudo apt install ubuntu-restricted-extras
+
+tlp
+sudo apt install tlp
+
