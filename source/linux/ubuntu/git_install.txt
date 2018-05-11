@@ -7,3 +7,7 @@ download site
 ----------------------------------
 https://git-scm.com/download/linux
 ----------------------------------
+
+cd ~/.ssh
+ssh-keygen
+cat id_rsa.pub
