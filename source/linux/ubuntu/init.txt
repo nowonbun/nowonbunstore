@@ -15,7 +15,7 @@ sudo apt-get install vim
 tlp
 sudo apt-get install tlp tlp-rdw
 vim /etc/default/tlp
-WOL_DISABLE=Y -> WOL_DISABLE=N #This is we can power up the computer from the remote.
+WOL_DISABLE=Y -> WOL_DISABLE=N #This is we can power up the computer from the remote. Wake on Lan
 sudo tlp start
 
 
