@@ -1,0 +1,127 @@
+https://docs.microsoft.com/en-us/sql/relational-databases/system-catalog-views/sys-all-columns-transact-sql?view=sql-server-2017
+
+DECLARE @StartDate DATETIME			-- Condition
+DECLARE @id TABLE(id NVARCHAR(MAX)) -- Condition
+DECLARE @Tid TABLE(ID INT) -- Delete list
+DECLARE @SqlBuffer TABLE(NAME NVARCHAR(MAX),QUERY NVARCHAR(MAX)) -- Sql Query
+DECLARE @Debug BIT
+--BUFFER--▽
+DECLARE @DeleteTable TABLE(IDX int Identity(1,1),NAME NVARCHAR(MAX),COL NVARCHAR(MAX),REF NVARCHAR(max),REF_COL NVARCHAR(max))
+DECLARE @DeleteTableWhere TABLE(NAME VARCHAR(MAX))
+DECLARE @DeleteTableBuffer TABLE(NAME NVARCHAR(MAX),COL NVARCHAR(MAX),REF NVARCHAR(max),REF_COL NVARCHAR(max))
+DECLARE @TableCount INT
+DECLARE @Buffer NVARCHAR(max)
+DECLARE @Buffer2 NVARCHAR(max)
+DECLARE @idxBuffer INT
+DECLARE @idxBuffer2 INT
+--BUFFER--△
+
+--Initialize
+SET @StartDate = '2018/01/01'
+INSERT INTO @id values (''), (''), (''), (''), (''), ('')
+INSERT INTO @DeleteTable VALUES ('', '', NULL, NULL)
+SET @TableCount = 0
+--TODO: Debug mode -> Note : 1 (true: Don't delete, false: Execute delete)
+SET @Debug = 1
+
+--Searching the table to be deleted.
+INSERT INTO @DeleteTableWhere SELECT name FROM @DeleteTable
+WHILE @TableCount <> (SELECT COUNT(1) FROM @DeleteTable)
+BEGIN
+	SELECT @TableCount=COUNT(1) FROM @DeleteTable
+	INSERT INTO @DeleteTableBuffer 
+		SELECT 
+			OBJECT_NAME(parent_object_id),
+			COL_NAME(parent_object_id,parent_column_id),
+			OBJECT_NAME(referenced_object_id),
+			COL_NAME(referenced_object_id,referenced_column_id)
+		FROM 
+			sys.foreign_key_columns 
+		WHERE 
+			OBJECT_NAME(referenced_object_id) IN (SELECT name FROM @DeleteTableWhere)
+	INSERT INTO @DeleteTable SELECT * FROM @DeleteTableBuffer
+	DELETE @DeleteTableWhere
+	INSERT INTO @DeleteTableWhere SELECT name FROM @DeleteTableBuffer
+	DELETE @DeleteTableBuffer
+END
+DELETE @DeleteTableBuffer
+SET @Buffer = ''
+DECLARE cursor1 CURSOR FOR SELECT idx FROM @DeleteTable ORDER BY idx DESC
+OPEN cursor1
+	FETCH NEXT FROM cursor1 INTO @idxBuffer
+	WHILE(@@FETCH_STATUS <> -1) 
+	BEGIN
+		(SELECT @Buffer = REF FROM @DeleteTable WHERE idx = @idxBuffer)
+		IF  @Buffer IS NULL
+		BEGIN
+			INSERT INTO @SqlBuffer VALUES('Testtable','DELETE Testtable WHERE ID = #####REPLACE#####')
+		END
+		ELSE
+		BEGIN
+			(SELECT @Buffer2 = ' SELECT ' + REF_COL + ' FROM ' + REF + ' WHERE ' FROM @DeleteTable WHERE idx = @idxBuffer)
+			SET @TableCount = 0
+			SELECT TOP 1 @idxBuffer2=idx, @Buffer = REF FROM @DeleteTable WHERE name = @Buffer
+			WHILE @Buffer IS NOT NULL
+			BEGIN
+				(SELECT @Buffer2 = @Buffer2 + col +' IN (SELECT ' + REF_COL + ' FROM ' + REF + ' WHERE ' FROM @DeleteTable WHERE idx = @idxBuffer2)
+				SET @TableCount = @TableCount+1
+				SELECT TOP 1 @idxBuffer2=idx, @Buffer = REF FROM @DeleteTable WHERE name = @Buffer
+			END
+			SELECT @Buffer = name,@Buffer2 = ' DELETE '+name+ ' WHERE '+col+' IN ('+@Buffer2 FROM @DeleteTable WHERE idx = @idxBuffer
+			SET @Buffer2 = @Buffer2 + 'ID = #####REPLACE#####'
+			SET @idxBuffer = 0
+			WHILE(@idxBuffer<@TableCount)
+			BEGIN
+				SET @Buffer2 = @Buffer2 +')'
+				SET @idxBuffer = @idxBuffer+1
+			END
+			SET @Buffer2 = @Buffer2 +')'
+			INSERT INTO @SqlBuffer VALUES(@Buffer,@Buffer2)
+		END
+
+		FETCH NEXT FROM cursor1 INTO @idxBuffer 
+	END
+CLOSE cursor1
+DEALLOCATE cursor1
+
+--Searching the table to be deleted.
+INSERt INTO @Tid 
+SELECT 
+	A.ID 
+FROM 
+	TestTable1 A INNER JOIN TestTable2 E ON E.id = A.id
+WHERE
+	A.date >= @StartDate
+	AND A.create in (SELECT id FROM @id)
+
+--Execute
+DECLARE cursor2 CURSOR FOR SELECT ID FROM @Tid
+OPEN cursor2
+	Fetch Next From cursor2 Into @idxBuffer
+	WHILE(@@FETCH_STATUS <> -1) 
+	BEGIN
+		DECLARE cursor3 CURSOR FOR SELECT QUERY FROM @SqlBuffer		
+		OPEN cursor3
+			Fetch Next From cursor3 Into @Buffer
+			WHILE(@@FETCH_STATUS <> -1) 
+			BEGIN
+				SET @Buffer2 = replace(@Buffer, '#####REPLACE#####', CONVERT(NVARCHAR(MAX), @idxBuffer))
+				--TODO: Debug mode -> Note : 1 (true: Don't delete, false: Execute delete)
+				IF @Debug = 1
+				BEGIN
+					SET @Buffer2 = replace(@Buffer2, 'DELETE', 'SELECT * FROM ')
+					PRINT @Buffer2
+				END
+				ELSE
+				BEGIN
+					EXEC sp_executesql @Buffer2
+				END
+
+				FETCH NEXT FROM cursor3 INTO @Buffer
+			END
+		CLOSE cursor3
+		DEALLOCATE cursor3
+		FETCH NEXT FROM cursor2 INTO @idxBuffer
+	END
+CLOSE cursor2
+DEALLOCATE cursor2
