@@ -1,0 +1,17 @@
+password is changed
+-----------------------------------------
+use mysql
+select host,user,password from user;
+
+update user set password=password('***') from user where user='root';
+flush privileges;
+-----------------------------------------
+
+add user
+-----------------------------------------
+create user 'nowonbun'@'%' identified by '***';
+update user set password=password('***') where user='nowonbun';
+grant all privileges on *.* to 'nowonbun'@'%';
+$ grant all privileges on database.* to 'nowonbun'@'%';
+flush privileges;
+-----------------------------------------
