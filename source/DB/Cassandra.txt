@@ -5,3 +5,5 @@ install
 https://academy.datastax.com/planet-cassandra//cassandra
 https://m.blog.naver.com/PostView.nhn?blogId=jevida&logNo=220829153951&proxyReferer=https%3A%2F%2Fwww.google.co.kr%2F
 https://www.guru99.com/download-install-cassandra.html#1
+
+cqlsh.py" -u root -p password
