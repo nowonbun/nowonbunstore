@@ -9,4 +9,12 @@ https://www.guru99.com/download-install-cassandra.html#1
 Create Keyspace
 https://docs.datastax.com/en/cql/3.3/cql/cql_reference/cqlCreateKeyspace.html
 
+Create User
+https://docs.datastax.com/en/cql/3.3/cql/cql_reference/cqlCreateRole.html
+http://meetup.toast.com/posts/58
+http://jhproject.tistory.com/46
+
 cqlsh.py" -u root -p password
+
+manual
+https://docs.datastax.com/en/cql/3.3/cql/cql_using/useQueryColumnsSort.html
