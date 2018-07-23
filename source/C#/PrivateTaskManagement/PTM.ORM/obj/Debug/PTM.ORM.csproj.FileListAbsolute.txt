@@ -1,0 +1,7 @@
+C:\Users\sy\Documents\git\PrivateTaskManagement\bin\Debug\PTM.ORM.dll
+C:\Users\sy\Documents\git\PrivateTaskManagement\bin\Debug\PTM.ORM.pdb
+C:\Users\sy\Documents\git\PrivateTaskManagement\PTM.ORM\obj\Debug\Interop.ADOX.dll
+C:\Users\sy\Documents\git\PrivateTaskManagement\PTM.ORM\obj\Debug\PTM.ORM.csproj.ResolveComReference.cache
+C:\Users\sy\Documents\git\PrivateTaskManagement\PTM.ORM\obj\Debug\PTM.ORM.csproj.CoreCompileInputs.cache
+C:\Users\sy\Documents\git\PrivateTaskManagement\PTM.ORM\obj\Debug\PTM.ORM.dll
+C:\Users\sy\Documents\git\PrivateTaskManagement\PTM.ORM\obj\Debug\PTM.ORM.pdb

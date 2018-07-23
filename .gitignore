@@ -92,5 +92,9 @@
 /source/C#/ScrappingServer/ScrappingORMCore/obj
 /source/C#/ScrappingServer/ScrappingServer2/bin
 /source/C#/ScrappingServer/ScrappingServer2/obj
+
+/source/C#/MVC_Hibernate/MVC_Hibernate/bin
+/source/C#/MVC_Hibernate/MVC_Hibernate/obj
+/source/C#/MVC_Hibernate/packages
 /source/C#/WebScraping/packages
 /source/C#/WebScraping/Bin

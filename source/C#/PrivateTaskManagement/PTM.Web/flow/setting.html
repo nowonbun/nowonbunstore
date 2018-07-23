@@ -1,0 +1,59 @@
+﻿<!-- Content start -->
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Settings</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <style>
+            .input-group {
+                width: 100%;
+            }
+
+            .input-group-addon:first-child {
+                width: 30%;
+            }
+        </style>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <div class="input-group">
+                    <span class="input-group-addon">System Network Port</span>
+                    <input type="text" class="form-control setting" name="port" id="port" placeholder="Port">
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="input-group">
+                    <span class="input-group-addon">Window size</span>
+                    <select class="form-control setting" name="size" id="size">
+                        <option value="full">full screen</option>
+                        <option value="1366*768">1366*768</option>
+                        <option value="1360*768">1360*768</option>
+                        <option value="1280*768">1280*768</option>
+                        <option value="1280*720">1280*720</option>
+                        <option value="1280*600">1280*600</option>
+                        <option value="1024*768">1024*768</option>
+                        <option value="800*600">800*600</option>
+                    </select>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <div class="input-group">
+                    <span class="input-group-addon">When the system start, booting window.</span>
+                    <div class="form-control">
+                        <label class="radio-inline"><input type="radio" name="start" id="start" class="setting" value="on">On</label>
+                        <label class="radio-inline"><input type="radio" name="start" id="start" class="setting" value="off">Off</label>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="pull-right">
+            <button type="button" class="btn btn-success setting" id="btn_save">Save</button>
+        </div>
+    </div>
+</div>
+<!-- Content end -->

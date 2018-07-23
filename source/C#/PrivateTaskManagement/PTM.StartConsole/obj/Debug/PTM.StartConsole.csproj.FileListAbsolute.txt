@@ -1,0 +1,16 @@
+C:\Users\sy\source\repos\PrivateTaskManagement\bin\Debug\StartConsole.exe.config
+C:\Users\sy\source\repos\PrivateTaskManagement\bin\Debug\StartConsole.exe
+C:\Users\sy\source\repos\PrivateTaskManagement\bin\Debug\StartConsole.pdb
+C:\Users\sy\source\repos\PrivateTaskManagement\PTM.StartConsole\obj\Debug\PTM.StartConsole.csprojResolveAssemblyReference.cache
+C:\Users\sy\source\repos\PrivateTaskManagement\PTM.StartConsole\obj\Debug\PTM.StartConsole.csproj.CoreCompileInputs.cache
+C:\Users\sy\source\repos\PrivateTaskManagement\PTM.StartConsole\obj\Debug\StartConsole.exe
+C:\Users\sy\source\repos\PrivateTaskManagement\PTM.StartConsole\obj\Debug\StartConsole.pdb
+C:\Users\sy\Documents\git\PrivateTaskManagement\PTM.StartConsole\obj\Debug\PTM.StartConsole.csprojResolveAssemblyReference.cache
+C:\Users\sy\Documents\git\PrivateTaskManagement\PTM.StartConsole\obj\Debug\PTM.StartConsole.csproj.CoreCompileInputs.cache
+C:\Users\sy\Documents\git\PrivateTaskManagement\bin\Debug\PTM.StartConsole.exe.config
+C:\Users\sy\Documents\git\PrivateTaskManagement\bin\Debug\PTM.StartConsole.exe
+C:\Users\sy\Documents\git\PrivateTaskManagement\bin\Debug\PTM.StartConsole.pdb
+C:\Users\sy\Documents\git\PrivateTaskManagement\PTM.StartConsole\obj\Debug\PTM.StartConsole.exe
+C:\Users\sy\Documents\git\PrivateTaskManagement\PTM.StartConsole\obj\Debug\PTM.StartConsole.pdb
+C:\Users\sy\Documents\git\PrivateTaskManagement\bin\Debug\favicon.ico
+C:\Users\sy\Documents\git\PrivateTaskManagement\bin\Debug\Config.ini
