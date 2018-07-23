@@ -1,0 +1,122 @@
+<style>
+select[name=table-grid_length] {
+	display: inline !important;
+}
+.manual .title {
+	height: 50px;
+	text-align: center;
+	background: #ddd;
+	font-size: 15pt;
+}
+
+.manual .select-label {
+	height: 100%;
+	width: 100%;
+	padding-top: 20px;
+	text-align: center;
+}
+
+span.errorMsg {
+	color: red;
+	display: block;
+	padding-left: 10px;
+}
+</style>
+<div class="page-content" ng-hide="loading">
+	<section class="mdl-components__page mdl-grid is-active">
+		<div class="container">
+			<div class="row">
+				<div class="col align-self-end" style="text-align: right;">
+					<button type="button" id="createbtn" class="btn btn-success custom-button" data-toggle="modal" data-target="#createdlg">Add</button>
+					<button type="button" id="deletebtn" class="btn btn-danger custom-button" disabled data-toggle="modal" data-target="#deletedlg">Delete</button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<table id="table-grid" class="display mdl-shadow--2dp">
+						<thead>
+							<tr>
+								<th width='1%'></th>
+								<th>Key</th>
+								<th>Bizno</th>
+								<th>Name</th>
+								<th>Ip</th>
+								<th>CallBack URL</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="deletedlg" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Alert</h5>
+						<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">×</span>
+						</button>
+					</div>
+					<div class="modal-body">정말 삭제하시겠습니까?</div>
+					<div class="modal-footer">
+						<button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+						<button class="btn btn-primary" ng-click="delete();">Delete</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade top" id="createdlg" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-top modal-notify modal-pps max-page" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<p class="heading lead" class="title" style="color: black">Create Key</p>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true" class="white-text"><i class="fa fa-close"></i></span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div ng-show="errorMsg != null">
+							<span class="errorMsg">{{errorMsg}}</span>
+						</div>
+						<div class="row">
+							<div class="offset-2 col-8">
+								<div class="md-form form-group pps-group">
+									<input type="text" id="bizno" class="form-control" ng-model="bizno">
+									<label for="bizno" id="bizno_label">BIZNO</label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="offset-2 col-8">
+								<div class="md-form form-group pps-group">
+									<input type="text" id="name" class="form-control" ng-model="name">
+									<label for="name" id="name_label">NAME</label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="offset-2 col-8">
+								<div class="md-form form-group pps-group">
+									<input type="text" id="ip" class="form-control" ng-model="ip">
+									<label for="ip" id="ip_label">IP ADDRESS</label>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="offset-2 col-8">
+								<div class="md-form form-group pps-group">
+									<input type="text" id="callback" class="form-control" ng-model="callback">
+									<label for="callback" id="callback_label">CallBack URL</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-success float-right" ng-click="apply();">Apply</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>

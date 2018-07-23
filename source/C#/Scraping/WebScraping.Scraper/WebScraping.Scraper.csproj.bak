@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{91E38F46-CD40-4950-AB23-CF3B7721779D}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WebScraping.Scraper</RootNamespace>
+    <AssemblyName>WebScraping.Scraper</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>540fc724</NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Geckofx-Core, Version=45.0.32.0, Culture=neutral, PublicKeyToken=3209ac31600d1857, processorArchitecture=x86">
+      <HintPath>..\packages\Geckofx45.45.0.32\lib\net45\Geckofx-Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Geckofx-Winforms, Version=45.0.32.0, Culture=neutral, PublicKeyToken=3209ac31600d1857, processorArchitecture=x86">
+      <HintPath>..\packages\Geckofx45.45.0.32\lib\net45\Geckofx-Winforms.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\AbstractScrapFlow.cs" />
+    <Compile Include="Common\GeckoDocumentEx.cs" />
+    <Compile Include="Common\ScrapTable.cs" />
+    <Compile Include="Flow\10x10\TentenFlow.cs" />
+	<Compile Include="Flow\11thStreet\StreetFlow.cs" />
+    <Compile Include="Flow\11thStreet\OrderingLogisticsActionJson.cs" />
+    <Compile Include="Flow\11thStreet\SellerRemittanceActionJson.cs" />
+    <Compile Include="Flow\11thStreet\StatsPeriodProdSelJson.cs" />
+    <Compile Include="Flow\11thStreet\StreetFlow.Procedure.cs">
+		<DependentUpon>StreetFlow.cs</DependentUpon>
+	</Compile>
+    <Compile Include="Flow\Akmall\AkmallFlow.cs" />
+    <Compile Include="Flow\Allatpay\AllatpayFlow.cs" />
+    <Compile Include="Flow\Allthegate\AllthegateFlow.cs" />
+    <Compile Include="Flow\Auction\AuctionFlow.Excel.cs" />
+    <Compile Include="Flow\Auction\AuctionFlow.Procedure.cs" />
+    <Compile Include="Flow\Auction\AuctionFlow.cs" />
+    <Compile Include="Flow\Auction\BuyDecisionExcel.cs" />
+    <Compile Include="Flow\Auction\GeneralDeliveryExcel.cs" />
+    <Compile Include="Flow\Auction\GetItemMngListJson.cs" />
+    <Compile Include="Flow\Auction\LacRemitListExcel.cs" />
+    <Compile Include="Flow\Auction\ReturnRequest.cs" />
+    <Compile Include="Flow\Auction\SendingExcel.cs" />
+    <Compile Include="Flow\Cardsales\CardsalesFlow.cs" />
+    <Compile Include="Flow\Cjmall\CjmallFlow.cs" />
+    <Compile Include="Flow\Coupang\CoupangFlow.cs" />
+    <Compile Include="Flow\Ehyundai\EhyundaiFlow.cs" />
+    <Compile Include="Flow\Fashionplus\FashionplusFlow.cs" />
+    <Compile Include="Flow\Gmarket\GMarketFlow.cs" />
+    <Compile Include="Flow\Gmarket\GMarketFlow.Excel.cs" />
+    <Compile Include="Flow\Gmarket\GMarketFlow.Procedure.cs" />
+    <Compile Include="Flow\Gsshop\GsshopFlow.cs" />
+    <Compile Include="Flow\Halfclub\HalfclubFlow.cs" />
+    <Compile Include="Flow\Homeplus\HomeplusFlow.cs" />
+    <Compile Include="Flow\Interpark\InterparkFlow.cs" />
+    <Compile Include="Flow\Interpark\ProOMSetlDetailJson.cs" />
+    <Compile Include="Flow\Istyle24\Istyle24Flow.cs" />
+    <Compile Include="Flow\KCP\KCPFlow.cs" />
+    <Compile Include="Flow\Kisvan\KisvanFlow.cs" />
+    <Compile Include="Flow\Kscm\KscmFlow.cs" />
+    <Compile Include="Flow\KSIMS\KSIMSFlow.cs" />
+    <Compile Include="Flow\Ksnet\KsnetFlow.cs" />
+    <Compile Include="Flow\Lotteimall\LotteimallFlow.cs" />
+    <Compile Include="Flow\LottePartnerPlus\LottePartnerPlusFlow.cs" />
+    <Compile Include="Flow\LotteShop\LotteShopFlow.cs" />
+    <Compile Include="Flow\Lotte\LotteFlow.cs" />
+    <Compile Include="Flow\NaverPay\NaverPayFlow.cs" />
+    <Compile Include="Flow\Smilepay\SmilepayFlow.cs" />
+    <Compile Include="Flow\Ssgadm\SsgadmFlow.cs" />
+    <Compile Include="Flow\Starfield\StarfieldFlow.cs" />
+    <Compile Include="Flow\StoreFarm\StoreFarmFlow.cs" />
+    <Compile Include="Flow\Teledit\TeleditFlow.cs" />
+    <Compile Include="Flow\Test\TestFlow.cs" />
+    <Compile Include="Flow\Ticketmonster\TicketmonsterFlow.cs" />
+    <Compile Include="Flow\Uplus\UplusFlow.cs" />
+    <Compile Include="Flow\Wemakeprice\WemakepriceFlow.cs" />
+    <Compile Include="Flow\Wizwid\WizwidFlow.cs" />
+    <Compile Include="Flow\Yes24\Yes24Flow.cs" />
+    <Compile Include="Impl\ScrapBrowser.cs" />
+    <Compile Include="Impl\ScraperContext.cs" />
+    <Compile Include="Impl\ScraperForm.cs" />
+    <Compile Include="Interface\IScrapFlow.cs" />
+    <Compile Include="Node\ScrapParameter.cs" />
+    <Compile Include="Other\ScraperException.cs" />
+    <Compile Include="Scraper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="Firefox\omni.ja" />
+    <Compile Include="Flow\Interpark\InterparkFlow.Procedure.cs" />
+    <Compile Include="Flow\StoreFarm\StoreFarmFlow.Procedure.cs" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WebScraping.Dao\WebScraping.Dao.csproj">
+      <Project>{eb2995c5-b732-46d0-9e5e-7de25fb4af5d}</Project>
+      <Name>WebScraping.Dao</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebScraping.Library\WebScraping.Library.csproj">
+      <Project>{e30f6319-724f-41dd-a5ef-a10ec83fc08d}</Project>
+      <Name>WebScraping.Library</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Firefox\AccessibleMarshal.dll" />
+    <Content Include="Firefox\breakpadinjector.dll" />
+    <Content Include="Firefox\d3dcompiler_47.dll" />
+    <Content Include="Firefox\freebl3.dll" />
+    <Content Include="Firefox\icudt56.dll" />
+    <Content Include="Firefox\icuin56.dll" />
+    <Content Include="Firefox\icuuc56.dll" />
+    <Content Include="Firefox\lgpllibs.dll" />
+    <Content Include="Firefox\libEGL.dll" />
+    <Content Include="Firefox\libGLESv2.dll" />
+    <Content Include="Firefox\mozglue.dll" />
+    <Content Include="Firefox\nss3.dll" />
+    <Content Include="Firefox\nssckbi.dll" />
+    <Content Include="Firefox\nssdbm3.dll" />
+    <Content Include="Firefox\plugin-container.exe" />
+    <Content Include="Firefox\plugin-hang-ui.exe" />
+    <Content Include="Firefox\sandboxbroker.dll" />
+    <Content Include="Firefox\softokn3.dll" />
+    <Content Include="Firefox\xul.dll" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Geckofx45.45.0.32\build\Geckofx45.targets" Condition="Exists('..\packages\Geckofx45.45.0.32\build\Geckofx45.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>이 프로젝트는 이 컴퓨터에 없는 NuGet 패키지를 참조합니다. 해당 패키지를 다운로드하려면 NuGet 패키지 복원을 사용하세요. 자세한 내용은 http://go.microsoft.com/fwlink/?LinkID=322105를 참조하세요. 누락된 파일은 {0}입니다.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Geckofx45.45.0.32\build\Geckofx45.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Geckofx45.45.0.32\build\Geckofx45.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

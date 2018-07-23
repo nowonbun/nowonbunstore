@@ -1,0 +1,31 @@
+<style>
+select[name=table-grid_length] {
+	display: inline !important;
+}
+#table-grid>tbody>tr>td:nth-child(6){
+	word-break: break-all;
+}
+</style>
+<div class="page-content" ng-hide="loading">
+	<section class="mdl-components__page mdl-grid is-active">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<table id="table-grid" class="display mdl-shadow--2dp">
+						<thead>
+							<tr>
+								<th></th>
+								<th>MallKey</th>
+								<th>Key</th>
+								<th>Index</th>
+								<th>Separation</th>
+								<th>Data</th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</section>
+</div>

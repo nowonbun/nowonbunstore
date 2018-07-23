@@ -1,0 +1,110 @@
+<style>
+.manual .title {
+	height: 50px;
+	text-align: center;
+	background: #ddd;
+	font-size: 15pt;
+}
+
+.manual .select-label {
+	height: 100%;
+	width: 100%;
+	padding-top: 20px;
+	text-align: center;
+}
+
+span.errorMsg {
+	color: red;
+	display: block;
+	padding-left: 10px;
+}
+</style>
+<div class="page-content">
+	<section class="mdl-components__page mdl-grid is-active">
+		<div class="container">
+			<div class="row">
+				<table class="manual table col-6 offset-3 mdl-shadow--2dp">
+					<thead>
+						<tr>
+							<th class="title">Create Key</th>
+						</tr>
+					</thead>
+					<tbody ng-show="errorMsg != null">
+						<tr>
+							<td><span class="errorMsg">{{errorMsg}}</span></td>
+						</tr>
+					</tbody>
+					<tbody>
+						<tr>
+							<td style="padding: 0px;">
+								<div class="row">
+									<div class="col-3">
+										<label class="select-label">BIZNO</label>
+									</div>
+									<div class="col-6 offset-1">
+										<div class="md-form" style="margin-top: 1em; margin-bottom: 1em;">
+											<input type="text" id="bizno" class="form-control" ng-model="bizno">
+										</div>
+									</div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td style="padding: 0px;">
+								<div class="row">
+									<div class="col-3">
+										<label class="select-label">NAME</label>
+									</div>
+									<div class="col-6 offset-1">
+										<div class="md-form" style="margin-top: 1em; margin-bottom: 1em;">
+											<input type="text" id="name" class="form-control" ng-model="name">
+										</div>
+									</div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td style="padding: 0px;">
+								<div class="row">
+									<div class="col-3">
+										<label class="select-label">IP ADDRESS</label>
+									</div>
+									<div class="col-6 offset-1">
+										<div class="md-form" style="margin-top: 1em; margin-bottom: 1em;">
+											<input type="text" id="ip" class="form-control" ng-model="ip">
+										</div>
+									</div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td style="padding: 0px;">
+								<div class="row">
+									<div class="col-3">
+										<label class="select-label">CallBack URL</label>
+									</div>
+									<div class="col-6 offset-1">
+										<div class="md-form" style="margin-top: 1em; margin-bottom: 1em;">
+											<input type="text" id="callback" class="form-control" ng-model="callback">
+										</div>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td style="padding: 0px;">
+								<div class="row">
+									<div class="col-10 offset-1" style="text-align: center;">
+										<button type="button" class="btn btn-primary" ng-click="execute()">Execute</button>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+	</section>
+</div>

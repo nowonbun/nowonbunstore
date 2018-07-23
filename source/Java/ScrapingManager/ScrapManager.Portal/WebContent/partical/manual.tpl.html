@@ -1,0 +1,323 @@
+<style>
+	.manual .title{
+		height:50px;
+		text-align: center;
+		background: #ddd;
+		font-size: 15pt;
+	}
+	.manual .select-label{
+		height: 100%; 
+		width: 100%;
+		padding-top: 20px;
+		text-align: center;
+	}
+	span.errorMsg{
+		color: red;
+    	display: block;
+    	padding-left: 10px;
+	}
+</style>
+<div class="page-content">
+	<section class="mdl-components__page mdl-grid is-active">
+		<div class="container">
+			<div class="row">
+    		    <table class="manual table col-6 offset-3 mdl-shadow--2dp">
+					<thead>
+						<tr>
+                    		<th class="title">Manual scraping</th>
+                		</tr>
+            		</thead>
+            		<tbody ng-show="errorMsg != null">
+            			<tr>
+            				<td><span class="errorMsg">{{errorMsg}}</span></td>
+            			</tr>
+            		</tbody>
+            		<tbody>
+            			<tr>
+		                    <td style="padding:0px;">
+		                    	<div class="row">
+		                    		<div class="col-3">
+		                    			<label class="select-label">API KEY</label>
+		                    		</div>
+		                    		<div class="col-6 offset-1">
+		                    			<div class="md-form" style="margin-top:1em;margin-bottom:1em;">
+										    <input type="text" id="apikey" class="form-control" ng-model="apikey">
+										</div>
+		                    		</div>
+		                    	</div>
+							</td>
+                		</tr>
+                		<tr>
+		                    <td style="padding:0px;">
+		                    	<div class="row">
+		                    		<div class="col-3">
+		                    			<label class="select-label">Shopping-mall</label>
+		                    		</div>
+		                    		<div class="col-6 offset-1" style="margin-top:5px;">
+		                    			<select class="mdb-select" id="mallcd">
+										    <option value="" disabled selected>Choose Shopping-mall</option>
+										    <option value="1">G마켓</option>
+										    <option value="2">옥션</option>
+										    <option value="3">11번가</option>
+										    <option value="4">이니시스</option>
+										    <option value="5">인터파크</option>
+										    <option value="6">인터파크MD</option>
+										    <option value="7">KCP</option>
+										    <option value="8">스마트스토어</option>
+										    <option value="9">하프&오가게</option>
+										    <option value="10">CJ오쇼핑</option>
+										    <option value="11">신세계몰</option>
+										    <option value="13">롯데홈쇼핑(파트너,아이몰)</option>
+										    <option value="15">올앳</option>
+										    <option value="16">모빌리언스</option>
+										    <option value="17">10x10</option>
+										    <option value="18">GS홈쇼핑</option>
+										    <option value="19">데이콤(유플러스)</option>
+										    <option value="20">현대홈쇼핑</option>
+										    <option value="21">디앤샵</option>
+										    <option value="22">아이스타일24</option>
+										    <option value="23">KSNET</option>
+										    <option value="24">NICEPAY(올더게이트)</option>
+										    <option value="26">롯데닷컴</option>
+										    <option value="27">다날</option>
+										    <option value="28">NS쇼핑</option>
+										    <option value="29">위즈위드</option>
+										    <option value="30">쿠팡</option>
+										    <option value="31">티켓몬스터</option>
+										    <option value="32">위메프</option>
+										    <option value="33">YES24</option>
+										    <option value="34">롯데EDI</option>
+										    <option value="35">KSIMS</option>
+										    <option value="36">여신금융협회</option>
+										    <option value="37">AK몰</option>
+										    <option value="38">홈플러스</option>
+										    <option value="39">패션플러스</option>
+										    <option value="40">롯데파트너플러스</option>
+										    <option value="41">현대EDI</option>
+										    <option value="42">KIS정보통신</option>
+										    <option value="43">스마트로</option>
+										    <option value="44">KSIMS대리점</option>
+										    <option value="45">1300k</option>
+										    <option value="46">네이버페이</option>
+										    <option value="47">건강보험</option>
+										    <option value="48">아이마켓코리아</option>
+										    <option value="49">스타필드</option>
+										    <option value="50">NICE정보통신</option>
+										    <option value="51">카카오쇼핑</option>
+										    <option value="52">쿠팡(매입)</option>
+										    <option value="101">GTX</option>
+										    <option value="102">만산(상품)</option>
+										    <option value="103">로지플러스</option>
+										</select>
+		                    		</div>
+		                    	</div>
+							</td>
+                		</tr>
+                		<tr>
+		                    <td style="padding:0px;">
+		                    	<div class="row">
+		                    		<div class="col-3">
+		                    			<label class="select-label">ID1</label>
+		                    		</div>
+		                    		<div class="col-6 offset-1">
+		                    			<div class="md-form" style="margin-top:1em;margin-bottom:1em;">
+										    <input type="text" id="id1" class="form-control" ng-model="id1">
+										</div>
+		                    		</div>
+		                    	</div>
+							</td>
+                		</tr>
+                		<tr>
+		                    <td style="padding:0px;">
+		                    	<div class="row">
+		                    		<div class="col-3">
+		                    			<label class="select-label">ID2</label>
+		                    		</div>
+		                    		<div class="col-6 offset-1">
+		                    			<div class="md-form" style="margin-top:1em;margin-bottom:1em;">
+										    <input type="text" id="id2" class="form-control" ng-model="id2">
+										</div>
+		                    		</div>
+		                    	</div>
+							</td>
+                		</tr>
+                		<tr>
+		                    <td style="padding:0px;">
+		                    	<div class="row">
+		                    		<div class="col-3">
+		                    			<label class="select-label">ID3</label>
+		                    		</div>
+		                    		<div class="col-6 offset-1">
+		                    			<div class="md-form" style="margin-top:1em;margin-bottom:1em;">
+										    <input type="text" id="id3" class="form-control" ng-model="id3">
+										</div>
+		                    		</div>
+		                    	</div>
+							</td>
+                		</tr>
+                		<tr>
+		                    <td style="padding:0px;">
+		                    	<div class="row">
+		                    		<div class="col-3">
+		                    			<label class="select-label">PW1</label>
+		                    		</div>
+		                    		<div class="col-6 offset-1">
+		                    			<div class="md-form" style="margin-top:1em;margin-bottom:1em;">
+										    <input type="text" id="pw1" class="form-control" ng-model="pw1">
+										</div>
+		                    		</div>
+		                    	</div>
+							</td>
+                		</tr>
+                		<tr>
+		                    <td style="padding:0px;">
+		                    	<div class="row">
+		                    		<div class="col-3">
+		                    			<label class="select-label">PW2</label>
+		                    		</div>
+		                    		<div class="col-6 offset-1">
+		                    			<div class="md-form" style="margin-top:1em;margin-bottom:1em;">
+										    <input type="text" id="pw2" class="form-control" ng-model="pw2">
+										</div>
+		                    		</div>
+		                    	</div>
+							</td>
+                		</tr>
+                		<tr>
+		                    <td style="padding:0px;">
+		                    	<div class="row">
+		                    		<div class="col-3">
+		                    			<label class="select-label">PW3</label>
+		                    		</div>
+		                    		<div class="col-6 offset-1">
+		                    			<div class="md-form" style="margin-top:1em;margin-bottom:1em;">
+										    <input type="text" id="pw3" class="form-control" ng-model="pw3">
+										</div>
+		                    		</div>
+		                    	</div>
+							</td>
+                		</tr>
+                		<tr>
+		                    <td style="padding:0px;">
+		                    	<div class="row">
+		                    		<div class="col-3">
+		                    			<label class="select-label">Option1</label>
+		                    		</div>
+		                    		<div class="col-6 offset-1">
+		                    			<div class="md-form" style="margin-top:1em;margin-bottom:1em;">
+										    <input type="text" id="option1" class="form-control" ng-model="option1">
+										</div>
+		                    		</div>
+		                    	</div>
+							</td>
+                		</tr>
+                		<tr>
+		                    <td style="padding:0px;">
+		                    	<div class="row">
+		                    		<div class="col-3">
+		                    			<label class="select-label">Option2</label>
+		                    		</div>
+		                    		<div class="col-6 offset-1">
+		                    			<div class="md-form" style="margin-top:1em;margin-bottom:1em;">
+										    <input type="text" id="option2" class="form-control" ng-model="option2">
+										</div>
+		                    		</div>
+		                    	</div>
+							</td>
+                		</tr>
+                		<tr>
+		                    <td style="padding:0px;">
+		                    	<div class="row">
+		                    		<div class="col-3">
+		                    			<label class="select-label">Option3</label>
+		                    		</div>
+		                    		<div class="col-6 offset-1">
+		                    			<div class="md-form" style="margin-top:1em;margin-bottom:1em;">
+										    <input type="text" id="option3" class="form-control" ng-model="option3">
+										</div>
+		                    		</div>
+		                    	</div>
+							</td>
+                		</tr>
+                		<tr>
+		                    <td style="padding:0px;">
+		                    	<div class="row">
+		                    		<div class="col-3">
+		                    			<label class="select-label">Sdate</label>
+		                    		</div>
+		                    		<div class="col-6 offset-1">
+		                    			<div class="md-form" style="margin-top:1em;margin-bottom:1em;">
+										    <input type="text" id="sdate" value="201804" class="form-control" ng-model="sdate">
+										</div>
+		                    		</div>
+		                    	</div>
+							</td>
+                		</tr>
+                		<tr>
+		                    <td style="padding:0px;">
+		                    	<div class="row">
+		                    		<div class="col-3">
+		                    			<label class="select-label">Edate</label>
+		                    		</div>
+		                    		<div class="col-6 offset-1">
+		                    			<div class="md-form" style="margin-top:1em;margin-bottom:1em;">
+										    <input type="text" id="edate" value="201804" class="form-control" ng-model="edate">
+										</div>
+		                    		</div>
+		                    	</div>
+							</td>
+                		</tr>
+                		<tr>
+		                    <td style="padding:0px;">
+		                    	<div class="row">
+		                    		<div class="col-3">
+		                    			<label class="select-label">Scrapping type</label>
+		                    		</div>
+		                    		<div class="col-6 offset-1" style="margin-top:5px;">
+		                    			<select class="mdb-select" id="scraptype">
+										    <option value="" disabled selected>Choose code</option>
+										    <option value="0">회원정보</option>
+										    <option value="1">매출내역</option>
+										    <option value="2">정산내역</option>
+										    <option value="3">정산예정금1</option>
+										    <option value="4">정산예정금2</option>
+										    <option value="5">정산예정금3</option>
+										    <option value="99">전체</option>
+										</select>
+		                    		</div>
+		                    	</div>
+							</td>
+                		</tr>
+                		<tr>
+		                    <td style="padding:0px;">
+		                    	<div class="row">
+		                    		<div class="col-3">
+		                    			<label class="select-label">exec</label>
+		                    		</div>
+		                    		<div class="col-6 offset-1" style="margin-top:5px;">
+		                    			<select class="mdb-select" id="exec">
+										    <option value="" disabled selected>Choose code</option>
+										    <option value="0">Only1Scraper</option>
+										    <option value="1">Scraper</option>
+										</select>
+		                    		</div>
+		                    	</div>
+							</td>
+                		</tr>
+            		</tbody>
+            		<tfoot>
+            			<tr>
+		                    <td style="padding:0px;">
+		                    	<div class="row">
+		                    		<div class="col-10 offset-1" style="text-align:center;">
+		                    			<button type="button" class="btn btn-primary" ng-click="execute()">Execute</button>
+		                    		</div>
+		                    	</div>
+							</td>
+                		</tr>
+            		</tfoot>
+        		</table>
+        	</div>
+		</div>
+	</section>
+</div>

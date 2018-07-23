@@ -1,0 +1,47 @@
+<!-- Event card -->
+<style>
+.card-event.mdl-card {
+	width: 256px;
+	min-height: 40px;
+}
+
+.card-event>.mdl-card__actions {
+	display: flex;
+	box-sizing: border-box;
+	align-items: center;
+}
+
+.card-event>.mdl-card__actions>.material-icons {
+	padding-right: 10px;
+}
+
+.mdl-card {
+	margin: 5px;
+}
+
+.fa {
+	font-size: 2em;
+}
+
+a.card-event {
+	text-decoration: none;
+}
+
+a.mdl-card:hover {
+	opacity:.7;
+}
+</style>
+<div class="page-content">
+	<section class="mdl-components__page mdl-grid is-active">
+		<div class="container">
+			<div class="mdl-grid">
+				<a ng-repeat="item in menu" href="{{item.href}}" class="card-event mdl-card mdl-shadow--2dp" style="background: {{item.color}}; color:{{item.font}}">
+					<div class="mdl-card__actions mdl-card--border">
+						<i class="fa {{item.icon}} material-icons"></i> 
+						<span class="mdl-button-2 mdl-button--colored mdl-js-button mdl-js-ripple-effect">{{item.description}}</span>
+					</div>
+				</a>
+			</div>
+		</div>
+	</section>
+</div>
