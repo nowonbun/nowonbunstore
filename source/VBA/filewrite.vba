@@ -14,7 +14,7 @@ Sub Create()
             
             buffer = buffer + "'" + Trim(Sheet6.Cells(i, 3).Value) + "',"
             
-            buffer = buffer + "'" + Trim(Sheet6.Cells(i, 4).Value) + "',"
+            buffer = buffer + "N'" + Trim(Sheet6.Cells(i, 4).Value) + "',"
             
             buffer = buffer + "" + Trim(Sheet6.Cells(i, 5).Value) + ","
             
@@ -47,7 +47,7 @@ Sub Create()
             If Trim(Sheet6.Cells(i, 11).Value) = "" Then
                 buffer = buffer + "null,"
             Else
-                buffer = buffer + "'" + Trim(Sheet6.Cells(i, 11).Value) + "',"
+                buffer = buffer + "N'" + Trim(Sheet6.Cells(i, 11).Value) + "',"
             End If
             
             If Trim(Sheet6.Cells(i, 12).Value) = "" Then
