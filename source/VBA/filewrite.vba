@@ -39,7 +39,7 @@ Sub Create()
             If Trim(Sheet6.Cells(i, 9).Value) = "" Then
                 buffer = buffer + "null,"
             Else
-                buffer = buffer + "'" + Trim(Sheet6.Cells(i, 9).Value) + "',"
+                buffer = buffer + "N'" + Trim(Sheet6.Cells(i, 9).Value) + "',"
             End If
             
             buffer = buffer + "" + Trim(Sheet6.Cells(i, 10).Value) + ","
