@@ -1,0 +1,58 @@
+Sub Create()
+    Open ThisWorkbook.Path & "\deletequery.sql" For Output As #1
+    For i = 6 To 118
+        If Not Trim(Sheet6.Cells(i, 2).Value) = "" Then
+            Dim buffer As String
+            buffer = buffer + "INSERT INTO CMCODE(group_cd,code,value,priority,p_group_cd,p_code,attribute_int,attribute_str,is_use,description,remark,ix) VALUES("
+            buffer = buffer + "'" + Trim(Sheet6.Cells(i, 2).Value) + "',"
+            buffer = buffer + "'" + Trim(Sheet6.Cells(i, 3).Value) + "',"
+            buffer = buffer + "'" + Trim(Sheet6.Cells(i, 4).Value) + "',"
+            buffer = buffer + "" + Trim(Sheet6.Cells(i, 5).Value) + ","
+            If Not Trim(Sheet6.Cells(i, 6).Value) = "" Then
+                buffer = buffer + "null,"
+            Else
+                buffer = buffer + "'" + Trim(Sheet6.Cells(i, 6).Value) + "',"
+            End If
+            
+            If Not Trim(Sheet6.Cells(i, 7).Value) = "" Then
+                buffer = buffer + "null,"
+            Else
+                buffer = buffer + "'" + Trim(Sheet6.Cells(i, 7).Value) + "',"
+            End If
+            
+            If Not Trim(Sheet6.Cells(i, 8).Value) = "" Then
+                buffer = buffer + "null,"
+            Else
+                buffer = buffer + Trim(Sheet6.Cells(i, 8).Value) + ","
+            End If
+            
+            If Not Trim(Sheet6.Cells(i, 9).Value) = "" Then
+                buffer = buffer + "null,"
+            Else
+                buffer = buffer + "'" + Trim(Sheet6.Cells(i, 9).Value) + "',"
+            End If
+            
+            buffer = buffer + "" + Trim(Sheet6.Cells(i, 10).Value) + ","
+            
+            If Not Trim(Sheet6.Cells(i, 11).Value) = "" Then
+                buffer = buffer + "null,"
+            Else
+                buffer = buffer + "'" + Trim(Sheet6.Cells(i, 11).Value) + "',"
+            End If
+            
+            If Not Trim(Sheet6.Cells(i, 12).Value) = "" Then
+                buffer = buffer + "null);"
+            Else
+                buffer = buffer + "'" + Trim(Sheet6.Cells(i, 12).Value) + "');"
+            End If
+            
+            Print #1, buffer
+        End If
+    Next
+    Close #1
+End Sub
+
+
+
+
+
