@@ -12,7 +12,7 @@
 		<main class="mt-5">
 			<div class="container">
 				<div class="list-title">
-	            	<h1>리스트</h1>
+	            	<h1>일본 생활 리스트</h1>
 	            </div>
 	            <section>
 	            	<div class="wow fadeIn" style="text-align:right;">

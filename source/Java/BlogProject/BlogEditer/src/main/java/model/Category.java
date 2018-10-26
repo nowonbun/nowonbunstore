@@ -5,36 +5,38 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Table(name = "mst_category")
 @NamedQuery(name = "Category.findAll", query = "SELECT c FROM Category c")
 public class Category implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int idx;
+	@Column(name = "CATEGORY_CODE")
+	private String categoryCode;
 
 	@Column(name = "CATEGORY_NAME")
 	private String categoryName;
 
-	@ManyToOne
-	@JoinColumn(name = "PARENT")
-	private Category parentCategory;
+	private boolean isdeleted;
 
-	@OneToMany(mappedBy = "parentCategory", fetch = FetchType.LAZY)
-	private List<Category> categories;
+	private boolean ishome;
 
-	@OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+	private int sequence;
+
+	private String url;
+
+	@OneToMany(mappedBy = "category", targetEntity = Post.class, fetch = FetchType.LAZY)
 	private List<Post> posts;
 
 	public Category() {
 	}
 
-	public int getIdx() {
-		return this.idx;
+	public String getCategoryCode() {
+		return this.categoryCode;
 	}
 
-	public void setIdx(int idx) {
-		this.idx = idx;
+	public void setCategoryCode(String categoryCode) {
+		this.categoryCode = categoryCode;
 	}
 
 	public String getCategoryName() {
@@ -45,53 +47,55 @@ public class Category implements Serializable {
 		this.categoryName = categoryName;
 	}
 
-	public Category getParentCategory() {
-		return this.parentCategory;
+	public boolean getIsdeleted() {
+		return this.isdeleted;
 	}
 
-	public void setParentCategory(Category category) {
-		this.parentCategory = category;
+	public void setIsdeleted(boolean isdeleted) {
+		this.isdeleted = isdeleted;
 	}
 
-	public List<Category> getCategories() {
-		return this.categories;
+	public boolean getIshome() {
+		return this.ishome;
 	}
 
-	public void setCategories(List<Category> categories) {
-		this.categories = categories;
+	public void setIshome(boolean ishome) {
+		this.ishome = ishome;
 	}
 
-	public Category addParentCategory(Category category) {
-		getCategories().add(category);
-		category.setParentCategory(this);
-
-		return category;
+	public int getSequence() {
+		return this.sequence;
 	}
 
-	public Category removeParentCategory(Category category) {
-		getCategories().remove(category);
-		category.setParentCategory(null);
-
-		return category;
+	public void setSequence(int sequence) {
+		this.sequence = sequence;
 	}
 
-	public List<Post> getPosts() {
+	public String getUrl() {
+		return this.url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public List<Post> getTsnPosts() {
 		return this.posts;
 	}
 
-	public void setPosts(List<Post> posts) {
+	public void setTsnPosts(List<Post> posts) {
 		this.posts = posts;
 	}
 
-	public Post addPost(Post post) {
-		getPosts().add(post);
+	public Post addTsnPost(Post post) {
+		getTsnPosts().add(post);
 		post.setCategory(this);
 
 		return post;
 	}
 
-	public Post removePost(Post post) {
-		getPosts().remove(post);
+	public Post removeTsnPost(Post post) {
+		getTsnPosts().remove(post);
 		post.setCategory(null);
 
 		return post;

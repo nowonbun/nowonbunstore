@@ -1,43 +1,23 @@
 package bean;
 
-import java.util.List;
-
 public class CategoryBean {
-	private int categoryIdx;
-	private List<CategoryBean> child;
-	private String categoryName;
-	private int parent;
+	private String categoryText;
+	private String categoryHref;
 
-	public int getCategoryIdx() {
-		return categoryIdx;
+	public String getCategoryText() {
+		return categoryText;
 	}
 
-	public void setCategoryIdx(int categoryIdx) {
-		this.categoryIdx = categoryIdx;
+	public void setCategoryText(String categoryText) {
+		this.categoryText = categoryText;
 	}
 
-	public String getCategoryName() {
-		return categoryName;
+	public String getCategoryHref() {
+		return categoryHref;
 	}
 
-	public void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
-	}
-
-	public int getParent() {
-		return parent;
-	}
-
-	public void setParent(int parent) {
-		this.parent = parent;
-	}
-
-	public List<CategoryBean> getChild() {
-		return child;
-	}
-
-	public void setChild(List<CategoryBean> child) {
-		this.child = child;
+	public void setCategoryHref(String categoryHref) {
+		this.categoryHref = categoryHref;
 	}
 
 }

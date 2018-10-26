@@ -12,7 +12,7 @@
 		<main class="mt-5">
 			<div class="container">
 				<div class="list-title">
-	            	<h1>리스트</h1>
+	            	<h1>개발 경험 리스트</h1>
 	            </div>
 	            <section>
 	            	<div class="wow fadeIn" style="text-align:right;">

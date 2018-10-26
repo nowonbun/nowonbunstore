@@ -5,7 +5,8 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@NamedQuery(name="Post.findAll", query="SELECT p FROM Post p")
+@Table(name = "tsn_post")
+@NamedQuery(name = "Post.findAll", query = "SELECT p FROM Post p")
 public class Post implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -15,22 +16,32 @@ public class Post implements Serializable {
 
 	private int changefreg;
 
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date createdated;
+
 	private String filepath;
 
 	private String guid;
 
+	@Lob
+	private byte[] image;
+
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="LAST_UPDATED")
+	@Column(name = "LAST_UPDATED")
 	private Date lastUpdated;
 
 	private String location;
 
 	private int priority;
 
+	private String summary;
+
 	private String title;
 
-	@ManyToOne
-	@JoinColumn(name="CATEGORY_ID")
+	private boolean isdeleted;
+
+	@ManyToOne(targetEntity = Category.class, fetch = FetchType.LAZY)
+	@JoinColumn(name = "CATEGORY_CODE")
 	private Category category;
 
 	public Post() {
@@ -52,6 +63,14 @@ public class Post implements Serializable {
 		this.changefreg = changefreg;
 	}
 
+	public Date getCreatedated() {
+		return this.createdated;
+	}
+
+	public void setCreatedated(Date createdated) {
+		this.createdated = createdated;
+	}
+
 	public String getFilepath() {
 		return this.filepath;
 	}
@@ -66,6 +85,14 @@ public class Post implements Serializable {
 
 	public void setGuid(String guid) {
 		this.guid = guid;
+	}
+
+	public byte[] getImage() {
+		return this.image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
 	}
 
 	public Date getLastUpdated() {
@@ -92,6 +119,14 @@ public class Post implements Serializable {
 		this.priority = priority;
 	}
 
+	public String getSummary() {
+		return this.summary;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
+
 	public String getTitle() {
 		return this.title;
 	}
@@ -106,6 +141,14 @@ public class Post implements Serializable {
 
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+
+	public boolean getIsdeleted() {
+		return this.isdeleted;
+	}
+
+	public void setIsdeleted(boolean isdeleted) {
+		this.isdeleted = isdeleted;
 	}
 
 }

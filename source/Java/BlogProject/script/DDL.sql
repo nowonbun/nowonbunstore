@@ -32,8 +32,9 @@ CREATE TABLE TSN_POST(
 );
 
 INSERT INTO MST_CATEGORY VALUES("01", N'홈', '/', TRUE, FALSE, 1);
-INSERT INTO MST_CATEGORY VALUES("02", N'나의일기', '/DialyList.html', FALSE, FALSE, 2);
-INSERT INTO MST_CATEGORY VALUES("03", N'나의경험', '/ExperienceList.html', FALSE, FALSE, 3);
+INSERT INTO MST_CATEGORY VALUES("02", N'개발일기', '/DialyList.html', FALSE, FALSE, 2);
+INSERT INTO MST_CATEGORY VALUES("03", N'개발경험', '/ExperienceList.html', FALSE, FALSE, 3);
 INSERT INTO MST_CATEGORY VALUES("04", N'일본생활', '/JapanLifeList.html', FALSE, FALSE, 4);
 INSERT INTO MST_CATEGORY VALUES("05", N'한국생활', '/KoreanLifeList.html', FALSE, FALSE, 5);
-INSERT INTO MST_CATEGORY VALUES("06", N'즐겨찾기', '/FavoritesList.html', FALSE, FALSE, 6);
+INSERT INTO MST_CATEGORY VALUES("06", N'코딩노트', '/CodingNodeList.html', FALSE, FALSE, 6);
+INSERT INTO MST_CATEGORY VALUES("07", N'즐겨찾기', '/FavoritesList.html', FALSE, FALSE, 7);
