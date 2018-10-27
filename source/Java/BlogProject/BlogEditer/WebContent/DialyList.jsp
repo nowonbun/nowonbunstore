@@ -1,6 +1,6 @@
 <%@page import="common.FactoryJspServlet"%>
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%FactoryJspServlet.action("list.jsp", request, response);%>
+<%FactoryJspServlet.action("DialyList.jsp", request, response);%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +16,7 @@
 	            </div>
 	            <section>
 	            	<div class="wow fadeIn" style="text-align:right;">
-	                    <button type="button" class="btn btn-md btn-primary">Write Post</button>
+	                    <button type="button" class="btn btn-md btn-primary" id="writeBtn">Write Post</button>
 	                </div>
 	                <hr class="mb-3 mt-3">
 	                <!--Grid row-->

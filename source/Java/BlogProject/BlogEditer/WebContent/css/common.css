@@ -84,7 +84,8 @@ body {
 .nav-item a {
 	color: #ffffff !important;
 }
-.nav-item a:active{
+
+.nav-item a:active {
 	background: inherit;
 }
 

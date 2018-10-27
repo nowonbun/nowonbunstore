@@ -5,23 +5,6 @@
 <html>
 <head>
 	<jsp:include page="./share/pagetop.jsp"></jsp:include>
-	<style>
-		.note-editor .btn{
-			white-space: nowrap;
-			padding: 5px 12px;
-		}
-		.note-editor .note-toolbar.panel-heading{
-			font-family: arial;
-		}
-		.note-editor .note-toolbar-wrapper.panel-default{
-			background-color: #e4e4e4;
-    		border-bottom: 1px solid #c4c4c4;
-    		min-height: 40px;
-		}
-		.note-editor .note-icon-caret{
-			display: none;
-		}
-	</style>
 </head>
 <body>
 	<div class="container wow fadeIn animated" style="visibility: visible; animation-name: fadeIn;">
