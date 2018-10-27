@@ -20,7 +20,7 @@
 	$(function(){
 		$.ajax({
 			//url:"ajax",
-			url:"ajax.html",
+			url:"data.ajax",
 			type: "GET",
 			//dataType: "json",
 			//data: JSON.stringify({data:"test"}),
