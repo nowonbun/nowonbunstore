@@ -1,6 +1,4 @@
-<%@page import="common.FactoryJspServlet"%>
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%FactoryJspServlet.action("post.jsp", request, response);%>
 <!DOCTYPE html>
 <html>
 <head>

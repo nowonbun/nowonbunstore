@@ -1,6 +1,4 @@
-<%@page import="common.FactoryJspServlet"%>
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%FactoryJspServlet.action("JapanLifeList.jsp", request, response);%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +10,7 @@
 		<main class="mt-5">
 			<div class="container">
 				<div class="list-title">
-	            	<h1>일본 생활 리스트</h1>
+	            	<h1>즐겨 찾기 리스트</h1>
 	            </div>
 	            <section>
 	            	<div class="wow fadeIn" style="text-align:right;">
