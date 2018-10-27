@@ -7,13 +7,13 @@
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
-	<context-param>
+	<!-- context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>classpath:application-config.xml</param-value>
 	</context-param>
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
+	</listener-->
 	<servlet>
 		<servlet-name>dispatcherServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -28,16 +28,16 @@
 		<url-pattern>*.html</url-pattern>
 	</servlet-mapping>
 	<servlet>
-		<servlet-name>dispatcherServlet2</servlet-name>
+		<servlet-name>dispatcherServletAjax</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/mvc-config2.xml</param-value>
+			<param-value>/WEB-INF/mvc-config-ajax.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>dispatcherServlet2</servlet-name>
+		<servlet-name>dispatcherServletAjax</servlet-name>
 		<url-pattern>*.ajax</url-pattern>
 	</servlet-mapping>
 	<filter>
@@ -49,9 +49,17 @@
 		</init-param>
 	</filter>
 	<!-- url-pattern *.html -->
-	<filter-mapping>
+	<!-- filter-mapping>
 		<filter-name>WebFilter</filter-name>
 		<url-pattern>*</url-pattern>
+	</filter-mapping-->
+	<filter-mapping>
+		<filter-name>WebFilter</filter-name>
+		<url-pattern>*.html</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>WebFilter</filter-name>
+		<url-pattern>*.ajax</url-pattern>
 	</filter-mapping>
 	<filter>
 		<filter-name>encodingFilter</filter-name>

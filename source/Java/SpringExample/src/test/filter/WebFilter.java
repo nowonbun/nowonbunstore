@@ -33,6 +33,7 @@ public class WebFilter implements Filter {
 		HttpServletResponse res = (HttpServletResponse) sres;
 		HttpSession session = req.getSession();
 		String url = req.getRequestURI();
+		System.out.println(url);
 		for (String buf : passUrl) {
 			if (buf.equals(url)) {
 				chain.doFilter(req, res);
