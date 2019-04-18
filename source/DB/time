@@ -1,0 +1,2 @@
+select top 1 @offset = CAST(SUBSTRING ( current_utc_offset ,1 , 1 )  + CAST((CAST(SUBSTRING(current_utc_offset ,2 , 2 ) AS int) * 60)+ CAST(SUBSTRING(current_utc_offset,5,2) AS int)AS varchar(3))AS int) from sys.time_zone_info where name = 'Tokyo Standard Time';
+SET @TodayDateInTokyo = DATEADD(MINUTE,@offset,GETUTCDATE())
