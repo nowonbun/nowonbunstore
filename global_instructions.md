@@ -100,6 +100,7 @@
 
 
 # 사용 가능한 skill:
+- skill_create_rule.md: Skills 파일 만들때의 형식
 - stock-mcp.md: 주식 MCP 조회/예측용
 - mariadb-mcp.md: DB 조회용
 - github-mcp.md: GitHub 작업용
