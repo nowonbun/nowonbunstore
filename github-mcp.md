@@ -1,6 +1,18 @@
-Github의 mcp는 mcp_servers.github 이다.
+﻿---
+name: github-mcp
+description: GitHub MCP 서버 사용 규칙과 커밋/푸시 절차를 확인해야 할 때 사용한다.
+---
 
-핵심 원칙:
+# GitHub MCP Skill
 
-1. commit/push를 할때는 항상 Readme.md가 사양에 맞게 수정되었는지 확인한다.
-2. commit message는 항상 한글로 작성한다.
+## 목적
+GitHub MCP 서버 사용 시 필수 규칙을 준수하도록 안내한다.
+
+## 규칙
+1. 커밋/푸시 전에 반드시 README.md가 사양에 맞게 갱신되었는지 확인한다.
+1. 커밋 메시지는 한국어로 작성한다.
+1. 변경 범위를 명확히 요약한 메시지를 사용한다.
+
+## 산출물 형식
+1. 수행할 단계(확인 → 커밋 → 푸시)를 번호로 제시한다.
+1. 필요한 명령어를 포함한다.
