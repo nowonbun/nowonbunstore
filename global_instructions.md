@@ -83,3 +83,25 @@
 - CLI에서 git으로 사용하는 커맨드는 별도의 권한 요청 없이 실행할 수 있다.
 - git commit 메시지는 가능하면 한글로 작성한다.
 - commit/push 전에 항상 Readme.md가 사양에 맞게 수정되었는지 확인한다.
+
+---
+
+# 설정되어 있는 MCP
+
+- mcp_servers.mariadb는 주식 관계된 mcp가 설정되어 있다.
+- mcp_servers.stock는 주식 추론 시스템의 mcp 이다.
+- mcp_servers.github는 nowonbun의 github 권한을 가진 mcp이다.
+
+행동 방법:
+
+- 가능하면 skill 문서를 우선 참조한다.
+- MCP 사용 시 반드시 서버별 파라미터와 반환 형식을 확인한다.
+- 추측으로 툴 호출하지 않는다.
+
+
+# 사용 가능한 skill:
+- stock-mcp.md: 주식 MCP 조회/예측용
+- mariadb-mcp.md: DB 조회용
+- github-mcp.md: GitHub 작업용
+
+
