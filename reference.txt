@@ -1,0 +1,2 @@
+https://developers.openai.com/codex/config-basic
+https://developers.openai.com/codex/config-sample
